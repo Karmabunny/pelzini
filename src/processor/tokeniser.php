@@ -34,6 +34,8 @@ function tokenise ($filename) {
 			if ($token == '{') {
 				if ($current_function != null) {
 					if ($inside_class != null) {
+						$current_function->visibility = $visibility;
+						$visibility = null;
 						$inside_class->functions[] = $current_function;
 					} else {
 						$functions[] = $current_function;
@@ -42,6 +44,8 @@ function tokenise ($filename) {
 					$current_function = null;
 
 				} else if ($current_class != null) {
+					$current_class->visibility = $visibility;
+					$visibility = null;
 					$classes[] = $current_class;
 					$inside_class = $current_class;
 					$current_class = null;
@@ -83,6 +87,13 @@ function tokenise ($filename) {
 							$param_type = null;
 						}
 						$current_function->params[] = $parameter;
+
+					} else if (($inside_class != null) && ($inside_function == null)) {
+						$variable = new ParserVariable();
+						$variable->name = $text;
+						$variable->visibility = $visibility;
+						$visibility = null;
+						$inside_class->variables[] = $variable;
 					}
 					break;
 
@@ -98,6 +109,20 @@ function tokenise ($filename) {
 						$current_class->name = $text;
 					}
 					break;
+
+
+				case T_PRIVATE:
+					$visibility = 'private';
+					break;
+
+				case T_PROTECTED:
+					$visibility = 'protected';
+					break;
+
+				case T_PUBLIC:
+					$visibility = 'public';
+					break;
+
 
 
 	            default:
