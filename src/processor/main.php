@@ -7,6 +7,9 @@ require_once 'parser_function.php';
 require_once 'parser_parameter.php';
 require_once 'parser_class.php';
 require_once 'parser_variable.php';
+require_once 'parser_interface.php';
+require_once 'parser_file.php';
+
 
 require_once 'tokeniser.php';
 

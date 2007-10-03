@@ -8,9 +8,6 @@ if (!defined('T_ML_COMMENT')) {
 
 
 function tokenise ($filename) {
-	$functions = array();
-	$classes = array();
-
 
 	$source = file_get_contents($filename);
 	$tokens = token_get_all($source);
@@ -21,48 +18,78 @@ function tokenise ($filename) {
 	//echo "<pre>" . print_r ($tokens, true) . "</pre>";
 
 
+	$current_file = new ParserFile ();
+	$current_file->name = $filename;
 
+
+	// the vars that make it tick
 	$current_function = null;
 	$inside_function = null;
 	$current_class = null;
 	$inside_class = null;
+	$next = null;
+	$brace_count = 0;
+	$abstract = false;
 
 
 	foreach ($tokens as $token) {
 	    if (is_string($token)) {
-			// 1-char token
+			// opening of a function or class block
 			if ($token == '{') {
+				// opening of function
 				if ($current_function != null) {
 					if ($inside_class != null) {
 						$current_function->visibility = $visibility;
 						$visibility = null;
 						$inside_class->functions[] = $current_function;
 					} else {
-						$functions[] = $current_function;
+						$current_file->functions[] = $current_function;
 					}
 					$inside_function = $current_function;		
 					$current_function = null;
 
+				// opening of class
 				} else if ($current_class != null) {
 					$current_class->visibility = $visibility;
 					$visibility = null;
-					$classes[] = $current_class;
+					$current_file->classes[] = $current_class;
 					$inside_class = $current_class;
 					$current_class = null;
-				}
-				
-			} else if ($token == '}') {
-				if ($inside_function != null) {
-					$inside_function = null;
+					$next = null;
+
 				} else {
-					$inside_class = null;
+					$brace_count++;
 				}
+			
+
+			// function in an interface
+			} else if ($token == ';') {
+				if ($current_function != null) {
+					$current_function->visibility = $visibility;
+					$visibility = null;
+					$inside_class->functions[] = $current_function;
+					$current_function = null;
+				}
+
+
+			// closing of a class or function block			
+			} else if ($token == '}') {
+				if ($brace_count == 0) {
+					if ($inside_function != null) {
+						$inside_function = null;
+					} else {
+						$inside_class = null;
+					}
+
+				} else {
+					$brace_count--;
+				}		
 			}
 
 	    } else {
 	        // token array
 	        list($id, $text) = $token;
-	 
+
 	        switch ($id) {
 	            case T_COMMENT:
 	            case T_ML_COMMENT:
@@ -70,14 +97,30 @@ function tokenise ($filename) {
 	                // no action on comments
 	                break;
 
+
 				case T_FUNCTION:
 					$current_function = new ParserFunction();
+					if ($abstract) {
+						$current_function->abstract = true;
+						$abstract = false;
+					}
 					break;
 
 				case T_CLASS:
 					$current_class = new ParserClass();
+					if ($abstract) {
+						$current_class->abstract = true;
+						$abstract = false;
+					}
 					break;
 
+				case T_INTERFACE:
+					$current_class = new ParserInterface();
+					break;
+
+
+				// variables are added according to scope
+				// will become a ParserVariable or a ParserParameter
 				case T_VARIABLE:
 					if ($current_function != null) {
 						$parameter = new ParserParameter();
@@ -97,8 +140,18 @@ function tokenise ($filename) {
 					}
 					break;
 
+				// A string my become an extends, implements
+				// function name or class name
 				case T_STRING:
-					if ($current_function != null) {
+					if ($next != null) {
+						if ($next == T_EXTENDS) {
+							$current_class->extends = $text;
+							$next = null;
+						} else if ($next == T_IMPLEMENTS) {
+							$current_class->implements[] = $text;
+						}
+
+					} else if ($current_function != null) {
 						if ($current_function->name == '') {
 							$current_function->name = $text;
 						} else {
@@ -107,10 +160,12 @@ function tokenise ($filename) {
 
 					} else if ($current_class != null) {
 						$current_class->name = $text;
+
 					}
 					break;
 
 
+				// visibility
 				case T_PRIVATE:
 					$visibility = 'private';
 					break;
@@ -122,19 +177,24 @@ function tokenise ($filename) {
 				case T_PUBLIC:
 					$visibility = 'public';
 					break;
+				
 
+				// the next token after one of these does the grunt work
+				case T_EXTENDS:
+				case T_IMPLEMENTS:
+					$next = $id;
+					break;
 
+				case T_ABSTRACT:
+					$abstract = true;
+					break;
 
-	            default:
-					//echo $id . ' = ' . token_name($id) .  '<BR>';
-	                break;
 	        }
 	    }
 	}
 
 
-	foreach ($functions as $func) $func->dump();
-	foreach ($classes as $class) $class->dump();
+	$current_file->dump();
 
 }
 
