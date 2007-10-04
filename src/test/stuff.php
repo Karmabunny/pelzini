@@ -1,12 +1,24 @@
 <?php
 
+/**
+* Does something
+* @param string $whee A param
+* @param thingie $whoo Another param
+**/
 function thingo ($whee, thingie $whoo) {
 	echo $whoot;
 }
 
+/**
+* Is something
+**/
 class thingie extends stupid implements person,fing {
-	private $foo;
 
+	private $foo;	/// a variable
+
+	/**
+	 * Does soemthing else
+	*/
 	public function bar () {
 		foreach ($whee as $whoo) {
 			if ($whoo) {
@@ -15,6 +27,7 @@ class thingie extends stupid implements person,fing {
 		}
 	}
 
+	/** Whee */
 	public function baz (stupid $argh, $crazy, whee $whoo) {
 		if ($argh) {
 			echo $pee;
@@ -22,12 +35,21 @@ class thingie extends stupid implements person,fing {
 	}
 }
 
+/**
+* A person
+**/
 interface person {
 	public function bar();
 }
 
+/**
+* A thing
+**/
 interface fing { }
 
+/**
+* Something that is stupid
+**/
 abstract class stupid {
 	private $abc;
 

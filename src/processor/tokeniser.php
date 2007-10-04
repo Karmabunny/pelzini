@@ -30,6 +30,7 @@ function tokenise ($filename) {
 	$next = null;
 	$brace_count = 0;
 	$abstract = false;
+	$next_comment = null;
 
 
 	foreach ($tokens as $token) {
@@ -91,18 +92,19 @@ function tokenise ($filename) {
 	        list($id, $text) = $token;
 
 	        switch ($id) {
-	            case T_COMMENT:
-	            case T_ML_COMMENT:
 	            case T_DOC_COMMENT:
-	                // no action on comments
+	                $next_comment = $text;
 	                break;
-
 
 				case T_FUNCTION:
 					$current_function = new ParserFunction();
 					if ($abstract) {
 						$current_function->abstract = true;
 						$abstract = false;
+					}
+					if ($next_comment) {
+						$current_function->apply_comment($next_comment);
+						$next_comment = null;
 					}
 					break;
 
@@ -112,10 +114,18 @@ function tokenise ($filename) {
 						$current_class->abstract = true;
 						$abstract = false;
 					}
+					if ($next_comment) {
+						$current_class->apply_comment($next_comment);
+						$next_comment = null;
+					}
 					break;
 
 				case T_INTERFACE:
 					$current_class = new ParserInterface();
+					if ($next_comment) {
+						$current_class->apply_comment($next_comment);
+						$next_comment = null;
+					}
 					break;
 
 
@@ -189,6 +199,10 @@ function tokenise ($filename) {
 					$abstract = true;
 					break;
 
+	
+
+				//default:
+				//	echo '<p>' . token_name($id) . ' &nbsp; ' . $text . '</p>';
 	        }
 	    }
 	}

@@ -9,11 +9,8 @@ require_once 'parser_class.php';
 require_once 'parser_variable.php';
 require_once 'parser_interface.php';
 require_once 'parser_file.php';
-
-
+require_once 'functions.php';
 require_once 'tokeniser.php';
-
-
 
 tokenise ('../test/stuff.php');
 
