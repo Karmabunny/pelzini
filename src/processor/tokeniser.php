@@ -46,6 +46,7 @@ function tokenise ($filename) {
 					} else {
 						$current_file->functions[] = $current_function;
 					}
+					$current_function->post_load();
 					$inside_function = $current_function;		
 					$current_function = null;
 

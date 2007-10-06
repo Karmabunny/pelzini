@@ -19,18 +19,13 @@ function parse_doc_comment ($comment) {
 		if ($line[0] == '@') {
 			list ($word, $value) = explode(' ', $line, 2);
 		
-			// basically the same action for all tags
-			switch ($word) {
-				case '@param':
-				case '@return':
-					if ($current != null) {
-						parse_tag ($output, $current, $buffer);
-						$buffer = null;
-					}
-					$current = $word;
-					$buffer = $value;
-					break;
+			// tags
+			if ($current != null) {
+				parse_tag ($output, $current, $buffer);
+				$buffer = null;
 			}
+			$current = $word;
+			$buffer = $value;
 
 		// non tag - could be part of the summary, or could be a continuation of a tag
 		} else {
@@ -49,7 +44,7 @@ function parse_doc_comment ($comment) {
 		parse_tag ($output, $current, $buffer);
 	}
 
-	return print_r($output, true);
+	return $output;
 }
 
 

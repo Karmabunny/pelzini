@@ -8,7 +8,7 @@ class ParserClass {
 	public $extends;
 	public $implements;
 	public $abstract;
-	public $comment;
+	public $description;
 
 	public function __construct() {
 		$this->functions = array ();
@@ -18,7 +18,8 @@ class ParserClass {
 	}
 
 	public function apply_comment ($text) {
-		$this->comment = parse_doc_comment ($text);
+		$comment = parse_doc_comment ($text);
+		$this->description = $comment['@summary'];
 	}
 
 	public function dump() {
@@ -31,7 +32,7 @@ class ParserClass {
   
 		if ($this->abstract) echo '<br>abstract';
 
-		echo '<br>' . $this->comment;
+		echo '<br>' . $this->description;
 
 		foreach ($this->variables as $a) $a->dump();
 		foreach ($this->functions as $a) $a->dump();
