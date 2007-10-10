@@ -60,4 +60,28 @@ function parse_tag (&$output, $tag, $buffer) {
 	}
 }
 
+
+function output_status($message) {
+	echo $message . "<br>";
+}
+
+function get_filenames ($directory) {
+	$handle = opendir($directory);
+
+	$files = array();
+	while (($file = readdir($handle)) !== false) {
+		if ($file[0] == '.') continue;
+		if (is_dir($directory . $file)) {
+			$files2 = get_filenames($directory . $file . '/');
+			$files = array_merge($files, $files2);
+		} else {
+			$files[] = $directory . $file;
+		}
+	}
+
+	closedir($handle);
+
+	return $files;
+}
+
 ?>
