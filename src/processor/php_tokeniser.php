@@ -6,8 +6,10 @@ class PhpTokeniser {
 	}
 
 	function Tokenise ($filename) {
+		global $base_dir;
 
-		$source = file_get_contents($filename);
+
+		$source = file_get_contents($base_dir . $filename);
 		$tokens = token_get_all($source);
 
 

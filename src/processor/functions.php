@@ -66,12 +66,14 @@ function output_status($message) {
 }
 
 function get_filenames ($directory) {
-	$handle = opendir($directory);
+	global $base_dir;
+
+	$handle = opendir($base_dir . $directory);
 
 	$files = array();
 	while (($file = readdir($handle)) !== false) {
 		if ($file[0] == '.') continue;
-		if (is_dir($directory . $file)) {
+		if (is_dir($base_dir . $directory . $file)) {
 			$files2 = get_filenames($directory . $file . '/');
 			$files = array_merge($files, $files2);
 		} else {

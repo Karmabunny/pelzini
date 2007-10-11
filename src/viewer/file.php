@@ -25,9 +25,27 @@ echo "<p>{$row['Description']}</p>";
 $id = $row['ID'];
 
 
+
+// Show classes
+$q = "SELECT ID, Name, Description FROM Classes WHERE FileID = {$id}";
+$res = execute_query ($q);
+echo "<h2>Classes</h2>";
+echo "<table class=\"function-list\">\n";
+echo "<tr><th>Name</th><th>Description</th></tr>\n";
+while ($row = mysql_fetch_assoc ($res)) {
+	echo "<tr>";
+	echo "<td><code><a href=\"class.php?id={$row['ID']}\">";
+	echo "{$row['Name']}</a></code></td>";
+	echo "<td>{$row['Description']}</td>";
+	echo "</tr>\n";
+}
+echo "</table>\n";
+
+
 // Show functions
 $q = "SELECT ID, Name, Description, Parameters FROM Functions WHERE FileID = {$id}";
 $res = execute_query ($q);
+echo "<h2>Functions</h2>";
 echo "<table class=\"function-list\">\n";
 echo "<tr><th>Name</th><th>Description</th></tr>\n";
 while ($row = mysql_fetch_assoc ($res)) {

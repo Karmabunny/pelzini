@@ -16,11 +16,16 @@ require_once 'config.php';
 $file_objects = array();
 $parsers = array ();
 
-// load the file names
-$file_names = get_filenames ('../test/');
+$base_dir = '../test';
 
 // initalise each parser
 $parsers['php'] = call_user_func (array('PhpTokeniser', 'CreateInstance'));
+output_status ("Initalised parser PhpTokeniser");
+
+// load the file names
+output_status ("Getting filenames");
+$file_names = get_filenames ('/');
+output_status ("Got " . count($file_names) . " files");
 
 // process each file usign its parser
 foreach ($file_names as $file) {
@@ -28,9 +33,17 @@ foreach ($file_names as $file) {
 	$ext = $bits[count($bits) - 1];
 	
 	if (isset($parsers[$ext])) {
-		$file_objects[] = $parsers[$ext]->Tokenise ('../test/stuff.php');
+		output_status ("Processing file {$file}");
+		$file_objects[] = $parsers[$ext]->Tokenise ($file);
 	}
 }
+output_status ("Processing complete");
 
-echo "good";
+//foreach ($file_objects as $a) $a->dump();
+
+// Save to the db
+$outputter = new MysqlOutputter('josh', 'password', 'localhost', 'docu');
+$outputter->output($file_objects);
+output_status ("Saved to database");
+
 ?>
