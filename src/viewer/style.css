@@ -1,7 +1,102 @@
-table.function-list				{border: 1px #777 solid; width: 100%;}
-table.function-list td			{border: 1px #777 solid;}
-table.function-list a			{color: black; text-decoration: none;}
+body {
+  padding: 0.5em;
+}
 
-table.parameter-list			{border: 1px #777 solid; width: 100%;}
-table.parameter-list td			{border: 1px #777 solid;}
-table.parameter-list a			{color: black; text-decoration: none;}
+div.header {
+  background-color: #6DF;
+  color: black;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+div.header h1 {
+  margin: 0px;
+  padding: 0px;
+}
+
+div.navigation {
+  background-color: #6DF;
+  color: black;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+div.container {
+  margin: 0px;
+  padding: 0px;
+}
+
+table.main {
+  width: 100%;
+  margin: 0.5em;
+  border-collapse: collapse;
+  cell-spacing: 0px;
+}
+
+td.sidebar {
+  width: 20%;
+  vertical-align: top;
+  padding: 0px;
+}
+
+div.box {
+  background-color: #EEF;
+  color: black;
+  margin: 0px;
+  margin-bottom: 1em;
+}
+
+div.box h2 {
+  font-size: large;
+  margin: 0px;
+  background-color: #6DF;
+  padding: 0.3em;
+}
+
+div.box p {
+  margin: 0px auto;
+}
+
+div.box div {
+  padding: 0.3em;
+}
+
+td.main {
+  width: 80%;
+  vertical-align: top;
+  padding: 0em 2em;
+  color: black;
+}
+
+td.main h2 {
+  margin: 0px;
+}
+
+
+
+
+table.function-list {
+  border: 1px #777 solid;
+}
+
+table.function-list td {
+  border: 1px #777 solid;
+}
+
+table.function-list a {
+  color: black;
+  text-decoration: none;
+}
+
+table.parameter-list {
+  border: 1px #777 solid;
+}
+
+table.parameter-list td {
+  border: 1px #777 solid;
+}
+
+table.parameter-list a {
+  color: black;
+  text-decoration: none;
+}

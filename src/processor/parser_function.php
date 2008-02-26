@@ -24,8 +24,17 @@ class ParserFunction {
 		$params = $this->comment['@param'];
 		if ($params != null) {
 			foreach ($params as $param_tag) {
+			  echo "tag: $param_tag <br>";
 				list ($type, $name, $desc) = explode(' ', $param_tag, 3);
-
+				
+				// if type was not specified, do some clever stuff
+        if ($type[0] == '$') {
+          $desc = $name . ' ' . $desc;
+          $name = $type;
+          $type = null;
+        }
+        
+        // set the details for the param, if one is found that is
 				foreach ($this->params as $param) {
 					if ($param->name == $name) {
 						if ($param->type == null) $param->type = $type;

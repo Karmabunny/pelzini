@@ -34,18 +34,29 @@ echo "<p>{$row['Description']}</p>";
 $id = $row['ID'];
 
 
-// Show functions
+// Show parameters
 $q = "SELECT ID, Name, Type, Description FROM Parameters WHERE FunctionID = {$id}";
-$res = execute_query ($q);
-echo "<table class=\"parameter-list\">\n";
-echo "<tr><th>Name</th><th>Description</th></tr>\n";
-while ($row = mysql_fetch_assoc ($res)) {
-	echo "<tr>";
-	echo "<td><code>{$row['Type']} {$row['Name']}</code></td>";
-	echo "<td>{$row['Description']}</td>";
-	echo "</tr>\n";
+$res = execute_query($q);
+if (mysql_num_rows($res) > 0) {
+  echo "<h2>Parameters</h2>";
+  echo "<table class=\"parameter-list\">\n";
+  echo "<tr><th>Name</th><th>Description</th></tr>\n";
+  while ($row = mysql_fetch_assoc ($res)) {
+    $row['Name'] = htmlspecialchars($row['Name']);
+    if ($row['Description'] == null) {
+      $row['Description'] = '&nbsp;';
+    } else {
+      $row['Description'] = htmlspecialchars($row['Description']);
+    }
+    $row['Type'] = htmlspecialchars($row['Type']);
+    
+	  echo "<tr>";
+	  echo "<td><code>{$row['Type']} {$row['Name']}</code></td>";
+	  echo "<td>{$row['Description']}</td>";
+	  echo "</tr>\n";
+  }
+  echo "</table>\n";
 }
-echo "</table>\n";
 
 require_once 'foot.php';
 ?>

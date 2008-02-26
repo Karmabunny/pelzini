@@ -1,5 +1,8 @@
 <?php
 
+/**
+* Stores information about a specific class
+**/
 class ParserClass {
 	public $name;
 	public $functions;
@@ -10,13 +13,21 @@ class ParserClass {
 	public $abstract;
 	public $description;
 
+  /**
+  * Creates this object
+  **/
 	public function __construct() {
 		$this->functions = array ();
 		$this->variables = array ();
 		$this->implements = array ();
 		$this->visibility = 'public';
 	}
-
+  
+  /**
+  * Applies the contents of a doc-block to this element
+  *
+  * @param $text The content of the DocBlock
+  **/
 	public function apply_comment ($text) {
 		$comment = parse_doc_comment ($text);
 		$this->description = $comment['@summary'];

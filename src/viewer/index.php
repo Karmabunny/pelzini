@@ -8,8 +8,16 @@ require_once 'head.php';
 	$q = "SELECT ID, Name, Description FROM Files";
 	$res = execute_query ($q);
 	while ($row = mysql_fetch_assoc ($res)) {
-		echo "<h2><a href=\"file.php?id={$row['ID']}\">{$row['Name']}</a></h2>";
-		echo "<p>{$row['Description']}</p>";
+    // encode for output
+    $row['Name'] = htmlspecialchars($row['Name']);
+    if ($row['Description'] == null) {
+      $row['Description'] = '&nbsp;';
+    } else {
+      $row['Description'] = htmlspecialchars($row['Description']);
+    }
+    
+    // output	
+		echo "<p><a href=\"file.php?id={$row['ID']}\">{$row['Name']}</a> {$row['Description']}</p>";
 	}
 ?>
 
