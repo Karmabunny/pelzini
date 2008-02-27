@@ -1,5 +1,12 @@
 <?php
+/**
+* @package processor
+* @package output
+**/
 
+/**
+* Outputs the tree as MySQL
+**/
 class MysqlOutputter {
 	private $db;
 
@@ -44,7 +51,17 @@ class MysqlOutputter {
 
 		foreach ($files as $file) {
 			// the file itself
-			$q = "INSERT INTO Files SET Name = '{$file->name}'";
+			$name = $this->sql_safen($file->name);
+			$description = $this->sql_safen($file->description);
+			
+			// set the file packages to a space-seperated string of names. will probably become another table for better searching.
+			if ($file->packages != null) {
+			  $package = $this->sql_safen(implode(' ', $file->packages));
+			} else {
+			  $package = 'NULL';
+			}
+			
+			$q = "INSERT INTO Files SET Name = {$name}, Description = {$description}, Packages = {$package}";
 			$this->query ($q);
 			$file_id = mysql_insert_id ();
 

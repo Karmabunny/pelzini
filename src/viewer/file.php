@@ -17,11 +17,14 @@ if ($id == 0) {
 
 
 // Get the details of this file
-$q = "SELECT ID, Name, Description FROM Files WHERE {$where} LIMIT 1";
+$q = "SELECT ID, Name, Description, Packages FROM Files WHERE {$where} LIMIT 1";
 $res = execute_query ($q);
 $row = mysql_fetch_assoc ($res);
 echo "<h2>{$row['Name']}</h2>";
 echo "<p>{$row['Description']}</p>";
+if ($row['Packages'] != null) {
+  echo "<p><strong>Package(s):</strong> {$row['Packages']}</p>";
+}
 $id = $row['ID'];
 
 

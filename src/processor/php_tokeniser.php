@@ -1,5 +1,12 @@
 <?php
+/**
+* PHP Parser
+* @package processor
+**/
 
+/**
+* This is the parser for PHP files. It converts a file from the raw PHP into a document tree
+**/
 class PhpTokeniser {
 	static function CreateInstance () {
 		return new PhpTokeniser;
@@ -29,7 +36,7 @@ class PhpTokeniser {
 
 
 		foreach ($tokens as $token) {
-		    if (is_string($token)) {
+		  if (is_string($token)) {
 				// opening of a function or class block
 				if ($token == '{') {
 					// opening of function
@@ -83,14 +90,18 @@ class PhpTokeniser {
 					}		
 				}
 
-		    } else {
-		        // token array
-		        list($id, $text) = $token;
+		  } else {
+		    // token array
+		    list($id, $text) = $token;
 
-		        switch ($id) {
-		            case T_DOC_COMMENT:
-		                $next_comment = $text;
-		                break;
+		    switch ($id) {
+		      case T_DOC_COMMENT:
+						if ($next_comment) {
+							$current_file->apply_comment($next_comment);
+							$next_comment = null;
+						}  
+		        $next_comment = $text;
+		        break;
 
 					case T_FUNCTION:
 						$current_function = new ParserFunction();
@@ -199,8 +210,8 @@ class PhpTokeniser {
 
 					//default:
 					//	echo '<p>' . token_name($id) . ' &nbsp; ' . $text . '</p>';
-		        }
 		    }
+		  }
 		}
 
 		return $current_file;
