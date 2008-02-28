@@ -1,9 +1,30 @@
 <?php
 
+/**
+* Parses a DocBlock comment tag
+* Accepts the raw comment text of the comment straight from the file, including all the stars in the middle
+* Returns an array of tags. Each paremeter will contain an array of the tags that existed, one for each tag
+* The summary is returned in a 'summary' tag.
+*
+* The output for a function with two param tags, a return tag and a summary will be something like the following:
+* array {
+*   ['@summary'] = '...',
+*   ['@param'] {
+*     [0] = '...',
+*     [1] = '...'
+*   },
+*   ['@return'] {
+*     [0] = '...',
+*   }
+* }
+*
+* @param string $comment The raw comment text
+* @return The parsed comments, as per the example provided above
+**/
 function parse_doc_comment ($comment) {
 	// rip all the comment stuff from the comment
-	$comment = preg_replace ('/^\s*|\/?\**\/?/', '', $comment);
-
+	$comment = preg_replace('/^\s*|\/?\**\/?/', '', $comment);
+  
 	// split into lines
 	$lines = explode("\n", $comment);
 
@@ -12,7 +33,8 @@ function parse_doc_comment ($comment) {
 	$buffer = null;
 	$current = null;
 	foreach ($lines as $line) {
-		$line = trim ($line);
+	  $line = preg_replace('/^\s/', '', $line);
+		$line = rtrim ($line);
 		if ($line == '') continue;
 
 		// process special words
@@ -30,7 +52,7 @@ function parse_doc_comment ($comment) {
 		// non tag - could be part of the summary, or could be a continuation of a tag
 		} else {
 			if ($current != null) {
-				$buffer .= $line;
+				$buffer .= "\n" . $line;
 
 			} else {
 				$current = '@summary';
@@ -46,7 +68,6 @@ function parse_doc_comment ($comment) {
 
 	return $output;
 }
-
 
 // Does the grunt work of the processing
 function parse_tag (&$output, $tag, $buffer) {

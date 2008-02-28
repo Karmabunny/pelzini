@@ -17,14 +17,11 @@ if ($id == 0) {
 
 
 // Get the details of this file
-$q = "SELECT ID, Name, Description, Packages FROM Files WHERE {$where} LIMIT 1";
+$q = "SELECT ID, Name, Description FROM Files WHERE {$where} LIMIT 1";
 $res = execute_query ($q);
 $row = mysql_fetch_assoc ($res);
 echo "<h2>{$row['Name']}</h2>";
 echo "<p>{$row['Description']}</p>";
-if ($row['Packages'] != null) {
-  echo "<p><strong>Package(s):</strong> {$row['Packages']}</p>";
-}
 $id = $row['ID'];
 
 
@@ -33,7 +30,7 @@ $id = $row['ID'];
 $q = "SELECT ID, Name, Description FROM Classes WHERE FileID = {$id}";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
-  echo "<h2>Classes</h2>";
+  echo "<h3>Classes</h3>";
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
   while ($row = mysql_fetch_assoc ($res)) {
@@ -59,7 +56,7 @@ if (mysql_num_rows($res) > 0) {
 $q = "SELECT ID, Name, Description, Parameters FROM Functions WHERE FileID = {$id} AND ClassID IS NULL";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
-  echo "<h2>Functions</h2>";
+  echo "<h3>Functions</h3>";
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
   while ($row = mysql_fetch_assoc ($res)) {

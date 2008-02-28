@@ -14,6 +14,15 @@ require_once 'functions.php';
 
 <div class="navigation">
   <a href="index.php">Home</a>
+  
+  <?php
+  $q = "SELECT ID, Name FROM Packages";
+  $res = execute_query($q);
+  while ($row = mysql_fetch_assoc($res)) {
+    $row['Name'] = htmlspecialchars($row['Name']);
+    echo "<a href=\"package.php?id={$row['ID']}\">{$row['Name']}</a> ";
+  }
+  ?>
 </div>
 
 <table class="main">

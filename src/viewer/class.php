@@ -34,7 +34,7 @@ $id = $row['ID'];
 $q = "SELECT ID, Name, Description, Parameters FROM Functions WHERE ClassID = {$id}";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
-  echo "<h2>Functions</h2>";
+  echo "<h3>Functions</h3>";
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
   while ($row = mysql_fetch_assoc ($res)) {

@@ -47,24 +47,42 @@ class MysqlOutputter {
 		$this->query ("TRUNCATE TABLE Functions");
 		$this->query ("TRUNCATE TABLE Parameters");
 		$this->query ("TRUNCATE TABLE Classes");		
+		$this->query ("TRUNCATE TABLE Packages");
+  	$this->query ("TRUNCATE TABLE FilePackages");
 		
-
+		// get all of the unique package names, and create packages
+		$packages = array();
+		foreach ($files as $file) {
+		  if ($file->packages != null) {
+		    foreach ($file->packages as $package) {
+    		  if (! isset($packages[$package])) {
+    		    $package_save = $this->sql_safen($package);
+    		    $q = "INSERT INTO Packages (Name) VALUES ({$package_save})";
+    		    $this->query($q);
+    		    $packages[$package] = mysql_insert_id();
+    		  }
+    		}
+      }
+	  }
+	  
+	  // go through all the files
 		foreach ($files as $file) {
 			// the file itself
 			$name = $this->sql_safen($file->name);
 			$description = $this->sql_safen($file->description);
-			
-			// set the file packages to a space-seperated string of names. will probably become another table for better searching.
-			if ($file->packages != null) {
-			  $package = $this->sql_safen(implode(' ', $file->packages));
-			} else {
-			  $package = 'NULL';
-			}
-			
-			$q = "INSERT INTO Files SET Name = {$name}, Description = {$description}, Packages = {$package}";
+			$q = "INSERT INTO Files SET Name = {$name}, Description = {$description}";
 			$this->query ($q);
 			$file_id = mysql_insert_id ();
 
+			// the file packages
+			if ($file->packages != null) {
+			  foreach ($file->packages as $package) {
+			    $package_id = $packages[$package];
+  		    $q = "INSERT INTO FilePackages (FileID, PackageID) VALUES ({$file_id}, {$package_id})";
+  		    $this->query($q);
+			  }
+			}
+			
 			// this files functions
 			foreach ($file->functions as $function) {
 				$this->save_function ($function, $file_id);

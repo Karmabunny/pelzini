@@ -30,7 +30,8 @@ echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row
 if ($row['ClassID'] != null) {
 	echo "<p>Class: <a href=\"class.php?id={$row['ClassID']}\">{$row['Class']}</a></p>\n";
 }
-echo "<p>{$row['Description']}</p>";
+$row['Description'] = htmlspecialchars($row['Description']);
+echo "<pre>{$row['Description']}</pre>";
 $id = $row['ID'];
 
 
@@ -38,7 +39,7 @@ $id = $row['ID'];
 $q = "SELECT ID, Name, Type, Description FROM Parameters WHERE FunctionID = {$id}";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
-  echo "<h2>Parameters</h2>";
+  echo "<h3>Parameters</h3>";
   echo "<table class=\"parameter-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
   while ($row = mysql_fetch_assoc ($res)) {
@@ -47,6 +48,7 @@ if (mysql_num_rows($res) > 0) {
       $row['Description'] = '&nbsp;';
     } else {
       $row['Description'] = htmlspecialchars($row['Description']);
+      $row['Description'] = str_replace("\n", '<br>', $row['Description']);      
     }
     $row['Type'] = htmlspecialchars($row['Type']);
     
