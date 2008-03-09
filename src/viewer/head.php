@@ -16,7 +16,7 @@ require_once 'functions.php';
   <a href="index.php">Home</a>
   
   <?php
-  $q = "SELECT ID, Name FROM Packages";
+  $q = "SELECT ID, Name FROM Packages ORDER BY Name";
   $res = execute_query($q);
   while ($row = mysql_fetch_assoc($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
@@ -31,7 +31,7 @@ require_once 'functions.php';
   <div class="box">
   <?php
   // show class names of all classes
-  $q = "SELECT ID, Name FROM Classes";
+  $q = "SELECT ID, Name FROM Classes ORDER BY Name";
   $res = execute_query($q);
   if (mysql_num_rows($res) > 0) {
     echo "<h2>Classes</h2>";
@@ -48,7 +48,7 @@ require_once 'functions.php';
   <div class="box">
   <?php
   // show class names of all functions
-  $q = "SELECT ID, Name FROM Functions WHERE ClassID IS NULL";
+  $q = "SELECT ID, Name FROM Functions WHERE ClassID IS NULL ORDER BY Name";
   $res = execute_query($q);
   if (mysql_num_rows($res) > 0) {
     echo "<h2>Functions</h2>";
