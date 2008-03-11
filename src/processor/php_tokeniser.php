@@ -34,16 +34,25 @@ class PhpTokeniser {
 		$abstract = false;
 		$next_comment = null;
 
-
 		foreach ($tokens as $token) {
+		  // debugger
+		  //if (is_string($token)) {
+		  //  echo htmlspecialchars($token) . "\n";
+		  //} else {
+		  //  echo htmlspecialchars(token_name($token[0]) . ' ' . $token[1]) . "\n";
+		  //}
+		  
 		  if (is_string($token)) {
 				// opening of a function or class block
 				if ($token == '{') {
-					// opening of function
+				  // opening of function
 					if ($current_function != null) {
 						if ($inside_class != null) {
-							$current_function->visibility = $visibility;
-							$visibility = null;
+						  if ($visibility != null) {
+  							$current_function->visibility = $visibility;
+  							$visibility = null;
+							}
+							
 							$inside_class->functions[] = $current_function;
 						} else {
 							$current_file->functions[] = $current_function;
@@ -53,9 +62,11 @@ class PhpTokeniser {
 						$current_function = null;
 
 					// opening of class
-					} else if ($current_class != null) {
-						$current_class->visibility = $visibility;
-						$visibility = null;
+					} else if ($current_class != null) {					
+            if ($visibility != null) {
+              $current_class->visibility = $visibility;
+  						$visibility = null;
+  				  }
 						$current_file->classes[] = $current_class;
 						$inside_class = $current_class;
 						$current_class = null;
@@ -69,8 +80,10 @@ class PhpTokeniser {
 				// function in an interface
 				} else if ($token == ';') {
 					if ($current_function != null) {
-						$current_function->visibility = $visibility;
-						$visibility = null;
+					  if ($visibility != null) {
+  						$current_function->visibility = $visibility;
+	  					$visibility = null;
+	  			  }
 						$inside_class->functions[] = $current_function;
 						$current_function = null;
 					}
@@ -79,13 +92,13 @@ class PhpTokeniser {
 				// closing of a class or function block			
 				} else if ($token == '}') {
 					if ($brace_count == 0) {
-						if ($inside_function != null) {
+						if ($inside_function != null) {						
 							$inside_function = null;
-						} else {
+						} else if ($inside_class != null) {
 							$inside_class = null;
 						}
 
-					} else {
+					} else {					
 						$brace_count--;
 					}		
 				}
@@ -95,6 +108,10 @@ class PhpTokeniser {
 		    list($id, $text) = $token;
 
 		    switch ($id) {
+		      case T_CURLY_OPEN:
+		        $brace_count++;
+		        break;
+		        
 		      case T_DOC_COMMENT:
 						if ($next_comment) {
 							$current_file->apply_comment($next_comment);
@@ -205,11 +222,6 @@ class PhpTokeniser {
 					case T_ABSTRACT:
 						$abstract = true;
 						break;
-
-		
-
-					//default:
-					//	echo '<p>' . token_name($id) . ' &nbsp; ' . $text . '</p>';
 		    }
 		  }
 		}

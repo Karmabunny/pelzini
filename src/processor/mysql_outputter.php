@@ -10,17 +10,24 @@
 class MysqlOutputter {
 	private $db;
 
-
-	// MySQL stuff
+  /**
+  * Connects to the db
+  */
 	public function __construct ($username, $password, $server, $database) {
 		$this->db = mysql_connect($server, $username, $password);
 		mysql_select_db ($database, $this->db);
 	}
-
+	
+	/**
+	* Closes connection to the db
+	*/
 	public function __destruct () {
 		mysql_close ($this->db);
 	}
 
+  /**
+  * Executes a MySQL query
+  */
 	private function query ($query) {
 		$return = mysql_query ($query, $this->db);
 		if ($return === false) {
@@ -29,6 +36,9 @@ class MysqlOutputter {
 		return $return;
 	}
 
+  /**
+  * @param string $input Safens some input
+  **/
 	private function sql_safen ($input) {
 		if ($input == null) {
 			return 'NULL';
@@ -39,9 +49,11 @@ class MysqlOutputter {
 		}
 	}
 
-
-
-	// Saves to the db
+  /**
+  * Does the actual outputting of the file objects (and their sub-objects) to the MySQL database
+  *
+  * @param array $files The file objects to save to the MySQL database
+  **/
 	public function output ($files) {
 		$this->query ("TRUNCATE TABLE Files");
 		$this->query ("TRUNCATE TABLE Functions");
@@ -92,14 +104,17 @@ class MysqlOutputter {
 			foreach ($file->classes as $class) {
 				if ($class instanceof ParserClass) {
 					$this->save_class ($class, $file_id);
-				}
+				} else if ($class instanceof ParserInterface) {
+					$this->save_interface ($class, $file_id);
+			  }
 			}
 	
 		}	
 	}
 
-
-
+  /**
+  * Saves a function to the MySQL database
+  **/
 	private function save_function ($function, $file_id, $class_id = null) {
 		// prepare data for inserting
 		$insert_data = array();
@@ -107,9 +122,12 @@ class MysqlOutputter {
 		$insert_data['Description'] = $this->sql_safen($function->description);
 		$insert_data['FileID'] = $file_id;
 
-		// Class id
-		if ($class_id != null) $insert_data['ClassID'] = $class_id;
-
+		// Class-specific details
+		if ($class_id != null) {
+		  $insert_data['ClassID'] = $class_id;
+      $insert_data['Visibility'] = $this->sql_safen($function->visibility);
+    }
+    
 		// build params string
 		if (count($function->params) > 0) {
 			$params = array();
@@ -150,12 +168,16 @@ class MysqlOutputter {
 	}
 
 
+  /**
+  * Saves a class to the MySQL database
+  **/
 	private function save_class ($class, $file_id) {
 		// prepare the data for inserting
 		$insert_data = array();
 		$insert_data['Name'] = $this->sql_safen($class->name);
 		$insert_data['Description'] = $this->sql_safen($class->description);
 		$insert_data['Extends'] = $this->sql_safen($class->extends);
+    $insert_data['Visibility'] = $this->sql_safen($class->visibility);		
 		$insert_data['FileID'] = $file_id;
 
 		if ($class->abstract) $insert_data['Abstract'] = 1;
@@ -174,6 +196,36 @@ class MysqlOutputter {
 		// process functions
 		foreach ($class->functions as $function) {
 			$this->save_function ($function, $file_id, $class_id);
+		}
+	}
+
+  
+  /**
+  * Saves an interface to the mysql database
+  **/
+	private function save_interface ($interface, $file_id) {
+		// prepare the data for inserting
+		$insert_data = array();
+		$insert_data['Name'] = $this->sql_safen($interface->name);
+		$insert_data['Description'] = $this->sql_safen($interface->description);
+		$insert_data['Extends'] = $this->sql_safen($interface->extends);
+    $insert_data['Visibility'] = $this->sql_safen($interface->visibility);
+		$insert_data['FileID'] = $file_id;
+    
+
+		// Build and process query from prepared data
+		$q = "INSERT INTO Interfaces SET ";
+		foreach ($insert_data as $key => $value) {
+			if ($j++ > 0) $q .= ', ';
+			$q .= "{$key} = {$value}";
+		}
+		$this->query ($q);
+		$interface_id = mysql_insert_id ();
+
+
+		// process functions
+		foreach ($interface->functions as $function) {
+			$this->save_function ($function, $file_id, $interface_id);
 		}
 	}
 

@@ -45,7 +45,17 @@ interface person {
 /**
 * A thing
 **/
-interface fing { }
+interface fing {
+  /** somehintg **/
+  function aaa();
+  
+  /** @param string $ccc does whatever **/
+  function bbb($ccc);
+  
+  /** @param $eee hmm
+  * @param $fff nothing param **/
+  function ddd($eee);
+}
 
 /**
 * Something that is stupid

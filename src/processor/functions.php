@@ -34,12 +34,13 @@ function parse_doc_comment ($comment) {
 	$current = null;
 	foreach ($lines as $line) {
 	  $line = preg_replace('/^\s/', '', $line);
-		$line = rtrim ($line);
-		if ($line == '') continue;
-
+		$trimline = trim ($line);
+		if ($trimline == '') continue;
+    
 		// process special words
-		if ($line[0] == '@') {
-			list ($word, $value) = explode(' ', $line, 2);
+		
+		if ($trimline[0] == '@') {
+			list ($word, $value) = explode(' ', $trimline, 2);
 		
 			// tags
 			if ($current != null) {

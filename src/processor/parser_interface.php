@@ -4,11 +4,13 @@ class ParserInterface {
 	public $name;
 	public $functions;
 	public $extends;
+	public $visibility;	
 	public $description;
 
 	public function __construct() {
 		$this->functions = array ();
 		$this->variables = array ();
+		$this->visibility = 'public';
 	}
 
 	public function apply_comment ($text) {
