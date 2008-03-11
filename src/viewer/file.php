@@ -52,6 +52,34 @@ if (mysql_num_rows($res) > 0) {
   echo "</table>\n";
 }
 
+
+// Show classes
+$q = "SELECT ID, Name, Description FROM Interfaces WHERE FileID = {$id}";
+$res = execute_query($q);
+if (mysql_num_rows($res) > 0) {
+  echo "<h3>Interfaces</h3>";
+  echo "<table class=\"function-list\">\n";
+  echo "<tr><th>Name</th><th>Description</th></tr>\n";
+  while ($row = mysql_fetch_assoc ($res)) {
+    // encode for output
+    $row['Name'] = htmlspecialchars($row['Name']);
+    if ($row['Description'] == null) {
+      $row['Description'] = '&nbsp;';
+    } else {
+      $row['Description'] = htmlspecialchars($row['Description']);
+    }
+    
+    // display the class
+	  echo "<tr>";
+	  echo "<td><code><a href=\"interface.php?id={$row['ID']}\">";
+	  echo "{$row['Name']}</a></code></td>";
+	  echo "<td>{$row['Description']}</td>";
+	  echo "</tr>\n";
+  }
+  echo "</table>\n";
+}
+
+
 // Show functions
 $q = "SELECT ID, Name, Description, Parameters FROM Functions WHERE FileID = {$id} AND ClassID IS NULL";
 $res = execute_query($q);

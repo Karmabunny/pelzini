@@ -61,7 +61,8 @@ class MysqlOutputter {
 		$this->query ("TRUNCATE TABLE Classes");		
 		$this->query ("TRUNCATE TABLE Packages");
   	$this->query ("TRUNCATE TABLE FilePackages");
-		
+  	$this->query ("TRUNCATE TABLE Interfaces");
+  	
 		// get all of the unique package names, and create packages
 		$packages = array();
 		foreach ($files as $file) {
@@ -115,7 +116,7 @@ class MysqlOutputter {
   /**
   * Saves a function to the MySQL database
   **/
-	private function save_function ($function, $file_id, $class_id = null) {
+	private function save_function ($function, $file_id, $class_id = null, $interface_id = null) {
 		// prepare data for inserting
 		$insert_data = array();
 		$insert_data['Name'] = $this->sql_safen($function->name);
@@ -125,6 +126,11 @@ class MysqlOutputter {
 		// Class-specific details
 		if ($class_id != null) {
 		  $insert_data['ClassID'] = $class_id;
+      $insert_data['Visibility'] = $this->sql_safen($function->visibility);
+      
+    // Interface-specific details
+    } else if ($interface_id != null) {
+		  $insert_data['InterfaceID'] = $interface_id;
       $insert_data['Visibility'] = $this->sql_safen($function->visibility);
     }
     
@@ -225,7 +231,7 @@ class MysqlOutputter {
 
 		// process functions
 		foreach ($interface->functions as $function) {
-			$this->save_function ($function, $file_id, $interface_id);
+			$this->save_function ($function, $file_id, null, $interface_id);
 		}
 	}
 

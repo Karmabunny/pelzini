@@ -46,7 +46,9 @@ interface person {
 * A thing
 **/
 interface fing {
-  /** somehintg **/
+  /**
+  * somehintg
+  **/
   function aaa();
   
   /** @param string $ccc does whatever **/
