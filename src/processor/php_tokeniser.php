@@ -34,6 +34,8 @@ class PhpTokeniser {
 		$abstract = false;
 		$next_comment = null;
 
+    //echo '<style>span {color: green;}</style>';
+    //echo '<pre>';    
 		foreach ($tokens as $token) {
 		  // debugger
 		  //if (is_string($token)) {
@@ -84,6 +86,7 @@ class PhpTokeniser {
   						$current_function->visibility = $visibility;
 	  					$visibility = null;
 	  			  }
+	  			  $current_function->post_load();
 						$inside_class->functions[] = $current_function;
 						$current_function = null;
 					}
@@ -120,7 +123,7 @@ class PhpTokeniser {
 		        $next_comment = $text;
 		        break;
 
-					case T_FUNCTION:
+					case T_FUNCTION:				
 						$current_function = new ParserFunction();
 						if ($abstract) {
 							$current_function->abstract = true;
@@ -225,7 +228,8 @@ class PhpTokeniser {
 		    }
 		  }
 		}
-
+    //echo '</pre>';
+    
 		return $current_file;
 	}
 }
