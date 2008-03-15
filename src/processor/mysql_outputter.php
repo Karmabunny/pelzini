@@ -62,7 +62,8 @@ class MysqlOutputter {
 		$this->query ("TRUNCATE TABLE Packages");
   	$this->query ("TRUNCATE TABLE FilePackages");
   	$this->query ("TRUNCATE TABLE Interfaces");
-  	
+  	$this->query ("TRUNCATE TABLE Variables");
+  	  	
 		// get all of the unique package names, and create packages
 		$packages = array();
 		foreach ($files as $file) {
@@ -201,8 +202,13 @@ class MysqlOutputter {
 
 		// process functions
 		foreach ($class->functions as $function) {
-			$this->save_function ($function, $file_id, $class_id);
+			$this->save_function($function, $file_id, $class_id);
 		}
+		
+		// process variables
+		foreach ($class->variables as $variable) {
+      $this->save_variable($variable, $class_id);
+	  }
 	}
 
   
@@ -233,6 +239,36 @@ class MysqlOutputter {
 		foreach ($interface->functions as $function) {
 			$this->save_function ($function, $file_id, null, $interface_id);
 		}
+	}
+	
+	
+	/**
+  * Saves a variable to the mysql database
+  **/
+	private function save_variable ($variable, $class_id = null, $interface_id = null) {
+		// prepare data for inserting
+		$insert_data = array();
+		$insert_data['Name'] = $this->sql_safen($variable->name);
+		$insert_data['Description'] = $this->sql_safen($variable->description);
+    //$insert_data['Visibility'] = $this->sql_safen($variable->visibility);
+
+		// Class-specific details
+		if ($class_id != null) {
+		  $insert_data['ClassID'] = $class_id;
+      
+    // Interface-specific details
+    } else if ($interface_id != null) {
+		  $insert_data['InterfaceID'] = $interface_id;
+    }
+    
+
+		// Build and process query from prepared data
+		$q = "INSERT INTO Variables SET ";
+		foreach ($insert_data as $key => $value) {
+			if ($j++ > 0) $q .= ', ';
+			$q .= "{$key} = {$value}";
+		}
+		$this->query ($q);
 	}
 
 }

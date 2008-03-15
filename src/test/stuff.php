@@ -13,9 +13,15 @@ function thingo ($whee, thingie $whoo) {
 * Is something
 **/
 class thingie extends stupid implements person,fing {
-
-	private $foo;	/// a variable
-
+  
+  /**
+  * Stores some information about something
+  **/
+	private $foo;
+  
+  private $bar;     /// stores some more information
+  
+    
 	/**
 	 * Does soemthing else
 	*/
