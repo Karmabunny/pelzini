@@ -2,7 +2,11 @@
 /**
 * The database configuration
 **/
-class DBINFO {
+class CONFIG {
+  // general
+  const Title = 'Docu';
+  
+  // database
 	const Server = 'localhost';
 	const Username = 'josh';
 	const Password = 'password';

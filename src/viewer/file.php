@@ -25,6 +25,20 @@ echo "<p>{$row['Description']}</p>";
 $id = $row['ID'];
 
 
+// Show packages
+$q = "SELECT Packages.ID, Packages.Name FROM Packages
+ INNER JOIN FilePackages ON FilePackages.PackageID = Packages.ID
+ WHERE FilePackages.FileID = {$id}";
+$res = execute_query($q);
+if (mysql_num_rows($res) > 0) {
+  echo "<h3>Packages</h3>";
+  echo "<ul>\n";
+  while ($row = mysql_fetch_assoc ($res)) {
+    $row['Name'] = htmlspecialchars($row['Name']);
+	  echo "<li><a href=\"package.php?id={$row['ID']}\">{$row['Name']}</a></li>";  }
+  echo "</ul>\n";
+}
+
 
 // Show classes
 $q = "SELECT ID, Name, Description FROM Classes WHERE FileID = {$id}";
@@ -81,7 +95,7 @@ if (mysql_num_rows($res) > 0) {
 
 
 // Show functions
-$q = "SELECT ID, Name, Description, Parameters FROM Functions WHERE FileID = {$id} AND ClassID IS NULL";
+$q = "SELECT ID, Name, Description, Parameters FROM Functions WHERE FileID = {$id} AND ClassID IS NULL AND InterfaceID IS NULL";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
   echo "<h3>Functions</h3>";

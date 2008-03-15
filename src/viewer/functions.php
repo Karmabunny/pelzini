@@ -1,8 +1,8 @@
 <?php
 require_once 'config.php';
 
-$dbc = mysql_connect (DBINFO::Server, DBINFO::Username, DBINFO::Password);
-mysql_select_db (DBINFO::Database);
+$dbc = mysql_connect (CONFIG::Server, CONFIG::Username, CONFIG::Password);
+mysql_select_db (CONFIG::Database);
 
 
 /**
