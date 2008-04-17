@@ -11,7 +11,7 @@ mysql_select_db (CONFIG::Database);
 * @param $q The query to execute
 * @return The result from the query
 **/
-function execute_query ($q) {
+function execute_query($q) {
 	global $dbc;
 	$res = mysql_query ($q, $dbc);
 	if ($res === false) {
@@ -26,7 +26,7 @@ function execute_query ($q) {
 *
 * @param string $string The string to escape
 */
-function mysql_escape ($string) {
+function mysql_escape($string) {
 	global $dbc;
 	return mysql_real_escape_string ($string, $dbc);
 }

@@ -173,6 +173,10 @@ class PhpTokeniser {
 							$variable->name = $text;
 							$variable->visibility = $visibility;
 							$visibility = null;
+						  if ($next_comment) {
+							  $variable->apply_comment($next_comment);
+							  $next_comment = null;
+						  }							
 							$inside_class->variables[] = $variable;
 						}
 						break;
