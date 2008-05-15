@@ -7,8 +7,23 @@ require_once 'functions.php';
   <title>Documentation for <?=CONFIG::Title;?></title>
   <link href="style.css" rel="stylesheet" type="text/css">
   <script language="javascript" src="ajax/ajax.js"></script>
+  
+<?php
+$body = '<body>';
+
+if (isset($_SESSION['last_selected_type'])) {
+  $body = '<body onload="load();">';
+  
+  echo "<script>
+function load() {
+  change_sidebar_type('{$_SESSION['last_selected_type']}');
+}
+</script>\n";
+}
+?>
+
 </head>
-<body>
+<?= $body; ?>
 
 <div class="header">
   <h1>Documentation</h1>
@@ -47,6 +62,9 @@ require_once 'functions.php';
       case 'packages':  var base_url = 'package.php'; break;
     }
     
+    var select = document.getElementById('sidebar_type_select');
+    select.value = type;
+    
     var box = document.getElementById('sidebar_items');
     
     while (box.firstChild) {
@@ -72,7 +90,7 @@ require_once 'functions.php';
   </script>
   
   <div class="box">
-    <h2><select onchange="change_sidebar_type(this.value)">
+    <h2><select onchange="change_sidebar_type(this.value)" id="sidebar_type_select">
       <option value="">-- Select below --</option>
       <option value="classes">Classes</option>
       <option value="functions">Functions</option>

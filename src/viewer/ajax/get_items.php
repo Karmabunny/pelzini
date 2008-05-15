@@ -27,6 +27,8 @@ switch ($_GET['type']) {
     
 }
 
+$_SESSION['last_selected_type'] = $_GET['type'];
+
 
 $q = 'SELECT ID, Name FROM ' . $table;
 if ($where != null) $q .= ' WHERE ' . $where;
