@@ -28,22 +28,37 @@ $filename_clean = htmlentities(urlencode($row['Filename']));
 echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['Filename']) . "</a></p>\n";
 echo "<p>{$row['Description']}</p>";
 $id = $row['ID'];
+$class_name = $row['Name'];
 
 if ($row['Extends'] != null) {
   $row['Extends'] = htmlspecialchars($row['Extends']);
   echo "<p>Extends <a href=\"class.php?name={$row['Extends']}\">{$row['Extends']}</a>";
-  echo " | <a href=\"complete_class.php?id={$id}\">Show inherited members</a></p>";
+  echo " | <a href=\"class.php?id={$id}\">Hide inherited members</a></p>";
 }
 
 
+$functions = array();
+$variables = array();
+$class = $row['Name'];
+do {
+  list ($funcs, $vars, $parent) =  load_class($class);
+  
+  $functions = array_merge($funcs, $functions);
+  $variables = array_merge($vars, $variables);
+    
+  $class = $parent;
+} while ($class != null);
+
+ksort($functions);
+ksort($variables);
+
+
 // Show variables
-$q = "SELECT ID, Name, Description FROM Variables WHERE ClassID = {$id}";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
+if (count($variables) > 0) {
   echo "<h3>Variables</h3>";
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
-  while ($row = mysql_fetch_assoc ($res)) {
+  foreach ($variables as $row) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) {
@@ -64,10 +79,8 @@ if (mysql_num_rows($res) > 0) {
 
 
 // Show functions
-$q = "SELECT ID, Name, Description, Visibility FROM Functions WHERE ClassID = {$id}";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
-  while ($row = mysql_fetch_assoc ($res)) {
+if (count($functions) > 0) {
+  foreach ($functions as $row) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) {
@@ -78,7 +91,12 @@ if (mysql_num_rows($res) > 0) {
     $row['Visibility'] = htmlspecialchars($row['Visibility']);
     
     // display
-	  echo "<h3>{$row['Visibility']} {$row['Name']}</h3>";
+	  echo "<h3>{$row['Visibility']} {$row['Name']}";
+	  if ($row['ClassName'] != $class_name) {
+	    echo " <small>(from <a href=\"class.php?name={$row['ClassName']}\">{$row['ClassName']}</a>)</small>";
+	  }
+	  echo "</h3>";
+	  
 	  echo "<pre>{$row['Description']}</pre>";
 	  
 	  // Show parameters
@@ -108,6 +126,40 @@ if (mysql_num_rows($res) > 0) {
 }
 
 
-
 require_once 'foot.php';
+
+
+/**
+* Returns an array of
+* [0] => functions
+* [1] => variables
+* [2] => parent class
+**/
+function load_class($name) {
+  // determine parent class
+  $name = mysql_escape ($name);
+  $q = "SELECT ID, Extends FROM Classes WHERE Name LIKE '{$name}'";
+  $res = execute_query($q);
+  $row = mysql_fetch_assoc($res);
+  $id = $row['ID'];
+  $parent = $row['Extends'];
+  
+  // determine functions
+  $functions = array();
+  $q = "SELECT *, '{$name}' AS ClassName FROM Functions WHERE ClassID = {$id}";
+  $res = execute_query($q);
+  while ($row = mysql_fetch_assoc($res)) {
+    $functions[$row['Name']] = $row;
+  }
+  
+  // determine variables
+  $variables = array();
+  $q = "SELECT *, '{$name}' AS ClassName FROM Variables WHERE ClassID = {$id}";
+  $res = execute_query($q);
+  while ($row = mysql_fetch_assoc($res)) {
+    $variables[$row['Name']] = $row;
+  }
+  
+  return array($functions, $variables, $parent);
+}
 ?>
