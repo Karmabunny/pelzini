@@ -22,6 +22,7 @@ $res = execute_query ($q);
 $row = mysql_fetch_assoc ($res);
 echo "<h2>{$row['Name']}</h2>";
 echo "<p>{$row['Description']}</p>";
+echo "<p><small><a href=\"file_source.php?id={$row['ID']}\">View Source</a></small></p>";
 $id = $row['ID'];
 
 
@@ -67,7 +68,7 @@ if (mysql_num_rows($res) > 0) {
 }
 
 
-// Show classes
+// Show interfaces
 $q = "SELECT ID, Name, Description FROM Interfaces WHERE FileID = {$id}";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {

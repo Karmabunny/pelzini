@@ -22,8 +22,9 @@ class PhpTokeniser {
 
 		$current_file = new ParserFile ();
 		$current_file->name = $filename;
-
-
+    $current_file->source = $source;
+    
+    
 		// the vars that make it tick
 		$current_function = null;
 		$inside_function = null;

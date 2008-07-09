@@ -84,7 +84,8 @@ class MysqlOutputter {
 			// the file itself
 			$name = $this->sql_safen($file->name);
 			$description = $this->sql_safen($file->description);
-			$q = "INSERT INTO Files SET Name = {$name}, Description = {$description}";
+			$source = $this->sql_safen($file->source);
+			$q = "INSERT INTO Files SET Name = {$name}, Description = {$description}, Source = {$source}";
 			$this->query ($q);
 			$file_id = mysql_insert_id ();
 

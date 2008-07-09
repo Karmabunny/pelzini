@@ -6,7 +6,8 @@ class ParserFile {
 	public $packages;
 	public $functions;
 	public $classes;
-
+  public $source;
+  
 	public function __construct() {
 		$this->functions = array();
 		$this->classes = array();
