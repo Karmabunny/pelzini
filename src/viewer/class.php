@@ -40,7 +40,7 @@ if ($row['Extends'] != null) {
 $q = "SELECT ID, Name, Description FROM Variables WHERE ClassID = {$id}";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
-  echo "<h3>Variables</h3>";
+  echo "<h3>Variables</h3>";&gt;
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
   while ($row = mysql_fetch_assoc ($res)) {

@@ -45,6 +45,15 @@ function load() {
 <table class="main">
 <tr>
 <td class="sidebar">
+  <div class="box">
+    <div>
+    <form action="search.php" method="get">
+      <input type="text" name="q" style="width: 135px;">
+      <input type="submit" value="Search">
+    </form>
+    </div>
+  </div>
+  
   <script>
   function change_sidebar_type(type) {
     if (type == '') return;
