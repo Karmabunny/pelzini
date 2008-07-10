@@ -25,6 +25,7 @@ function parse_doc_comment ($comment) {
 	// rip all the comment stuff from the comment
 	$comment = preg_replace('/^\s*|\/?\**\/?/', '', $comment);
   
+  
 	// split into lines
 	$lines = explode("\n", $comment);
 
@@ -33,12 +34,12 @@ function parse_doc_comment ($comment) {
 	$buffer = null;
 	$current = null;
 	foreach ($lines as $line) {
+
 	  $line = preg_replace('/^\s/', '', $line);
 		$trimline = trim ($line);
-		if ($trimline == '') continue;
+		//if ($trimline == '') continue;
     
 		// process special words
-		
 		if ($trimline[0] == '@') {
 			list ($word, $value) = explode(' ', $trimline, 2);
 		
@@ -70,7 +71,10 @@ function parse_doc_comment ($comment) {
 	return $output;
 }
 
-// Does the grunt work of the processing
+
+/**
+* Processes the parsing of an individual tag
+**/
 function parse_tag (&$output, $tag, $buffer) {
 	if ($tag == '@summary') {
 		$output[$tag] = $buffer;
@@ -83,10 +87,19 @@ function parse_tag (&$output, $tag, $buffer) {
 }
 
 
+/**
+* Outputs a status message
+*
+* @param string $message The message to output
+**/
 function output_status($message) {
 	echo $message . "<br>";
 }
 
+
+/**
+* Gets all the filenames in a directory and in the subdirectories
+**/
 function get_filenames ($directory) {
 	global $base_dir;
 
@@ -106,6 +119,49 @@ function get_filenames ($directory) {
 	closedir($handle);
 
 	return $files;
+}
+
+
+/**
+* This will take the provided text, and turn it into HTML
+* If it contains HTML, it will validate it, otherwise it
+* will wrap everything in a PRE
+* 
+* This function also removes extra spaces from the beginning of lines
+* but will do so in a manner that indenting is preserved
+**/
+function htmlify_text($text) {
+  if ($text == '') return null;
+  
+  // if the code contains block level HTML, output it as is
+  $has_block_html = preg_match('/<(p|div|pre|table)( .*)?>/i', $text);
+  if ($has_block_html) {
+    return $text;
+  }
+  
+  // otherwise, we do clever indenting
+  $lines = explode("\n", $text);
+  $min_num_spaces = 1000;
+  foreach ($lines as $line) {
+    if (trim($line) == '') continue;
+    $num_spaces = 0;
+    for ($i = 0; $i < strlen($line); $i++) {
+      if ($line[$i] != ' ') break;
+      ++$num_spaces;
+    }
+    $min_num_spaces = min($min_num_spaces, $num_spaces);
+  }
+  
+  // put into the pre
+  $text = '<pre>';
+  $j = 0;
+  foreach ($lines as $line) {
+    if ($j++ > 0) $text .= "\n";
+    $text .= substr($line, $min_num_spaces);
+  }
+  $text .= '</pre>';
+  
+  return $text;
 }
 
 ?>

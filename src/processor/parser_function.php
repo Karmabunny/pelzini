@@ -21,7 +21,7 @@ class ParserFunction {
 	}
 
 	public function post_load () {
-		$this->description = $this->comment['@summary'];
+		$this->description = htmlify_text($this->comment['@summary']);
 
 		// Do params
 		$params = $this->comment['@param'];

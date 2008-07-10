@@ -93,13 +93,9 @@ if (count($variables) > 0) {
 if (count($functions) > 0) {
   foreach ($functions as $row) {
     // encode for output
-    $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) {
       $row['Description'] = '<em>This function does not have a description</em>';
-    } else {
-      $row['Description'] = htmlspecialchars($row['Description']);
     }
-    $row['Visibility'] = htmlspecialchars($row['Visibility']);
     
     // display
 	  echo "<h3>{$row['Visibility']} {$row['Name']}";
@@ -108,7 +104,7 @@ if (count($functions) > 0) {
 	  }
 	  echo "</h3>";
 	  
-	  echo "<pre>{$row['Description']}</pre>";
+	  echo $row['Description'];
 	  
 	  // show return value
 	  if ($row['ReturnType'] != null) {

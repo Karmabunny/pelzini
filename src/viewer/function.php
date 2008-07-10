@@ -30,8 +30,7 @@ echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row
 if ($row['ClassID'] != null) {
 	echo "<p>Class: <a href=\"class.php?id={$row['ClassID']}\">{$row['Class']}</a></p>\n";
 }
-$row['Description'] = htmlspecialchars($row['Description']);
-echo "<pre>{$row['Description']}</pre>";
+echo $row['Description'];
 $id = $row['ID'];
 
 

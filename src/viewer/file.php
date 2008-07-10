@@ -107,8 +107,6 @@ if (mysql_num_rows($res) > 0) {
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) {
       $row['Description'] = '&nbsp;';
-    } else {
-      $row['Description'] = htmlspecialchars($row['Description']);
     }
     $row['Parameters'] = htmlspecialchars($row['Parameters']);
     
