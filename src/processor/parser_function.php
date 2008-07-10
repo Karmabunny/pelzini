@@ -7,7 +7,10 @@ class ParserFunction {
 	public $abstract;
 	public $description;
 	public $comment;
-
+  public $return_type;
+  public $return_description;
+  
+  
 	public function __construct() {
 		$this->params = array ();
 		$this->visibility = 'public';
@@ -42,6 +45,14 @@ class ParserFunction {
 					}
 				}
 			}
+		}
+		
+		// Do return value
+		$return = $this->comment['@return'];
+		if ($return == null) $return = $this->comment['@returns'];
+		if ($return != null) {
+		  $return = array_pop ($return);
+		  list ($this->return_type, $this->return_description) = explode(' ', $return, 2);
 		}
 	}
 

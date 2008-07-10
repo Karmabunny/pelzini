@@ -136,6 +136,12 @@ class MysqlOutputter {
       $insert_data['Visibility'] = $this->sql_safen($function->visibility);
     }
     
+    // Return value
+    if ($function->return_type != null) {
+      $insert_data['ReturnType'] = $this->sql_safen($function->return_type);
+      $insert_data['ReturnDescription'] = $this->sql_safen($function->return_description);
+    }
+    
 		// build params string
 		if (count($function->params) > 0) {
 			$params = array();
@@ -172,6 +178,22 @@ class MysqlOutputter {
 				$q .= ", {$key} = {$value}";
 			}
 			$this->query ($q);
+		}
+		
+		
+		// insert return value
+		if ($function->return != null) {
+		  $insert_data = array();
+		  $insert_data['Name'] = $this->sql_safen('__RETURN__');
+		  $insert_data['Type'] = $this->sql_safen($function->return->type);
+		  $insert_data['Description'] = $this->sql_safen($function->return->description);
+      
+	    // build query from prepared data
+		  $q = "INSERT INTO Parameters SET FunctionID = {$function_id}";
+		  foreach ($insert_data as $key => $value) {
+			  $q .= ", {$key} = {$value}";
+		  }
+		  $this->query ($q);
 		}
 	}
 

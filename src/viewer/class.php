@@ -28,22 +28,48 @@ $filename_clean = htmlentities(urlencode($row['Filename']));
 echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['Filename']) . "</a></p>\n";
 echo "<p>{$row['Description']}</p>";
 $id = $row['ID'];
+$class_name = $row['Name'];
 
 if ($row['Extends'] != null) {
   $row['Extends'] = htmlspecialchars($row['Extends']);
   echo "<p>Extends <a href=\"class.php?name={$row['Extends']}\">{$row['Extends']}</a>";
-  echo " | <a href=\"complete_class.php?id={$id}\">Show inherited members</a></p>";
+  
+  if ($_GET['complete'] == 1) {
+    echo " | <a href=\"class.php?id={$id}\">Hide inherited members</a></p>";
+  } else {
+    echo " | <a href=\"class.php?id={$id}&complete=1\">Show inherited members</a></p>";
+  }
 }
 
 
+$functions = array();
+$variables = array();
+$class = $row['Name'];
+
+if ($_GET['complete'] == 1) {
+  do {
+    list ($funcs, $vars, $parent) =  load_class($class);
+    
+    $functions = array_merge($funcs, $functions);
+    $variables = array_merge($vars, $variables);
+      
+    $class = $parent;
+  } while ($class != null);
+  
+} else {
+  list ($functions, $variables) =  load_class($class);
+}
+
+ksort($functions);
+ksort($variables);
+
+
 // Show variables
-$q = "SELECT ID, Name, Description FROM Variables WHERE ClassID = {$id}";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
+if (count($variables) > 0) {
   echo "<h3>Variables</h3>";
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
-  while ($row = mysql_fetch_assoc ($res)) {
+  foreach ($variables as $row) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) {
@@ -64,10 +90,8 @@ if (mysql_num_rows($res) > 0) {
 
 
 // Show functions
-$q = "SELECT ID, Name, Description, Visibility FROM Functions WHERE ClassID = {$id}";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
-  while ($row = mysql_fetch_assoc ($res)) {
+if (count($functions) > 0) {
+  foreach ($functions as $row) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) {
@@ -78,36 +102,78 @@ if (mysql_num_rows($res) > 0) {
     $row['Visibility'] = htmlspecialchars($row['Visibility']);
     
     // display
-	  echo "<h3>{$row['Visibility']} {$row['Name']}</h3>";
+	  echo "<h3>{$row['Visibility']} {$row['Name']}";
+	  if ($row['ClassName'] != $class_name) {
+	    echo " <small>(from <a href=\"class.php?name={$row['ClassName']}\">{$row['ClassName']}</a>)</small>";
+	  }
+	  echo "</h3>";
+	  
 	  echo "<pre>{$row['Description']}</pre>";
+	  
+	  // show return value
+	  if ($row['ReturnType'] != null) {
+	    $link = get_object_link($row['ReturnType']);
+	    echo "<p>Returns <b>{$link}</b>";
+	    
+	    if ($row['ReturnDescription'] != null) {
+	      echo ': ', $row['ReturnDescription'];
+	    }
+	    echo '</p>';
+	  }
 	  
 	  // Show parameters
     $q = "SELECT Name, Type, Description FROM Parameters WHERE FunctionID = {$row['ID']}";
-    $res2 = execute_query($q);
-    if (mysql_num_rows($res2) > 0) {
-      echo "<table class=\"parameter-list\">\n";
-      echo "<tr><th>Name</th><th>Description</th></tr>\n";
-      while ($row = mysql_fetch_assoc ($res2)) {
-        $row['Name'] = htmlspecialchars($row['Name']);
-        if ($row['Description'] == null) {
-          $row['Description'] = '&nbsp;';
-        } else {
-          $row['Description'] = htmlspecialchars($row['Description']);
-          $row['Description'] = str_replace("\n", '<br>', $row['Description']);      
+    $res = execute_query($q);
+    if (mysql_num_rows($res) > 0) {
+      echo "<ul>\n";
+      while ($param = mysql_fetch_assoc ($res)) {
+        if ($param['Description'] != null) {
+          $param['Description'] = ': ' . str_replace("\n", '<br>', $param['Description']);      
         }
-        $row['Type'] = htmlspecialchars($row['Type']);
         
-	      echo "<tr>";
-	      echo "<td><code>{$row['Type']} {$row['Name']}</code></td>";
-	      echo "<td>{$row['Description']}</td>";
-	      echo "</tr>\n";
+        $link = get_object_link($param['Type']);
+	      echo "<li>{$link} <b>{$param['Name']}</b>{$param['Description']}</li>";
       }
-      echo "</table>\n";
+      echo "</ul>\n";
     }
   }
 }
 
 
-
 require_once 'foot.php';
+
+
+/**
+* Returns an array of
+* [0] => functions
+* [1] => variables
+* [2] => parent class
+**/
+function load_class($name) {
+  // determine parent class
+  $name = mysql_escape ($name);
+  $q = "SELECT ID, Extends FROM Classes WHERE Name LIKE '{$name}'";
+  $res = execute_query($q);
+  $row = mysql_fetch_assoc($res);
+  $id = $row['ID'];
+  $parent = $row['Extends'];
+  
+  // determine functions
+  $functions = array();
+  $q = "SELECT *, '{$name}' AS ClassName FROM Functions WHERE ClassID = {$id}";
+  $res = execute_query($q);
+  while ($row = mysql_fetch_assoc($res)) {
+    $functions[$row['Name']] = $row;
+  }
+  
+  // determine variables
+  $variables = array();
+  $q = "SELECT *, '{$name}' AS ClassName FROM Variables WHERE ClassID = {$id}";
+  $res = execute_query($q);
+  while ($row = mysql_fetch_assoc($res)) {
+    $variables[$row['Name']] = $row;
+  }
+  
+  return array($functions, $variables, $parent);
+}
 ?>
