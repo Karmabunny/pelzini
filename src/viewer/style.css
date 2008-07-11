@@ -24,6 +24,12 @@ div.navigation {
 
 div.navigation a {
   color: black;
+  padding: 3px;
+}
+
+div.navigation a.on {
+  padding: 3px;
+  background-color: #d7d7d7;
 }
 
 div.container {

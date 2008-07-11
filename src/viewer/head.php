@@ -32,13 +32,19 @@ if (isset($_SESSION['last_selected_type'])) {
 <div class="navigation">
   <a href="index.php">Home</a>
   <a href="select_package.php">All packages</a>
+  &nbsp;
   
   <?php
   $q = "SELECT ID, Name FROM Packages ORDER BY Name";
   $res = execute_query($q);
   while ($row = mysql_fetch_assoc($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
-    echo "<a href=\"select_package.php?id={$row['ID']}\">{$row['Name']}</a> ";
+    
+    if ($_SESSION['current_package'] == $row['ID']) {
+      echo "<a href=\"select_package.php?id={$row['ID']}\" class=\"on\">{$row['Name']}</a> ";
+    } else {
+      echo "<a href=\"select_package.php?id={$row['ID']}\">{$row['Name']}</a> ";
+    }
   }
   ?>
 </div>
