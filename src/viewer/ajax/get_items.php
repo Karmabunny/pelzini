@@ -3,6 +3,8 @@ header('Content-type: text/xml; charset=UTF-8');
 require_once '../functions.php';
 
 
+$where = array ();
+
 switch ($_GET['type']) {
   case 'classes':
     $table = 'Classes';
@@ -10,30 +12,49 @@ switch ($_GET['type']) {
     
   case 'functions':
     $table = 'Functions';
-    $where = 'ClassID IS NULL';
+    $where[] = 'ClassID IS NULL';
     break;
     
   case 'files':
     $table = 'Files';
     break;
     
-  case 'packages':
-    $table = 'Packages';
-    break;
-    
   default:
     echo '<error>Invalid parameters.</error>';
+    unset ($_SESSION['last_selected_type']);
     exit;
     
 }
 
 $_SESSION['last_selected_type'] = $_GET['type'];
 
+if ($_SESSION['current_package'] != null) {
+  $where[] = 'Files.PackageID = ' . $_SESSION['current_package'];
+}
 
-$q = 'SELECT ID, Name FROM ' . $table;
-if ($where != null) $q .= ' WHERE ' . $where;
-$q .= ' ORDER BY Name';
 
+$where = implode(' AND ', $where);
+
+if ($table == 'Files') {
+  // files don't need a join
+  $q = "SELECT ID, Name
+    FROM Files";
+  if ($where != '') $q .= ' WHERE ' . $where;
+  $q .= ' ORDER BY Name';
+  
+  
+} else {
+  // other tables do
+  $q = "SELECT {$table}.ID, {$table}.Name
+    FROM {$table}
+    INNER JOIN Files ON {$table}.FileID = Files.ID";
+  if ($where != '') $q .= ' WHERE ' . $where;
+  $q .= " ORDER BY {$table}.Name";
+  
+}
+
+
+// return the items
 $res = execute_query($q);
 echo "<items type=\"{$_GET['type']}\">";
 while ($row = mysql_fetch_assoc ($res)) {

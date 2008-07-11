@@ -1,11 +1,11 @@
 body {
-  padding: 0.5em;
   font-family: sans-serif;
+  padding: 0.5em;
 }
 
 div.header {
-  background-color: #6DF;
-  color: black;
+  background-color: #6e7aff;
+  color: white;
   padding: 0.5em;
   margin: 0.5em;
 }
@@ -16,10 +16,14 @@ div.header h1 {
 }
 
 div.navigation {
-  background-color: #6DF;
+  background-color: #eee;
   color: black;
   padding: 0.5em;
   margin: 0.5em;
+}
+
+div.navigation a {
+  color: black;
 }
 
 div.container {
@@ -40,8 +44,16 @@ td.sidebar {
   padding: 0px;
 }
 
+div.box-nohead {
+  background-color: #bbb;
+  color: black;
+  margin: 0px;
+  margin-bottom: 1em;
+  padding: 0.3em;
+}
+
 div.box {
-  background-color: #EEF;
+  background-color: #eee;
   color: black;
   margin: 0px;
   margin-bottom: 1em;
@@ -50,7 +62,7 @@ div.box {
 div.box h2 {
   font-size: large;
   margin: 0px;
-  background-color: #6DF;
+  background-color: #bbb;
   padding: 0.3em;
 }
 

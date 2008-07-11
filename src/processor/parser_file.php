@@ -3,7 +3,7 @@
 class ParserFile {
 	public $name;
 	public $description;
-	public $packages;
+	public $package;
 	public $functions;
 	public $classes;
   public $source;
@@ -11,7 +11,7 @@ class ParserFile {
 	public function __construct() {
 		$this->functions = array();
 		$this->classes = array();
-		$this->packages = null;
+		$this->package = null;
 	}
 
   /**
@@ -24,12 +24,9 @@ class ParserFile {
 		$this->description = $comment['@summary'];
 		
 		// set the packages. all packages are forced to have non-space names
-		$package_tags = $comment['@package'];
-		if ($package_tags != null) {
-		  $this->packages = array();
-		  foreach ($package_tags as $package) {
-		    $this->packages[] = str_replace(' ', '_', $package);
-		  }
+		$packages = $comment['@package'];
+		if ($packages != null) {
+		  $this->package = array_pop($packages);
 		}
 	}
 	

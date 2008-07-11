@@ -15,10 +15,10 @@ if (isset($_SESSION['last_selected_type'])) {
   $body = '<body onload="load();">';
   
   echo "<script>
-function load() {
-  change_sidebar_type('{$_SESSION['last_selected_type']}');
-}
-</script>\n";
+    function load() {
+      change_sidebar_type('{$_SESSION['last_selected_type']}');
+    }
+  </script>\n";
 }
 ?>
 
@@ -31,13 +31,14 @@ function load() {
 
 <div class="navigation">
   <a href="index.php">Home</a>
+  <a href="select_package.php">All packages</a>
   
   <?php
   $q = "SELECT ID, Name FROM Packages ORDER BY Name";
   $res = execute_query($q);
   while ($row = mysql_fetch_assoc($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
-    echo "<a href=\"package.php?id={$row['ID']}\">{$row['Name']}</a> ";
+    echo "<a href=\"select_package.php?id={$row['ID']}\">{$row['Name']}</a> ";
   }
   ?>
 </div>
@@ -45,18 +46,15 @@ function load() {
 <table class="main">
 <tr>
 <td class="sidebar">
-  <div class="box">
-    <div>
+  <div class="box-nohead">
     <form action="search.php" method="get">
       <input type="text" name="q" style="width: 135px;">
       <input type="submit" value="Search">
     </form>
-    </div>
   </div>
   
   <script>
   function change_sidebar_type(type) {
-    if (type == '') return;
     ajax_request('ajax/get_items.php?type=' + type, change_sidebar_type_process)
   }
   
@@ -64,22 +62,25 @@ function load() {
     var items = top_node.getElementsByTagName('item');
     var type = top_node.firstChild.getAttribute('type');
     
-    switch (type) {
-      case 'classes':   var base_url = 'class.php'; break;
-      case 'functions': var base_url = 'function.php'; break;
-      case 'files':     var base_url = 'file.php'; break;
-      case 'packages':  var base_url = 'package.php'; break;
-    }
-    
-    var select = document.getElementById('sidebar_type_select');
-    select.value = type;
-    
     var box = document.getElementById('sidebar_items');
     
     while (box.firstChild) {
       box.removeChild(box.firstChild);
     }
-
+    
+    switch (type) {
+      case 'classes':   var base_url = 'class.php'; break;
+      case 'functions': var base_url = 'function.php'; break;
+      case 'files':     var base_url = 'file.php'; break;
+      default:
+        box.appendChild(document.createTextNode('Select something from the drop-down list above'));
+        return;
+    }
+    
+    var select = document.getElementById('sidebar_type_select');
+    select.value = type;
+    
+    // populate the items
     for (var i = 0; i < items.length; i++) {
       var item_name = items[i].firstChild.data;
       var item_id = items[i].getAttribute('id');
@@ -95,6 +96,11 @@ function load() {
       p.appendChild(a);
       box.appendChild(p);
     }
+    
+    // show a 'nothing was found' message
+    if (! box.firstChild) {
+      box.appendChild(document.createTextNode('Nothing was found for this package'));
+    }
   }
   </script>
   
@@ -104,10 +110,11 @@ function load() {
       <option value="classes">Classes</option>
       <option value="functions">Functions</option>
       <option value="files">Files</option>
-      <option value="packages">Packages</option>
     </select></h2>
     
-    <div id="sidebar_items"></div>
+    <div id="sidebar_items">
+      Select something from the drop-down list above
+    </div>
   </div>
 </td>
 

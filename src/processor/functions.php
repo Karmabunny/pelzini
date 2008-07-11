@@ -36,8 +36,10 @@ function parse_doc_comment ($comment) {
 	foreach ($lines as $line) {
 
 	  $line = preg_replace('/^\s/', '', $line);
-		$trimline = trim ($line);
-		//if ($trimline == '') continue;
+	  $line = rtrim($line);
+		$trimline = ltrim($line);
+		
+		if ($current != null and $current != '@summary' and $trimline == '') continue;
     
 		// process special words
 		if ($trimline[0] == '@') {

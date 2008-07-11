@@ -60,23 +60,24 @@ class MysqlOutputter {
 		$this->query ("TRUNCATE TABLE Parameters");
 		$this->query ("TRUNCATE TABLE Classes");		
 		$this->query ("TRUNCATE TABLE Packages");
-  	$this->query ("TRUNCATE TABLE FilePackages");
   	$this->query ("TRUNCATE TABLE Interfaces");
   	$this->query ("TRUNCATE TABLE Variables");
-  	  	
+  	
+  	$q = "INSERT INTO Packages (Name) VALUES ('default')";
+  	$this->query($q);
+  	$default_id = mysql_insert_id();
+  		    
 		// get all of the unique package names, and create packages
 		$packages = array();
 		foreach ($files as $file) {
-		  if ($file->packages != null) {
-		    foreach ($file->packages as $package) {
-    		  if (! isset($packages[$package])) {
-    		    $package_save = $this->sql_safen($package);
-    		    $q = "INSERT INTO Packages (Name) VALUES ({$package_save})";
-    		    $this->query($q);
-    		    $packages[$package] = mysql_insert_id();
-    		  }
-    		}
-      }
+		  if ($file->package != null) {
+  		  if (! isset($packages[$file->package])) {
+  		    $package_save = $this->sql_safen($file->package);
+  		    $q = "INSERT INTO Packages (Name) VALUES ({$package_save})";
+  		    $this->query($q);
+  		    $packages[$file->package] = mysql_insert_id();
+  		  }
+  		}
 	  }
 	  
 	  // go through all the files
@@ -85,18 +86,14 @@ class MysqlOutputter {
 			$name = $this->sql_safen($file->name);
 			$description = $this->sql_safen($file->description);
 			$source = $this->sql_safen($file->source);
-			$q = "INSERT INTO Files SET Name = {$name}, Description = {$description}, Source = {$source}";
+			
+			$package = $packages[$file->package];
+			if ($package == null) $package = $default_id;
+			$package = $this->sql_safen($package);
+			
+			$q = "INSERT INTO Files SET Name = {$name}, Description = {$description}, Source = {$source}, PackageID = {$package}";
 			$this->query ($q);
 			$file_id = mysql_insert_id ();
-
-			// the file packages
-			if ($file->packages != null) {
-			  foreach ($file->packages as $package) {
-			    $package_id = $packages[$package];
-  		    $q = "INSERT INTO FilePackages (FileID, PackageID) VALUES ({$file_id}, {$package_id})";
-  		    $this->query($q);
-			  }
-			}
 			
 			// this files functions
 			foreach ($file->functions as $function) {

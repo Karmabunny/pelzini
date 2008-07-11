@@ -19,8 +19,7 @@ $row['Name'] = htmlspecialchars($row['Name']);
 <?php
 $q = "SELECT Files.ID, Files.Name, Files.Description
   FROM Files
-  INNER JOIN FilePackages ON FilePackages.FileID = Files.ID
-  WHERE FilePackages.PackageID = {$id}";
+  WHERE Files.PackageID = {$id}";
 $res = execute_query ($q);
 while ($row = mysql_fetch_assoc ($res)) {
   // encode for output

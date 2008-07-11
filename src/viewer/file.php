@@ -10,35 +10,28 @@ if ($id == 0) {
 		fatal ("<p>Invalid filename!</p>");
 	}
 	$name = mysql_escape ($name);
-	$where = "Name LIKE '{$name}'";
+	$where = "Files.Name LIKE '{$name}'";
 } else {
-	$where = "ID = {$id}";
+	$where = "Files.ID = {$id}";
 }
 
 
 // Get the details of this file
-$q = "SELECT ID, Name, Description FROM Files WHERE {$where} LIMIT 1";
+$q = "SELECT Files.ID, Files.Name, Files.Description, Files.PackageID, Packages.Name AS Package
+  FROM Files
+  INNER JOIN Packages ON Files.PackageID = Packages.ID
+  WHERE {$where} LIMIT 1";
 $res = execute_query ($q);
 $row = mysql_fetch_assoc ($res);
 echo "<h2>{$row['Name']}</h2>";
+
+if ($row['PackageID'] != null) {
+  echo "<p>Package: <a href=\"package.php?id={$row['PackageID']}\">{$row['Package']}</a></p>";
+}
+
 echo "<p>{$row['Description']}</p>";
 echo "<p><small><a href=\"file_source.php?id={$row['ID']}\">View Source</a></small></p>";
 $id = $row['ID'];
-
-
-// Show packages
-$q = "SELECT Packages.ID, Packages.Name FROM Packages
- INNER JOIN FilePackages ON FilePackages.PackageID = Packages.ID
- WHERE FilePackages.FileID = {$id}";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
-  echo "<h3>Packages</h3>";
-  echo "<ul>\n";
-  while ($row = mysql_fetch_assoc ($res)) {
-    $row['Name'] = htmlspecialchars($row['Name']);
-	  echo "<li><a href=\"package.php?id={$row['ID']}\">{$row['Name']}</a></li>";  }
-  echo "</ul>\n";
-}
 
 
 // Show classes
