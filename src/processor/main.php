@@ -31,6 +31,8 @@ function __autoload ($class) {
 	require_once strtolower($filename);
 }
 
+ini_set ('memory_limit', '64M');
+
 require_once 'functions.php';
 require_once 'config.php';
 
@@ -56,7 +58,12 @@ foreach ($file_names as $file) {
 	
 	if (isset($parsers[$ext])) {
 		output_status ("Processing file {$file}");
-		$file_objects[] = $parsers[$ext]->Tokenise ($file);
+		$result = $parsers[$ext]->Tokenise ($file);
+		if ($result != null) {
+		  $file_objects[] = $result;
+    } else {
+      output_status ("Processing of file {$file} failed!");
+    }
 	}
 }
 output_status ("Processing complete");

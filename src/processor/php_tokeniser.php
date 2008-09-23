@@ -36,7 +36,9 @@ class PhpTokeniser {
 		global $base_dir;
 
 
-		$source = file_get_contents($base_dir . $filename);
+		$source = @file_get_contents($base_dir . $filename);
+		if ($source == null) return null;
+		
 		$tokens = token_get_all($source);
 
 
