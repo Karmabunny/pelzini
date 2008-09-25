@@ -75,6 +75,8 @@ class MysqlOutputter {
   * @param array $files The file objects to save to the MySQL database
   **/
 	public function output ($files) {
+  	global $dpgProjectName;
+  	
 		$this->query ("TRUNCATE TABLE Files");
 		$this->query ("TRUNCATE TABLE Functions");
 		$this->query ("TRUNCATE TABLE Parameters");
@@ -82,6 +84,11 @@ class MysqlOutputter {
 		$this->query ("TRUNCATE TABLE Packages");
   	$this->query ("TRUNCATE TABLE Interfaces");
   	$this->query ("TRUNCATE TABLE Variables");
+  	$this->query ("TRUNCATE TABLE Projects");
+  	
+  	$proj_name = $this->sql_safen ($dpgProjectName);
+  	$q = "INSERT INTO Projects (Name) VALUES ({$proj_name})";
+  	$this->query($q);
   	
   	$q = "INSERT INTO Packages (Name) VALUES ('default')";
   	$this->query($q);

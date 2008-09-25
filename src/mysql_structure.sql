@@ -96,3 +96,15 @@ CREATE TABLE `Variables` (
   PRIMARY KEY  (ID)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
+
+
+--
+-- Table structure for table 'Projects'
+--
+CREATE TABLE Projects (
+  ID int(10) unsigned NOT NULL auto_increment,
+  Name varchar (255) NOT NULL,
+  PRIMARY KEY  (ID)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+

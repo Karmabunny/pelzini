@@ -20,11 +20,15 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 require_once 'functions.php';
+
+$q = "SELECT Name FROM Projects WHERE ID = " . CONFIG::ProjectID;
+$res = execute_query($q);
+$project = mysql_fetch_assoc($res);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-  <title>Documentation for <?=CONFIG::Title;?></title>
+  <title>Documentation for <?= $project['Name']; ?></title>
   <link href="style.css" rel="stylesheet" type="text/css">
   <script language="javascript" src="ajax/ajax.js"></script>
   
@@ -46,7 +50,7 @@ if (isset($_SESSION['last_selected_type'])) {
 <?= $body; ?>
 
 <div class="header">
-  <h1>Documentation</h1>
+  <h1>Documentation for <?= $project['Name']; ?></h1>
 </div>
 
 <div class="navigation">

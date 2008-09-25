@@ -24,7 +24,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 **/
 class CONFIG {
   // general
-  const Title = 'Docu';
+  const ProjectID = 1;
   
   // database
 	const Server = 'localhost';
