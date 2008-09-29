@@ -77,11 +77,12 @@ class PhpTokeniser {
   							$current_function->visibility = $visibility;
   							$visibility = null;
 							}
-							
 							$inside_class->functions[] = $current_function;
+							
 						} else {
 							$current_file->functions[] = $current_function;
 						}
+						
 						$current_function->post_load();
 						$inside_function = $current_function;		
 						$current_function = null;
