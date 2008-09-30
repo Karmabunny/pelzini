@@ -25,28 +25,28 @@ require_once 'head.php';
 // Determine what to show
 $id = (int) $_GET['id'];
 if ($id == 0) {
-	$name = trim($_GET['name']);
-	if ($name == '') {
-		fatal ("<p>Invalid class name!</p>");
-	}
-	$name = mysql_escape ($name);
-	$where = "Classes.Name LIKE '{$name}'";
+  $name = trim($_GET['name']);
+  if ($name == '') {
+    fatal ("<p>Invalid class name!</p>");
+  }
+  $name = mysql_escape ($name);
+  $where = "Classes.Name LIKE '{$name}'";
 } else {
-	$where = "Classes.ID = {$id}";
+  $where = "Classes.ID = {$id}";
 }
 
 
 // Get the details of this class
 $q = "SELECT Classes.ID, Classes.Name, Classes.Description, Classes.Extends, Files.Name AS Filename
-	FROM Classes
-	INNER JOIN Files ON Classes.FileID = Files.ID
-	WHERE {$where} LIMIT 1";
+  FROM Classes
+  INNER JOIN Files ON Classes.FileID = Files.ID
+  WHERE {$where} LIMIT 1";
 $res = execute_query ($q);
 $row = mysql_fetch_assoc ($res);
 echo "<h2>{$row['Name']}</h2>";
 $filename_clean = htmlentities(urlencode($row['Filename']));
 echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['Filename']) . "</a></p>\n";
-echo "<p>{$row['Description']}</p>";
+echo $row['Description'];
 $id = $row['ID'];
 $class_name = $row['Name'];
 
@@ -92,18 +92,14 @@ if (count($variables) > 0) {
   foreach ($variables as $row) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) {
-      $row['Description'] = '&nbsp;';
-    } else {
-      $row['Description'] = htmlspecialchars($row['Description']);
-    }
-      
+    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
+    
     // display
-	  echo "<tr>";
-	  echo "<td><code><a href=\"function.php?id={$row['ID']}\">";
-	  echo "{$row['Name']}</a></code></td>";
-	  echo "<td>{$row['Description']}</td>";
-	  echo "</tr>\n";
+    echo "<tr>";
+    echo "<td><code><a href=\"function.php?id={$row['ID']}\">";
+    echo "{$row['Name']}</a></code></td>";
+    echo "<td>{$row['Description']}</td>";
+    echo "</tr>\n";
   }
   echo "</table>\n";
 }
@@ -118,26 +114,26 @@ if (count($functions) > 0) {
     }
     
     // display
-	  echo "<h3>{$row['Visibility']} {$row['Name']}";
-	  if ($row['ClassName'] != $class_name) {
-	    echo " <small>(from <a href=\"class.php?name={$row['ClassName']}\">{$row['ClassName']}</a>)</small>";
-	  }
-	  echo "</h3>";
-	  
-	  echo $row['Description'];
-	  
-	  // show return value
-	  if ($row['ReturnType'] != null) {
-	    $link = get_object_link($row['ReturnType']);
-	    echo "<p>Returns <b>{$link}</b>";
-	    
-	    if ($row['ReturnDescription'] != null) {
-	      echo ': ', $row['ReturnDescription'];
-	    }
-	    echo '</p>';
-	  }
-	  
-	  // Show parameters
+    echo "<h3>{$row['Visibility']} {$row['Name']}";
+    if ($row['ClassName'] != $class_name) {
+      echo " <small>(from <a href=\"class.php?name={$row['ClassName']}\">{$row['ClassName']}</a>)</small>";
+    }
+    echo "</h3>";
+    
+    echo $row['Description'];
+    
+    // show return value
+    if ($row['ReturnType'] != null) {
+      $link = get_object_link($row['ReturnType']);
+      echo "<p>Returns <b>{$link}</b>";
+      
+      if ($row['ReturnDescription'] != null) {
+        echo ': ', $row['ReturnDescription'];
+      }
+      echo '</p>';
+    }
+    
+    // Show parameters
     $q = "SELECT Name, Type, Description FROM Parameters WHERE FunctionID = {$row['ID']}";
     $res = execute_query($q);
     if (mysql_num_rows($res) > 0) {
@@ -148,7 +144,7 @@ if (count($functions) > 0) {
         }
         
         $link = get_object_link($param['Type']);
-	      echo "<li>{$link} <b>{$param['Name']}</b>{$param['Description']}</li>";
+        echo "<li>{$link} <b>{$param['Name']}</b>{$param['Description']}</li>";
       }
       echo "</ul>\n";
     }

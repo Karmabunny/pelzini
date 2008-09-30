@@ -30,9 +30,9 @@ echo '<p>You searched for "<strong>', htmlspecialchars($_GET['q']), '</strong>".
 
 // classes
 $q = "SELECT Classes.ID, Classes.Name, Classes.Description, Classes.Extends, Classes.Abstract, Files.Name AS Filename, Classes.FileID
-	FROM Classes
-	INNER JOIN Files ON Classes.FileID = Files.ID
-	WHERE Classes.Name LIKE '%{$query}%' ORDER BY Classes.Name";
+  FROM Classes
+  INNER JOIN Files ON Classes.FileID = Files.ID
+  WHERE Classes.Name LIKE '%{$query}%' ORDER BY Classes.Name";
 $res = execute_query ($q);
 $num = mysql_num_rows ($res);
 if ($num != 0) {
@@ -62,10 +62,10 @@ if ($num != 0) {
 
 // functions
 $q = "SELECT Functions.ID, Functions.Name, Functions.Description, Functions.ClassID, Files.Name AS Filename, Functions.FileID, Classes.Name AS Class
-	FROM Functions
-	INNER JOIN Files ON Functions.FileID = Files.ID
-	LEFT JOIN Classes ON Functions.ClassID = Classes.ID
-	WHERE Functions.Name LIKE '%{$query}%' ORDER BY Functions.Name";
+  FROM Functions
+  INNER JOIN Files ON Functions.FileID = Files.ID
+  LEFT JOIN Classes ON Functions.ClassID = Classes.ID
+  WHERE Functions.Name LIKE '%{$query}%' ORDER BY Functions.Name";
 $res = execute_query ($q);
 $num = mysql_num_rows ($res);
 if ($num != 0) {

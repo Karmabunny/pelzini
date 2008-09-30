@@ -25,14 +25,14 @@ require_once 'head.php';
 // Determine what to show
 $id = (int) $_GET['id'];
 if ($id == 0) {
-	$name = trim($_GET['name']);
-	if ($name == '') {
-		fatal ("<p>Invalid filename!</p>");
-	}
-	$name = mysql_escape ($name);
-	$where = "Files.Name LIKE '{$name}'";
+  $name = trim($_GET['name']);
+  if ($name == '') {
+    fatal ("<p>Invalid filename!</p>");
+  }
+  $name = mysql_escape ($name);
+  $where = "Files.Name LIKE '{$name}'";
 } else {
-	$where = "Files.ID = {$id}";
+  $where = "Files.ID = {$id}";
 }
 
 
@@ -49,13 +49,16 @@ if ($row['PackageID'] != null) {
   echo "<p>Package: <a href=\"package.php?id={$row['PackageID']}\">{$row['Package']}</a></p>";
 }
 
-echo "<p>{$row['Description']}</p>";
+echo $row['Description'];
 echo "<p><small><a href=\"file_source.php?id={$row['ID']}\">View Source</a></small></p>";
 $id = $row['ID'];
 
 
 // Show classes
-$q = "SELECT ID, Name, Description FROM Classes WHERE FileID = {$id}";
+$q = "SELECT ID, Name, Description
+  FROM Classes
+  WHERE FileID = {$id}
+  ORDER BY Name";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
   echo "<h3>Classes</h3>";
@@ -64,25 +67,24 @@ if (mysql_num_rows($res) > 0) {
   while ($row = mysql_fetch_assoc ($res)) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) {
-      $row['Description'] = '&nbsp;';
-    } else {
-      $row['Description'] = htmlspecialchars($row['Description']);
-    }
+    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
     
     // display the class
-	  echo "<tr>";
-	  echo "<td><code><a href=\"class.php?id={$row['ID']}\">";
-	  echo "{$row['Name']}</a></code></td>";
-	  echo "<td>{$row['Description']}</td>";
-	  echo "</tr>\n";
+    echo "<tr>";
+    echo "<td><code><a href=\"class.php?id={$row['ID']}\">";
+    echo "{$row['Name']}</a></code></td>";
+    echo "<td>{$row['Description']}</td>";
+    echo "</tr>\n";
   }
   echo "</table>\n";
 }
 
 
 // Show interfaces
-$q = "SELECT ID, Name, Description FROM Interfaces WHERE FileID = {$id}";
+$q = "SELECT ID, Name, Description
+  FROM Interfaces
+  WHERE FileID = {$id}
+  ORDER BY Name";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
   echo "<h3>Interfaces</h3>";
@@ -91,25 +93,24 @@ if (mysql_num_rows($res) > 0) {
   while ($row = mysql_fetch_assoc ($res)) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) {
-      $row['Description'] = '&nbsp;';
-    } else {
-      $row['Description'] = htmlspecialchars($row['Description']);
-    }
+    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
     
     // display the class
-	  echo "<tr>";
-	  echo "<td><code><a href=\"interface.php?id={$row['ID']}\">";
-	  echo "{$row['Name']}</a></code></td>";
-	  echo "<td>{$row['Description']}</td>";
-	  echo "</tr>\n";
+    echo "<tr>";
+    echo "<td><code><a href=\"interface.php?id={$row['ID']}\">";
+    echo "{$row['Name']}</a></code></td>";
+    echo "<td>{$row['Description']}</td>";
+    echo "</tr>\n";
   }
   echo "</table>\n";
 }
 
 
 // Show functions
-$q = "SELECT ID, Name, Description, Parameters FROM Functions WHERE FileID = {$id} AND ClassID IS NULL AND InterfaceID IS NULL";
+$q = "SELECT ID, Name, Description, Parameters
+  FROM Functions
+  WHERE FileID = {$id} AND ClassID IS NULL AND InterfaceID IS NULL
+  ORDER BY Name";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
   echo "<h3>Functions</h3>";
@@ -118,17 +119,15 @@ if (mysql_num_rows($res) > 0) {
   while ($row = mysql_fetch_assoc ($res)) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) {
-      $row['Description'] = '&nbsp;';
-    }
+    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
     $row['Parameters'] = htmlspecialchars($row['Parameters']);
     
-    // display the function    
-	  echo "<tr>";
-	  echo "<td><code><a href=\"function.php?id={$row['ID']}\">";
-	  echo "{$row['Name']}({$row['Parameters']})</a></code></td>";
-	  echo "<td>{$row['Description']}</td>";
-	  echo "</tr>\n";
+    // display the function
+    echo "<tr>";
+    echo "<td><code><a href=\"function.php?id={$row['ID']}\">";
+    echo "{$row['Name']}({$row['Parameters']})</a></code></td>";
+    echo "<td>{$row['Description']}</td>";
+    echo "</tr>\n";
   }
   echo "</table>\n";
 }
