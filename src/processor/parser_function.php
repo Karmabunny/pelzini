@@ -59,7 +59,7 @@ class ParserFunction {
         foreach ($this->params as $param) {
           if ($param->name == $name) {
             if ($param->type == null) $param->type = $type;
-            $param->description = $desc;
+            $param->description = htmlify_text($desc);
             break;
           }
         }
