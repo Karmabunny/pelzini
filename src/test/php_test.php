@@ -102,8 +102,8 @@ class php_documented_super_class extends php_documented_base_class implements ph
 
   /**
   * Contains arguments
-  * @param string $arg1 The first argument;
-  * @param string $arg2 The second argument;
+  * @param string $arg1 The first argument
+  * @param string $arg2 The second argument
   **/
   public function php_documented_arguments_method ($arg1, $arg2) {
     if ($arg1) {

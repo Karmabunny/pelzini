@@ -40,13 +40,22 @@ if ($id == 0) {
 $q = "SELECT Classes.ID, Classes.Name, Classes.Description, Classes.Extends, Files.Name AS Filename
   FROM Classes
   INNER JOIN Files ON Classes.FileID = Files.ID
-  WHERE {$where} LIMIT 1";
+  WHERE {$where}
+  LIMIT 1";
 $res = execute_query ($q);
+
+if (mysql_num_rows ($res) == 0) {
+  echo "<p>Invalid class specified.</p>";
+  exit;
+}
+
 $row = mysql_fetch_assoc ($res);
-echo "<h2>{$row['Name']}</h2>";
 $filename_clean = htmlentities(urlencode($row['Filename']));
+
+echo "<h2>{$row['Name']}</h2>";
 echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['Filename']) . "</a></p>\n";
 echo $row['Description'];
+
 $id = $row['ID'];
 $class_name = $row['Name'];
 
@@ -65,10 +74,16 @@ if ($row['Extends'] != null) {
 $functions = array();
 $variables = array();
 $class = $row['Name'];
+$class_names = array();
 
 if ($_GET['complete'] == 1) {
   do {
-    list ($funcs, $vars, $parent) =  load_class($class);
+    $class_names[] = $class;
+    
+    $result = load_class($class);
+    if ($result == null) break;
+    
+    list ($funcs, $vars, $parent) = $result;
     
     $functions = array_merge($funcs, $functions);
     $variables = array_merge($vars, $variables);
@@ -77,12 +92,25 @@ if ($_GET['complete'] == 1) {
   } while ($class != null);
   
 } else {
-  list ($functions, $variables) =  load_class($class);
+  list ($functions, $variables) = load_class($class);
 }
 
 ksort($functions);
 ksort($variables);
 
+
+if ($_GET['complete'] == 1 and count ($class_names) > 0) {
+  echo "<h3>Class structure</h3>";
+  echo "<ul>";
+  foreach ($class_names as $index => $class) {
+    if ($index == 0) {
+      echo "<li>{$class}</li>";
+    } else {
+      echo "<li><a href=\"class.php?name={$class}\">{$class}</a></li>";
+    }
+  }
+  echo "</ul>";
+}
 
 // Show variables
 if (count($variables) > 0) {
@@ -166,6 +194,10 @@ function load_class($name) {
   $name = mysql_escape ($name);
   $q = "SELECT ID, Extends FROM Classes WHERE Name LIKE '{$name}'";
   $res = execute_query($q);
+  if (mysql_num_rows ($res) == 0) {
+    return null;
+  }
+  
   $row = mysql_fetch_assoc($res);
   $id = $row['ID'];
   $parent = $row['Extends'];
