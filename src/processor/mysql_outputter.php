@@ -90,10 +90,6 @@ class MysqlOutputter {
     $q = "INSERT INTO Projects (Name) VALUES ({$proj_name})";
     $this->query($q);
     
-    $q = "INSERT INTO Packages (Name) VALUES ('default')";
-    $this->query($q);
-    $default_id = mysql_insert_id();
-          
     // get all of the unique package names, and create packages
     $packages = array();
     foreach ($files as $file) {
@@ -104,7 +100,16 @@ class MysqlOutputter {
           $this->query($q);
           $packages[$file->package] = mysql_insert_id();
         }
+        
+      } else {
+        $needs_default_package = true;
       }
+    }
+    
+    if ($needs_default_package) {
+      $q = "INSERT INTO Packages (Name) VALUES ('default')";
+      $this->query($q);
+      $default_id = mysql_insert_id();
     }
     
     // go through all the files
