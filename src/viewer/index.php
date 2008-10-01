@@ -22,7 +22,26 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'head.php';
 ?>
 
-<p>This is the documentation for this project.</p>
+
+<h2><?= $project['Name']; ?></h2>
+<p>This is the documentation for <?= $project['Name']; ?>.</p>
+
+
+
+<?php
+$q = "SELECT ID, Name FROM Packages ORDER BY Name";
+$res = execute_query($q);
+if (mysql_num_rows ($res) > 0) {
+  echo "<h3>Packages in this project</h3>";
+  
+  while ($row = mysql_fetch_assoc($res)) {
+    $row['Name'] = htmlspecialchars($row['Name']);
+    
+    echo "<p><a href=\"select_package.php?id={$row['ID']}\">{$row['Name']}</a></p>";
+  }
+}
+?>
+
 
 <?php
 require_once 'foot.php';

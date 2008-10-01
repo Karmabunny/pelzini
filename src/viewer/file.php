@@ -132,6 +132,6 @@ if (mysql_num_rows($res) > 0) {
   echo "</table>\n";
 }
 
+
 require_once 'foot.php';
 ?>
-
