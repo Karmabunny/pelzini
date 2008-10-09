@@ -26,6 +26,7 @@ class ParserFile {
   public $functions;
   public $classes;
   public $source;
+  private $comment_applied;
   
   public function __construct() {
     $this->functions = array();
@@ -39,6 +40,8 @@ class ParserFile {
   * @param $text The content of the DocBlock
   **/
   public function apply_comment ($text) {
+    if ($this->comment_applied) return;
+    
     $comment = parse_doc_comment ($text);
     $this->description = htmlify_text($comment['@summary']);
     
@@ -47,6 +50,8 @@ class ParserFile {
     if ($packages != null) {
       $this->package = array_pop($packages);
     }
+    
+    $this->comment_applied = true;
   }
   
   public function dump() {

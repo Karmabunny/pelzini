@@ -46,6 +46,7 @@ class PhpTokeniser {
 		$current_file->name = $filename;
     $current_file->source = $source;
     
+    unset ($source);
     
 		// the vars that make it tick
 		$current_function = null;
@@ -143,7 +144,7 @@ class PhpTokeniser {
 						if ($next_comment) {
 							$current_file->apply_comment($next_comment);
 							$next_comment = null;
-						}  
+						}
 		        $next_comment = $text;
 		        break;
 
