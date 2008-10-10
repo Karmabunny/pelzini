@@ -41,55 +41,56 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * @return The parsed comments, as per the example provided above
 **/
 function parse_doc_comment ($comment) {
-	// rip all the comment stuff from the comment
-	$comment = preg_replace('/^\s*|\/?\**\/?/', '', $comment);
+  $comment = preg_replace('/^\/\*\*/', '', $comment);
+  $comment = preg_replace('/\*\/$/m', '', $comment);
+  $comment = preg_replace('/^\s*\**/m', '', $comment);
   
   
-	// split into lines
-	$lines = explode("\n", $comment);
-
-	// process one line at a time
-	$output = array();
-	$buffer = null;
-	$current = null;
-	foreach ($lines as $line) {
-
-	  $line = preg_replace('/^\s/', '', $line);
-	  $line = rtrim($line);
-		$trimline = ltrim($line);
-		
-		if ($current != null and $current != '@summary' and $trimline == '') continue;
+  // split into lines
+  $lines = explode("\n", $comment);
+  
+  // process one line at a time
+  $output = array();
+  $buffer = null;
+  $current = null;
+  foreach ($lines as $line) {
     
-		// process special words
-		if ($trimline[0] == '@') {
-			list ($word, $value) = explode(' ', $trimline, 2);
-		
-			// tags
-			if ($current != null) {
-				parse_tag ($output, $current, $buffer);
-				$buffer = null;
-			}
-			$current = $word;
-			$buffer = $value;
+    $line = preg_replace('/^\s/', '', $line);
+    $line = rtrim($line);
+    $trimline = ltrim($line);
+    
+    if ($current != null and $current != '@summary' and $trimline == '') continue;
+    
+    // process special words
+    if ($trimline[0] == '@') {
+      list ($word, $value) = explode(' ', $trimline, 2);
+      
+      // tags
+      if ($current != null) {
+        parse_tag ($output, $current, $buffer);
+        $buffer = null;
+      }
+      $current = $word;
+      $buffer = $value;
+      
+    // non tag - could be part of the summary, or could be a continuation of a tag
+    } else {
+      if ($current != null) {
+        $buffer .= "\n" . $line;
 
-		// non tag - could be part of the summary, or could be a continuation of a tag
-		} else {
-			if ($current != null) {
-				$buffer .= "\n" . $line;
-
-			} else {
-				$current = '@summary';
-				$buffer = $line;
-			}
-		}
-
-	}
-
-	if ($current != null) {
-		parse_tag ($output, $current, $buffer);
-	}
-
-	return $output;
+      } else {
+        $current = '@summary';
+        $buffer = $line;
+      }
+    }
+    
+  }
+  
+  if ($current != null) {
+    parse_tag ($output, $current, $buffer);
+  }
+  
+  return $output;
 }
 
 
@@ -97,14 +98,14 @@ function parse_doc_comment ($comment) {
 * Processes the parsing of an individual tag
 **/
 function parse_tag (&$output, $tag, $buffer) {
-	if ($tag == '@summary') {
-		$output[$tag] = $buffer;
-	} else {
-		if (! isset($output[$tag])) {
-			$output[$tag] = array();
-		}
-		$output[$tag][] = $buffer;
-	}
+  if ($tag == '@summary') {
+    $output[$tag] = $buffer;
+  } else {
+    if (! isset($output[$tag])) {
+      $output[$tag] = array();
+    }
+    $output[$tag][] = $buffer;
+  }
 }
 
 
@@ -114,7 +115,7 @@ function parse_tag (&$output, $tag, $buffer) {
 * @param string $message The message to output
 **/
 function output_status($message) {
-	echo $message . "<br>";
+  echo $message . "<br>";
 }
 
 
@@ -122,24 +123,24 @@ function output_status($message) {
 * Gets all the filenames in a directory and in the subdirectories
 **/
 function get_filenames ($directory) {
-	global $base_dir;
-
-	$handle = opendir($base_dir . $directory);
-
-	$files = array();
-	while (($file = readdir($handle)) !== false) {
-		if ($file[0] == '.') continue;
-		if (is_dir($base_dir . $directory . $file)) {
-			$files2 = get_filenames($directory . $file . '/');
-			$files = array_merge($files, $files2);
-		} else {
-			$files[] = $directory . $file;
-		}
-	}
-
-	closedir($handle);
-
-	return $files;
+  global $base_dir;
+  
+  $handle = opendir($base_dir . $directory);
+  
+  $files = array();
+  while (($file = readdir($handle)) !== false) {
+    if ($file[0] == '.') continue;
+    if (is_dir($base_dir . $directory . $file)) {
+      $files2 = get_filenames($directory . $file . '/');
+      $files = array_merge($files, $files2);
+    } else {
+      $files[] = $directory . $file;
+    }
+  }
+  
+  closedir($handle);
+  
+  return $files;
 }
 
 
@@ -173,7 +174,7 @@ function htmlify_text($text) {
     $min_num_spaces = min($min_num_spaces, $num_spaces);
   }
   
-  // put into the pre
+  // put into a pre
   $text = '<pre>';
   $j = 0;
   foreach ($lines as $line) {

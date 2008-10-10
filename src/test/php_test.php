@@ -19,13 +19,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+Tests the PHP parsing system
 @package php_tests
 **/
 
 
 /**
 * Does not contain arguments
-**/
+*/
 function php_documented_function () {
   return;
 }
@@ -90,8 +91,8 @@ class php_documented_super_class extends php_documented_base_class implements ph
   
     
   /**
-  * Does soemthing else
-  */
+  *** Does soemthing else
+  **/
   public function php_documented_method () {
     foreach ($foo as $bar) {
       if ($baz) {
@@ -127,10 +128,10 @@ abstract class php_documented_base_class extends php_missing_base_class {
 }
 
 /**
-* A thing
+* An interface
 **/
 interface php_documented_interface {
-
+  
   function aaa();
   
   /**
