@@ -17,65 +17,68 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
-?>
 
-
-<style>
-div {padding: 0.5em; margin: 0.5em;}
-</style>
-
-<?php
-function __autoload ($class) {
-  $filename = preg_replace('/([A-Z])/', '_$1', $class);
-  $filename = substr($filename, 1) . '.php';
-  require_once strtolower($filename);
-}
-
-ini_set ('memory_limit', '64M');
 
 require_once 'functions.php';
-require_once 'config.php';
+require_once 'constants.php';
 
 // set up some space
-$file_objects = array();
-$parsers = array ();
-
-$dpgOutputters = array ();
-$dpgOutputterSettings = array ();
+$dpgOutputters = array();
+$dpgOutputterSettings = array();
 
 require_once 'config.php';
 
-// initalise each parser
-$parsers['php'] = call_user_func (array('PhpTokeniser', 'CreateInstance'));
-output_status ("Initalised parser PhpTokeniser");
+// Initalise each parser
+$parsers = array();
+$parsers['php'] = new PhpTokeniser();
+output_status("Initalised PHP parser.");
 
-// load the file names
-output_status ("Getting filenames");
+// Determine the file names
+output_status ("Getting filenames for parsing.");
 $file_names = get_filenames ('/');
-output_status ("Got " . count($file_names) . " files");
+output_status ("Retrieved " . count($file_names) . " files.");
 
-// process each file usign its parser
+output_status ('');
+
+// Process each file using its parser to build a code tree.
+$parsed_files = array();
 foreach ($file_names as $file) {
-  $bits = explode ('.', $file);
-  $ext = $bits[count($bits) - 1];
+  $ext = array_pop(explode ('.', $file));
   
   if (isset($parsers[$ext])) {
     output_status ("Processing file {$file}");
     $result = $parsers[$ext]->Tokenise ($file);
+    
     if ($result != null) {
-      $file_objects[] = $result;
+      $parsed_files[] = $result;
     } else {
       output_status ("Processing of file {$file} failed!");
     }
   }
 }
-output_status ("Processing complete");
+output_status ("Processing complete.");
 
-//foreach ($file_objects as $a) $a->dump();
+output_status ('');
 
-// Save to the db
-$outputter = new MysqlOutputter('josh', 'password', 'localhost', 'docu');
-$outputter->output($file_objects);
-output_status ("Saved to database");
-
+// Output the generated tree to the specified outputters
+foreach ($dpgOutputters as $outputter) {
+  switch ($outputter) {
+    case OUTPUTTER_MYSQL:
+      $outputter = new MysqlOutputter(
+        $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_username'],
+        $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_password'],
+        $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_server'],
+        $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_name']
+      );
+      
+      $result = $outputter->output($parsed_files);
+      
+      if ($result) {
+        output_status ("Saved to MySQL database succesfully.");
+      } else {
+        output_status ("Saving to MySQL database failed.");
+      }
+      break;
+  }
+}
 ?>

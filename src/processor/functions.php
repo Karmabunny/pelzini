@@ -20,6 +20,16 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Automatically loads the classes that are needed
+**/
+function __autoload ($class) {
+  $filename = preg_replace('/([A-Z])/', '_$1', $class);
+  $filename = substr($filename, 1) . '.php';
+  require_once strtolower($filename);
+}
+
+
+/**
 * Parses a DocBlock comment tag
 * Accepts the raw comment text of the comment straight from the file, including all the stars in the middle
 * Returns an array of tags. Each paremeter will contain an array of the tags that existed, one for each tag

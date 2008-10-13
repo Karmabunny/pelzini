@@ -19,14 +19,23 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+ini_set ('memory_limit', '32M');
+
+// This should be the name of your project
 $dpgProjectName = 'Docu';
 
+// List the outputters here.
+// Currently you can only have one instance of each outputter.
+// Use the outputter constants defined in the constants.php file.
 $dpgOutputters[] = OUTPUTTER_MYSQL;
 
+// This should contain the outputter settings
+// The settings are an array, with one array for each outputter
 $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_server'] = 'localhost';
 $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_username'] = 'josh';
 $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_password'] = 'password';
 $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_name'] = 'docu';
 
+// This is the base directory that the parsing of your application should take place
 $dpgBaseDirectory = '../test';
 ?>

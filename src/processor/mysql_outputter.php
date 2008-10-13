@@ -28,21 +28,28 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * Outputs the tree as MySQL
 **/
 class MysqlOutputter {
+  private $username;
+  private $password;
+  private $server;
+  private $database;
+  
   private $db;
-
+    
   /**
   * Connects to the db
   */
   public function __construct ($username, $password, $server, $database) {
-    $this->db = mysql_connect($server, $username, $password);
-    mysql_select_db ($database, $this->db);
+    $this->username = $username;    
+    $this->password = $password;
+    $this->server = $server;
+    $this->database = $database;
   }
   
   /**
   * Closes connection to the db
   */
   public function __destruct () {
-    mysql_close ($this->db);
+    if ($this->db) mysql_close ($this->db);
   }
 
   /**
@@ -76,6 +83,10 @@ class MysqlOutputter {
   **/
   public function output ($files) {
     global $dpgProjectName;
+    
+    $this->db = @mysql_connect($this->server, $this->username, $this->password);
+    if ($this->db == false) return false;
+    mysql_select_db ($this->database, $this->db);
     
     $this->query ("TRUNCATE TABLE Files");
     $this->query ("TRUNCATE TABLE Functions");
@@ -141,7 +152,9 @@ class MysqlOutputter {
         }
       }
   
-    }	
+    }
+    
+    return true;
   }
 
   /**
