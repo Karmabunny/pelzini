@@ -26,9 +26,9 @@ div {padding: 0.5em; margin: 0.5em;}
 
 <?php
 function __autoload ($class) {
-	$filename = preg_replace('/([A-Z])/', '_$1', $class);
-	$filename = substr($filename, 1) . '.php';
-	require_once strtolower($filename);
+  $filename = preg_replace('/([A-Z])/', '_$1', $class);
+  $filename = substr($filename, 1) . '.php';
+  require_once strtolower($filename);
 }
 
 ini_set ('memory_limit', '64M');
@@ -40,7 +40,10 @@ require_once 'config.php';
 $file_objects = array();
 $parsers = array ();
 
-$base_dir = '../test';
+$dpgOutputters = array ();
+$dpgOutputterSettings = array ();
+
+require_once 'config.php';
 
 // initalise each parser
 $parsers['php'] = call_user_func (array('PhpTokeniser', 'CreateInstance'));
@@ -53,18 +56,18 @@ output_status ("Got " . count($file_names) . " files");
 
 // process each file usign its parser
 foreach ($file_names as $file) {
-	$bits = explode ('.', $file);
-	$ext = $bits[count($bits) - 1];
-	
-	if (isset($parsers[$ext])) {
-		output_status ("Processing file {$file}");
-		$result = $parsers[$ext]->Tokenise ($file);
-		if ($result != null) {
-		  $file_objects[] = $result;
+  $bits = explode ('.', $file);
+  $ext = $bits[count($bits) - 1];
+  
+  if (isset($parsers[$ext])) {
+    output_status ("Processing file {$file}");
+    $result = $parsers[$ext]->Tokenise ($file);
+    if ($result != null) {
+      $file_objects[] = $result;
     } else {
       output_status ("Processing of file {$file} failed!");
     }
-	}
+  }
 }
 output_status ("Processing complete");
 

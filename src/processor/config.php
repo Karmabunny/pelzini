@@ -19,9 +19,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-$dpgParsers = array('php' => 'php_tokeniser');
-
-$dpgOutput = array('mysql', 'josh', 'password', 'docu');
-
 $dpgProjectName = 'Docu';
+
+$dpgOutputters[] = OUTPUTTER_MYSQL;
+
+$dpgOutputterSettings[OUTPUTTER_MYSQL]['database_server'] = 'localhost';
+$dpgOutputterSettings[OUTPUTTER_MYSQL]['database_username'] = 'josh';
+$dpgOutputterSettings[OUTPUTTER_MYSQL]['database_password'] = 'password';
+$dpgOutputterSettings[OUTPUTTER_MYSQL]['database_name'] = 'docu';
+
+$dpgBaseDirectory = '../test';
 ?>

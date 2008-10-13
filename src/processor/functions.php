@@ -123,16 +123,17 @@ function output_status($message) {
 * Gets all the filenames in a directory and in the subdirectories
 **/
 function get_filenames ($directory) {
-  global $base_dir;
+  global $dpgBaseDirectory;
   
-  $handle = opendir($base_dir . $directory);
+  $handle = opendir($dpgBaseDirectory . $directory);
   
   $files = array();
   while (($file = readdir($handle)) !== false) {
     if ($file[0] == '.') continue;
-    if (is_dir($base_dir . $directory . $file)) {
+    if (is_dir($dpgBaseDirectory . $directory . $file)) {
       $files2 = get_filenames($directory . $file . '/');
       $files = array_merge($files, $files2);
+      
     } else {
       $files[] = $directory . $file;
     }
