@@ -1,0 +1,20 @@
+Docu is a code documentation tool. It is planned to support many different programming languages.
+It stores all of its documentation in a database, and the documentation is viewed dynamically. This is
+so that cool features like search can be created. Search was the main reason for the creation of docu.
+
+
+INSTALLATION
+
+Installation currently is quite manual, but it is simple.
+
+1. Put all of the files in the src/ directory somewhere accessable by your web server.
+
+2. Create a MySQL database for docu, and grant your user ALL access.
+
+3. Change src/processor/config.php and src/viewer/config.php to match your database details
+
+4. Execute all of the queries in src/mysql_structure.sql in a MySQL client.
+
+5. Run src/processor/main.php to generate your documentation
+
+6. View the documentation using the viewer directory (i.e. http://www.example.com/docs/viewer)
