@@ -44,6 +44,7 @@ div.navigation {
   color: black;
   padding: 0.5em;
   margin: 0.5em;
+  border: 1px #6e7aff solid;
 }
 
 div.navigation a {
@@ -61,14 +62,26 @@ div.container {
   padding: 0px;
 }
 
-div.footer {
+
+table.footer {
   background-color: #eee;
-  padding: 4px;
   margin: 0.5em;
+  margin-top: 3em;
+  border: 1px #bfc5ff solid;
+  width: 100%;
+  cell-spacing: 0px;
+  border-collapse: collapse;
+}
+
+table.footer td {
+  padding: 4px;
   font-size: 10px;
-  margin-top: 2em;
-  border: 1px #6e7aff solid;
   height: 15px;
+  width: 33%;
+}
+
+table.footer img {
+  display: block;
 }
 
 

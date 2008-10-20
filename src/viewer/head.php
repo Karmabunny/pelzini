@@ -78,7 +78,7 @@ if (isset($_SESSION['last_selected_type'])) {
 <td class="sidebar">
   <div class="box-nohead">
     <form action="search.php" method="get">
-      <input type="text" name="q" style="width: 135px;">
+      <input type="text" name="q" style="width: 135px;" value="<?= htmlspecialchars ($_GET['q']); ?>">
       <input type="submit" value="Search">
     </form>
   </div>

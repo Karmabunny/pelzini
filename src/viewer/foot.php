@@ -24,13 +24,23 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 </tr>
 </table>
 
-<div class="footer">
-  <a href="http://docu.sourceforge.net">
-    <img src="images/docs_by_docu_red.png" width="80" height="15" style="float: right;">
-  </a>
-  
-  Powered by <a href="http://docu.sourceforge.net">docu</a>, version <?= DOCU_VERSION; ?>
-</div>
+<table class="footer">
+  <tr>
+    <td align="left">
+      Powered by <a href="http://docu.sourceforge.net">docu</a>, version <?= DOCU_VERSION; ?>
+    </td>
+    
+    <td align="center">
+      <!-- TODO: licence of documentation -->
+    </td>
+    
+    <td align="right">
+      <a href="http://docu.sourceforge.net">
+        <img src="images/docs_by_docu_red.png" width="80" height="15">
+      </a>
+    </td>
+  </tr>
+</table>
 
 </body>
 </html>
