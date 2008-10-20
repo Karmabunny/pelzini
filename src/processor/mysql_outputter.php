@@ -75,7 +75,68 @@ class MysqlOutputter {
       return "'" . mysql_real_escape_string($input, $this->db) . "'";
     }
   }
-
+  
+  private function connect () {
+    $this->db = @mysql_connect($this->server, $this->username, $this->password);
+    if ($this->db == false) return false;
+    mysql_select_db ($this->database, $this->db);
+  }
+  
+  public function check_layout ($layout_filename) {
+    $layout_lines = file ($layout_filename);
+    
+    $this->connect();
+    
+    $dest_tables = array ();
+    $table = null;
+    
+    foreach ($layout_lines as $line) {
+      $line = trim ($line);
+      if ($line == '') continue;
+      
+      $words = explode (' ', $line, 2);
+      
+      switch ($words[0]) {
+        case 'TABLE':
+          $table = $words[1];
+          break;
+          
+        case 'ENGINE':
+          $dest_tables[$table]['Engine'] = $words[1];
+          break;
+          
+        case 'PK':
+          $dest_tables[$table]['PK'] = $words[1];
+          break;
+          
+        default:
+          $dest_tables[$table]['Columns'][] = $words[0] . ' ' . $words[1];
+          break;
+      }
+    }
+    
+    
+    $curr_tables = array ();
+    
+    $tblres = $this->query('SHOW TABLES');
+    while ($tblrow = mysql_fetch_row($tblres)) {
+      $curr_tables[$tblrow[0]] = array();
+      
+      $colres = $this->query('SHOW COLUMNS IN ' . $tblrow[0]);
+      while ($colrow = mysql_fetch_row($colres)) {
+        $curr_tables[$tblrow[0]]['Columns'][] = $colrow[0];
+      }
+    }
+    
+    echo '<pre>';
+    print_r ($dest_tables);
+    print_r ($curr_tables);
+    echo '</pre>';
+    
+    /* TODO: Code that will find the differences between desired layout ($dest_tables) and the current layout ($curr_tables) */
+  }
+  
+  
   /**
   * Does the actual outputting of the file objects (and their sub-objects) to the MySQL database
   *
@@ -84,10 +145,7 @@ class MysqlOutputter {
   public function output ($files) {
     global $dpgProjectName;
     
-    $this->db = @mysql_connect($this->server, $this->username, $this->password);
-    if ($this->db == false) return false;
-    mysql_select_db ($this->database, $this->db);
-    
+    $this->connect();
     $this->query ("TRUNCATE TABLE Files");
     $this->query ("TRUNCATE TABLE Functions");
     $this->query ("TRUNCATE TABLE Parameters");

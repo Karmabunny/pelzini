@@ -1,0 +1,84 @@
+TABLE Classes
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  FileID int(10) unsigned NOT NULL
+  Name varchar(255) NOT NULL
+  Description text
+  Abstract tinyint(3) unsigned NOT NULL
+  Extends varchar(255) default NULL
+  Visibility varchar(20) NOT NULL
+
+
+TABLE Files
+ENGINE MyISAM
+PK ID
+  ID int(11) unsigned NOT NULL auto_increment
+  Name varchar(255) NOT NULL
+  Description text
+  Source text NOT NULL
+  PackageID int(10) unsigned NULL
+
+
+TABLE Functions
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  FileID int(10) unsigned NOT NULL
+  ClassID int(10) unsigned NULL
+  InterfaceID int(10) unsigned NULL
+  Name varchar(255) NOT NULL
+  Description text
+  Parameters varchar(255) NOT NULL
+  Visibility varchar(20) NULL
+  ReturnType varchar(255) NULL
+  ReturnDescription text
+
+
+TABLE Interfaces
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  FileID int(10) unsigned NOT NULL
+  Name varchar(255) NOT NULL
+  Description text
+  Extends varchar(255) NULL
+  Visibility varchar(20) NOT NULL
+
+
+TABLE Packages
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  Name varchar(50) NOT NULL
+
+
+TABLE Parameters
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  FunctionID int(10) unsigned NOT NULL
+  Name varchar(255) NOT NULL
+  Type varchar(255) default NULL
+  Description text
+
+
+TABLE Variables
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  ClassID int(10) unsigned default NULL
+  InterfaceID int(10) unsigned default NULL
+  Name varchar(255) NOT NULL
+  Type varchar(255) default NULL
+  Description text
+
+
+
+TABLE Projects
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  Name varchar (255) NOT NULL
+
+
