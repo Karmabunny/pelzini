@@ -28,6 +28,13 @@ $dpgOutputterSettings = array();
 
 require_once 'config.php';
 
+
+output_status ('This is the docu processor, docu version ' . DOCU_VERSION);
+output_status ('Docu is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
+output_status ('For more information, see http://docu.sourceforge.net/');
+output_status ('');
+
+
 // Initalise each parser
 $parsers = array();
 $parsers['php'] = new PhpTokeniser();

@@ -19,9 +19,6 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-// The current version of docu
 define ('DOCU_VERSION', '0.1-pre');
 
-// The output engines
-define ('OUTPUTTER_MYSQL', 1);
 ?>

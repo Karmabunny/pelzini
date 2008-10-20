@@ -24,5 +24,13 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 </tr>
 </table>
 
+<div class="footer">
+  <a href="http://docu.sourceforge.net">
+    <img src="images/docs_by_docu_red.png" width="80" height="15" style="float: right;">
+  </a>
+  
+  Powered by <a href="http://docu.sourceforge.net">docu</a>, version <?= DOCU_VERSION; ?>
+</div>
+
 </body>
 </html>

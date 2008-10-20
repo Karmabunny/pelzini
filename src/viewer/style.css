@@ -23,6 +23,10 @@ body {
   padding: 0.5em;
 }
 
+a img {
+  border-style: none;
+}
+
 div.header {
   background-color: #6e7aff;
   color: white;
@@ -56,6 +60,17 @@ div.container {
   margin: 0px;
   padding: 0px;
 }
+
+div.footer {
+  background-color: #eee;
+  padding: 4px;
+  margin: 0.5em;
+  font-size: 10px;
+  margin-top: 2em;
+  border: 1px #6e7aff solid;
+  height: 15px;
+}
+
 
 table.main {
   width: 100%;

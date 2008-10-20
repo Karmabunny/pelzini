@@ -19,7 +19,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-ini_set ('memory_limit', '32M');
+ini_set ('memory_limit', '-1');
 
 // This should be the name of your project
 $dpgProjectName = 'Docu';

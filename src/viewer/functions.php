@@ -19,6 +19,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+require_once 'constants.php';
 require_once 'config.php';
 
 session_start();
@@ -34,12 +35,12 @@ mysql_select_db (CONFIG::Database);
 * @return The result from the query
 **/
 function execute_query($q) {
-	global $dbc;
-	$res = mysql_query ($q, $dbc);
-	if ($res === false) {
-		echo mysql_error ($dbc);
-	}
-	return $res;
+  global $dbc;
+  $res = mysql_query ($q, $dbc);
+  if ($res === false) {
+    echo mysql_error ($dbc);
+  }
+  return $res;
 }
 
 
@@ -49,8 +50,8 @@ function execute_query($q) {
 * @param string $string The string to escape
 */
 function mysql_escape($string) {
-	global $dbc;
-	return mysql_real_escape_string ($string, $dbc);
+  global $dbc;
+  return mysql_real_escape_string ($string, $dbc);
 }
 
 
