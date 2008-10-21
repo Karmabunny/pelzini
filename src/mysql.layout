@@ -6,7 +6,7 @@ PK ID
   Name varchar(255) NOT NULL
   Description text
   Abstract tinyint(3) unsigned NOT NULL
-  Extends varchar(255) default NULL
+  Extends varchar(255)
   Visibility varchar(20) NOT NULL
 
 
@@ -17,7 +17,7 @@ PK ID
   Name varchar(255) NOT NULL
   Description text
   Source text NOT NULL
-  PackageID int(10) unsigned NULL
+  PackageID int(10) unsigned
 
 
 TABLE Functions
@@ -25,14 +25,16 @@ ENGINE MyISAM
 PK ID
   ID int(10) unsigned NOT NULL auto_increment
   FileID int(10) unsigned NOT NULL
-  ClassID int(10) unsigned NULL
-  InterfaceID int(10) unsigned NULL
+  ClassID int(10) unsigned
+  InterfaceID int(10) unsigned
   Name varchar(255) NOT NULL
   Description text
   Parameters varchar(255) NOT NULL
-  Visibility varchar(20) NULL
-  ReturnType varchar(255) NULL
+  Visibility varchar(20)
+  ReturnType varchar(255)
   ReturnDescription text
+  Static tinyint(1) NOT NULL
+  Final tinyint(1) NOT NULL
 
 
 TABLE Interfaces
@@ -42,7 +44,7 @@ PK ID
   FileID int(10) unsigned NOT NULL
   Name varchar(255) NOT NULL
   Description text
-  Extends varchar(255) NULL
+  Extends varchar(255)
   Visibility varchar(20) NOT NULL
 
 
@@ -59,7 +61,7 @@ PK ID
   ID int(10) unsigned NOT NULL auto_increment
   FunctionID int(10) unsigned NOT NULL
   Name varchar(255) NOT NULL
-  Type varchar(255) default NULL
+  Type varchar(255)
   Description text
 
 
@@ -67,10 +69,10 @@ TABLE Variables
 ENGINE MyISAM
 PK ID
   ID int(10) unsigned NOT NULL auto_increment
-  ClassID int(10) unsigned default NULL
-  InterfaceID int(10) unsigned default NULL
+  ClassID int(10) unsigned
+  InterfaceID int(10) unsigned
   Name varchar(255) NOT NULL
-  Type varchar(255) default NULL
+  Type varchar(255)
   Description text
 
 
@@ -79,6 +81,5 @@ TABLE Projects
 ENGINE MyISAM
 PK ID
   ID int(10) unsigned NOT NULL auto_increment
-  Name varchar (255) NOT NULL
-
-
+  Name varchar(255) NOT NULL
+  Licence text

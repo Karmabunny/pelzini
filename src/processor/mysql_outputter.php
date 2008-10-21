@@ -102,7 +102,7 @@ class MysqlOutputter {
           break;
           
         case 'ENGINE':
-          $dest_tables[$table]['Engine'] = $words[1];
+          //$dest_tables[$table]['Engine'] = $words[1];
           break;
           
         case 'PK':
@@ -110,7 +110,7 @@ class MysqlOutputter {
           break;
           
         default:
-          $dest_tables[$table]['Columns'][] = $words[0] . ' ' . $words[1];
+          $dest_tables[$table]['Columns'][$words[0]] = $words[1];
           break;
       }
     }
@@ -123,17 +123,88 @@ class MysqlOutputter {
       $curr_tables[$tblrow[0]] = array();
       
       $colres = $this->query('SHOW COLUMNS IN ' . $tblrow[0]);
-      while ($colrow = mysql_fetch_row($colres)) {
-        $curr_tables[$tblrow[0]]['Columns'][] = $colrow[0];
+      
+      while ($colrow = mysql_fetch_assoc($colres)) {
+        $def = $colrow['Type'];
+        if ($colrow['Null'] == 'NO') $def .= ' NOT NULL';
+        if ($colrow['Extra']) $def .= ' ' . $colrow['Extra'];
+        
+        $curr_tables[$tblrow[0]]['Columns'][$colrow['Field']] = $def;
+        
+        if ($colrow['Key'] == 'PRI') {
+          $curr_tables[$tblrow[0]]['PK'] = $colrow['Field'];
+        }
       }
     }
     
     echo '<pre>';
-    print_r ($dest_tables);
-    print_r ($curr_tables);
+    
+    foreach ($dest_tables as $table_name => $dest_table) {
+      $curr_table = $curr_tables[$table_name];
+      
+      if ($curr_table == null) {
+        echo "Create table {$table_name}, definition:\n";
+        print_r ($dest_table);
+        /* not yet supported */
+        
+        
+      } else {
+        echo "Altering table {$table_name}\n";
+        
+        // Update PK
+        if ($curr_table['PK'] != $dest_table['PK']) {
+          echo "  Change primary key from {$curr_table['PK']} to {$dest_table['PK']}\n";
+          /* not yet supported */
+        }
+        
+        // Update columns
+        foreach ($dest_table['Columns'] as $column_name => $dest_column) {
+          $curr_column = $curr_table['Columns'][$column_name];
+          
+          
+          if ($curr_column == null) {
+            echo "  Create column {$column_name}. New def: '{$dest_column}'\n";
+            
+            $q = "ALTER TABLE {$table_name} ADD COLUMN {$column_name} {$dest_column}";
+            echo "    <b>Query: {$q}</b>\n";
+            
+            if ($_GET['action'] == 1) {
+              $res = $this->query ($q);
+              if ($res) echo '    Affected rows: ', mysql_affected_rows(), "\n";
+            } else {
+              $has_queries = true;
+            }
+            
+            
+          } else if ($curr_column != $dest_column) {
+            echo "  Update col {$column_name}. Old def: '{$curr_column}' New def: '{$dest_column}'\n";
+            
+            $q = "ALTER TABLE {$table_name} MODIFY COLUMN {$column_name} {$dest_column}";
+            echo "    <b>Query: {$q}</b>\n";
+            
+            if ($_GET['action'] == 1) {
+              $res = $this->query ($q);
+              if ($res) echo '    Affected rows: ', mysql_affected_rows(), "\n";
+            } else {
+              $has_queries = true;
+            }
+            
+            
+          } else {
+            echo "  Column {$column_name} does not need to be changed\n";
+          }
+        }
+      }
+      
+      echo "\n";
+    }
+    
     echo '</pre>';
     
-    /* TODO: Code that will find the differences between desired layout ($dest_tables) and the current layout ($curr_tables) */
+    if ($has_queries) {
+      echo '<p>This update needs to make changes. ';
+      echo '<a href="database_layout_sync.php?action=1">Run these queries</a></p>';
+    }
   }
   
   
