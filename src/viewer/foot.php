@@ -31,7 +31,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
     </td>
     
     <td align="center">
-      <!-- TODO: licence of documentation -->
+      <?= $project['License']; ?>
     </td>
     
     <td align="right">

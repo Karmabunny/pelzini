@@ -235,7 +235,7 @@ class MysqlOutputter {
   * @param array $files The file objects to save to the MySQL database
   **/
   public function output ($files) {
-    global $dpgProjectName;
+    global $dpgProjectName, $dpgLicenseText;
     
     $this->connect();
     $this->query ("TRUNCATE TABLE Files");
@@ -248,7 +248,8 @@ class MysqlOutputter {
     $this->query ("TRUNCATE TABLE Projects");
     
     $proj_name = $this->sql_safen ($dpgProjectName);
-    $q = "INSERT INTO Projects (Name) VALUES ({$proj_name})";
+    $lic_text = $this->sql_safen ($dpgLicenseText);
+    $q = "INSERT INTO Projects (Name, License) VALUES ({$proj_name}, {$lic_text})";
     $this->query($q);
     
     // get all of the unique package names, and create packages

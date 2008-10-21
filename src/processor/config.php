@@ -24,6 +24,11 @@ ini_set ('memory_limit', '-1');
 // This should be the name of your project
 $dpgProjectName = 'Docu';
 
+// This should be the terms that your documentation is made available under
+// It will be shown in the footer of the viewer
+$dpgLicenseText = 'Documentation is made available under the ' .
+  '<a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License 1.2</a>.';
+
 // List the outputters here.
 // Currently you can only have one instance of each outputter.
 // Use the outputter constants defined in the constants.php file.
