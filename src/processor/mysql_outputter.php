@@ -82,6 +82,13 @@ class MysqlOutputter {
     mysql_select_db ($this->database, $this->db);
   }
   
+  
+  /**
+  * Updates the MySQL layout to match the layout file
+  * NOTE: currently only supports column and table adding and updating, not removal.
+  * 
+  * @param string $layout_filename The name of hte layout file to match
+  **/
   public function check_layout ($layout_filename) {
     $layout_lines = file ($layout_filename);
     
@@ -143,9 +150,23 @@ class MysqlOutputter {
       $curr_table = $curr_tables[$table_name];
       
       if ($curr_table == null) {
-        echo "Create table {$table_name}, definition:\n";
-        print_r ($dest_table);
-        /* not yet supported */
+        // Create the table if it does not yet exist.
+        echo "Create table {$table_name}.\n";
+        
+        $q = "CREATE TABLE {$table_name} (\n";
+        foreach ($dest_table['Columns'] as $col_name => $col_def) {
+          $q .= "  {$col_name} {$col_def},\n";
+        }
+        $q .= "  PRIMARY KEY ({$dest_table['PK']})\n";
+        $q .= ")";
+        echo "<b>Query:\n{$q}</b>\n";
+        
+        if ($_GET['action'] == 1) {
+          $res = $this->query ($q);
+          if ($res) echo 'Affected rows: ', mysql_affected_rows(), "\n";
+        } else {
+          $has_queries = true;
+        }
         
         
       } else {

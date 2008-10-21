@@ -11,13 +11,15 @@ Installation currently is quite manual, but it is simple.
 
 2. Create a MySQL database for docu, and grant your user ALL access.
 
-3. Change src/processor/config.php and src/viewer/config.php to match your database details
+3. Change src/processor/config.php and src/viewer/config.php to match your database details.
 
-4. Execute all of the queries in src/mysql_structure.sql in a MySQL client. 
+4. Run the src/processor/database_layout_sync.php tool. This tool should create your database layout.
+   If you update your version of docu, just run this tool again to get the new layout.
 
-5. Run src/processor/main.php to generate your documentation
+5. Run src/processor/main.php to generate your documentation.
+   Re-run the tool every time your code changes.
 
-6. View the documentation using the viewer directory (i.e. http://www.example.com/docs/viewer)
+6. View the documentation using the viewer directory (e.g. http://www.example.com/docs/viewer)
 
 
 MORE INFORMATION
@@ -26,3 +28,4 @@ If you would like more information about docu, please visit the docu wiki:
   http://docu.sourceforge.net/wiki/
   
 Here you can find information, roadmaps, make sugesstions and bug fixes, submit patches, etc.
+

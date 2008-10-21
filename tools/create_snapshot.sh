@@ -23,6 +23,9 @@
 # This tool creates a snapshot of the docu repository
 #
 
+mkdir dist
+cd dist
+
 echo "Checking out repository..."
 svn co https://docu.svn.sourceforge.net/svnroot/docu/trunk docu-snapshot
 
