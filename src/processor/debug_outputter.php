@@ -19,10 +19,33 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-// The current version of docu
-define ('DOCU_VERSION', '0.1-pre');
+/**
+* @package processor
+* @package output
+**/
 
-// The output engines
-define ('OUTPUTTER_MYSQL',   1);
-define ('OUTPUTTER_DEBUG',   2);
+/**
+* Outputs the tree to the screen
+**/
+class DebugOutputter {
+  
+  /**
+  * Outputs the entire tree to the screen
+  **/
+  public function output ($files) {
+    global $dpgProjectName;
+    
+    echo '<style>';
+    echo 'div {padding: 5px; margin: 5px;}';
+    echo '</style>';
+    
+    echo "<h1>{$dpgProjectName}</h1>";
+    foreach ($files as $file) {
+      $file->dump();
+    }
+    
+    return true;
+  }
+}
+
 ?>

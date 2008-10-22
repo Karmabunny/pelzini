@@ -32,6 +32,7 @@ $dpgLicenseText = 'Documentation is made available under the ' .
 // List the outputters here.
 // Currently you can only have one instance of each outputter.
 // Use the outputter constants defined in the constants.php file.
+$dpgOutputters[] = OUTPUTTER_DEBUG;
 $dpgOutputters[] = OUTPUTTER_MYSQL;
 
 // This should contain the outputter settings

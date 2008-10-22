@@ -86,6 +86,14 @@ foreach ($dpgOutputters as $outputter) {
         output_status ("Saving to MySQL database failed.");
       }
       break;
+      
+      
+    case OUTPUTTER_DEBUG:
+      $outputter = new DebugOutputter();
+      $outputter->output($parsed_files);
+      break;
+      
+      
   }
 }
 ?>
