@@ -8,6 +8,7 @@ PK ID
   Abstract tinyint(3) unsigned NOT NULL
   Extends varchar(255)
   Visibility varchar(20) NOT NULL
+  Final tinyint(1) NOT NULL
 
 
 TABLE Files
@@ -74,7 +75,7 @@ PK ID
   Name varchar(255) NOT NULL
   Type varchar(255)
   Description text
-
+  Static tinyint(1) NOT NULL
 
 
 TABLE Projects

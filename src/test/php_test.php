@@ -24,6 +24,13 @@ Tests the PHP parsing system
 **/
 
 
+/*
+ENABLE THIS TO VALIDATE THE FILE
+
+class php_missing_base_class {}
+interface php_missing_interface {}
+*/
+
 /**
 * Does not contain arguments
 */
@@ -46,7 +53,7 @@ function php_documented_arguments_function ($arg1, $arg2) {
 * @param string $arg3 Default is 15.2
 * @param string $arg4 Default is null
 **/
-function php_documented_arguments_function ($arg1 = 'default1', $arg2 = 100, $arg3 = 15.2, $arg4 = null) {
+function php_documented_default_arguments_function ($arg1 = 'default1', $arg2 = 100, $arg3 = 15.2, $arg4 = null) {
   return;
 }
 
@@ -72,12 +79,28 @@ function php_badly_documented_function ($arg1, $arg2 = 100, php_documented_super
 }
 
 /**
+* Parent class is not defined in this code
+**/
+abstract class php_documented_base_class extends php_missing_base_class {
+  private $base_private;
+  protected $base_protected;
+  public $base_public;
+  
+  /**
+  * This method is final. It is in an abstract class.
+  **/
+  final public function php_documented_final_method () {
+    return 1337;
+  }
+}
+
+/**
 * A super class
 * - extends php_documented_base_class.
 * - implements php_documented_interface
 * - implements php_missing_interface (not defined in this code)
 **/
-class php_documented_super_class extends php_documented_base_class implements php_documented_interface, php_missing_interface {
+final class php_documented_super_class extends php_documented_base_class implements php_documented_interface, php_missing_interface {
   private $super_private;
   protected $super_protected;
   public $super_public;
@@ -89,7 +112,9 @@ class php_documented_super_class extends php_documented_base_class implements ph
   
   private $php_var2;     /// stores some more information
   
-    
+  static public $php_var3;
+  
+  
   /**
   *** Does soemthing else
   **/
@@ -107,6 +132,7 @@ class php_documented_super_class extends php_documented_base_class implements ph
   * @param string $arg2 The second argument
   **/
   public function php_documented_arguments_method ($arg1, $arg2) {
+    static $random_variable;
     if ($arg1) {
       echo $this->php_var1;
     }
@@ -114,17 +140,16 @@ class php_documented_super_class extends php_documented_base_class implements ph
   
   /** A static method */
   static public function php_documented_static_method () {
-  
+    return 42;
   }
-}
-
-/**
-* Parent class is not defined in this code
-**/
-abstract class php_documented_base_class extends php_missing_base_class {
-  private $base_private;
-  protected $base_protected;
-  public $base_public;
+  
+  
+  function aaa() {}
+  function bbb() {}
+  function ccc($foo) {}
+  function ddd($foo) {}
+  function eee(php_documented_base_class $foo) {}
+  function fff($foo = 100) {}
 }
 
 /**

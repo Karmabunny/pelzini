@@ -24,9 +24,11 @@ class ParserVariable {
   public $type;
   public $description;
   public $visibility;
-
+  public $static;
+  
   public function __construct() {
     $this->visibility = 'private';
+    $this->static = false;
   }
   
   /**
@@ -43,6 +45,7 @@ class ParserVariable {
     echo '<div style="border: 1px purple solid;">';
     echo $this->visibility . ' ';
     echo $this->name;
+    if ($this->static) echo '<br>static';
     echo '</div>';
   }
 }

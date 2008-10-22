@@ -335,6 +335,9 @@ class MysqlOutputter {
       $insert_data['ReturnDescription'] = $this->sql_safen($function->return_description);
     }
     
+    if ($function->static) $insert_data['Static'] = 1;
+    if ($function->final) $insert_data['Final'] = 1;
+    
     // build params string
     if (count($function->params) > 0) {
       $params = array();
@@ -400,12 +403,12 @@ class MysqlOutputter {
     $insert_data['Name'] = $this->sql_safen($class->name);
     $insert_data['Description'] = $this->sql_safen($class->description);
     $insert_data['Extends'] = $this->sql_safen($class->extends);
-    $insert_data['Visibility'] = $this->sql_safen($class->visibility);		
+    $insert_data['Visibility'] = $this->sql_safen($class->visibility);
     $insert_data['FileID'] = $file_id;
-
+    
     if ($class->abstract) $insert_data['Abstract'] = 1;
-
-
+    if ($class->final) $insert_data['Final'] = 1;
+    
     // Build and process query from prepared data
     $q = "INSERT INTO Classes SET ";
     foreach ($insert_data as $key => $value) {
@@ -477,7 +480,8 @@ class MysqlOutputter {
       $insert_data['InterfaceID'] = $interface_id;
     }
     
-
+    if ($variable->static) $insert_data['Static'] = 1;
+    
     // Build and process query from prepared data
     $q = "INSERT INTO Variables SET ";
     foreach ($insert_data as $key => $value) {

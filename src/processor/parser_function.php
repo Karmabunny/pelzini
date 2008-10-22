@@ -28,11 +28,15 @@ class ParserFunction {
   public $comment;
   public $return_type;
   public $return_description;
+  public $static;
+  public $final;
   
   
   public function __construct() {
     $this->params = array ();
     $this->visibility = 'public';
+    $this->static = false;
+    $this->final = false;
   }
   
   public function apply_comment ($text) {
@@ -80,6 +84,8 @@ class ParserFunction {
     echo $this->visibility . ' ';
     echo $this->name;
     if ($this->abstract) echo '<br>abstract';
+    if ($this->static) echo '<br>static';
+    if ($this->final) echo '<br>static';
     echo '<br>' . $this->description;
     foreach ($this->params as $a) $a->dump();
     echo '</div>';

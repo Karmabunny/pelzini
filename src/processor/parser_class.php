@@ -31,7 +31,8 @@ class ParserClass {
   public $implements;
   public $abstract;
   public $description;
-
+  public $final;
+  
   /**
   * Creates this object
   **/
@@ -40,6 +41,7 @@ class ParserClass {
     $this->variables = array ();
     $this->implements = array ();
     $this->visibility = 'public';
+    $this->final = false;
   }
   
   /**
@@ -56,14 +58,15 @@ class ParserClass {
     echo '<div style="border: 1px blue solid;">';
     echo $this->visibility . ' ';
     echo $this->name;
-
-    if ($this->extends) echo ' extends ' . $this->extends;
-    if ($this->implements) echo ' implements ' . implode(',', $this->implements);
-  
+    
+    if ($this->extends) echo '<br>extends ' . $this->extends;
+    if ($this->implements) echo '<br>implements ' . implode(', ', $this->implements);
+    
     if ($this->abstract) echo '<br>abstract';
-
+    if ($this->final) echo '<br>final';
+    
     echo '<br>' . $this->description;
-
+    
     foreach ($this->variables as $a) $a->dump();
     foreach ($this->functions as $a) $a->dump();
     echo '</div>';
