@@ -37,25 +37,35 @@ if ($id == 0) {
 
 
 // Get the details of this function
-$q = "SELECT Functions.ID, Functions.Name, Functions.Description, Files.Name AS Filename, Functions.ClassID, Classes.Name AS Class
+$q = "SELECT Functions.ID, Functions.Name, Functions.Description, Files.Name AS Filename, Functions.ClassID,
+  Classes.Name AS Class, Functions.Static, Functions.Final
   FROM Functions
   INNER JOIN Files ON Functions.FileID = Files.ID
   LEFT JOIN Classes ON Functions.ClassID = Classes.ID
   WHERE {$where} LIMIT 1";
 $res = execute_query ($q);
-$row = mysql_fetch_assoc ($res);
-echo "<h2>{$row['Name']}</h2>";
-$filename_clean = htmlentities(urlencode($row['Filename']));
-echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['Filename']) . "</a></p>\n";
-if ($row['ClassID'] != null) {
-  echo "<p>Class: <a href=\"class.php?id={$row['ClassID']}\">{$row['Class']}</a></p>\n";
+$function = mysql_fetch_assoc ($res);
+
+echo "<h2>{$function['Name']}</h2>";
+
+$filename_url = 'file.php?name=' . urlencode($function['Filename']);
+echo '<p>File: <a href="', htmlspecialchars($filename_url), '">';
+echo htmlspecialchars($function['Filename']), '</a></p>';
+
+if ($function['ClassID'] != null) {
+  echo "<p>Class: <a href=\"class.php?id={$function['ClassID']}\">{$function['Class']}</a>";
+  
+  if ($function['Static']) echo ', Static';
+  if ($function['Final']) echo ', Final';
+  
+  echo '</p>';
 }
-echo $row['Description'];
-$id = $row['ID'];
+
+echo $function['Description'];
 
 
 // Show parameters
-$q = "SELECT ID, Name, Type, Description FROM Parameters WHERE FunctionID = {$id}";
+$q = "SELECT ID, Name, Type, Description FROM Parameters WHERE FunctionID = {$function['ID']}";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
   echo "<h3>Parameters</h3>";

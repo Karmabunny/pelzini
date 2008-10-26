@@ -37,7 +37,8 @@ if ($id == 0) {
 
 
 // Get the details of this class
-$q = "SELECT Classes.ID, Classes.Name, Classes.Description, Classes.Extends, Files.Name AS Filename
+$q = "SELECT Classes.ID, Classes.Name, Classes.Description, Classes.Extends, Files.Name AS Filename,
+  Classes.Final, Classes.Abstract
   FROM Classes
   INNER JOIN Files ON Classes.FileID = Files.ID
   WHERE {$where}
@@ -49,50 +50,49 @@ if (mysql_num_rows ($res) == 0) {
   exit;
 }
 
-$row = mysql_fetch_assoc ($res);
-$filename_clean = htmlentities(urlencode($row['Filename']));
+$class = mysql_fetch_assoc ($res);
+$filename_clean = htmlentities(urlencode($class['Filename']));
 
-echo "<h2>{$row['Name']}</h2>";
-echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['Filename']) . "</a></p>\n";
-echo $row['Description'];
+echo "<h2>{$class['Name']}</h2>";
+echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($class['Filename']) . "</a></p>\n";
+echo $class['Description'];
 
-$id = $row['ID'];
-$class_name = $row['Name'];
+if ($class['Abstract'] == 1) echo '<p>Abstract</p>';
 
-if ($row['Extends'] != null) {
-  $row['Extends'] = htmlspecialchars($row['Extends']);
-  echo "<p>Extends <a href=\"class.php?name={$row['Extends']}\">{$row['Extends']}</a>";
+if ($class['Extends'] != null) {
+  $class['Extends'] = htmlspecialchars($class['Extends']);
+  echo "<p>Extends <a href=\"class.php?name={$class['Extends']}\">{$class['Extends']}</a>";
   
   if ($_GET['complete'] == 1) {
-    echo " | <a href=\"class.php?id={$id}\">Hide inherited members</a></p>";
+    echo " | <a href=\"class.php?id={$class['ID']}\">Hide inherited members</a></p>";
   } else {
-    echo " | <a href=\"class.php?id={$id}&complete=1\">Show inherited members</a></p>";
+    echo " | <a href=\"class.php?id={$class['ID']}&complete=1\">Show inherited members</a></p>";
   }
 }
 
 
 $functions = array();
 $variables = array();
-$class = $row['Name'];
+$name = $class['Name'];
 $class_names = array();
 
 if ($_GET['complete'] == 1) {
   do {
-    $class_names[] = $class;
+    $class_names[] = $name;
     
-    $result = load_class($class);
+    $result = load_class($name);
     if ($result == null) break;
     
     list ($funcs, $vars, $parent) = $result;
     
     $functions = array_merge($funcs, $functions);
     $variables = array_merge($vars, $variables);
-      
-    $class = $parent;
-  } while ($class != null);
+    
+    $name = $parent;
+  } while ($name != null);
   
 } else {
-  list ($functions, $variables) = load_class($class);
+  list ($functions, $variables) = load_class($name);
 }
 
 ksort($functions);
@@ -102,11 +102,14 @@ ksort($variables);
 if ($_GET['complete'] == 1 and count ($class_names) > 0) {
   echo "<h3>Class structure</h3>";
   echo "<ul>";
-  foreach ($class_names as $index => $class) {
+  foreach ($class_names as $index => $name) {
     if ($index == 0) {
-      echo "<li>{$class}</li>";
+      echo '<li>', $name;
+      if ($class['Final'] == 1) echo ' <small>(Final)</small>';
+      echo '</li>';
+      
     } else {
-      echo "<li><a href=\"class.php?name={$class}\">{$class}</a></li>";
+      echo "<li><a href=\"class.php?name={$name}\">{$name}</a></li>";
     }
   }
   echo "</ul>";
@@ -122,10 +125,11 @@ if (count($variables) > 0) {
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) $row['Description'] = '&nbsp;';
     
+    if ($row['Static']) $row['Name'] .= ' <small>(static)</small>';
+    
     // display
     echo "<tr>";
-    echo "<td><code><a href=\"function.php?id={$row['ID']}\">";
-    echo "{$row['Name']}</a></code></td>";
+    echo "<td><code>{$row['Name']}</code></td>";
     echo "<td>{$row['Description']}</td>";
     echo "</tr>\n";
   }
@@ -142,8 +146,8 @@ if (count($functions) > 0) {
     }
     
     // display
-    echo "<h3>{$row['Visibility']} {$row['Name']}";
-    if ($row['ClassName'] != $class_name) {
+    echo "<h3>{$row['Visibility']} <a href=\"function.php?id={$row['ID']}\">{$row['Name']}</a>";
+    if ($row['ClassName'] != $class['Name']) {
       echo " <small>(from <a href=\"class.php?name={$row['ClassName']}\">{$row['ClassName']}</a>)</small>";
     }
     echo "</h3>";
@@ -168,7 +172,7 @@ if (count($functions) > 0) {
       echo "<ul>\n";
       while ($param = mysql_fetch_assoc ($res)) {
         if ($param['Description'] != null) {
-          $param['Description'] = ': ' . str_replace("\n", '<br>', $param['Description']);      
+          $param['Description'] = ': ' . str_replace("\n", '<br>', $param['Description']);
         }
         
         $link = get_object_link($param['Type']);
