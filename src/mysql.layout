@@ -17,7 +17,7 @@ PK ID
   ID int(11) unsigned NOT NULL auto_increment
   Name varchar(255) NOT NULL
   Description text
-  Source text NOT NULL
+  Source mediumtext NOT NULL
   PackageID int(10) unsigned
 
 
