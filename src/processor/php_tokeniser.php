@@ -35,6 +35,7 @@ class PhpTokeniser {
   function Tokenise ($filename) {
     global $dpgBaseDirectory;
     
+    $debug = false;
     
     $source = @file_get_contents($dpgBaseDirectory . $filename);
     if ($source == null) return null;
@@ -61,15 +62,22 @@ class PhpTokeniser {
     $final = false;
     $next_comment = null;
     
-    //echo '<style>span {color: green;}</style>';
-    //echo '<pre>';
+    // debugger
+    if ($debug) {
+      echo '<style>span {color: green;}</style>';
+      echo '<h3>', htmlspecialchars($filename), '</h3>';
+      echo '<pre>';
+    }
+    
     foreach ($tokens as $token) {
       // debugger
-      //if (is_string($token)) {
-      //  echo htmlspecialchars($token) . "\n";
-      //} else {
-      //  echo htmlspecialchars(token_name($token[0]) . ' ' . $token[1]) . "\n";
-      //}
+      if ($debug) {
+        if (is_string($token)) {
+          echo htmlspecialchars($token) . "\n";
+        } else {
+          echo htmlspecialchars(token_name($token[0]) . ' ' . $token[1]) . "\n";
+        }
+      }
       
       if (is_string($token)) {
         // opening of a function or class block
@@ -320,7 +328,15 @@ class PhpTokeniser {
         }
       }
     }
-    //echo '</pre>';
+    
+    // If there is a comment left that never got assigned,
+    // assign it to the file
+    if ($next_comment) {
+      $current_file->apply_comment($next_comment);
+      $next_comment = null;
+    }
+    
+    if ($debug) echo '</pre>';
     
     return $current_file;
   }
