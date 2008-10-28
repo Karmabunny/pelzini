@@ -67,7 +67,7 @@ class MysqlOutputter {
   * @param string $input Safens some input
   **/
   private function sql_safen ($input) {
-    if ($input == null) {
+    if ($input === null) {
       return 'NULL';
     } else if (is_integer ($input)) {
       return $input;
@@ -302,7 +302,11 @@ class MysqlOutputter {
           $this->save_interface ($class, $file_id);
         }
       }
-  
+      
+      // this files constants
+      foreach ($file->constants as $constant) {
+        $this->save_constant($constant, $file_id);
+      }
     }
     
     return true;
@@ -490,7 +494,28 @@ class MysqlOutputter {
     }
     $this->query ($q);
   }
-
+  
+  
+  /**
+  * Saves a constant to the mysql database
+  **/
+  private function save_constant ($constant, $file_id = null) {
+    // prepare data for inserting
+    $insert_data = array();
+    $insert_data['Name'] = $this->sql_safen($constant->name);
+    $insert_data['Value'] = $this->sql_safen($constant->value);
+    $insert_data['Description'] = $this->sql_safen($constant->description);
+    $insert_data['FileID'] = $this->sql_safen($file_id);
+    
+    // Build and process query from prepared data
+    $q = "INSERT INTO Constants SET ";
+    foreach ($insert_data as $key => $value) {
+      if ($j++ > 0) $q .= ', ';
+      $q .= "{$key} = {$value}";
+    }
+    $this->query ($q);
+  }
+  
 }
 
 ?>

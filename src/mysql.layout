@@ -84,3 +84,15 @@ PK ID
   ID int(10) unsigned NOT NULL auto_increment
   Name varchar(255) NOT NULL
   License text
+
+
+TABLE Constants
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  FileID int(10) unsigned NOT NULL
+  Name varchar(255) NOT NULL
+  Value varchar(255) NOT NULL
+  Description text
+
+

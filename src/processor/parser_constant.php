@@ -19,49 +19,29 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-class ParserFile {
+class ParserConstant {
   public $name;
+  public $value;
   public $description;
-  public $package;
-  public $functions;
-  public $classes;
-  public $constants;
-  public $source;
-  private $comment_applied;
   
   public function __construct() {
-    $this->functions = array();
-    $this->classes = array();
-    $this->constants = array();
-    $this->package = null;
+    $this->description = '';
   }
-
+  
   /**
   * Applies the contents of a doc-block to this element
   *
   * @param $text The content of the DocBlock
   **/
   public function apply_comment ($text) {
-    if ($this->comment_applied) return;
-    
     $comment = parse_doc_comment ($text);
     $this->description = htmlify_text($comment['@summary']);
-    
-    // set the packages. all packages are forced to have non-space names
-    $packages = $comment['@package'];
-    if ($packages != null) {
-      $this->package = array_pop($packages);
-    }
-    
-    $this->comment_applied = true;
   }
-  
+
   public function dump() {
-    echo '<div style="border: 1px black solid;">';
-    echo $this->name;
-    foreach ($this->functions as $a) $a->dump();
-    foreach ($this->classes as $a) $a->dump();
-    foreach ($this->constants as $a) $a->dump();
+    echo '<div style="border: 1px orange solid;">';
+    echo $this->name, ' = ', $this->value;
+    echo $this->description;
     echo '</div>';
   }
 }

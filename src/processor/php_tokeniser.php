@@ -34,14 +34,14 @@ class PhpTokeniser {
 
   function Tokenise ($filename) {
     global $dpgBaseDirectory;
-
-
+    
+    
     $source = @file_get_contents($dpgBaseDirectory . $filename);
     if ($source == null) return null;
     
     $tokens = token_get_all($source);
-
-
+    
+    
     $current_file = new ParserFile ();
     $current_file->name = $filename;
     $current_file->source = $source;
@@ -53,13 +53,14 @@ class PhpTokeniser {
     $inside_function = null;
     $current_class = null;
     $inside_class = null;
+    $current_constant = null;
     $next = null;
     $brace_count = 0;
     $abstract = false;
     $static = false;
     $final = false;
     $next_comment = null;
-
+    
     //echo '<style>span {color: green;}</style>';
     //echo '<pre>';
     foreach ($tokens as $token) {
@@ -119,10 +120,10 @@ class PhpTokeniser {
           }
 
 
-        // closing of a class or function block			
+        // closing of a class or function block
         } else if ($token == '}') {
           if ($brace_count == 0) {
-            if ($inside_function != null) {						
+            if ($inside_function != null) {
               $inside_function = null;
             } else if ($inside_class != null) {
               $inside_class = null;
@@ -249,6 +250,37 @@ class PhpTokeniser {
             } else if ($current_class != null) {
               $current_class->name = $text;
 
+            } else if (strcmp ($text, 'define') == 0) {
+              $current_constant = new ParserConstant();
+            }
+            break;
+            
+            
+          case T_CONSTANT_ENCAPSED_STRING:
+            // removes quotes, etc
+            $name_search = array("\'", '\"', "'", '"');
+            $name_replace = array("'", '"', '', '');
+            $text = str_replace($name_search, $name_replace, $text);
+            
+            if ($current_constant) {
+              if ($current_constant->name == null) {
+                $current_constant->name = $text;
+              } else {
+                $current_constant->value = $text;
+                $current_file->constants[] = $current_constant;
+                $current_constant = null;
+              }
+            }
+            break;
+            
+            
+          case T_LNUMBER:
+            if ($current_constant) {
+              if ($current_constant->name != null) {
+                $current_constant->value = $text;
+                $current_file->constants[] = $current_constant;
+                $current_constant = null;
+              }
             }
             break;
             
