@@ -39,7 +39,7 @@ class MysqlOutputter {
   * Connects to the db
   */
   public function __construct ($username, $password, $server, $database) {
-    $this->username = $username;    
+    $this->username = $username;
     $this->password = $password;
     $this->server = $server;
     $this->database = $database;
@@ -246,6 +246,7 @@ class MysqlOutputter {
     $this->query ("TRUNCATE TABLE Interfaces");
     $this->query ("TRUNCATE TABLE Variables");
     $this->query ("TRUNCATE TABLE Projects");
+    $this->query ("TRUNCATE TABLE Constants");
     
     $proj_name = $this->sql_safen ($dpgProjectName);
     $lic_text = $this->sql_safen ($dpgLicenseText);

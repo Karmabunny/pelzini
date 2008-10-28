@@ -133,5 +133,33 @@ if (mysql_num_rows($res) > 0) {
 }
 
 
+
+// Show constants
+$q = "SELECT Name, Value, Description
+  FROM Constants
+  WHERE FileID = {$id}
+  ORDER BY Name";
+$res = execute_query($q);
+if (mysql_num_rows($res) > 0) {
+  echo "<h3>Constants</h3>";
+  echo "<table class=\"function-list\">\n";
+  echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
+  while ($row = mysql_fetch_assoc ($res)) {
+    // encode for output
+    $row['Name'] = htmlspecialchars($row['Name']);
+    $row['Value'] = htmlspecialchars($row['Value']);
+    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
+    
+    // display the constant
+    echo "<tr>";
+    echo "<td><code>{$row['Name']}</code></td>";
+    echo "<td><code>{$row['Value']}</code></td>";
+    echo "<td>{$row['Description']}</td>";
+    echo "</tr>\n";
+  }
+  echo "</table>\n";
+}
+
+
 require_once 'foot.php';
 ?>
