@@ -20,7 +20,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 Tests the PHP parsing system
-@package php_tests
+@package Test suite
 **/
 
 

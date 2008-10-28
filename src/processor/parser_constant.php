@@ -18,7 +18,13 @@ You should have received a copy of the GNU General Public License
 along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+* @package Parser model
+**/
 
+/**
+* Represents a constant
+**/
 class ParserConstant {
   public $name;
   public $value;

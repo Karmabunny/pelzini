@@ -20,6 +20,10 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* @package Parser model
+**/
+
+/**
 * Stores information about a specific class
 **/
 class ParserClass {

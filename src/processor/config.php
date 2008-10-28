@@ -44,5 +44,5 @@ $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_password'] = 'password';
 $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_name'] = 'docu';
 
 /* This is the base directory that the parsing of your application should take place */
-$dpgBaseDirectory = '../test';
+$dpgBaseDirectory = '..';
 ?>

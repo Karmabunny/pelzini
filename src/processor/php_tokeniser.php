@@ -21,7 +21,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 * PHP Parser
-* @package processor
+* @package Parsers
 **/
 
 /**

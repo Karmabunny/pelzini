@@ -18,6 +18,10 @@ You should have received a copy of the GNU General Public License
 along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+* @package Viewer
+**/
+
 
 define ('DOCU_VERSION', '0.1-pre');
 
