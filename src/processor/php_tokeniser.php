@@ -260,6 +260,11 @@ class PhpTokeniser {
 
             } else if (strcmp ($text, 'define') == 0) {
               $current_constant = new ParserConstant();
+              
+              if ($next_comment) {
+                $current_constant->apply_comment($next_comment);
+                $next_comment = null;
+              }
             }
             break;
             
