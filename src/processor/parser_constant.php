@@ -25,12 +25,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Represents a constant
 **/
-class ParserConstant {
+class ParserConstant extends ParserItem {
   public $name;
   public $value;
   public $description;
   
   public function __construct() {
+    parent::__construct();
+    
     $this->description = '';
   }
   
@@ -41,6 +43,8 @@ class ParserConstant {
   **/
   public function apply_comment ($text) {
     $comment = parse_doc_comment ($text);
+    $this->processDocblockTags ($comment);
+    
     $this->description = htmlify_text($comment['@summary']);
   }
 

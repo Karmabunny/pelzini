@@ -25,7 +25,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Represents an interface
 **/
-class ParserInterface {
+class ParserInterface extends ParserItem {
   public $name;
   public $functions;
   public $extends;
@@ -33,6 +33,8 @@ class ParserInterface {
   public $description;
 
   public function __construct() {
+    parent::__construct();
+    
     $this->functions = array ();
     $this->variables = array ();
     $this->visibility = 'public';
@@ -40,6 +42,8 @@ class ParserInterface {
 
   public function apply_comment ($text) {
     $comment = parse_doc_comment ($text);
+    $this->processDocblockTags ($comment);
+    
     $this->description = htmlify_text($comment['@summary']);
   }
 

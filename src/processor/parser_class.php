@@ -26,7 +26,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Stores information about a specific class
 **/
-class ParserClass {
+class ParserClass extends ParserItem {
   public $name;
   public $functions;
   public $variables;
@@ -41,6 +41,8 @@ class ParserClass {
   * Creates this object
   **/
   public function __construct() {
+    parent::__construct();
+    
     $this->functions = array ();
     $this->variables = array ();
     $this->implements = array ();
@@ -55,6 +57,8 @@ class ParserClass {
   **/
   public function apply_comment ($text) {
     $comment = parse_doc_comment ($text);
+    $this->processDocblockTags ($comment);
+    
     $this->description = htmlify_text($comment['@summary']);
   }
 

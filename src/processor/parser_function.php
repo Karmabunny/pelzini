@@ -25,7 +25,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Represents a function
 **/
-class ParserFunction {
+class ParserFunction extends ParserItem {
   public $name;
   public $params;
   public $visibility;
@@ -39,6 +39,8 @@ class ParserFunction {
   
   
   public function __construct() {
+    parent::__construct();
+    
     $this->params = array ();
     $this->visibility = 'public';
     $this->static = false;
@@ -47,6 +49,7 @@ class ParserFunction {
   
   public function apply_comment ($text) {
     $this->comment = parse_doc_comment ($text);
+    $this->processDocblockTags ($comment);
   }
   
   public function post_load () {

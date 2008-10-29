@@ -25,7 +25,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Represents a file
 **/
-class ParserFile {
+class ParserFile extends ParserItem {
   public $name;
   public $description;
   public $package;
@@ -36,6 +36,8 @@ class ParserFile {
   private $comment_applied;
   
   public function __construct() {
+    parent::__construct();
+    
     $this->functions = array();
     $this->classes = array();
     $this->constants = array();
@@ -51,6 +53,8 @@ class ParserFile {
     if ($this->comment_applied) return;
     
     $comment = parse_doc_comment ($text);
+    $this->processDocblockTags ($comment);
+    
     $this->description = htmlify_text($comment['@summary']);
     
     // set the packages. all packages are forced to have non-space names

@@ -20,22 +20,33 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
-* The current version of docu.
+* @package Parser model
 **/
-define ('DOCU_VERSION', '0.1-pre');
 
-// The output engines
-define ('OUTPUTTER_MYSQL',   1);
-define ('OUTPUTTER_DEBUG',   2);
+/**
+* Stores information about parser items in general
+* Stores such information as authors, etc.
+*
+* @todo Add get/set methods instead of using public variables
+**/
+abstract class ParserItem {
+  public $authors;
+  
+  /**
+  * This constructor must be called by extending classes
+  **/
+  protected function __construct () {
+    $this->authors = array ();
+  }
+  
+  /**
+  * Processes general DocBlock tags that should apply to everything
+  **/
+  protected function processDocblockTags($docblock_tags) {
+    if (@count ($docblock_tags['@author']) > 0) {
+      $authors = $docblock_tags['@author'];
+    }
+  }
+}
 
-// The link types
-// These are used when linking from tables such as Authors
-// which can potentinally link to multiple tables
-// NOTE: These link types must match the ones defined in viewer/constants.php
-define ('LINK_TYPE_FILE',       1);
-define ('LINK_TYPE_CLASS',      2);
-define ('LINK_TYPE_INTERFACE',  3);
-define ('LINK_TYPE_CONSTANT',   4);
-define ('LINK_TYPE_FUNCTION',   5);
-define ('LINK_TYPE_VARIABLE',   6);
 ?>

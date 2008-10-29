@@ -96,3 +96,13 @@ PK ID
   Description text
 
 
+TABLE Authors
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  LinkID int(10) unsigned NOT NULL
+  LinkType tinyint(3) unsigned NOT NULL
+  Name varchar(255) NOT NULL
+  Description text
+
+
