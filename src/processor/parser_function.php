@@ -27,7 +27,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 **/
 class ParserFunction extends ParserItem {
   public $name;
-  public $params;
+  public $args;
   public $visibility;
   public $abstract;
   public $description;
@@ -41,7 +41,7 @@ class ParserFunction extends ParserItem {
   public function __construct() {
     parent::__construct();
     
-    $this->params = array ();
+    $this->args = array ();
     $this->visibility = 'public';
     $this->static = false;
     $this->final = false;
@@ -55,7 +55,7 @@ class ParserFunction extends ParserItem {
   public function post_load () {
     $this->description = htmlify_text($this->comment['@summary']);
     
-    // Do params
+    // Do arguments
     $params = $this->comment['@param'];
     if ($params != null) {
       foreach ($params as $param_tag) {
@@ -69,10 +69,10 @@ class ParserFunction extends ParserItem {
         }
         
         // set the details for the param, if one is found that is
-        foreach ($this->params as $param) {
-          if ($param->name == $name) {
-            if ($param->type == null) $param->type = $type;
-            $param->description = htmlify_text($desc);
+        foreach ($this->args as $arg) {
+          if ($arg->name == $name) {
+            if ($arg->type == null) $arg->type = $type;
+            $arg->description = htmlify_text($desc);
             break;
           }
         }

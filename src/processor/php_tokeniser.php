@@ -208,16 +208,16 @@ class PhpTokeniser {
             
             
           // variables are added according to scope
-          // will become a ParserVariable or a ParserParameter
+          // will become a ParserVariable or a ParserArgument
           case T_VARIABLE:
             if ($current_function != null) {
-              $parameter = new ParserParameter();
-              $parameter->name = $text;
+              $argument = new ParserArgument();
+              $argument->name = $text;
               if ($param_type != null) {
-                $parameter->type = $param_type;
+                $argument->type = $param_type;
                 $param_type = null;
               }
-              $current_function->params[] = $parameter;
+              $current_function->args[] = $argument;
 
             } else if (($inside_class != null) && ($inside_function == null)) {
               $variable = new ParserVariable();

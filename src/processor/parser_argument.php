@@ -23,9 +23,9 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
 /**
-* Represents a function parameter
+* Represents a function argument
 **/
-class ParserParameter {
+class ParserArgument {
   public $name;
   public $type;
   public $description;

@@ -349,17 +349,17 @@ class MysqlOutputter {
     if ($function->static) $insert_data['Static'] = 1;
     if ($function->final) $insert_data['Final'] = 1;
     
-    // build params string
-    if (count($function->params) > 0) {
-      $params = array();
-      foreach ($function->params as $param) {
-        if ($param->type != null) {
-          $params[] = $param->type . ' ' . $param->name;
+    // build arguments string
+    if (count($function->args) > 0) {
+      $args = array();
+      foreach ($function->args as $arg) {
+        if ($arg->type != null) {
+          $args[] = $arg->type . ' ' . $arg->name;
         } else {
-          $params[] = $param->name;
+          $args[] = $arg->name;
         }
       }
-      $insert_data['Parameters'] = $this->sql_safen(implode (', ', $params));
+      $insert_data['Parameters'] = $this->sql_safen(implode (', ', $args));
     }
 
     // build query from prepared data
@@ -379,11 +379,11 @@ class MysqlOutputter {
     
     
     // insert parameters
-    foreach ($function->params as $param) {
+    foreach ($function->args as $arg) {
       $insert_data = array();
-      $insert_data['Name'] = $this->sql_safen($param->name);
-      $insert_data['Type'] = $this->sql_safen($param->type);
-      $insert_data['Description'] = $this->sql_safen($param->description);
+      $insert_data['Name'] = $this->sql_safen($arg->name);
+      $insert_data['Type'] = $this->sql_safen($arg->type);
+      $insert_data['Description'] = $this->sql_safen($arg->description);
 
       // build query from prepared data
       $q = "INSERT INTO Parameters SET FunctionID = {$function_id}";
