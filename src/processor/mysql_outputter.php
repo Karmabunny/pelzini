@@ -25,6 +25,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 * Outputs the tree as MySQL
+* @author Josh
 **/
 class MysqlOutputter {
   private $username;
@@ -246,6 +247,7 @@ class MysqlOutputter {
     $this->query ("TRUNCATE TABLE Variables");
     $this->query ("TRUNCATE TABLE Projects");
     $this->query ("TRUNCATE TABLE Constants");
+    $this->query ("TRUNCATE TABLE Authors");
     
     $proj_name = $this->sql_safen ($dpgProjectName);
     $lic_text = $this->sql_safen ($dpgLicenseText);
@@ -307,6 +309,11 @@ class MysqlOutputter {
       foreach ($file->constants as $constant) {
         $this->save_constant($constant, $file_id);
       }
+      
+      // The authors
+      foreach ($file->authors as $author) {
+        $this->save_author (LINK_TYPE_FILE, $file_id, $author);
+      }
     }
     
     return true;
@@ -363,8 +370,14 @@ class MysqlOutputter {
     }
     $this->query ($q);
     $function_id = mysql_insert_id ();
-
-
+    
+    
+    // insert authors
+    foreach ($function->authors as $author) {
+      $this->save_author (LINK_TYPE_FUNCTION, $function_id, $author);
+    }
+    
+    
     // insert parameters
     foreach ($function->params as $param) {
       $insert_data = array();
@@ -432,8 +445,13 @@ class MysqlOutputter {
     foreach ($class->variables as $variable) {
       $this->save_variable($variable, $class_id);
     }
+    
+    // insert authors
+    foreach ($class->authors as $author) {
+      $this->save_author (LINK_TYPE_CLASS, $class_id, $author);
+    }
   }
-
+  
   
   /**
   * Saves an interface to the mysql database
@@ -461,6 +479,11 @@ class MysqlOutputter {
     // process functions
     foreach ($interface->functions as $function) {
       $this->save_function ($function, $file_id, null, $interface_id);
+    }
+    
+    // insert authors
+    foreach ($interface->authors as $author) {
+      $this->save_author (LINK_TYPE_INTERFACE, $interface_id, $author);
     }
   }
   
@@ -493,6 +516,12 @@ class MysqlOutputter {
       $q .= "{$key} = {$value}";
     }
     $this->query ($q);
+    $variable_id = mysql_insert_id ();
+    
+    // insert authors
+    foreach ($variable->authors as $author) {
+      $this->save_author (LINK_TYPE_VARIABLE, $variable_id, $author);
+    }
   }
   
   
@@ -509,6 +538,33 @@ class MysqlOutputter {
     
     // Build and process query from prepared data
     $q = "INSERT INTO Constants SET ";
+    foreach ($insert_data as $key => $value) {
+      if ($j++ > 0) $q .= ', ';
+      $q .= "{$key} = {$value}";
+    }
+    $this->query ($q);
+    $constant_id = mysql_insert_id ();
+    
+    // insert authors
+    foreach ($constant->authors as $author) {
+      $this->save_author (LINK_TYPE_CONSTANT, $constant_id, $author);
+    }
+  }
+  
+  
+  /**
+  * Saves author information about an item
+  **/
+  private function save_author ($link_type, $link_id, $author) {
+    $insert_data = array();
+    $insert_data['LinkID'] = $this->sql_safen($link_id);
+    $insert_data['LinkType'] = $this->sql_safen($link_type);
+    $insert_data['Name'] = $this->sql_safen($author);
+    $insert_data['Email'] = $this->sql_safen('');
+    $insert_data['Description'] = $this->sql_safen('');
+    
+    // Build and process query from prepared data
+    $q = "INSERT INTO Authors SET ";
     foreach ($insert_data as $key => $value) {
       if ($j++ > 0) $q .= ', ';
       $q .= "{$key} = {$value}";

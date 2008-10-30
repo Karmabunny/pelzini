@@ -110,6 +110,7 @@ function parse_doc_comment ($comment) {
 function parse_tag (&$output, $tag, $buffer) {
   if ($tag == '@summary') {
     $output[$tag] = $buffer;
+    
   } else {
     if (! isset($output[$tag])) {
       $output[$tag] = array();

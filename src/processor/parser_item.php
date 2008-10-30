@@ -44,7 +44,11 @@ abstract class ParserItem {
   **/
   protected function processDocblockTags($docblock_tags) {
     if (@count ($docblock_tags['@author']) > 0) {
-      $authors = $docblock_tags['@author'];
+      foreach ($docblock_tags['@author'] as $author) {
+        if ($author == '') continue;
+        
+        $this->authors[] = $author;
+      }
     }
   }
 }

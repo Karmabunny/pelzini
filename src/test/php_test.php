@@ -19,8 +19,9 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-Tests the PHP parsing system
-@package Test suite
+* Tests the PHP parsing system
+* @package Test suite
+* @author Josh
 **/
 
 
@@ -30,6 +31,17 @@ ENABLE THIS TO VALIDATE THE FILE
 class php_missing_base_class {}
 interface php_missing_interface {}
 */
+
+
+define ('PHP_STRING_CONST', 'blah');
+define ('PHP_NUMBER_CONST', 42);
+
+/**
+* A constant
+* @author josh
+**/
+define ('PHP_DOCUMENTED_CONST', 42);
+
 
 /**
 * Does not contain arguments
@@ -41,6 +53,7 @@ function php_documented_function () {
 /**
 * Contains arguments
 * @param string $variable The argument
+* @author Monkey Man <monkey.man@example.com>
 **/
 function php_documented_arguments_function ($arg1, $arg2) {
   return;
@@ -52,6 +65,8 @@ function php_documented_arguments_function ($arg1, $arg2) {
 * @param string $arg2 Default is 100
 * @param string $arg3 Default is 15.2
 * @param string $arg4 Default is null
+* @author Josh <josh@example.com>
+* @author Bob <bob@example.com>
 **/
 function php_documented_default_arguments_function ($arg1 = 'default1', $arg2 = 100, $arg3 = 15.2, $arg4 = null) {
   return;
@@ -62,6 +77,8 @@ function php_documented_default_arguments_function ($arg1 = 'default1', $arg2 = 
 * @param php_documented_super_class $arg1 Argument 1
 * @param php_documented_base_class $arg2 Argument 2
 * @param php_missing_class $arg3 Argument 3 (class is not defined in this code)
+* @author Josh, initial work
+* @author bob, additional work
 **/
 function php_documented_typehinting_function (php_documented_super_class $arg1, php_documented_base_class $arg2, php_missing_class $arg3) {
   return;
@@ -70,7 +87,7 @@ function php_documented_typehinting_function (php_documented_super_class $arg1, 
 /**
 * Has something.
 *   @param $arg1 string something weird
-* @param $arg2 something else
+* @param $arg2 something else @param
  * @param $arg2 Redefined.
  * @param string $arg3 defined as one thing in code and something else in comment
 * @param integer $arg100 who knows? **/
@@ -80,6 +97,8 @@ function php_badly_documented_function ($arg1, $arg2 = 100, php_documented_super
 
 /**
 * Parent class is not defined in this code
+* @author josh <josh@example.com> did some work
+* @author bob <bob@example.com> did some more work
 **/
 abstract class php_documented_base_class extends php_missing_base_class {
   private $base_private;
@@ -107,6 +126,7 @@ final class php_documented_super_class extends php_documented_base_class impleme
   
   /**
   * Stores some information about something
+  * @author josh, 2008-10-10
   **/
   private $php_var1;
   
@@ -117,6 +137,7 @@ final class php_documented_super_class extends php_documented_base_class impleme
   
   /**
   *** Does soemthing else
+  * @author josh, somehting
   **/
   public function php_documented_method () {
     foreach ($foo as $bar) {
@@ -130,6 +151,7 @@ final class php_documented_super_class extends php_documented_base_class impleme
   * Contains arguments
   * @param string $arg1 The first argument
   * @param string $arg2 The second argument
+  * @author
   **/
   public function php_documented_arguments_method ($arg1, $arg2) {
     static $random_variable;
@@ -154,6 +176,7 @@ final class php_documented_super_class extends php_documented_base_class impleme
 
 /**
 * An interface
+* @author peter
 **/
 interface php_documented_interface {
   
@@ -161,6 +184,7 @@ interface php_documented_interface {
   
   /**
   * Something
+  * @author josh
   **/
   function bbb();
   

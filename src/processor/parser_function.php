@@ -49,7 +49,7 @@ class ParserFunction extends ParserItem {
   
   public function apply_comment ($text) {
     $this->comment = parse_doc_comment ($text);
-    $this->processDocblockTags ($comment);
+    $this->processDocblockTags ($this->comment);
   }
   
   public function post_load () {
