@@ -43,11 +43,28 @@ abstract class ParserItem {
   * Processes general DocBlock tags that should apply to everything
   **/
   protected function processDocblockTags($docblock_tags) {
+    
     if (@count ($docblock_tags['@author']) > 0) {
+      
+      // This regex is for taking an author string, and getting the name (required),
+      // email address (optional) and description (optional).
+      // The format, simply put, is:
+      //    {Name} (<{Email}>)? ({Description})?
+      // There is also some extra cleverness, such as you can use a comma, colon or semi-colon
+      // to seperate the name part and the description part
+      //
+      //               | name part  || email address part         || desc part         |
+      $expression = '/^((?:[a-z] ?)+)(?:\s*<([-a-z._]+@[-a-z.]+)>)?(?:\s*[,:;]?\s*(.*))?$/si';
+      
       foreach ($docblock_tags['@author'] as $author) {
-        if ($author == '') continue;
-        
-        $this->authors[] = $author;
+        if (preg_match ($expression, $author, $matches)) {
+          $author = new ParserAuthor();
+          $author->name = $matches[1];
+          $author->email = $matches[2];
+          $author->description = $matches[3];
+          
+          $this->authors[] = $author;
+        }
       }
     }
   }

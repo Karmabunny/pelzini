@@ -24,6 +24,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 * Represents a function argument
+* @todo Getters and setters
 **/
 class ParserArgument {
   public $name;
@@ -39,4 +40,22 @@ class ParserArgument {
   }
 }
 
+
+/**
+* Represents an author of a parser item (e.g. a ParserFunction or ParserClass)
+* @todo Getters and setters
+**/
+class ParserAuthor {
+  public $name;
+  public $email;
+  public $description;
+  
+  public function dump() {
+    echo '<div style="border: 1px green solid;">';
+    echo 'Name: ' . $this->name;
+    echo '<br>Type: ' . $this->email;
+    echo '<br>Description: ' . $this->description;
+    echo '</div>';
+  }
+}
 ?>

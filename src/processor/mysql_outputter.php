@@ -559,9 +559,9 @@ class MysqlOutputter {
     $insert_data = array();
     $insert_data['LinkID'] = $this->sql_safen($link_id);
     $insert_data['LinkType'] = $this->sql_safen($link_type);
-    $insert_data['Name'] = $this->sql_safen($author);
-    $insert_data['Email'] = $this->sql_safen('');
-    $insert_data['Description'] = $this->sql_safen('');
+    $insert_data['Name'] = $this->sql_safen($author->name);
+    $insert_data['Email'] = $this->sql_safen($author->email);
+    $insert_data['Description'] = $this->sql_safen($author->description);
     
     // Build and process query from prepared data
     $q = "INSERT INTO Authors SET ";

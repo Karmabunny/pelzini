@@ -21,6 +21,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once 'functions.php';
 require_once 'constants.php';
+require_once 'misc_classes.php';
 
 // set up some space
 $dpgOutputters = array();
