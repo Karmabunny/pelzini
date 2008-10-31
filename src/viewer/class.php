@@ -102,6 +102,9 @@ ksort($functions);
 ksort($variables);
 
 
+show_authors ($class['ID'], LINK_TYPE_CLASS);
+
+
 if ($_GET['complete'] == 1 and count ($class_names) > 0) {
   echo "<h3>Class structure</h3>";
   echo "<ul>";

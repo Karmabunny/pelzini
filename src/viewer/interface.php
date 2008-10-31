@@ -53,6 +53,9 @@ echo $row['Description'];
 $id = $row['ID'];
 
 
+show_authors ($row['ID'], LINK_TYPE_INTERFACE);
+
+
 // Show functions
 $q = "SELECT ID, Name, Description, Parameters FROM Functions WHERE InterfaceID = {$id}";
 $res = execute_query($q);

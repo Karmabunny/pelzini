@@ -67,6 +67,9 @@ if ($function['ClassID'] != null) {
 echo $function['Description'];
 
 
+show_authors ($function['ID'], LINK_TYPE_FUNCTION);
+
+
 // Show parameters
 $q = "SELECT ID, Name, Type, Description FROM Parameters WHERE FunctionID = {$function['ID']}";
 $res = execute_query($q);

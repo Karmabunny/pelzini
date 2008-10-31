@@ -90,4 +90,28 @@ function get_object_link($name) {
   
   return $name;
 }
+
+
+function show_authors ($link_id, $link_type) {
+  $q = "SELECT Name, Email, Description FROM Authors WHERE LinkID = {$link_id} AND LinkType = {$link_type}";
+  $res = execute_query($q);
+  
+  if (mysql_num_rows($res) > 0) {
+    echo "<h3>Authors</h3>";
+    echo "<table class=\"parameter-list\">\n";
+    echo "<tr><th>Name</th><th>Email</th><th>Description</th></tr>\n";
+    while ($row = mysql_fetch_assoc ($res)) {
+      $row['Name'] = htmlspecialchars($row['Name']);
+      $row['Email'] = htmlspecialchars($row['Email']);
+      if ($row['Description'] == null) $row['Description'] = '&nbsp;';
+      
+      echo "<tr>";
+      echo "<td>{$row['Name']}</td>";
+      echo "<td>{$row['Email']}</td>";
+      echo "<td>{$row['Description']}</td>";
+      echo "</tr>\n";
+    }
+    echo "</table>\n";
+  }
+}
 ?>

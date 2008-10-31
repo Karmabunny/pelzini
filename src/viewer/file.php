@@ -57,6 +57,9 @@ echo "<p><small><a href=\"file_source.php?id={$row['ID']}\">View Source</a></sma
 $id = $row['ID'];
 
 
+show_authors ($row['ID'], LINK_TYPE_FILE);
+
+
 // Show classes
 $q = "SELECT ID, Name, Description
   FROM Classes
