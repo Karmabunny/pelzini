@@ -26,7 +26,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once 'functions.php';
 
-$q = "SELECT Name, License FROM Projects WHERE ID = " . CONFIG::ProjectID;
+$q = "SELECT Name, License FROM Projects WHERE ID = {$dvgProjectID}";
 $res = execute_query($q);
 $project = mysql_fetch_assoc($res);
 ?>

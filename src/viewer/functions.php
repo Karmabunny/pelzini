@@ -29,8 +29,8 @@ require_once 'config.php';
 
 session_start();
 
-$dbc = mysql_connect (CONFIG::Server, CONFIG::Username, CONFIG::Password);
-mysql_select_db (CONFIG::Database);
+$dbc = mysql_connect ($dvgDatabaseSettings['server'], $dvgDatabaseSettings['username'], $dvgDatabaseSettings['password']);
+mysql_select_db ($dvgDatabaseSettings['name']);
 
 
 /**

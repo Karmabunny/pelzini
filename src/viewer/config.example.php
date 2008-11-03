@@ -24,17 +24,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * @since 0.1
 **/
 
-/**
-* The database configuration
-**/
-class CONFIG {
-  // general
-  const ProjectID = 1;
-  
-  // database
-  const Server = 'localhost';
-  const Username = 'josh';
-  const Password = 'password';
-  const Database = 'docu';
-}
+
+/* The project ID. Nessasary for multiple docs per database */
+$dvgProjectID = 1;
+
+/* This should contain the outputter settings
+   The settings are an array, with one array for each outputter */
+$dvgDatabaseSettings['server'] = 'localhost';
+$dvgDatabaseSettings['username'] = 'josh';
+$dvgDatabaseSettings['password'] = 'password';
+$dvgDatabaseSettings['name'] = 'docu';
 ?>

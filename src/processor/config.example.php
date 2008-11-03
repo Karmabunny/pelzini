@@ -25,7 +25,7 @@ ini_set ('memory_limit', '-1');
 /* This should be the name of your project */
 $dpgProjectName = 'Docu';
 
-/* The project ID. Only nessaray for multiple docs per database */
+/* The project ID. Nessasary for multiple docs per database */
 $dpqProjectID = 1;
 
 /* This should be the terms that your documentation is made available under
