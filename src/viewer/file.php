@@ -40,7 +40,8 @@ if ($id == 0) {
 
 
 // Get the details of this file
-$q = "SELECT Files.ID, Files.Name, Files.Description, Files.PackageID, Packages.Name AS Package
+$q = "SELECT Files.ID, Files.Name, Files.Description, Files.PackageID, Packages.Name AS Package,
+  Files.SinceVersion
   FROM Files
   INNER JOIN Packages ON Files.PackageID = Packages.ID
   WHERE {$where} LIMIT 1";
@@ -58,6 +59,7 @@ $id = $row['ID'];
 
 
 show_authors ($row['ID'], LINK_TYPE_FILE);
+if ($row['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($rows['SinceVersion']), '</p>';
 
 
 // Show classes

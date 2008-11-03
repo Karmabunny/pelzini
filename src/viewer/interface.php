@@ -40,7 +40,8 @@ if ($id == 0) {
 
 
 // Get the details of this class
-$q = "SELECT Interfaces.ID, Interfaces.Name, Interfaces.Description, Files.Name AS Filename
+$q = "SELECT Interfaces.ID, Interfaces.Name, Interfaces.Description, Files.Name AS Filename,
+  Interfaces.SinceVersion
   FROM Interfaces
   INNER JOIN Files ON Interfaces.FileID = Files.ID
   WHERE {$where} LIMIT 1";
@@ -54,6 +55,7 @@ $id = $row['ID'];
 
 
 show_authors ($row['ID'], LINK_TYPE_INTERFACE);
+if ($row['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($row['SinceVersion']), '</p>';
 
 
 // Show functions

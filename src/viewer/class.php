@@ -41,7 +41,7 @@ if ($id == 0) {
 
 // Get the details of this class
 $q = "SELECT Classes.ID, Classes.Name, Classes.Description, Classes.Extends, Files.Name AS Filename,
-  Classes.Final, Classes.Abstract
+  Classes.Final, Classes.Abstract, Classes.SinceVersion
   FROM Classes
   INNER JOIN Files ON Classes.FileID = Files.ID
   WHERE {$where}
@@ -72,6 +72,8 @@ if ($class['Extends'] != null) {
     echo " | <a href=\"class.php?id={$class['ID']}&complete=1\">Show inherited members</a></p>";
   }
 }
+
+if ($class['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($class['SinceVersion']), '</p>';
 
 
 $functions = array();

@@ -41,7 +41,7 @@ if ($id == 0) {
 
 // Get the details of this function
 $q = "SELECT Functions.ID, Functions.Name, Functions.Description, Files.Name AS Filename, Functions.ClassID,
-  Classes.Name AS Class, Functions.Static, Functions.Final
+  Classes.Name AS Class, Functions.Static, Functions.Final, Functions.SinceVersion
   FROM Functions
   INNER JOIN Files ON Functions.FileID = Files.ID
   LEFT JOIN Classes ON Functions.ClassID = Classes.ID
@@ -65,6 +65,8 @@ if ($function['ClassID'] != null) {
 }
 
 echo $function['Description'];
+
+if ($function['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($function['SinceVersion']), '</p>';
 
 
 show_authors ($function['ID'], LINK_TYPE_FUNCTION);
