@@ -21,6 +21,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 * @package Outputters
+* @author Josh
+* @since 0.1
 **/
 
 /**

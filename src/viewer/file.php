@@ -20,6 +20,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 * @package Viewer
+* @author Josh Heidenreich
+* @since 0.1
 **/
 
 require_once 'head.php';
@@ -59,7 +61,7 @@ $id = $row['ID'];
 
 
 show_authors ($row['ID'], LINK_TYPE_FILE);
-if ($row['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($rows['SinceVersion']), '</p>';
+if ($row['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($row['SinceVersion']), '</p>';
 
 
 // Show classes

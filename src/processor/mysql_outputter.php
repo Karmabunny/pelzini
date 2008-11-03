@@ -21,11 +21,12 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 * @package Outputters
+* @author Josh
+* @since 0.1
 **/
 
 /**
 * Outputs the tree as MySQL
-* @author Josh
 **/
 class MysqlOutputter {
   private $username;
