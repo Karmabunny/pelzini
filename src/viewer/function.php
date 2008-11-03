@@ -75,19 +75,21 @@ show_authors ($function['ID'], LINK_TYPE_FUNCTION);
 
 
 // Show Arguments
-$q = "SELECT ID, Name, Type, Description FROM Arguments WHERE FunctionID = {$function['ID']}";
+$q = "SELECT ID, Name, Type, DefaultValue, Description FROM Arguments WHERE FunctionID = {$function['ID']}";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
   echo "<h3>Arguments</h3>";
   echo "<table class=\"parameter-list\">\n";
-  echo "<tr><th>Name</th><th>Description</th></tr>\n";
+  echo "<tr><th>Name</th><th>Default</th><th>Description</th></tr>\n";
   while ($row = mysql_fetch_assoc ($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) $row['Description'] = '&nbsp;';
     $row['Type'] = htmlspecialchars($row['Type']);
+    $row['DefaultValue'] = htmlspecialchars($row['DefaultValue']);
     
     echo "<tr>";
     echo "<td><code>{$row['Type']} {$row['Name']}</code></td>";
+    echo "<td>{$row['DefaultValue']}</td>";
     echo "<td>{$row['Description']}</td>";
     echo "</tr>\n";
   }

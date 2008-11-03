@@ -32,11 +32,13 @@ class ParserArgument {
   public $name;
   public $type;
   public $description;
-
+  public $default;
+  
   public function dump() {
     echo '<div style="border: 1px green solid;">';
     echo 'Name: ' . $this->name;
     echo '<br>Type: ' . $this->type;
+    echo '<br>Default: ' . $this->default;
     echo '<br>Description: ' . $this->description;
     echo '</div>';
   }

@@ -263,6 +263,16 @@ class PhpTokeniser {
                 $current_class->implements[] = $text;
               }
               
+            } else if (strcasecmp ($text, 'null') == 0) {
+              if ($current_constant) {
+                $current_constant->value = 'NULL';
+                $current_file->constants[] = $current_constant;
+                $current_constant = null;
+                
+              } else if ($argument) {
+                $argument->default = 'NULL';
+              }
+              
             } else if ($current_function != null) {
               if ($current_function->name == '') {
                 $current_function->name = $text;
@@ -281,12 +291,6 @@ class PhpTokeniser {
                 $next_comment = null;
               }
               
-            } else if (strcasecmp ($text, 'null') == 0) {
-              if ($current_constant) {
-                $current_constant->value = 'NULL';
-                $current_file->constants[] = $current_constant;
-                $current_constant = null;
-              }
             }
             break;
             
@@ -305,6 +309,9 @@ class PhpTokeniser {
                 $current_file->constants[] = $current_constant;
                 $current_constant = null;
               }
+              
+            } else if ($argument) {
+              $argument->default = $text;
             }
             break;
             
@@ -317,6 +324,9 @@ class PhpTokeniser {
                 $current_file->constants[] = $current_constant;
                 $current_constant = null;
               }
+              
+            } else if ($argument) {
+              $argument->default = $text;
             }
             break;
             

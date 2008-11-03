@@ -391,8 +391,9 @@ class MysqlOutputter {
       $insert_data = array();
       $insert_data['Name'] = $this->sql_safen($arg->name);
       $insert_data['Type'] = $this->sql_safen($arg->type);
+      $insert_data['DefaultValue'] = $this->sql_safen($arg->default);
       $insert_data['Description'] = $this->sql_safen($arg->description);
-
+      
       // build query from prepared data
       $q = "INSERT INTO Arguments SET FunctionID = {$function_id}";
       foreach ($insert_data as $key => $value) {

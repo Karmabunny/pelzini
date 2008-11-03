@@ -58,7 +58,8 @@ function php_documented_function () {
 
 /**
 * Contains arguments
-* @param string $variable The argument
+* @param string $arg1 The first argument
+* @param string $arg2 The second argument
 * @author Monkey Man <monkey.man@example.com>
 * @since r567
 **/
@@ -68,7 +69,7 @@ function php_documented_arguments_function ($arg1, $arg2) {
 
 /**
 * Contains arguments with defaults
-* @param string $arg1 Default is 'detault1'
+* @param string $arg1 Default is 'default1'
 * @param string $arg2 Default is 100
 * @param string $arg3 Default is 15.2
 * @param string $arg4 Default is null

@@ -60,6 +60,7 @@ PK ID
   FunctionID int(10) unsigned NOT NULL
   Name varchar(255) NOT NULL
   Type varchar(255)
+  DefaultValue varchar(255)
   Description text
   
   
