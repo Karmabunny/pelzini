@@ -235,23 +235,23 @@ class MysqlOutputter {
   * @param array $files The file objects to save to the MySQL database
   **/
   public function output ($files) {
-    global $dpgProjectName, $dpgLicenseText;
+    global $dpqProjectID, $dpgProjectName, $dpgLicenseText;
     
     $this->connect();
-    $this->query ("DELETE FROM Files");
-    $this->query ("DELETE FROM Functions");
-    $this->query ("DELETE FROM Arguments");
-    $this->query ("DELETE FROM Classes");
-    $this->query ("DELETE FROM Packages");
-    $this->query ("DELETE FROM Interfaces");
-    $this->query ("DELETE FROM Variables");
-    $this->query ("DELETE FROM Projects");
-    $this->query ("DELETE FROM Constants");
-    $this->query ("DELETE FROM Authors");
+    $this->query ("TRUNCATE Projects");
+    $this->query ("TRUNCATE Files");
+    $this->query ("TRUNCATE Functions");
+    $this->query ("TRUNCATE Arguments");
+    $this->query ("TRUNCATE Classes");
+    $this->query ("TRUNCATE Packages");
+    $this->query ("TRUNCATE Interfaces");
+    $this->query ("TRUNCATE Variables");
+    $this->query ("TRUNCATE Constants");
+    $this->query ("TRUNCATE Authors");
     
     $proj_name = $this->sql_safen ($dpgProjectName);
     $lic_text = $this->sql_safen ($dpgLicenseText);
-    $q = "INSERT INTO Projects (Name, License) VALUES ({$proj_name}, {$lic_text})";
+    $q = "INSERT INTO Projects (ID, Name, License) VALUES ({$dpqProjectID}, {$proj_name}, {$lic_text})";
     $this->query($q);
     
     // get all of the unique package names, and create packages
