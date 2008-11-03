@@ -238,16 +238,16 @@ class MysqlOutputter {
     global $dpgProjectName, $dpgLicenseText;
     
     $this->connect();
-    $this->query ("TRUNCATE TABLE Files");
-    $this->query ("TRUNCATE TABLE Functions");
-    $this->query ("TRUNCATE TABLE Arguments");
-    $this->query ("TRUNCATE TABLE Classes");		
-    $this->query ("TRUNCATE TABLE Packages");
-    $this->query ("TRUNCATE TABLE Interfaces");
-    $this->query ("TRUNCATE TABLE Variables");
-    $this->query ("TRUNCATE TABLE Projects");
-    $this->query ("TRUNCATE TABLE Constants");
-    $this->query ("TRUNCATE TABLE Authors");
+    $this->query ("DELETE FROM Files");
+    $this->query ("DELETE FROM Functions");
+    $this->query ("DELETE FROM Arguments");
+    $this->query ("DELETE FROM Classes");
+    $this->query ("DELETE FROM Packages");
+    $this->query ("DELETE FROM Interfaces");
+    $this->query ("DELETE FROM Variables");
+    $this->query ("DELETE FROM Projects");
+    $this->query ("DELETE FROM Constants");
+    $this->query ("DELETE FROM Authors");
     
     $proj_name = $this->sql_safen ($dpgProjectName);
     $lic_text = $this->sql_safen ($dpgLicenseText);
@@ -282,12 +282,18 @@ class MysqlOutputter {
       $name = $this->sql_safen($file->name);
       $description = $this->sql_safen($file->description);
       $source = $this->sql_safen($file->source);
+      $since = $this->sql_safen($file->since);
       
       $package = $packages[$file->package];
       if ($package == null) $package = $default_id;
       $package = $this->sql_safen($package);
       
-      $q = "INSERT INTO Files SET Name = {$name}, Description = {$description}, Source = {$source}, PackageID = {$package}";
+      $q = "INSERT INTO Files SET
+        Name = {$name},
+        Description = {$description},
+        Source = {$source},
+        PackageID = {$package},
+        SinceVersion = {$since}";
       $this->query ($q);
       $file_id = mysql_insert_id ();
       
@@ -328,7 +334,8 @@ class MysqlOutputter {
     $insert_data['Name'] = $this->sql_safen($function->name);
     $insert_data['Description'] = $this->sql_safen($function->description);
     $insert_data['FileID'] = $file_id;
-
+    $insert_data['SinceVersion'] = $this->sql_safen($function->since);
+    
     // Class-specific details
     if ($class_id != null) {
       $insert_data['ClassID'] = $class_id;
@@ -422,6 +429,7 @@ class MysqlOutputter {
     $insert_data['Extends'] = $this->sql_safen($class->extends);
     $insert_data['Visibility'] = $this->sql_safen($class->visibility);
     $insert_data['FileID'] = $file_id;
+    $insert_data['SinceVersion'] = $this->sql_safen($class->since);
     
     if ($class->abstract) $insert_data['Abstract'] = 1;
     if ($class->final) $insert_data['Final'] = 1;
@@ -464,8 +472,9 @@ class MysqlOutputter {
     $insert_data['Extends'] = $this->sql_safen($interface->extends);
     $insert_data['Visibility'] = $this->sql_safen($interface->visibility);
     $insert_data['FileID'] = $file_id;
+    $insert_data['SinceVersion'] = $this->sql_safen($interface->since);
     
-
+    
     // Build and process query from prepared data
     $q = "INSERT INTO Interfaces SET ";
     foreach ($insert_data as $key => $value) {
@@ -497,7 +506,9 @@ class MysqlOutputter {
     $insert_data['Name'] = $this->sql_safen($variable->name);
     $insert_data['Description'] = $this->sql_safen($variable->description);
     //$insert_data['Visibility'] = $this->sql_safen($variable->visibility);
-
+    $insert_data['SinceVersion'] = $this->sql_safen($variable->since);
+    
+    
     // Class-specific details
     if ($class_id != null) {
       $insert_data['ClassID'] = $class_id;
@@ -535,6 +546,8 @@ class MysqlOutputter {
     $insert_data['Value'] = $this->sql_safen($constant->value);
     $insert_data['Description'] = $this->sql_safen($constant->description);
     $insert_data['FileID'] = $this->sql_safen($file_id);
+    $insert_data['SinceVersion'] = $this->sql_safen($constant->since);
+    
     
     // Build and process query from prepared data
     $q = "INSERT INTO Constants SET ";
