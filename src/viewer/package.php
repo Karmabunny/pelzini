@@ -49,11 +49,11 @@ $q = "SELECT Files.ID, Files.Name, Files.Description
   WHERE Files.PackageID = {$id}";
 $res = execute_query ($q);
 while ($row = mysql_fetch_assoc ($res)) {
-  // encode for output
   $row['Name'] = htmlspecialchars($row['Name']);
   
   // output
-  echo "<p><a href=\"file.php?id={$row['ID']}\">{$row['Name']}</a> {$row['Description']}</p>";
+  echo "<p><strong><a href=\"file.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
+  echo $row['Description'];
   
   $file_ids[] = $row['ID'];
 }
@@ -68,22 +68,15 @@ $q = "SELECT ID, Name, Description
   ORDER BY Name";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
+  echo '<a name="classes"></a>';
   echo "<h3>Classes</h3>";
-  echo "<table class=\"function-list\">\n";
-  echo "<tr><th>Name</th><th>Description</th></tr>\n";
+  
   while ($row = mysql_fetch_assoc ($res)) {
-    // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
     
-    // display the class
-    echo "<tr>";
-    echo "<td><code><a href=\"class.php?id={$row['ID']}\">";
-    echo "{$row['Name']}</a></code></td>";
-    echo "<td>{$row['Description']}</td>";
-    echo "</tr>\n";
+    echo "<p><strong><a href=\"class.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
+    echo $row['Description'];
   }
-  echo "</table>\n";
 }
 
 
@@ -94,22 +87,15 @@ $q = "SELECT ID, Name, Description
   ORDER BY Name";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
+  echo '<a name="interfaces"></a>';
   echo "<h3>Interfaces</h3>";
-  echo "<table class=\"function-list\">\n";
-  echo "<tr><th>Name</th><th>Description</th></tr>\n";
+  
   while ($row = mysql_fetch_assoc ($res)) {
-    // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
     
-    // display the class
-    echo "<tr>";
-    echo "<td><code><a href=\"interface.php?id={$row['ID']}\">";
-    echo "{$row['Name']}</a></code></td>";
-    echo "<td>{$row['Description']}</td>";
-    echo "</tr>\n";
+    echo "<p><strong><a href=\"interface.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
+    echo $row['Description'];
   }
-  echo "</table>\n";
 }
 
 
@@ -120,25 +106,48 @@ $q = "SELECT ID, Name, Description, Arguments
   ORDER BY Name";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
+  echo '<a name="functions"></a>';
   echo "<h3>Functions</h3>";
-  echo "<table class=\"function-list\">\n";
-  echo "<tr><th>Name</th><th>Description</th></tr>\n";
+  
   while ($row = mysql_fetch_assoc ($res)) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
     $row['Arguments'] = htmlspecialchars($row['Arguments']);
     
     // display the function
+    echo "<p><strong><a href=\"function.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
+    echo $row['Description'];
+  }
+}
+
+
+// Show constants
+$q = "SELECT Name, Value, Description
+  FROM Constants
+  WHERE FileID IN ({$file_ids})
+  ORDER BY Name";
+$res = execute_query($q);
+if (mysql_num_rows($res) > 0) {
+  echo '<a name="constants"></a>';
+  echo "<h3>Constants</h3>";
+  
+  echo "<table class=\"function-list\">\n";
+  echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
+  while ($row = mysql_fetch_assoc ($res)) {
+    // encode for output
+    $row['Name'] = htmlspecialchars($row['Name']);
+    $row['Value'] = htmlspecialchars($row['Value']);
+    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
+    
+    // display the constant
     echo "<tr>";
-    echo "<td><code><a href=\"function.php?id={$row['ID']}\">";
-    echo "{$row['Name']}({$row['Arguments']})</a></code></td>";
+    echo "<td><code>{$row['Name']}</code></td>";
+    echo "<td><code>{$row['Value']}</code></td>";
     echo "<td>{$row['Description']}</td>";
     echo "</tr>\n";
   }
   echo "</table>\n";
 }
-
 
 require_once 'foot.php';
 ?>

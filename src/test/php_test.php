@@ -85,11 +85,12 @@ function php_documented_default_arguments_function ($arg1 = 'default1', $arg2 = 
 * @param php_documented_super_class $arg1 Argument 1
 * @param php_documented_base_class $arg2 Argument 2
 * @param php_missing_class $arg3 Argument 3 (class is not defined in this code)
+* @return string The result
 * @author Josh, initial work
 * @author bob, additional work
 **/
 function php_documented_typehinting_function (php_documented_super_class $arg1, php_documented_base_class $arg2, php_missing_class $arg3) {
-  return;
+  return 'the result';
 }
 
 /**

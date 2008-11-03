@@ -28,7 +28,7 @@ a img {
 }
 
 div.header {
-  background-color: #6e7aff;
+      background-color: #6e7aff;
   color: white;
   padding: 0.5em;
   margin: 0.5em;
@@ -176,8 +176,48 @@ table.parameter-list a {
   text-decoration: none;
 }
 
-
 .source {
   border: 1px #CCC solid;
   background: #EEE;
 }
+
+pre {
+  margin: 2px 0px 15px 0px;
+}
+
+p {
+  margin: 0px;
+}
+
+a {
+  color: #9b6e3f;
+}
+
+a:visited {
+  color: #9b6e3f;
+}
+
+a:active {
+  color: #e3bd94;
+}
+
+ul {
+  list-style-type: square;
+}
+
+ul li {
+  margin-bottom: 5px;
+}
+
+div.function-usage {
+  border: 1px black solid;
+  font-size: small;
+  padding: 3px 5px;
+  background-color: #FFE;
+}
+
+
+
+
+
+

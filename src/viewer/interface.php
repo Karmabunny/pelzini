@@ -55,9 +55,9 @@ echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row
 echo $row['Description'];
 $id = $row['ID'];
 
+if ($row['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($row['SinceVersion']), '</p>';
 
 show_authors ($row['ID'], LINK_TYPE_INTERFACE);
-if ($row['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($row['SinceVersion']), '</p>';
 
 
 // Show functions

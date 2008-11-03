@@ -43,7 +43,8 @@ if ($id == 0) {
 
 // Get the details of this function
 $q = "SELECT Functions.ID, Functions.Name, Functions.Description, Files.Name AS Filename, Functions.ClassID,
-  Classes.Name AS Class, Functions.Static, Functions.Final, Functions.SinceVersion
+  Classes.Name AS Class, Functions.Static, Functions.Final, Functions.SinceVersion,
+  Functions.ReturnType, Functions.ReturnDescription
   FROM Functions
   INNER JOIN Files ON Functions.FileID = Files.ID
   LEFT JOIN Classes ON Functions.ClassID = Classes.ID
@@ -71,6 +72,31 @@ echo $function['Description'];
 if ($function['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($function['SinceVersion']), '</p>';
 
 
+// Usage
+echo "<h3>Usage</h3>";
+echo '<div class="function-usage">';
+if ($function['ReturnType']) echo $function['ReturnType'], ' ';
+echo '<b>', $function['Name'], '</b> ( ';
+
+$q = "SELECT Name, Type, DefaultValue FROM Arguments WHERE FunctionID = {$function['ID']}";
+$res = execute_query($q);
+$j = 0;
+while ($row = mysql_fetch_assoc ($res)) {
+  $row['Name'] = htmlspecialchars($row['Name']);
+  $row['Type'] = htmlspecialchars($row['Type']);
+  if ($row['Type'] == '') $row['Type'] = 'mixed';
+  
+  if ($row['DefaultValue']) echo '[';
+  if ($j++ > 0) echo ', ';
+  
+  echo " {$row['Type']} {$row['Name']} ";
+  if ($row['DefaultValue']) $num_close++;
+}
+echo str_repeat (']', $num_close);
+echo ' );';
+echo '</div>';
+
+
 show_authors ($function['ID'], LINK_TYPE_FUNCTION);
 
 
@@ -79,22 +105,36 @@ $q = "SELECT ID, Name, Type, DefaultValue, Description FROM Arguments WHERE Func
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
   echo "<h3>Arguments</h3>";
-  echo "<table class=\"parameter-list\">\n";
-  echo "<tr><th>Name</th><th>Default</th><th>Description</th></tr>\n";
+  
+  echo "<ol>";
   while ($row = mysql_fetch_assoc ($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
     $row['Type'] = htmlspecialchars($row['Type']);
     $row['DefaultValue'] = htmlspecialchars($row['DefaultValue']);
     
-    echo "<tr>";
-    echo "<td><code>{$row['Type']} {$row['Name']}</code></td>";
-    echo "<td>{$row['DefaultValue']}</td>";
-    echo "<td>{$row['Description']}</td>";
-    echo "</tr>\n";
+    echo "<li><strong>{$row['Name']}</strong>";
+    echo "<br>{$row['Type']}";
+    if ($row['DefaultValue']) echo " (default: {$row['DefaultValue']})";
+    echo "<br>{$row['Description']}";
+    echo "</li>";
   }
-  echo "</table>\n";
+  echo "</ol>\n";
 }
+
+
+// Return value
+if ($function['ReturnType'] or $function['ReturnDescription']) {
+  $function['ReturnType'] = htmlspecialchars ($function['ReturnType']);
+  
+  echo "<h3>Return value</h3>";
+  
+  if ($function['ReturnType']) {
+    echo "<p>Type: {$function['ReturnType']}</p>";
+  }
+  
+  echo $function['ReturnDescription'];
+}
+
 
 require_once 'foot.php';
 ?>
