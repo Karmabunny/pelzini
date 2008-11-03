@@ -57,7 +57,7 @@ show_authors ($row['ID'], LINK_TYPE_INTERFACE);
 
 
 // Show functions
-$q = "SELECT ID, Name, Description, Parameters FROM Functions WHERE InterfaceID = {$id}";
+$q = "SELECT ID, Name, Description, Arguments FROM Functions WHERE InterfaceID = {$id}";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
   echo "<h3>Functions</h3>";
@@ -67,12 +67,12 @@ if (mysql_num_rows($res) > 0) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) $row['Description'] = '&nbsp;';
-    $row['Parameters'] = htmlspecialchars($row['Parameters']);
+    $row['Arguments'] = htmlspecialchars($row['Arguments']);
       
     // display
     echo "<tr>";
     echo "<td><code><a href=\"function.php?id={$row['ID']}\">";
-    echo "{$row['Name']}({$row['Parameters']})</a></code></td>";
+    echo "{$row['Name']}({$row['Arguments']})</a></code></td>";
     echo "<td>{$row['Description']}</td>";
     echo "</tr>\n";
   }

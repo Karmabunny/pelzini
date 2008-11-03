@@ -112,7 +112,7 @@ if (mysql_num_rows($res) > 0) {
 
 
 // Show functions
-$q = "SELECT ID, Name, Description, Parameters
+$q = "SELECT ID, Name, Description, Arguments
   FROM Functions
   WHERE FileID IN ({$file_ids}) AND ClassID IS NULL AND InterfaceID IS NULL
   ORDER BY Name";
@@ -125,12 +125,12 @@ if (mysql_num_rows($res) > 0) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) $row['Description'] = '&nbsp;';
-    $row['Parameters'] = htmlspecialchars($row['Parameters']);
+    $row['Arguments'] = htmlspecialchars($row['Arguments']);
     
     // display the function
     echo "<tr>";
     echo "<td><code><a href=\"function.php?id={$row['ID']}\">";
-    echo "{$row['Name']}({$row['Parameters']})</a></code></td>";
+    echo "{$row['Name']}({$row['Arguments']})</a></code></td>";
     echo "<td>{$row['Description']}</td>";
     echo "</tr>\n";
   }

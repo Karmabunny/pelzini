@@ -240,7 +240,7 @@ class MysqlOutputter {
     $this->connect();
     $this->query ("TRUNCATE TABLE Files");
     $this->query ("TRUNCATE TABLE Functions");
-    $this->query ("TRUNCATE TABLE Parameters");
+    $this->query ("TRUNCATE TABLE Arguments");
     $this->query ("TRUNCATE TABLE Classes");		
     $this->query ("TRUNCATE TABLE Packages");
     $this->query ("TRUNCATE TABLE Interfaces");
@@ -359,7 +359,7 @@ class MysqlOutputter {
           $args[] = $arg->name;
         }
       }
-      $insert_data['Parameters'] = $this->sql_safen(implode (', ', $args));
+      $insert_data['Arguments'] = $this->sql_safen(implode (', ', $args));
     }
 
     // build query from prepared data
@@ -378,7 +378,7 @@ class MysqlOutputter {
     }
     
     
-    // insert parameters
+    // insert Arguments
     foreach ($function->args as $arg) {
       $insert_data = array();
       $insert_data['Name'] = $this->sql_safen($arg->name);
@@ -386,7 +386,7 @@ class MysqlOutputter {
       $insert_data['Description'] = $this->sql_safen($arg->description);
 
       // build query from prepared data
-      $q = "INSERT INTO Parameters SET FunctionID = {$function_id}";
+      $q = "INSERT INTO Arguments SET FunctionID = {$function_id}";
       foreach ($insert_data as $key => $value) {
         $q .= ", {$key} = {$value}";
       }
@@ -402,7 +402,7 @@ class MysqlOutputter {
       $insert_data['Description'] = $this->sql_safen($function->return->description);
       
       // build query from prepared data
-      $q = "INSERT INTO Parameters SET FunctionID = {$function_id}";
+      $q = "INSERT INTO Arguments SET FunctionID = {$function_id}";
       foreach ($insert_data as $key => $value) {
         $q .= ", {$key} = {$value}";
       }

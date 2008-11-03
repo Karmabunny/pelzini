@@ -172,7 +172,7 @@ if (count($functions) > 0) {
     }
     
     // Show parameters
-    $q = "SELECT Name, Type, Description FROM Parameters WHERE FunctionID = {$row['ID']}";
+    $q = "SELECT Name, Type, Description FROM Arguments WHERE FunctionID = {$row['ID']}";
     $res = execute_query($q);
     if (mysql_num_rows($res) > 0) {
       echo "<ul>\n";

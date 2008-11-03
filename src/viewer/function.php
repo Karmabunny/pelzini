@@ -70,11 +70,11 @@ echo $function['Description'];
 show_authors ($function['ID'], LINK_TYPE_FUNCTION);
 
 
-// Show parameters
-$q = "SELECT ID, Name, Type, Description FROM Parameters WHERE FunctionID = {$function['ID']}";
+// Show Arguments
+$q = "SELECT ID, Name, Type, Description FROM Arguments WHERE FunctionID = {$function['ID']}";
 $res = execute_query($q);
 if (mysql_num_rows($res) > 0) {
-  echo "<h3>Parameters</h3>";
+  echo "<h3>Arguments</h3>";
   echo "<table class=\"parameter-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
   while ($row = mysql_fetch_assoc ($res)) {

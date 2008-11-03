@@ -30,7 +30,7 @@ PK ID
   InterfaceID int(10) unsigned
   Name varchar(255) NOT NULL
   Description text
-  Parameters varchar(255) NOT NULL
+  Arguments varchar(255) NOT NULL
   Visibility varchar(20)
   ReturnType varchar(255)
   ReturnDescription text
@@ -56,7 +56,7 @@ PK ID
   Name varchar(50) NOT NULL
 
 
-TABLE Parameters
+TABLE Arguments
 ENGINE MyISAM
 PK ID
   ID int(10) unsigned NOT NULL auto_increment
