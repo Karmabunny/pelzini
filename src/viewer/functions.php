@@ -24,6 +24,17 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * @since 0.1
 **/
 
+if (! file_exists ('config.php')) {
+  header ('Content-type: text/plain');
+  echo "ERROR:\n";
+  echo "Unable to find required configuration file 'config.php'.\n";
+  echo "Please configure the docu viewer. For more information, see:\n";
+  echo "http://docu.sourceforge.net\n\n";
+  echo "The easiest way to configure docu is to copy 'config.example.php' into 'config.php', ";
+  echo "then edit the file to suit your needs.";
+  exit;
+}
+
 require_once 'constants.php';
 require_once 'config.php';
 
