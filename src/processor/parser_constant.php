@@ -52,6 +52,8 @@ class ParserConstant extends ParserItem {
     echo '<div style="border: 1px orange solid;">';
     echo $this->name, ' = ', $this->value;
     echo $this->description;
+    
+    parent::dump();
     echo '</div>';
   }
 }

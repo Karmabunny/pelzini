@@ -1,3 +1,14 @@
+TABLE Files
+ENGINE MyISAM
+PK ID
+  ID int(11) unsigned NOT NULL auto_increment
+  Name varchar(255) NOT NULL
+  Description text
+  Source mediumtext NOT NULL
+  PackageID int(10) unsigned
+  SinceVersion varchar(255)
+  
+  
 TABLE Classes
 ENGINE MyISAM
 PK ID
@@ -9,18 +20,21 @@ PK ID
   Extends varchar(255)
   Visibility varchar(20) NOT NULL
   Final tinyint(1) NOT NULL
-
-
-TABLE Files
+  SinceVersion varchar(255)
+  
+  
+TABLE Interfaces
 ENGINE MyISAM
 PK ID
-  ID int(11) unsigned NOT NULL auto_increment
+  ID int(10) unsigned NOT NULL auto_increment
+  FileID int(10) unsigned NOT NULL
   Name varchar(255) NOT NULL
   Description text
-  Source mediumtext NOT NULL
-  PackageID int(10) unsigned
-
-
+  Extends varchar(255)
+  Visibility varchar(20) NOT NULL
+  SinceVersion varchar(255)
+  
+  
 TABLE Functions
 ENGINE MyISAM
 PK ID
@@ -36,26 +50,9 @@ PK ID
   ReturnDescription text
   Static tinyint(1) NOT NULL
   Final tinyint(1) NOT NULL
-
-
-TABLE Interfaces
-ENGINE MyISAM
-PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  FileID int(10) unsigned NOT NULL
-  Name varchar(255) NOT NULL
-  Description text
-  Extends varchar(255)
-  Visibility varchar(20) NOT NULL
-
-
-TABLE Packages
-ENGINE MyISAM
-PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  Name varchar(50) NOT NULL
-
-
+  SinceVersion varchar(255)
+  
+  
 TABLE Arguments
 ENGINE MyISAM
 PK ID
@@ -64,8 +61,8 @@ PK ID
   Name varchar(255) NOT NULL
   Type varchar(255)
   Description text
-
-
+  
+  
 TABLE Variables
 ENGINE MyISAM
 PK ID
@@ -76,16 +73,9 @@ PK ID
   Type varchar(255)
   Description text
   Static tinyint(1) NOT NULL
-
-
-TABLE Projects
-ENGINE MyISAM
-PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  Name varchar(255) NOT NULL
-  License text
-
-
+  SinceVersion varchar(255)
+  
+  
 TABLE Constants
 ENGINE MyISAM
 PK ID
@@ -94,8 +84,11 @@ PK ID
   Name varchar(255) NOT NULL
   Value varchar(255) NOT NULL
   Description text
-
-
+  SinceVersion varchar(255)
+  
+  
+  
+  
 TABLE Authors
 ENGINE MyISAM
 PK ID
@@ -105,5 +98,18 @@ PK ID
   Name varchar(255) NOT NULL
   Email varchar(255) NOT NULL
   Description text
-
-
+  
+  
+TABLE Packages
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  Name varchar(50) NOT NULL
+  
+  
+TABLE Projects
+ENGINE MyISAM
+PK ID
+  ID int(10) unsigned NOT NULL auto_increment
+  Name varchar(255) NOT NULL
+  License text

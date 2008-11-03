@@ -96,7 +96,9 @@ class ParserFunction extends ParserItem {
     if ($this->static) echo '<br>static';
     if ($this->final) echo '<br>static';
     echo '<br>' . $this->description;
-    foreach ($this->params as $a) $a->dump();
+    foreach ($this->args as $a) $a->dump();
+    
+    parent::dump();
     echo '</div>';
   }
 }

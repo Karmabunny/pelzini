@@ -31,21 +31,22 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 **/
 abstract class ParserItem {
   public $authors;
+  public $since;
   
   /**
   * This constructor must be called by extending classes
   **/
   protected function __construct () {
     $this->authors = array ();
+    $this->since = null;
   }
   
   /**
   * Processes general DocBlock tags that should apply to everything
   **/
   protected function processDocblockTags($docblock_tags) {
-    
+    // @author
     if (@count ($docblock_tags['@author']) > 0) {
-      
       // This regex is for taking an author string, and getting the name (required),
       // email address (optional) and description (optional).
       // The format, simply put, is:
@@ -67,6 +68,17 @@ abstract class ParserItem {
         }
       }
     }
+    
+    // @since
+    if (@count ($docblock_tags['@since']) > 0) {
+      $this->since = $docblock_tags['@since'][0];
+    }
+  }
+  
+  
+  protected function dump () {
+    echo '<br>Authors: '; foreach ($this->authors as $a) $a->dump();
+    echo '<br>Since: ', $this->since;
   }
 }
 

@@ -72,6 +72,8 @@ class ParserFile extends ParserItem {
     foreach ($this->functions as $a) $a->dump();
     foreach ($this->classes as $a) $a->dump();
     foreach ($this->constants as $a) $a->dump();
+    
+    parent::dump();
     echo '</div>';
   }
 }

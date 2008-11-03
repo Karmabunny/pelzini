@@ -20,8 +20,10 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 * Tests the PHP parsing system
+*
 * @package Test suite
 * @author Josh
+* @since 0.1
 **/
 
 
@@ -39,6 +41,7 @@ define ('PHP_NUMBER_CONST', 42);
 /**
 * A constant
 * @author josh
+* @since 0.1
 **/
 define ('PHP_DOCUMENTED_CONST', 42);
 
@@ -54,6 +57,7 @@ function php_documented_function () {
 * Contains arguments
 * @param string $variable The argument
 * @author Monkey Man <monkey.man@example.com>
+* @since r567
 **/
 function php_documented_arguments_function ($arg1, $arg2) {
   return;
@@ -99,6 +103,7 @@ function php_badly_documented_function ($arg1, $arg2 = 100, php_documented_super
 * Parent class is not defined in this code
 * @author josh <josh@example.com> did some work
 * @author bob <bob@example.com> did some more work
+* @since 0.1
 **/
 abstract class php_documented_base_class extends php_missing_base_class {
   private $base_private;
@@ -127,6 +132,7 @@ final class php_documented_super_class extends php_documented_base_class impleme
   /**
   * Stores some information about something
   * @author josh, 2008-10-10
+  * @since 0.1
   **/
   private $php_var1;
   
@@ -138,13 +144,14 @@ final class php_documented_super_class extends php_documented_base_class impleme
   /**
   *** Does soemthing else
   * @author josh, somehting
+  * @since 0.1
   **/
   public function php_documented_method () {
     foreach ($foo as $bar) {
       if ($baz) {
         echo $this->php_var2;
       }
-    }
+    }                                                                  
   }
 
   /**
@@ -177,6 +184,7 @@ final class php_documented_super_class extends php_documented_base_class impleme
 /**
 * An interface
 * @author peter
+* @since 0.1
 **/
 interface php_documented_interface {
   

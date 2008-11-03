@@ -54,6 +54,8 @@ class ParserInterface extends ParserItem {
     echo '<br>' . $this->description;
     foreach ($this->variables as $a) $a->dump();
     foreach ($this->functions as $a) $a->dump();
+    
+    parent::dump();
     echo '</div>';
   }
 }

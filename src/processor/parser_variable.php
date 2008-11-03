@@ -56,6 +56,8 @@ class ParserVariable extends ParserItem {
     echo $this->visibility . ' ';
     echo $this->name;
     if ($this->static) echo '<br>static';
+    
+    parent::dump();
     echo '</div>';
   }
 }
