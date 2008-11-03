@@ -37,7 +37,11 @@ class PhpTokeniser {
   function Tokenise ($filename) {
     global $dpgBaseDirectory;
     
-    $debug = false;
+    // You can enable the following if you want to debug the parser
+    // If you enable the line after it (the 'strpos' line) instead,
+    // it will only debug files containing 'test' (e.g. 'php_test.php')
+    # $debug = true;
+    # if (strpos ($filename, 'test') !== false) $debug = true;
     
     $source = @file_get_contents($dpgBaseDirectory . $filename);
     if ($source == null) return null;
@@ -249,6 +253,7 @@ class PhpTokeniser {
             
           // A string my become an extends, implements
           // function name or class name
+          // it could also be 'define' or 'null'
           case T_STRING:
             if ($next != null) {
               if ($next == T_EXTENDS) {
@@ -257,23 +262,30 @@ class PhpTokeniser {
               } else if ($next == T_IMPLEMENTS) {
                 $current_class->implements[] = $text;
               }
-
+              
             } else if ($current_function != null) {
               if ($current_function->name == '') {
                 $current_function->name = $text;
               } else {
                 $param_type = $text;
               }
-
+              
             } else if ($current_class != null) {
               $current_class->name = $text;
 
-            } else if (strcmp ($text, 'define') == 0) {
+            } else if (strcasecmp ($text, 'define') == 0) {
               $current_constant = new ParserConstant();
               
               if ($next_comment) {
                 $current_constant->apply_comment($next_comment);
                 $next_comment = null;
+              }
+              
+            } else if (strcasecmp ($text, 'null') == 0) {
+              if ($current_constant) {
+                $current_constant->value = 'NULL';
+                $current_file->constants[] = $current_constant;
+                $current_constant = null;
               }
             }
             break;
@@ -298,6 +310,7 @@ class PhpTokeniser {
             
             
           case T_LNUMBER:
+          case T_DNUMBER:
             if ($current_constant) {
               if ($current_constant->name != null) {
                 $current_constant->value = $text;

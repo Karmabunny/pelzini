@@ -44,6 +44,9 @@ define ('PHP_DOCUMENTED_CONST', 42);
 
 define ('PHP_STRING_CONST', 'blah');
 define ('PHP_NUMBER_CONST', 42);
+define ('PHP_FLOAT_CONST', 4.2);
+define ('PHP_NULL_CONST', null);
+define ('PHP_NULL_CONST2', NULL);
 
 
 /**
