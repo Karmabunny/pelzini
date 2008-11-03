@@ -35,15 +35,15 @@ interface php_missing_interface {}
 */
 
 
-define ('PHP_STRING_CONST', 'blah');
-define ('PHP_NUMBER_CONST', 42);
-
 /**
 * A constant
 * @author josh
 * @since 0.1
 **/
 define ('PHP_DOCUMENTED_CONST', 42);
+
+define ('PHP_STRING_CONST', 'blah');
+define ('PHP_NUMBER_CONST', 42);
 
 
 /**

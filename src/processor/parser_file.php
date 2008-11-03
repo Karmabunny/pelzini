@@ -71,6 +71,7 @@ class ParserFile extends ParserItem {
   public function dump() {
     echo '<div style="border: 1px black solid;">';
     echo $this->name;
+    echo "<pre>{$this->description}</pre>";
     foreach ($this->functions as $a) $a->dump();
     foreach ($this->classes as $a) $a->dump();
     foreach ($this->constants as $a) $a->dump();

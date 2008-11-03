@@ -66,18 +66,26 @@ class PhpTokeniser {
     
     // debugger
     if ($debug) {
-      echo '<style>span {color: green;}</style>';
+      echo '<style>';
+      echo 'span {color: green;}';
+      echo 'h3 {border: 4px black solid; padding: 3px; margin-top: 2em;}';
+      echo 'i {color: gray;}';
+      echo '</style>';
+      
       echo '<h3>', htmlspecialchars($filename), '</h3>';
       echo '<pre>';
     }
     
     foreach ($tokens as $token) {
+      if (is_array($token) and $token[0] == T_WHITESPACE) continue;
+      
       // debugger
       if ($debug) {
+        echo "\n";
         if (is_string($token)) {
-          echo htmlspecialchars($token) . "\n";
+          echo "BARE TEXT\n<i>" . htmlspecialchars($token) . "</i>\n";
         } else {
-          echo htmlspecialchars(token_name($token[0]) . ' ' . $token[1]) . "\n";
+          echo htmlspecialchars(token_name($token[0])) . "\n<i>" . htmlspecialchars(str_replace("\n", '\n', $token[1])) . "</i>\n";
         }
       }
       
