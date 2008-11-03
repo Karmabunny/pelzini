@@ -48,7 +48,7 @@ function __autoload ($class) {
 * }
 *
 * @param string $comment The raw comment text
-* @return The parsed comments, as per the example provided above
+* @return array The parsed comments, as per the example provided above
 **/
 function parse_doc_comment ($comment) {
   $comment = preg_replace('/^\/\*\*/', '', $comment);

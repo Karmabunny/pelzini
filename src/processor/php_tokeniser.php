@@ -112,7 +112,8 @@ class PhpTokeniser {
             $current_function->post_load();
             $inside_function = $current_function;
             $current_function = null;
-
+            $argument = null;
+            
           // opening of class
           } else if ($current_class != null) {
             if ($visibility != null) {
