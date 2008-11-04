@@ -19,32 +19,17 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-if (! file_exists ('config.php')) {
-  header ('Content-type: text/plain');
-  echo "ERROR:\n";
-  echo "Unable to find required configuration file 'config.php'.\n";
-  echo "Please configure the docu processor. For more information, see:\n";
-  echo "http://docu.sourceforge.net\n\n";
-  echo "The easiest way to configure docu is to copy 'config.example.php' into 'config.php', ";
-  echo "then edit the file to suit your needs.";
-  exit;
-}
-
+chdir(dirname(__FILE__));
 
 require_once 'functions.php';
 require_once 'constants.php';
 require_once 'misc_classes.php';
-
-// set up some space
-$dpgOutputters = array();
-$dpgOutputterSettings = array();
-
-require_once 'config.php';
+require_once 'load_config.php';
 
 
 output_status ('This is the docu processor, docu version ' . DOCU_VERSION);
 output_status ('Docu is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
-output_status ('For more information, see http://docu.sourceforge.net/');
+output_status ('For more information, see <a href="http://docu.sourceforge.net/">http://docu.sourceforge.net/</a>');
 output_status ('');
 
 

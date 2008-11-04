@@ -126,7 +126,11 @@ function parse_tag (&$output, $tag, $buffer) {
 * @param string $message The message to output
 **/
 function output_status($message) {
-  echo $message . "<br>";
+  if (PHP_SAPI == 'cli') {
+    echo strip_tags ($message) . "\n";
+  } else {
+    echo $message . "<br>";
+  }
 }
 
 
