@@ -176,14 +176,14 @@ if (is_writable ('.')) {
 } else {
   echo '<p>Cant save files, outputting to the screen.</p>';
   
-  echo '<p><strong>processor/config.php</strong></p>';
+  echo '<p><strong>processor/config.processor.php</strong></p>';
   echo '<pre class="source">', htmlspecialchars ($processor), '</pre>';
   
-  echo '<p><strong>viewer/config.php</strong></p>';
+  echo '<p><strong>viewer/config.viewer.php</strong></p>';
   echo '<pre class="source">', htmlspecialchars ($viewer), '</pre>';
 }
 ?>
-<p>Done!</p>
+<p>Copy these files into the processor and viewer directories, and you are done!</p>
 
 
 </div>

@@ -107,7 +107,8 @@ if (PHP_SAPI == 'cli') {
 if (! $config_found) {
   header ('Content-type: text/plain');
   echo "ERROR:\n";
-  echo "Unable to find required configuration file 'config.php'.\n";
+  echo "Unable to find required configuration file 'config.php' or 'config.processor.php', ";
+  echo "and no config file was specified on the command line (using the --config option).\n";
   echo "Please configure the docu processor. For more information, see:\n";
   echo "http://docu.sourceforge.net\n\n";
   echo "The easiest way to configure docu is to run the installer and follow the instructions provided.\n";

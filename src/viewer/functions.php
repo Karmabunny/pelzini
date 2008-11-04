@@ -40,10 +40,10 @@ if (file_exists('config.processor.php')) {
   $config_found = true;
 }
 
-if (! file_exists ($config_found)) {
+if (! $config_found) {
   header ('Content-type: text/plain');
   echo "ERROR:\n";
-  echo "Unable to find required configuration file 'config.php'.\n";
+  echo "Unable to find required configuration file 'config.php' or 'config.viewer.php'.\n";
   echo "Please configure the docu viewer. For more information, see:\n";
   echo "http://docu.sourceforge.net\n\n";
   echo "The easiest way to configure docu is to run the installer and follow the instructions provided.";
