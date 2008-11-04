@@ -26,6 +26,17 @@ function err ($msg) {
   echo "<p class=\"error\">ERROR: {$msg}</p>";
 }
 
+function fatal ($msg) {
+  echo "<p class=\"error\">ERROR: {$msg}</p>";
+  exit;
+}
+
+
+
+foreach ($_POST as $key => $value) {
+  $_POST[$key] = trim ($_POST[$key]);
+  $_POST[$key] = str_replace(array("\r\n", "\r"), "\n", $_POST[$key]);
+}
 ?>
 <html>
 <head>
@@ -38,7 +49,7 @@ function err ($msg) {
 <h1>Docu installer</h1>
 
 
-<h3>Checking input is alright</h3>
+<h3>Checking input</h3>
 <?php
 if (! $_POST['database_type']) err ('No database creation type specified');
 if (! $_POST['database_server']) err ('No database server specified');
@@ -66,17 +77,55 @@ if ($has_errors) {
 <?php
 switch ($_POST['database_type']) {
   case 'created':
-    echo '<p>Database already exists. Nothing to do.</p>';
+    echo '<p>Checking database exists.</p>';
+    
+    $db = @mysql_connect($_POST['database_server'], $_POST['database_user'], $_POST['database_password']);
+    if (! $db) fatal('Unable to connect to database<br>MySQL reported: ' . mysql_error());
+    echo '<p>Connection successful.</p>';
+    
+    $res = mysql_select_db($_POST['database_name']);
+    if (! $res) fatal('Database does not exist<br>MySQL reported: ' . mysql_error());
+    echo '<p>Database found.</p>';
+    
+    mysql_close($db);
     break;
     
     
   case 'user':
     echo '<p>Database needs creation.</p>';
+    
+    $db = @mysql_connect($_POST['database_server'], $_POST['database_user'], $_POST['database_password']);
+    if (! $db) fatal('Unable to connect to database<br>MySQL reported: ' . mysql_error());
+    echo '<p>Connection successful.</p>';
+    
+    $res = mysql_query("CREATE DATABASE IF NOT EXISTS {$_POST['database_name']}");
+    if (! $res) fatal('Unable to create database.<br>MySQL reported: ' . mysql_error());
+    echo '<p>Database created.</p>';
+    
+    $res = mysql_query("GRANT ALL ON {$_POST['database_name']}.* TO '{$_POST['database_user']}'");
+    if (! $res) fatal('Unable to grant permissions.<br>MySQL reported: ' . mysql_error());
+    echo '<p>Permissions granted.</p>';
+    
+    mysql_close($db);
     break;
     
     
   case 'root':
     echo '<p>Database needs creation by admin user.</p>';
+    
+    $db = @mysql_connect($_POST['database_server'], $_POST['admin_user'], $_POST['admin_password']);
+    if (! $db) fatal('Unable to connect to database<br>MySQL reported: ' . mysql_error());
+    echo '<p>Connection successful.</p>';
+    
+    $res = mysql_query("CREATE DATABASE IF NOT EXISTS {$_POST['database_name']}");
+    if (! $res) fatal('Unable to create database.<br>MySQL reported: ' . mysql_error());
+    echo '<p>Database created.</p>';
+    
+    $res = mysql_query("GRANT ALL ON {$_POST['database_name']}.* TO '{$_POST['database_user']}'");
+    if (! $res) fatal('Unable to grant permissions.<br>MySQL reported: ' . mysql_error());
+    echo '<p>Permissions granted.</p>';
+    
+    mysql_close($db);
     break;
 }
 ?>
@@ -85,14 +134,54 @@ switch ($_POST['database_type']) {
 
 <h3>Populating database</h3>
 <?php
-// todo
+$db = @mysql_connect($_POST['database_server'], $_POST['database_user'], $_POST['database_password']);
+if (! $db) fatal('Unable to connect to database<br>MySQL reported: ' . mysql_error());
+echo '<p>Connection successful.</p>';
+
+$res = mysql_select_db($_POST['database_name']);
+if (! $res) fatal('Database does not exist<br>MySQL reported: ' . mysql_error());
+echo '<p>Database found.</p>';
+
+require_once '../processor/functions.php';
+require_once '../processor/constants.php';
+
+$outputter = new MysqlOutputter(
+  $_POST['database_user'],
+  $_POST['database_password'],
+  $_POST['database_server'],
+  $_POST['database_name']
+);
+
+$_GET['action'] = 1;
+$_GET['nopre'] = 1;
+$result = $outputter->check_layout('../mysql.layout');
 ?>
 <p>Done!</p>
 
 
 <h3>Creating config files</h3>
 <?php
-// todo
+$vars = $_POST;
+$vars['project_exclude'] = 'array("' . str_replace("\n", '", "', $vars['project_exclude']) . '")';
+
+echo '<p>Generating config files</p>';
+$processor = template_file('example.config.processor.php', $vars);
+$viewer = template_file('example.config.viewer.php', $vars);
+
+if (is_writable ('.')) {
+  echo '<p>Saving config files</p>';
+  file_put_contents('config.processor.php', $processor);
+  file_put_contents('config.viewer.php', $viewer);
+  
+} else {
+  echo '<p>Cant save files, outputting to the screen.</p>';
+  
+  echo '<p><strong>processor/config.php</strong></p>';
+  echo '<pre class="source">', htmlspecialchars ($processor), '</pre>';
+  
+  echo '<p><strong>viewer/config.php</strong></p>';
+  echo '<pre class="source">', htmlspecialchars ($viewer), '</pre>';
+}
 ?>
 <p>Done!</p>
 
@@ -100,3 +189,17 @@ switch ($_POST['database_type']) {
 </div>
 </body>
 </html>
+<?php
+/**
+* Returns a string
+**/
+function template_file($template, $vars) {
+  $content = file_get_contents($template);
+  
+  foreach ($vars as $name => $value) {
+    $content = str_replace ('{{' . $name . '}}', $value, $content);
+  }
+  
+  return $content;
+}
+?>

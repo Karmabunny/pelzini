@@ -56,6 +56,8 @@ if (! is_writable ('.')) {
 
 <p>To install docu, fill in all the relevant options below.</p>
 
+<p>You can also use this tool to upgrade docu.</p>
+
 
 
 <h2>1. Database</h2>

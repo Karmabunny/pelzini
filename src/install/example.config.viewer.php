@@ -10,8 +10,8 @@ $dvgProjectID = 1;
 
 /* This should contain the outputter settings
    The settings are an array, with one array for each outputter */
-$dvgDatabaseSettings['server'] = 'localhost';
-$dvgDatabaseSettings['username'] = 'josh';
-$dvgDatabaseSettings['password'] = 'password';
-$dvgDatabaseSettings['name'] = 'docu';
+$dvgDatabaseSettings['server'] = '{{database_server}}';
+$dvgDatabaseSettings['username'] = '{{database_user}}';
+$dvgDatabaseSettings['password'] = '{{database_password}}';
+$dvgDatabaseSettings['name'] = '{{database_name}}';
 ?>

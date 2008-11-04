@@ -31,6 +31,12 @@ code {
   background-color: whitesmoke;
 }
 
+pre.source {
+  background-color: whitesmoke;
+  border: 1px #777 solid;
+  padding: 0.5em;
+}
+
 p.error {
   border: 1px red solid;
   margin: 1em;
