@@ -39,13 +39,6 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 <p>This is the docu processor. The following tasks are available:</p>
 
-<?php
-if (! file_exists ('config.php')) {
-  echo '<p><b><a href="create_config.php">Create the config file</a></b>';
-  echo '<br>Creates the initial docu processor configuration file</p>';
-}
-?>
-
 <p><b><a href="main.php">Regenerate documentation</a></b>
 <br>Recreates the documentation by scanning the source files and creating the database and other output files.</p>
 

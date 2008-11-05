@@ -35,7 +35,7 @@ if (file_exists('config.php')) {
   $config_found = true;
 }
 
-if (file_exists('config.processor.php')) {
+if (file_exists('config.viewer.php')) {
   require_once 'config.viewer.php';
   $config_found = true;
 }

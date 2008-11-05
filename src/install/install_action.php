@@ -185,6 +185,12 @@ if (is_writable ('.')) {
 ?>
 <p>Copy these files into the processor and viewer directories, and you are done!</p>
 
+<?php
+if (! is_writable ('.')) {
+  echo '<p>Make sure to not include any whitespace before the &lt;?php or after the ?&gt; in the config files!</p>';
+}
+?>
+
 
 </div>
 </body>
