@@ -23,15 +23,33 @@
 # This tool creates a snapshot of the docu repository
 #
 
-mkdir dist_snapshot
-cd dist_snapshot
 
-echo "Checking out repository..."
-svn co https://docu.svn.sourceforge.net/svnroot/docu/trunk docu-snapshot
+if [ ! -d dist_release ]; then
+  mkdir dist_release
+fi
+cd dist_release
 
-REV=`svnversion docu-snapshot`
-DATE=`date +"%Y-%m-%d"`
-DESTFILENAME="docu-snapshot-r$REV-$DATE.tar.bz2"
+echo "Release name: "
+read NAME
+echo
 
-echo "Compressing snapshot, saving as $DESTFILENAME..."
-tar -cj docu-snapshot > "$DESTFILENAME"
+DIRNAME="docu-$NAME"
+
+if [ -d "$DIRNAME" ]; then
+  echo "Removing existing release directory"
+  rm -rf "$DIRNAME"
+  echo
+fi
+
+echo "Exporting repository..."
+svn export https://docu.svn.sourceforge.net/svnroot/docu/trunk/src "$DIRNAME"
+echo
+
+echo "Preforming automatic alterations..."
+cd "$DIRNAME"
+rm test -rf
+echo
+
+echo "Automatic alterations complete."
+echo "You can now make manual alterations."
+echo "When you are done, run compress_release.sh"
