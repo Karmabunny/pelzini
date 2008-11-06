@@ -138,19 +138,27 @@ function output_status($message) {
 * Gets all the filenames in a directory and in the subdirectories
 **/
 function get_filenames ($directory) {
-  global $dpgBaseDirectory;
+  global $dpgBaseDirectory, $dpgExcludeDirectories;
   
-  $handle = opendir($dpgBaseDirectory . $directory);
+  if (isset ($dpgExcludeDirectories)) {
+    if (in_array ($directory, $dpgExcludeDirectories)) return null;
+  }
   
   $files = array();
+  $handle = opendir($dpgBaseDirectory . $directory);
   while (($file = readdir($handle)) !== false) {
     if ($file[0] == '.') continue;
+    
     if (is_dir($dpgBaseDirectory . $directory . $file)) {
-      $files2 = get_filenames($directory . $file . '/');
-      $files = array_merge($files, $files2);
+      // If its a directory, get the files in it
+      $files2 = get_filenames($directory . $file);
+      if (is_array ($files2)) {
+        $files = array_merge($files, $files2);
+      }
       
     } else {
-      $files[] = $directory . $file;
+      // Otherwise just add the file to our list
+      $files[] = $directory . '/'. $file;
     }
   }
   

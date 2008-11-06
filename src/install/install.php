@@ -126,8 +126,9 @@ directory of the project.</small>
 <br><small>This should be a one-per-line listing of directories to exclude from the base directory,
 relative to the base directory.</small>
 <br><textarea name="project_exclude" rows="5" cols="40">
-processor
-viewer
+/processor
+/viewer
+/install
 </textarea></p>
 
 
