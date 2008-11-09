@@ -22,7 +22,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * The current version of docu.
 **/
-define ('DOCU_VERSION', '0.1-pre');
+define ('DOCU_VERSION', '0.2-pre');
 
 // The output engines
 define ('OUTPUTTER_MYSQL',   1);
