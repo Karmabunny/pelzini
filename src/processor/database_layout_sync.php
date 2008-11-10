@@ -36,7 +36,7 @@ foreach ($dpgOutputters as $outputter) {
         $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_name']
       );
       
-      $result = $outputter->check_layout('../mysql.layout');
+      $result = $outputter->check_layout('database.layout');
       break;
       
       
@@ -49,7 +49,7 @@ foreach ($dpgOutputters as $outputter) {
         $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_name']
       );
       
-      $result = $outputter->check_layout('../mysql.layout');
+      $result = $outputter->check_layout('database.layout');
       break;
       
       

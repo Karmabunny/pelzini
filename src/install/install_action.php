@@ -154,7 +154,7 @@ $outputter = new MysqlOutputter(
 
 $_GET['action'] = 1;
 $_GET['nopre'] = 1;
-$result = $outputter->check_layout('../mysql.layout');
+$result = $outputter->check_layout('../processor/database.layout');
 ?>
 <p>Done!</p>
 
