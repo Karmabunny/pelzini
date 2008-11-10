@@ -106,7 +106,7 @@ class MysqlOutputter extends DatabaseOutputter {
   /**
   * Returns the number of rows affected in the last query
   **/
-  protected function affected_rows () {
+  protected function affected_rows ($res) {
     return mysql_affected_rows();
   }
   
@@ -140,7 +140,7 @@ class MysqlOutputter extends DatabaseOutputter {
   *   [0] => Array [
   *      'Field' => field name
   *      'Type' => field type, (e.g. 'int unsigned' or 'varchar(255)')
-  *      'Null' => nullable?, (e.g. 'NO' or 'YES')
+  *      'Null' => nullable?, (true or false)
   *      'Key' => indexed?, ('PRI' for primary key)
   *      'Extra' => extra info, (to contain 'auto_increment' if an auto-inc column)
   *      ]
@@ -153,7 +153,23 @@ class MysqlOutputter extends DatabaseOutputter {
     
     $columns = array();
     while ($row = $this->fetch_assoc($res)) {
+      if ($row['Null'] == 'YES') {
+        $row['Null'] = true;
+      } else {
+        $row['Null'] = false;
+      }
+      
+      // Removes numbers after interger columns (tinyint, int, bigint)
       $row['Type'] = preg_replace('/int\s*\([0-9]+\)/i', 'int', $row['Type']);
+      
+      // Hides SERIAL columns as SERIAL columns.
+      if (strcasecmp('bigint unsigned', $row['Type']) == 0
+        and ! $row['Null']
+        and stripos('auto_increment', $row['Extra']) !== false) {
+          $row['Type'] = 'SERIAL';
+          $row['Null'] = true;
+          $row['Extra'] = '';
+      }
       
       $columns[] = $row;
     }

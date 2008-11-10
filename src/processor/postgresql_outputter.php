@@ -74,9 +74,17 @@ class PostgresqlOutputter extends DatabaseOutputter {
   * Executes a MySQL query
   */
   protected function query ($query) {
-    $return = pg_query ($query);
+    // If the query begins with CREATE or ALTER, make some small changes:
+    // - remove 'unsigned', its not supported in postgres.
+    // - replace 'mediumtext' with 'text'
+    if (strncasecmp('CREATE', $query, 6) == 0 or strncasecmp('ALTER', $query, 5) == 0) {
+      $query = str_replace ('unsigned', '', $query);
+      $query = str_replace ('mediumtext', 'text', $query);
+    }
+    
+    $return = @pg_query ($query);
     if ($return === false) {
-      echo "<p>Error in query <em>{$query}</em>. PostgreSQL reported the following: <em>" . pg_last_error() . "</em></p>";
+      echo "<p>Error in query:<br><em>{$query}</em><br><br>PostgreSQL reported the following:<br><em>" . pg_last_error() . "</em></p>";
     }
     return $return;
   }
@@ -112,7 +120,7 @@ class PostgresqlOutputter extends DatabaseOutputter {
   /**
   * Returns the number of rows affected in the last query
   **/
-  protected function affected_rows () {
+  protected function affected_rows ($res) {
     return pg_affected_rows();
   }
   
@@ -128,7 +136,8 @@ class PostgresqlOutputter extends DatabaseOutputter {
   * Returns an array of the tables in this database
   **/
   protected function get_table_list () {
-    $q = "SELECT * FROM information_schema.tables WHERE table_schema = '{$this->database}' ORDER BY table_name";
+    $q = "\dt";
+  //lo    $q = "SELECT * FROM information_schema.tables WHERE table_schema = '{$this->database}' ORDER BY table_name";
     $res = $this->query ($q);
     
     $tables = array();
