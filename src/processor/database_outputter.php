@@ -78,7 +78,11 @@ abstract class DatabaseOutputter extends Outputter {
   public function check_layout ($layout_filename) {
     $layout_lines = file ($layout_filename);
     
-    $this->connect();
+    $res = $this->connect();
+    if (! $res) {
+      echo "<p>Unable to connect to database!";
+      return false;
+    }
     
     $dest_tables = array ();
     $table = null;
@@ -223,7 +227,12 @@ abstract class DatabaseOutputter extends Outputter {
   public function output ($files) {
     global $dpqProjectID, $dpgProjectName, $dpgLicenseText;
     
-    $this->connect();
+    $res = $this->connect();
+    if (! $res) {
+      echo "<p>Unable to connect to database!";
+      return false;
+    }
+    
     $this->query ("TRUNCATE Projects");
     $this->query ("TRUNCATE Files");
     $this->query ("TRUNCATE Functions");

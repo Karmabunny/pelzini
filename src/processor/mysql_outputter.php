@@ -61,6 +61,7 @@ class MysqlOutputter extends DatabaseOutputter {
     $this->db = @mysql_connect($this->server, $this->username, $this->password);
     if ($this->db == false) return false;
     mysql_select_db ($this->database, $this->db);
+    return true;
   }
   
   /**
