@@ -1,33 +1,33 @@
 TABLE Files
 ENGINE MyISAM
 PK ID
-  ID int(11) unsigned NOT NULL auto_increment
+  ID int unsigned NOT NULL auto_increment
   Name varchar(255) NOT NULL
   Description text
   Source mediumtext NOT NULL
-  PackageID int(10) unsigned
+  PackageID int unsigned
   SinceVersion varchar(255)
   
   
 TABLE Classes
 ENGINE MyISAM
 PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  FileID int(10) unsigned NOT NULL
+  ID int unsigned NOT NULL auto_increment
+  FileID int unsigned NOT NULL
   Name varchar(255) NOT NULL
   Description text
-  Abstract tinyint(3) unsigned NOT NULL
+  Abstract tinyint unsigned NOT NULL
   Extends varchar(255)
   Visibility varchar(20) NOT NULL
-  Final tinyint(1) NOT NULL
+  Final tinyint unsigned NOT NULL
   SinceVersion varchar(255)
   
   
 TABLE Interfaces
 ENGINE MyISAM
 PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  FileID int(10) unsigned NOT NULL
+  ID int unsigned NOT NULL auto_increment
+  FileID int unsigned NOT NULL
   Name varchar(255) NOT NULL
   Description text
   Extends varchar(255)
@@ -38,26 +38,26 @@ PK ID
 TABLE Functions
 ENGINE MyISAM
 PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  FileID int(10) unsigned NOT NULL
-  ClassID int(10) unsigned
-  InterfaceID int(10) unsigned
+  ID int unsigned NOT NULL auto_increment
+  FileID int unsigned NOT NULL
+  ClassID int unsigned
+  InterfaceID int unsigned
   Name varchar(255) NOT NULL
   Description text
   Arguments varchar(255) NOT NULL
   Visibility varchar(20)
   ReturnType varchar(255)
   ReturnDescription text
-  Static tinyint(1) NOT NULL
-  Final tinyint(1) NOT NULL
+  Static tinyint unsigned NOT NULL
+  Final tinyint unsigned NOT NULL
   SinceVersion varchar(255)
   
   
 TABLE Arguments
 ENGINE MyISAM
 PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  FunctionID int(10) unsigned NOT NULL
+  ID int unsigned NOT NULL auto_increment
+  FunctionID int unsigned NOT NULL
   Name varchar(255) NOT NULL
   Type varchar(255)
   DefaultValue varchar(255)
@@ -67,21 +67,21 @@ PK ID
 TABLE Variables
 ENGINE MyISAM
 PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  ClassID int(10) unsigned
-  InterfaceID int(10) unsigned
+  ID int unsigned NOT NULL auto_increment
+  ClassID int unsigned
+  InterfaceID int unsigned
   Name varchar(255) NOT NULL
   Type varchar(255)
   Description text
-  Static tinyint(1) NOT NULL
+  Static tinyint unsigned NOT NULL
   SinceVersion varchar(255)
   
   
 TABLE Constants
 ENGINE MyISAM
 PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  FileID int(10) unsigned NOT NULL
+  ID int unsigned NOT NULL auto_increment
+  FileID int unsigned NOT NULL
   Name varchar(255) NOT NULL
   Value varchar(255) NOT NULL
   Description text
@@ -93,9 +93,9 @@ PK ID
 TABLE Authors
 ENGINE MyISAM
 PK ID
-  ID int(10) unsigned NOT NULL auto_increment
-  LinkID int(10) unsigned NOT NULL
-  LinkType tinyint(3) unsigned NOT NULL
+  ID int unsigned NOT NULL auto_increment
+  LinkID int unsigned NOT NULL
+  LinkType tinyint unsigned NOT NULL
   Name varchar(255) NOT NULL
   Email varchar(255) NOT NULL
   Description text
@@ -104,13 +104,13 @@ PK ID
 TABLE Packages
 ENGINE MyISAM
 PK ID
-  ID int(10) unsigned NOT NULL auto_increment
+  ID int unsigned NOT NULL auto_increment
   Name varchar(50) NOT NULL
   
   
 TABLE Projects
 ENGINE MyISAM
 PK ID
-  ID int(10) unsigned NOT NULL auto_increment
+  ID int unsigned NOT NULL auto_increment
   Name varchar(255) NOT NULL
   License text

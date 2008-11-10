@@ -147,7 +147,7 @@ class PostgresqlOutputter extends DatabaseOutputter {
   * Array [
   *   [0] => Array [
   *      'Field' => field name
-  *      'Type' => field type, (e.g. 'int(10) unsigned')
+  *      'Type' => field type, (e.g. 'int unsigned' or 'varchar(255)')
   *      'Null' => nullable?, (e.g. 'NO' or 'YES')
   *      'Key' => indexed?, ('PRI' for primary key)
   *      'Extra' => extra info, (to contain 'auto_increment' if an auto-inc column)

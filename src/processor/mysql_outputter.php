@@ -139,7 +139,7 @@ class MysqlOutputter extends DatabaseOutputter {
   * Array [
   *   [0] => Array [
   *      'Field' => field name
-  *      'Type' => field type, (e.g. 'int(10) unsigned')
+  *      'Type' => field type, (e.g. 'int unsigned' or 'varchar(255)')
   *      'Null' => nullable?, (e.g. 'NO' or 'YES')
   *      'Key' => indexed?, ('PRI' for primary key)
   *      'Extra' => extra info, (to contain 'auto_increment' if an auto-inc column)
@@ -153,6 +153,8 @@ class MysqlOutputter extends DatabaseOutputter {
     
     $columns = array();
     while ($row = $this->fetch_assoc($res)) {
+      $row['Type'] = preg_replace('/int\s*\([0-9]+\)/i', 'int', $row['Type']);
+      
       $columns[] = $row;
     }
     
