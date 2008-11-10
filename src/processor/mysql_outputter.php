@@ -116,6 +116,48 @@ class MysqlOutputter extends DatabaseOutputter {
   protected function insert_id () {
     return mysql_insert_id ();
   }
+  
+  
+  /**
+  * Returns an array of the tables in this database
+  **/
+  protected function get_table_list () {
+    $q = "SHOW TABLES";
+    $res = $this->query ($q);
+    
+    $tables = array();
+    while ($row = $this->fetch_row($res)) {
+      $tables[] = $row[0];
+    }
+    
+    return $tables;
+  }
+  
+  /**
+  * Should return a multi-dimentional array of the column details
+  * Format:
+  * Array [
+  *   [0] => Array [
+  *      'Field' => field name
+  *      'Type' => field type, (e.g. 'int(10) unsigned')
+  *      'Null' => nullable?, (e.g. 'NO' or 'YES')
+  *      'Key' => indexed?, ('PRI' for primary key)
+  *      'Extra' => extra info, (to contain 'auto_increment' if an auto-inc column)
+  *      ]
+  *    [1] => ...
+  *    [n] => ...
+  **/
+  protected function get_column_details ($table_name) {
+    $q = 'SHOW COLUMNS IN ' . $table_name;
+    $res = $this->query ($q);
+    
+    $columns = array();
+    while ($row = $this->fetch_assoc($res)) {
+      $columns[] = $row;
+    }
+    
+    return $columns;
+  }
 }
 
 ?>

@@ -28,7 +28,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Outputs the tree to a PostgreSQL database
 **/
-class PostgreOutputter extends DatabaseOutputter {
+class PostgresqlOutputter extends DatabaseOutputter {
   private $username;
   private $password;
   private $server;
@@ -49,7 +49,7 @@ class PostgreOutputter extends DatabaseOutputter {
   * Closes connection to the db
   */
   public function __destruct () {
-    if ($this->db) mysql_close ($this->db);
+    if ($this->db) pg_close ($this->db);
   }
   
   
@@ -121,6 +121,42 @@ class PostgreOutputter extends DatabaseOutputter {
   **/
   protected function insert_id () {
     // TODO
+  }
+  
+  
+  /**
+  * Returns an array of the tables in this database
+  **/
+  protected function get_table_list () {
+    $q = "SELECT * FROM information_schema.tables WHERE table_schema = '{$this->database}' ORDER BY table_name";
+    $res = $this->query ($q);
+    
+    $tables = array();
+    while ($row = $this->fetch_assoc($res)) {
+      $tables[] = $row['table_name'];
+    }
+    
+    print_r ($tables);
+    
+    return $tables;
+  }
+  
+  /**
+  * Should return a multi-dimentional array of the column details
+  * Format:
+  * Array [
+  *   [0] => Array [
+  *      'Field' => field name
+  *      'Type' => field type, (e.g. 'int(10) unsigned')
+  *      'Null' => nullable?, (e.g. 'NO' or 'YES')
+  *      'Key' => indexed?, ('PRI' for primary key)
+  *      'Extra' => extra info, (to contain 'auto_increment' if an auto-inc column)
+  *      ]
+  *    [1] => ...
+  *    [n] => ...
+  **/
+  protected function get_column_details ($table_name) {
+    throw new Exception ('Function ' . __FUNCTION__ . ' is not implemented');
   }
 }
 

@@ -68,6 +68,28 @@ abstract class DatabaseOutputter extends Outputter {
   abstract protected function insert_id ();
   
   
+  /**
+  * Returns an array of the tables in this database
+  **/
+  abstract protected function get_table_list ();
+  
+  /**
+  * Should return a multi-dimentional array of the column details
+  * Format:
+  * Array [
+  *   [0] => Array [
+  *      'Field' => field name
+  *      'Type' => field type, (e.g. 'int(10) unsigned')
+  *      'Null' => nullable?, (e.g. 'NO' or 'YES')
+  *      'Key' => indexed?, ('PRI' for primary key)
+  *      'Extra' => extra info, (to contain 'auto_increment' if an auto-inc column)
+  *      ]
+  *    [1] => ...
+  *    [n] => ...
+  **/
+  abstract protected function get_column_details ($table_name);
+  
+  
   
   /**
   * Updates the database layout to match the layout file
@@ -115,21 +137,21 @@ abstract class DatabaseOutputter extends Outputter {
     
     $curr_tables = array ();
     
-    $tblres = $this->query('SHOW TABLES');
-    while ($tblrow = $this->fetch_row($tblres)) {
-      $curr_tables[$tblrow[0]] = array();
+    $table_names = $this->get_table_list();
+    foreach ($table_names as $table_name) {
+      $curr_tables[$table_name] = array();
       
-      $colres = $this->query('SHOW COLUMNS IN ' . $tblrow[0]);
+      $colres = $this->get_column_details($table_name);
       
-      while ($colrow = $this->fetch_assoc($colres)) {
+      foreach ($colres as $colrow) {
         $def = $colrow['Type'];
         if ($colrow['Null'] == 'NO') $def .= ' NOT NULL';
         if ($colrow['Extra']) $def .= ' ' . $colrow['Extra'];
         
-        $curr_tables[$tblrow[0]]['Columns'][$colrow['Field']] = $def;
+        $curr_tables[$table_name]['Columns'][$colrow['Field']] = $def;
         
         if ($colrow['Key'] == 'PRI') {
-          $curr_tables[$tblrow[0]]['PK'] = $colrow['Field'];
+          $curr_tables[$table_name]['PK'] = $colrow['Field'];
         }
       }
     }

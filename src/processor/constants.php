@@ -25,8 +25,9 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 define ('DOCU_VERSION', '0.2-pre');
 
 // The output engines
-define ('OUTPUTTER_MYSQL',   1);
-define ('OUTPUTTER_DEBUG',   2);
+define ('OUTPUTTER_MYSQL',      1);
+define ('OUTPUTTER_DEBUG',      2);
+define ('OUTPUTTER_PGSQL',      3);
 
 // The link types
 // These are used when linking from tables such as Authors

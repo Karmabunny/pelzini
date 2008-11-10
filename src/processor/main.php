@@ -86,8 +86,8 @@ foreach ($dpgOutputters as $outputter) {
       break;
       
       
-    case OUTPUTTER_POSTGRESQL:
-      $outputter = new PostgreOutputter(
+    case OUTPUTTER_PGSQL:
+      $outputter = new PostgresqlOutputter(
         $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_username'],
         $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_password'],
         $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_server'],

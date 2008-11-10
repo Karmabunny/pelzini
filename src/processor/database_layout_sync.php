@@ -40,9 +40,9 @@ foreach ($dpgOutputters as $outputter) {
       break;
       
       
-    case OUTPUTTER_POSTGRESQL:
+    case OUTPUTTER_PGSQL:
       echo "<h1>PostgreSQL</h1>";
-      $outputter = new PostgreOutputter(
+      $outputter = new PostgresqlOutputter(
         $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_username'],
         $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_password'],
         $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_server'],
