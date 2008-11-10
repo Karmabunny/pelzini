@@ -86,6 +86,24 @@ foreach ($dpgOutputters as $outputter) {
       break;
       
       
+    case OUTPUTTER_POSTGRESQL:
+      $outputter = new PostgreOutputter(
+        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_username'],
+        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_password'],
+        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_server'],
+        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_name']
+      );
+      
+      $result = $outputter->output($parsed_files);
+      
+      if ($result) {
+        output_status ("Saved to PostgreSQL database succesfully.");
+      } else {
+        output_status ("Saving to PostgreSQL database failed.");
+      }
+      break;
+      
+      
     case OUTPUTTER_DEBUG:
       $outputter = new DebugOutputter();
       $outputter->output($parsed_files);

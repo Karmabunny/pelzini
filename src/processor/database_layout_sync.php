@@ -21,17 +21,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once 'functions.php';
 require_once 'constants.php';
+require_once 'load_config.php';
 
-// set up some space
-$dpgOutputters = array();
-$dpgOutputterSettings = array();
-
-require_once 'config.php';
 
 
 foreach ($dpgOutputters as $outputter) {
   switch ($outputter) {
     case OUTPUTTER_MYSQL:
+      echo "<h1>MySQL</h1>";
       $outputter = new MysqlOutputter(
         $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_username'],
         $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_password'],
@@ -41,6 +38,21 @@ foreach ($dpgOutputters as $outputter) {
       
       $result = $outputter->check_layout('../mysql.layout');
       break;
+      
+      
+    case OUTPUTTER_POSTGRESQL:
+      echo "<h1>PostgreSQL</h1>";
+      $outputter = new PostgreOutputter(
+        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_username'],
+        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_password'],
+        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_server'],
+        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_name']
+      );
+      
+      $result = $outputter->check_layout('../mysql.layout');
+      break;
+      
+      
   }
 }
 ?>
