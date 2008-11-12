@@ -30,6 +30,7 @@ chdir(dirname(__FILE__));
 require_once 'constants.php';
 
 
+// Load configs
 if (file_exists('config.php')) {
   require_once 'config.php';
   $config_found = true;
@@ -40,6 +41,7 @@ if (file_exists('config.viewer.php')) {
   $config_found = true;
 }
 
+// Throw an error if no config
 if (! $config_found) {
   header ('Content-type: text/plain');
   echo "ERROR:\n";
@@ -50,11 +52,16 @@ if (! $config_found) {
   exit;
 }
 
+// Defaults if config options are ommited
+if ($dvgDatabaseEngine == null) $dvgDatabaseEngine = 'mysql';
 
-require_once 'database_mysql.php';
+
+// Load the database
+require_once "database_{$dvgDatabaseEngine}.php";
+db_connect();
 
 session_start();
-db_connect();
+
 
 
 
