@@ -27,8 +27,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'functions.php';
 
 $q = "SELECT Name, License FROM Projects WHERE ID = {$dvgProjectID}";
-$res = execute_query($q);
-$project = mysql_fetch_assoc($res);
+$res = db_query($q);
+$project = db_fetch_assoc($res);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -65,8 +65,8 @@ if (isset($_SESSION['last_selected_type'])) {
   
   <?php
   $q = "SELECT ID, Name FROM Packages ORDER BY Name";
-  $res = execute_query($q);
-  while ($row = mysql_fetch_assoc($res)) {
+  $res = db_query($q);
+  while ($row = db_fetch_assoc($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
     
     if ($_SESSION['current_package'] == $row['ID']) {

@@ -34,7 +34,7 @@ if ($id == 0) {
   if ($name == '') {
     fatal ("<p>Invalid interface name!</p>");
   }
-  $name = mysql_escape ($name);
+  $name = db_escape ($name);
   $where = "Interfaces.Name LIKE '{$name}'";
 } else {
   $where = "Interfaces.ID = {$id}";
@@ -47,8 +47,8 @@ $q = "SELECT Interfaces.ID, Interfaces.Name, Interfaces.Description, Files.Name 
   FROM Interfaces
   INNER JOIN Files ON Interfaces.FileID = Files.ID
   WHERE {$where} LIMIT 1";
-$res = execute_query ($q);
-$row = mysql_fetch_assoc ($res);
+$res = db_query ($q);
+$row = db_fetch_assoc ($res);
 echo "<h2>{$row['Name']}</h2>";
 $filename_clean = htmlentities(urlencode($row['Filename']));
 echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['Filename']) . "</a></p>\n";
@@ -62,12 +62,12 @@ show_authors ($row['ID'], LINK_TYPE_INTERFACE);
 
 // Show functions
 $q = "SELECT ID, Name, Description, Arguments FROM Functions WHERE InterfaceID = {$id}";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
   echo "<h3>Functions</h3>";
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
-  while ($row = mysql_fetch_assoc ($res)) {
+  while ($row = db_fetch_assoc ($res)) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
     if ($row['Description'] == null) $row['Description'] = '&nbsp;';

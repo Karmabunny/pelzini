@@ -34,7 +34,7 @@ if ($id == 0) {
   if ($name == '') {
     fatal ("<p>Invalid function name!</p>");
   }
-  $name = mysql_escape ($name);
+  $name = db_escape ($name);
   $where = "Functions.Name LIKE '{$name}'";
 } else {
   $where = "Functions.ID = {$id}";
@@ -49,8 +49,8 @@ $q = "SELECT Functions.ID, Functions.Name, Functions.Description, Files.Name AS 
   INNER JOIN Files ON Functions.FileID = Files.ID
   LEFT JOIN Classes ON Functions.ClassID = Classes.ID
   WHERE {$where} LIMIT 1";
-$res = execute_query ($q);
-$function = mysql_fetch_assoc ($res);
+$res = db_query ($q);
+$function = db_fetch_assoc ($res);
 
 echo "<h2>{$function['Name']}</h2>";
 
@@ -79,9 +79,9 @@ if ($function['ReturnType']) echo $function['ReturnType'], ' ';
 echo '<b>', $function['Name'], '</b> ( ';
 
 $q = "SELECT Name, Type, DefaultValue FROM Arguments WHERE FunctionID = {$function['ID']}";
-$res = execute_query($q);
+$res = db_query($q);
 $j = 0;
-while ($row = mysql_fetch_assoc ($res)) {
+while ($row = db_fetch_assoc ($res)) {
   $row['Name'] = htmlspecialchars($row['Name']);
   $row['Type'] = htmlspecialchars($row['Type']);
   if ($row['Type'] == '') $row['Type'] = 'mixed';
@@ -102,12 +102,12 @@ show_authors ($function['ID'], LINK_TYPE_FUNCTION);
 
 // Show Arguments
 $q = "SELECT ID, Name, Type, DefaultValue, Description FROM Arguments WHERE FunctionID = {$function['ID']}";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
   echo "<h3>Arguments</h3>";
   
   echo "<ol>";
-  while ($row = mysql_fetch_assoc ($res)) {
+  while ($row = db_fetch_assoc ($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
     $row['Type'] = htmlspecialchars($row['Type']);
     $row['DefaultValue'] = htmlspecialchars($row['DefaultValue']);

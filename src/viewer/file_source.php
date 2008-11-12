@@ -34,7 +34,7 @@ if ($id == 0) {
   if ($name == '') {
     fatal ("<p>Invalid filename!</p>");
   }
-  $name = mysql_escape ($name);
+  $name = db_escape ($name);
   $where = "Name LIKE '{$name}'";
 } else {
   $where = "ID = {$id}";
@@ -43,8 +43,8 @@ if ($id == 0) {
 
 // Get the details of this file
 $q = "SELECT Name, Description, Source FROM Files WHERE {$where} LIMIT 1";
-$res = execute_query ($q);
-$row = mysql_fetch_assoc ($res);
+$res = db_query ($q);
+$row = db_fetch_assoc ($res);
 echo "<h2>{$row['Name']}</h2>";
 echo $row['Description'];
 

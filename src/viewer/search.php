@@ -26,7 +26,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once 'head.php';
 
-$query = mysql_escape ($_GET['q']);
+$query = db_escape ($_GET['q']);
 $results = false;
 
 echo "<h2>Search</h2>";
@@ -38,13 +38,13 @@ $q = "SELECT Classes.ID, Classes.Name, Classes.Description, Classes.Extends, Cla
   FROM Classes
   INNER JOIN Files ON Classes.FileID = Files.ID
   WHERE Classes.Name LIKE '%{$query}%' ORDER BY Classes.Name";
-$res = execute_query ($q);
-$num = mysql_num_rows ($res);
+$res = db_query ($q);
+$num = db_num_rows ($res);
 if ($num != 0) {
   $results = true;
   echo '<h3>Classes (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
   
-  while ($row = mysql_fetch_assoc ($res)) {
+  while ($row = db_fetch_assoc ($res)) {
     $row['Name'] = htmlspecialchars ($row['Name']);
     $row['Filename'] = htmlspecialchars ($row['Filename']);
     
@@ -71,13 +71,13 @@ $q = "SELECT Functions.ID, Functions.Name, Functions.Description, Functions.Clas
   INNER JOIN Files ON Functions.FileID = Files.ID
   LEFT JOIN Classes ON Functions.ClassID = Classes.ID
   WHERE Functions.Name LIKE '%{$query}%' ORDER BY Functions.Name";
-$res = execute_query ($q);
-$num = mysql_num_rows ($res);
+$res = db_query ($q);
+$num = db_num_rows ($res);
 if ($num != 0) {
   $results = true;
   echo '<h3>Functions (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
   
-  while ($row = mysql_fetch_assoc ($res)) {
+  while ($row = db_fetch_assoc ($res)) {
     $row['Name'] = htmlspecialchars ($row['Name']);
     $row['Filename'] = htmlspecialchars ($row['Filename']);
     

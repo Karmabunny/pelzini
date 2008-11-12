@@ -34,7 +34,7 @@ if ($id == 0) {
   if ($name == '') {
     fatal ("<p>Invalid class name!</p>");
   }
-  $name = mysql_escape ($name);
+  $name = db_escape ($name);
   $where = "Classes.Name LIKE '{$name}'";
 } else {
   $where = "Classes.ID = {$id}";
@@ -48,14 +48,14 @@ $q = "SELECT Classes.ID, Classes.Name, Classes.Description, Classes.Extends, Fil
   INNER JOIN Files ON Classes.FileID = Files.ID
   WHERE {$where}
   LIMIT 1";
-$res = execute_query ($q);
+$res = db_query ($q);
 
-if (mysql_num_rows ($res) == 0) {
+if (db_num_rows ($res) == 0) {
   echo "<p>Invalid class specified.</p>";
   exit;
 }
 
-$class = mysql_fetch_assoc ($res);
+$class = db_fetch_assoc ($res);
 $filename_clean = htmlentities(urlencode($class['Filename']));
 
 echo "<h2>{$class['Name']}</h2>";
@@ -177,10 +177,10 @@ if (count($functions) > 0) {
     
     // Show parameters
     $q = "SELECT Name, Type, Description FROM Arguments WHERE FunctionID = {$row['ID']}";
-    $res = execute_query($q);
-    if (mysql_num_rows($res) > 0) {
+    $res = db_query($q);
+    if (db_num_rows($res) > 0) {
       echo "<ul>\n";
-      while ($param = mysql_fetch_assoc ($res)) {
+      while ($param = db_fetch_assoc ($res)) {
         if ($param['Description'] != null) {
           $param['Description'] = ': ' . str_replace("\n", '<br>', $param['Description']);
         }
@@ -205,30 +205,30 @@ require_once 'foot.php';
 **/
 function load_class($name) {
   // determine parent class
-  $name = mysql_escape ($name);
+  $name = db_escape ($name);
   $q = "SELECT ID, Extends FROM Classes WHERE Name LIKE '{$name}'";
-  $res = execute_query($q);
-  if (mysql_num_rows ($res) == 0) {
+  $res = db_query($q);
+  if (db_num_rows ($res) == 0) {
     return null;
   }
   
-  $row = mysql_fetch_assoc($res);
+  $row = db_fetch_assoc($res);
   $id = $row['ID'];
   $parent = $row['Extends'];
   
   // determine functions
   $functions = array();
   $q = "SELECT *, '{$name}' AS ClassName FROM Functions WHERE ClassID = {$id}";
-  $res = execute_query($q);
-  while ($row = mysql_fetch_assoc($res)) {
+  $res = db_query($q);
+  while ($row = db_fetch_assoc($res)) {
     $functions[$row['Name']] = $row;
   }
   
   // determine variables
   $variables = array();
   $q = "SELECT *, '{$name}' AS ClassName FROM Variables WHERE ClassID = {$id}";
-  $res = execute_query($q);
-  while ($row = mysql_fetch_assoc($res)) {
+  $res = db_query($q);
+  while ($row = db_fetch_assoc($res)) {
     $variables[$row['Name']] = $row;
   }
   

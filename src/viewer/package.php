@@ -29,11 +29,11 @@ require_once 'head.php';
 
 $id = (int) $_GET['id'];
 $q = "SELECT Name FROM Packages WHERE ID = {$id} LIMIT 1";
-$res = execute_query($q);
-if (mysql_num_rows($res) == 0) {
+$res = db_query($q);
+if (db_num_rows($res) == 0) {
   echo '<p>Invalid package specified.</p>';
 }
-$row = mysql_fetch_assoc($res);
+$row = db_fetch_assoc($res);
 $row['Name'] = htmlspecialchars($row['Name']);
 
 
@@ -47,8 +47,8 @@ $file_ids = array();
 $q = "SELECT Files.ID, Files.Name, Files.Description
   FROM Files
   WHERE Files.PackageID = {$id}";
-$res = execute_query ($q);
-while ($row = mysql_fetch_assoc ($res)) {
+$res = db_query ($q);
+while ($row = db_fetch_assoc ($res)) {
   $row['Name'] = htmlspecialchars($row['Name']);
   
   // output
@@ -66,12 +66,12 @@ $q = "SELECT ID, Name, Description
   FROM Classes
   WHERE FileID IN ({$file_ids})
   ORDER BY Name";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
   echo '<a name="classes"></a>';
   echo "<h3>Classes</h3>";
   
-  while ($row = mysql_fetch_assoc ($res)) {
+  while ($row = db_fetch_assoc ($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
     
     echo "<p><strong><a href=\"class.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
@@ -85,12 +85,12 @@ $q = "SELECT ID, Name, Description
   FROM Interfaces
   WHERE FileID IN ({$file_ids})
   ORDER BY Name";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
   echo '<a name="interfaces"></a>';
   echo "<h3>Interfaces</h3>";
   
-  while ($row = mysql_fetch_assoc ($res)) {
+  while ($row = db_fetch_assoc ($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
     
     echo "<p><strong><a href=\"interface.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
@@ -104,12 +104,12 @@ $q = "SELECT ID, Name, Description, Arguments
   FROM Functions
   WHERE FileID IN ({$file_ids}) AND ClassID IS NULL AND InterfaceID IS NULL
   ORDER BY Name";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
   echo '<a name="functions"></a>';
   echo "<h3>Functions</h3>";
   
-  while ($row = mysql_fetch_assoc ($res)) {
+  while ($row = db_fetch_assoc ($res)) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
     $row['Arguments'] = htmlspecialchars($row['Arguments']);
@@ -126,14 +126,14 @@ $q = "SELECT Name, Value, Description
   FROM Constants
   WHERE FileID IN ({$file_ids})
   ORDER BY Name";
-$res = execute_query($q);
-if (mysql_num_rows($res) > 0) {
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
   echo '<a name="constants"></a>';
   echo "<h3>Constants</h3>";
   
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
-  while ($row = mysql_fetch_assoc ($res)) {
+  while ($row = db_fetch_assoc ($res)) {
     // encode for output
     $row['Name'] = htmlspecialchars($row['Name']);
     $row['Value'] = htmlspecialchars($row['Value']);

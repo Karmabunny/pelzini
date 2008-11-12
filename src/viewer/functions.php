@@ -51,37 +51,11 @@ if (! $config_found) {
 }
 
 
+require_once 'database_mysql.php';
+
 session_start();
+db_connect();
 
-$dbc = mysql_connect ($dvgDatabaseSettings['server'], $dvgDatabaseSettings['username'], $dvgDatabaseSettings['password']);
-mysql_select_db ($dvgDatabaseSettings['name']);
-
-
-/**
-* Executes a MySQL query
-*
-* @param $q The query to execute
-* @return The result from the query
-**/
-function execute_query($q) {
-  global $dbc;
-  $res = mysql_query ($q, $dbc);
-  if ($res === false) {
-    echo mysql_error ($dbc);
-  }
-  return $res;
-}
-
-
-/**
-* Escapes a string ready for putting into MySQL
-*
-* @param string $string The string to escape
-*/
-function mysql_escape($string) {
-  global $dbc;
-  return mysql_real_escape_string ($string, $dbc);
-}
 
 
 /**
@@ -93,23 +67,23 @@ function mysql_escape($string) {
 function get_object_link($name) {
 
   // check classes
-  $sql_name = mysql_escape($name);
+  $sql_name = db_escape($name);
   $q = "SELECT ID FROM Classes WHERE Name = '{$sql_name}' LIMIT 1";
-  $res = execute_query($q);
+  $res = db_query($q);
   
-  if (mysql_num_rows($res) != 0) {
-    $row = mysql_fetch_assoc($res);
+  if (db_num_rows($res) != 0) {
+    $row = db_fetch_assoc($res);
     $ret = "<a href=\"class.php?id={$row['ID']}\">{$name}</a>";
     return $ret;
   }
   
   // check interfaces
-  $sql_name = mysql_escape($name);
+  $sql_name = db_escape($name);
   $q = "SELECT ID FROM Interfaces WHERE Name = '{$sql_name}' LIMIT 1";
-  $res = execute_query($q);
+  $res = db_query($q);
   
-  if (mysql_num_rows($res) != 0) {
-    $row = mysql_fetch_assoc($res);
+  if (db_num_rows($res) != 0) {
+    $row = db_fetch_assoc($res);
     $ret = "<a href=\"interface.php?id={$row['ID']}\">{$name}</a>";
     return $ret;
   }
@@ -120,13 +94,13 @@ function get_object_link($name) {
 
 function show_authors ($link_id, $link_type) {
   $q = "SELECT Name, Email, Description FROM Authors WHERE LinkID = {$link_id} AND LinkType = {$link_type}";
-  $res = execute_query($q);
+  $res = db_query($q);
   
-  if (mysql_num_rows($res) > 0) {
+  if (db_num_rows($res) > 0) {
     echo "<h3>Authors</h3>";
     
     echo '<ul>';
-    while ($row = mysql_fetch_assoc ($res)) {
+    while ($row = db_fetch_assoc ($res)) {
       $row['Name'] = htmlspecialchars($row['Name']);
       $row['Email'] = htmlspecialchars($row['Email']);
       

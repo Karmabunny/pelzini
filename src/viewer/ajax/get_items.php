@@ -75,9 +75,9 @@ if ($table == 'Files') {
 
 
 // return the items
-$res = execute_query($q);
+$res = db_query($q);
 echo "<items type=\"{$_GET['type']}\">";
-while ($row = mysql_fetch_assoc ($res)) {
+while ($row = db_fetch_assoc ($res)) {
 
   if ($_GET['type'] == 'files') {
     $row['Name'] = basename($row['Name']);

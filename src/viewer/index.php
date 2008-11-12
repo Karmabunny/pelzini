@@ -35,11 +35,11 @@ require_once 'head.php';
 
 <?php
 $q = "SELECT ID, Name FROM Packages ORDER BY Name";
-$res = execute_query($q);
-if (mysql_num_rows ($res) > 0) {
+$res = db_query($q);
+if (db_num_rows ($res) > 0) {
   echo "<h3>Packages in this project</h3>";
   
-  while ($row = mysql_fetch_assoc($res)) {
+  while ($row = db_fetch_assoc($res)) {
     $row['Name'] = htmlspecialchars($row['Name']);
     
     echo "<p><a href=\"select_package.php?id={$row['ID']}\">{$row['Name']}</a></p>";
