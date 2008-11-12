@@ -64,7 +64,6 @@ class PostgresqlOutputter extends DatabaseOutputter {
     if (isset($this->password)) $connect .= "password='{$this->password}' ";
     if (isset($this->database)) $connect .= "dbname='{$this->database}' ";
     
-    echo "<pre>{$connect}</pre>";
     $this->db = pg_connect($connect);
     if ($this->db == false) return false;
     return true;
