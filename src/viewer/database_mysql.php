@@ -81,6 +81,8 @@ function db_fetch_assoc($res) {
   $result = array();
   
   $row = mysql_fetch_assoc($res);
+  if ($row == null) return null;
+  
   foreach ($row as $field => $val) {
     $field = strtolower ($field);
     $result[$field] = $val;
