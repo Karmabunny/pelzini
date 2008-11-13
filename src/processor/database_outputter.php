@@ -246,6 +246,25 @@ abstract class DatabaseOutputter extends Outputter {
       echo "\n";
     }
     
+    foreach ($curr_tables as $table_name => $curr_table) {
+      $dest_table = $dest_tables[$table_name];
+      
+      if ($dest_table == null) {
+        // Delete the table if it does not yet exist.
+        echo "Delete table {$table_name}.\n";
+        
+        $q = "DROP TABLE {$table_name}";
+        echo "<b>Query:\n{$q}</b>\n";
+        
+        if ($_GET['action'] == 1) {
+          $res = $this->query ($q);
+          if ($res) echo 'Affected rows: ', $this->affected_rows($res), "\n";
+        } else {
+          $has_queries = true;
+        }
+      }
+    }
+    
     echo '</pre>';
     
     if ($has_queries) {
