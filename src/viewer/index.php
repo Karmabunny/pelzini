@@ -28,8 +28,8 @@ require_once 'head.php';
 ?>
 
 
-<h2><?= $project['Name']; ?></h2>
-<p>This is the documentation for <?= $project['Name']; ?>.</p>
+<h2><?= $project['name']; ?></h2>
+<p>This is the documentation for <?= $project['name']; ?>.</p>
 
 
 
@@ -40,9 +40,9 @@ if (db_num_rows ($res) > 0) {
   echo "<h3>Packages in this project</h3>";
   
   while ($row = db_fetch_assoc($res)) {
-    $row['Name'] = htmlspecialchars($row['Name']);
+    $row['name'] = htmlspecialchars($row['name']);
     
-    echo "<p><a href=\"select_package.php?id={$row['ID']}\">{$row['Name']}</a></p>";
+    echo "<p><a href=\"select_package.php?id={$row['id']}\">{$row['name']}</a></p>";
   }
 }
 ?>

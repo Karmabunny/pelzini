@@ -56,31 +56,31 @@ if (db_num_rows ($res) == 0) {
 }
 
 $class = db_fetch_assoc ($res);
-$filename_clean = htmlentities(urlencode($class['Filename']));
+$filename_clean = htmlentities(urlencode($class['filename']));
 
-echo "<h2>{$class['Name']}</h2>";
-echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($class['Filename']) . "</a></p>\n";
-echo $class['Description'];
+echo "<h2>{$class['name']}</h2>";
+echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($class['filename']) . "</a></p>\n";
+echo $class['description'];
 
-if ($class['Abstract'] == 1) echo '<p>Abstract</p>';
+if ($class['abstract'] == 1) echo '<p>Abstract</p>';
 
-if ($class['Extends'] != null) {
-  $class['Extends'] = htmlspecialchars($class['Extends']);
-  echo "<p>Extends <a href=\"class.php?name={$class['Extends']}\">{$class['Extends']}</a>";
+if ($class['extends'] != null) {
+  $class['extends'] = htmlspecialchars($class['extends']);
+  echo "<p>Extends <a href=\"class.php?name={$class['extends']}\">{$class['extends']}</a>";
   
   if ($_GET['complete'] == 1) {
-    echo " | <a href=\"class.php?id={$class['ID']}\">Hide inherited members</a></p>";
+    echo " | <a href=\"class.php?id={$class['id']}\">Hide inherited members</a></p>";
   } else {
-    echo " | <a href=\"class.php?id={$class['ID']}&complete=1\">Show inherited members</a></p>";
+    echo " | <a href=\"class.php?id={$class['id']}&complete=1\">Show inherited members</a></p>";
   }
 }
 
-if ($class['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($class['SinceVersion']), '</p>';
+if ($class['sinceversion']) echo '<p>Available since: ', htmlspecialchars ($class['sinceversion']), '</p>';
 
 
 $functions = array();
 $variables = array();
-$name = $class['Name'];
+$name = $class['name'];
 $class_names = array();
 
 if ($_GET['complete'] == 1) {
@@ -106,7 +106,7 @@ ksort($functions);
 ksort($variables);
 
 
-show_authors ($class['ID'], LINK_TYPE_CLASS);
+show_authors ($class['id'], LINK_TYPE_CLASS);
 
 
 if ($_GET['complete'] == 1 and count ($class_names) > 0) {
@@ -115,7 +115,7 @@ if ($_GET['complete'] == 1 and count ($class_names) > 0) {
   foreach ($class_names as $index => $name) {
     if ($index == 0) {
       echo '<li>', $name;
-      if ($class['Final'] == 1) echo ' <small>(Final)</small>';
+      if ($class['final'] == 1) echo ' <small>(Final)</small>';
       echo '</li>';
       
     } else {
@@ -132,15 +132,15 @@ if (count($variables) > 0) {
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
   foreach ($variables as $row) {
     // encode for output
-    $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
+    $row['name'] = htmlspecialchars($row['name']);
+    if ($row['description'] == null) $row['description'] = '&nbsp;';
     
-    if ($row['Static']) $row['Name'] .= ' <small>(static)</small>';
+    if ($row['static']) $row['name'] .= ' <small>(static)</small>';
     
     // display
     echo "<tr>";
-    echo "<td><code>{$row['Name']}</code></td>";
-    echo "<td>{$row['Description']}</td>";
+    echo "<td><code>{$row['name']}</code></td>";
+    echo "<td>{$row['description']}</td>";
     echo "</tr>\n";
   }
   echo "</table>\n";
@@ -151,42 +151,42 @@ if (count($variables) > 0) {
 if (count($functions) > 0) {
   foreach ($functions as $row) {
     // encode for output
-    if ($row['Description'] == null) {
-      $row['Description'] = '<em>This function does not have a description</em>';
+    if ($row['description'] == null) {
+      $row['description'] = '<em>This function does not have a description</em>';
     }
     
     // display
-    echo "<h3>{$row['Visibility']} <a href=\"function.php?id={$row['ID']}\">{$row['Name']}</a>";
-    if ($row['ClassName'] != $class['Name']) {
-      echo " <small>(from <a href=\"class.php?name={$row['ClassName']}\">{$row['ClassName']}</a>)</small>";
+    echo "<h3>{$row['visibility']} <a href=\"function.php?id={$row['id']}\">{$row['name']}</a>";
+    if ($row['classname'] != $class['name']) {
+      echo " <small>(from <a href=\"class.php?name={$row['classname']}\">{$row['classname']}</a>)</small>";
     }
     echo "</h3>";
     
-    echo $row['Description'];
+    echo $row['description'];
     
     // show return value
-    if ($row['ReturnType'] != null) {
-      $link = get_object_link($row['ReturnType']);
+    if ($row['returntype'] != null) {
+      $link = get_object_link($row['returntype']);
       echo "<p>Returns <b>{$link}</b>";
       
-      if ($row['ReturnDescription'] != null) {
-        echo ': ', $row['ReturnDescription'];
+      if ($row['returndescription'] != null) {
+        echo ': ', $row['returndescription'];
       }
       echo '</p>';
     }
     
     // Show parameters
-    $q = "SELECT Name, Type, Description FROM Arguments WHERE FunctionID = {$row['ID']}";
+    $q = "SELECT Name, Type, Description FROM Arguments WHERE FunctionID = {$row['id']}";
     $res = db_query($q);
     if (db_num_rows($res) > 0) {
       echo "<ul>\n";
       while ($param = db_fetch_assoc ($res)) {
-        if ($param['Description'] != null) {
-          $param['Description'] = ': ' . str_replace("\n", '<br>', $param['Description']);
+        if ($param['description'] != null) {
+          $param['description'] = ': ' . str_replace("\n", '<br>', $param['description']);
         }
         
-        $link = get_object_link($param['Type']);
-        echo "<li>{$link} <b>{$param['Name']}</b>{$param['Description']}</li>";
+        $link = get_object_link($param['type']);
+        echo "<li>{$link} <b>{$param['name']}</b>{$param['description']}</li>";
       }
       echo "</ul>\n";
     }
@@ -213,15 +213,15 @@ function load_class($name) {
   }
   
   $row = db_fetch_assoc($res);
-  $id = $row['ID'];
-  $parent = $row['Extends'];
+  $id = $row['id'];
+  $parent = $row['extends'];
   
   // determine functions
   $functions = array();
   $q = "SELECT *, '{$name}' AS ClassName FROM Functions WHERE ClassID = {$id}";
   $res = db_query($q);
   while ($row = db_fetch_assoc($res)) {
-    $functions[$row['Name']] = $row;
+    $functions[$row['name']] = $row;
   }
   
   // determine variables
@@ -229,7 +229,7 @@ function load_class($name) {
   $q = "SELECT *, '{$name}' AS ClassName FROM Variables WHERE ClassID = {$id}";
   $res = db_query($q);
   while ($row = db_fetch_assoc($res)) {
-    $variables[$row['Name']] = $row;
+    $variables[$row['name']] = $row;
   }
   
   return array($functions, $variables, $parent);

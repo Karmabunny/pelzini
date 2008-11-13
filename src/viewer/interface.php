@@ -49,15 +49,15 @@ $q = "SELECT Interfaces.ID, Interfaces.Name, Interfaces.Description, Files.Name 
   WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $row = db_fetch_assoc ($res);
-echo "<h2>{$row['Name']}</h2>";
-$filename_clean = htmlentities(urlencode($row['Filename']));
-echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['Filename']) . "</a></p>\n";
-echo $row['Description'];
-$id = $row['ID'];
+echo "<h2>{$row['name']}</h2>";
+$filename_clean = htmlentities(urlencode($row['filename']));
+echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['filename']) . "</a></p>\n";
+echo $row['description'];
+$id = $row['id'];
 
-if ($row['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($row['SinceVersion']), '</p>';
+if ($row['sinceversion']) echo '<p>Available since: ', htmlspecialchars ($row['sinceversion']), '</p>';
 
-show_authors ($row['ID'], LINK_TYPE_INTERFACE);
+show_authors ($row['id'], LINK_TYPE_INTERFACE);
 
 
 // Show functions
@@ -69,15 +69,15 @@ if (db_num_rows($res) > 0) {
   echo "<tr><th>Name</th><th>Description</th></tr>\n";
   while ($row = db_fetch_assoc ($res)) {
     // encode for output
-    $row['Name'] = htmlspecialchars($row['Name']);
-    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
-    $row['Arguments'] = htmlspecialchars($row['Arguments']);
+    $row['name'] = htmlspecialchars($row['name']);
+    if ($row['description'] == null) $row['description'] = '&nbsp;';
+    $row['arguments'] = htmlspecialchars($row['arguments']);
       
     // display
     echo "<tr>";
-    echo "<td><code><a href=\"function.php?id={$row['ID']}\">";
-    echo "{$row['Name']}({$row['Arguments']})</a></code></td>";
-    echo "<td>{$row['Description']}</td>";
+    echo "<td><code><a href=\"function.php?id={$row['id']}\">";
+    echo "{$row['name']}({$row['arguments']})</a></code></td>";
+    echo "<td>{$row['description']}</td>";
     echo "</tr>\n";
   }
   echo "</table>\n";

@@ -52,70 +52,70 @@ $q = "SELECT Functions.ID, Functions.Name, Functions.Description, Files.Name AS 
 $res = db_query ($q);
 $function = db_fetch_assoc ($res);
 
-echo "<h2>{$function['Name']}</h2>";
+echo "<h2>{$function['name']}</h2>";
 
-$filename_url = 'file.php?name=' . urlencode($function['Filename']);
+$filename_url = 'file.php?name=' . urlencode($function['filename']);
 echo '<p>File: <a href="', htmlspecialchars($filename_url), '">';
-echo htmlspecialchars($function['Filename']), '</a></p>';
+echo htmlspecialchars($function['filename']), '</a></p>';
 
-if ($function['ClassID'] != null) {
-  echo "<p>Class: <a href=\"class.php?id={$function['ClassID']}\">{$function['Class']}</a>";
+if ($function['classid'] != null) {
+  echo "<p>Class: <a href=\"class.php?id={$function['classid']}\">{$function['class']}</a>";
   
-  if ($function['Static']) echo ', Static';
-  if ($function['Final']) echo ', Final';
+  if ($function['static']) echo ', Static';
+  if ($function['final']) echo ', Final';
   
   echo '</p>';
 }
 
-echo $function['Description'];
+echo $function['description'];
 
-if ($function['SinceVersion']) echo '<p>Available since: ', htmlspecialchars ($function['SinceVersion']), '</p>';
+if ($function['sinceversion']) echo '<p>available since: ', htmlspecialchars ($function['sinceversion']), '</p>';
 
 
 // Usage
 echo "<h3>Usage</h3>";
 echo '<div class="function-usage">';
-if ($function['ReturnType']) echo $function['ReturnType'], ' ';
-echo '<b>', $function['Name'], '</b> ( ';
+if ($function['returntype']) echo $function['returntype'], ' ';
+echo '<b>', $function['name'], '</b> ( ';
 
-$q = "SELECT Name, Type, DefaultValue FROM Arguments WHERE FunctionID = {$function['ID']}";
+$q = "SELECT Name, Type, DefaultValue FROM Arguments WHERE FunctionID = {$function['id']}";
 $res = db_query($q);
 $j = 0;
 while ($row = db_fetch_assoc ($res)) {
-  $row['Name'] = htmlspecialchars($row['Name']);
-  $row['Type'] = htmlspecialchars($row['Type']);
-  if ($row['Type'] == '') $row['Type'] = 'mixed';
+  $row['name'] = htmlspecialchars($row['name']);
+  $row['type'] = htmlspecialchars($row['type']);
+  if ($row['type'] == '') $row['type'] = 'mixed';
   
-  if ($row['DefaultValue']) echo '[';
+  if ($row['defaultvalue']) echo '[';
   if ($j++ > 0) echo ', ';
   
-  echo " {$row['Type']} {$row['Name']} ";
-  if ($row['DefaultValue']) $num_close++;
+  echo " {$row['type']} {$row['name']} ";
+  if ($row['defaultvalue']) $num_close++;
 }
 echo str_repeat (']', $num_close);
 echo ' );';
 echo '</div>';
 
 
-show_authors ($function['ID'], LINK_TYPE_FUNCTION);
+show_authors ($function['id'], LINK_TYPE_FUNCTION);
 
 
 // Show Arguments
-$q = "SELECT ID, Name, Type, DefaultValue, Description FROM Arguments WHERE FunctionID = {$function['ID']}";
+$q = "SELECT ID, Name, Type, DefaultValue, Description FROM Arguments WHERE FunctionID = {$function['id']}";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo "<h3>Arguments</h3>";
   
   echo "<ol>";
   while ($row = db_fetch_assoc ($res)) {
-    $row['Name'] = htmlspecialchars($row['Name']);
-    $row['Type'] = htmlspecialchars($row['Type']);
-    $row['DefaultValue'] = htmlspecialchars($row['DefaultValue']);
+    $row['name'] = htmlspecialchars($row['name']);
+    $row['type'] = htmlspecialchars($row['type']);
+    $row['defaultvalue'] = htmlspecialchars($row['defaultvalue']);
     
-    echo "<li><strong>{$row['Name']}</strong>";
-    echo "<br>{$row['Type']}";
-    if ($row['DefaultValue']) echo " (default: {$row['DefaultValue']})";
-    echo "<br>{$row['Description']}";
+    echo "<li><strong>{$row['name']}</strong>";
+    echo "<br>{$row['type']}";
+    if ($row['defaultvalue']) echo " (default: {$row['defaultvalue']})";
+    echo "<br>{$row['description']}";
     echo "</li>";
   }
   echo "</ol>\n";
@@ -123,16 +123,16 @@ if (db_num_rows($res) > 0) {
 
 
 // Return value
-if ($function['ReturnType'] or $function['ReturnDescription']) {
-  $function['ReturnType'] = htmlspecialchars ($function['ReturnType']);
+if ($function['returntype'] or $function['returndescription']) {
+  $function['returntype'] = htmlspecialchars ($function['returntype']);
   
   echo "<h3>Return value</h3>";
   
-  if ($function['ReturnType']) {
-    echo "<p>Type: {$function['ReturnType']}</p>";
+  if ($function['returntype']) {
+    echo "<p>Type: {$function['returntype']}</p>";
   }
   
-  echo $function['ReturnDescription'];
+  echo $function['returndescription'];
 }
 
 

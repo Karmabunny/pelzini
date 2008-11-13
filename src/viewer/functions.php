@@ -80,7 +80,7 @@ function get_object_link($name) {
   
   if (db_num_rows($res) != 0) {
     $row = db_fetch_assoc($res);
-    $ret = "<a href=\"class.php?id={$row['ID']}\">{$name}</a>";
+    $ret = "<a href=\"class.php?id={$row['id']}\">{$name}</a>";
     return $ret;
   }
   
@@ -91,7 +91,7 @@ function get_object_link($name) {
   
   if (db_num_rows($res) != 0) {
     $row = db_fetch_assoc($res);
-    $ret = "<a href=\"interface.php?id={$row['ID']}\">{$name}</a>";
+    $ret = "<a href=\"interface.php?id={$row['id']}\">{$name}</a>";
     return $ret;
   }
   
@@ -108,17 +108,17 @@ function show_authors ($link_id, $link_type) {
     
     echo '<ul>';
     while ($row = db_fetch_assoc ($res)) {
-      $row['Name'] = htmlspecialchars($row['Name']);
-      $row['Email'] = htmlspecialchars($row['Email']);
+      $row['name'] = htmlspecialchars($row['name']);
+      $row['email'] = htmlspecialchars($row['email']);
       
-      echo "<li>{$row['Name']}";
+      echo "<li>{$row['name']}";
       
-      if ($row['Email']) {
-        echo "<br><a href=\"mailto:{$row['Email']}\">{$row['Email']}</a>";
+      if ($row['email']) {
+        echo "<br><a href=\"mailto:{$row['email']}\">{$row['email']}</a>";
       }
       
-      if ($row['Description']) {
-        echo "<br>{$row['Description']}";
+      if ($row['description']) {
+        echo "<br>{$row['description']}";
       }
       
       echo '</li>';

@@ -45,10 +45,10 @@ if ($id == 0) {
 $q = "SELECT Name, Description, Source FROM Files WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $row = db_fetch_assoc ($res);
-echo "<h2>{$row['Name']}</h2>";
-echo $row['Description'];
+echo "<h2>{$row['name']}</h2>";
+echo $row['description'];
 
-$source = trim($row['Source']);
+$source = trim($row['source']);
 $source = explode("\n", $source);
 
 $num = count($source);

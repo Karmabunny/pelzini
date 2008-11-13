@@ -80,11 +80,11 @@ echo "<items type=\"{$_GET['type']}\">";
 while ($row = db_fetch_assoc ($res)) {
 
   if ($_GET['type'] == 'files') {
-    $row['Name'] = basename($row['Name']);
+    $row['name'] = basename($row['name']);
   }
 
-  $row['Name'] = htmlspecialchars($row['Name']);
-  echo "<item id=\"{$row['ID']}\">{$row['Name']}</item>";
+  $row['name'] = htmlspecialchars($row['name']);
+  echo "<item id=\"{$row['id']}\">{$row['name']}</item>";
 }
 echo '</items>';
 ?>

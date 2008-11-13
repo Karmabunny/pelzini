@@ -33,7 +33,7 @@ $project = db_fetch_assoc($res);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-  <title>Documentation for <?= $project['Name']; ?></title>
+  <title>Documentation for <?= $project['name']; ?></title>
   <link href="style.css" rel="stylesheet" type="text/css">
   <script language="javascript" src="ajax/ajax.js"></script>
   
@@ -55,7 +55,7 @@ if (isset($_SESSION['last_selected_type'])) {
 <?= $body; ?>
 
 <div class="header">
-  <h1>Documentation for <?= $project['Name']; ?></h1>
+  <h1>Documentation for <?= $project['name']; ?></h1>
 </div>
 
 <div class="navigation">
@@ -67,12 +67,12 @@ if (isset($_SESSION['last_selected_type'])) {
   $q = "SELECT ID, Name FROM Packages ORDER BY Name";
   $res = db_query($q);
   while ($row = db_fetch_assoc($res)) {
-    $row['Name'] = htmlspecialchars($row['Name']);
+    $row['name'] = htmlspecialchars($row['name']);
     
-    if ($_SESSION['current_package'] == $row['ID']) {
-      echo "<a href=\"select_package.php?id={$row['ID']}\" class=\"on\">{$row['Name']}</a> ";
+    if ($_SESSION['current_package'] == $row['id']) {
+      echo "<a href=\"select_package.php?id={$row['id']}\" class=\"on\">{$row['name']}</a> ";
     } else {
-      echo "<a href=\"select_package.php?id={$row['ID']}\">{$row['Name']}</a> ";
+      echo "<a href=\"select_package.php?id={$row['id']}\">{$row['name']}</a> ";
     }
   }
   ?>

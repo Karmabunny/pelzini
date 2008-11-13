@@ -45,7 +45,7 @@ function db_connect() {
 * Makes a query to the PostgreSQL database
 **/
 function db_query($q) {
-  echo "<pre>{$q}</pre>";
+  //echo "<pre>{$q}</pre>";
   
   return pg_query($q);
 }

@@ -49,23 +49,23 @@ $q = "SELECT Files.ID, Files.Name, Files.Description, Files.PackageID, Packages.
   WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $row = db_fetch_assoc ($res);
-echo "<h2>{$row['Name']}</h2>";
+echo "<h2>{$row['name']}</h2>";
 
-if ($row['PackageID'] != null) {
-  echo "<p>Package: <a href=\"package.php?id={$row['PackageID']}\">{$row['Package']}</a></p>";
+if ($row['packageid'] != null) {
+  echo "<p>Package: <a href=\"package.php?id={$row['packageid']}\">{$row['package']}</a></p>";
 }
 
-if ($row['SinceVersion'] != null) {
-  echo '<p>Available since: ', htmlspecialchars ($row['SinceVersion']), '</p>';
+if ($row['sinceversion'] != null) {
+  echo '<p>Available since: ', htmlspecialchars ($row['sinceversion']), '</p>';
 }
 
-echo "<p><small><a href=\"file_source.php?id={$row['ID']}\">View Source</a></small></p>";
+echo "<p><small><a href=\"file_source.php?id={$row['id']}\">View Source</a></small></p>";
 
-echo '<br>', $row['Description'];
-$id = $row['ID'];
+echo '<br>', $row['description'];
+$id = $row['id'];
 
 
-show_authors ($row['ID'], LINK_TYPE_FILE);
+show_authors ($row['id'], LINK_TYPE_FILE);
 
 
 // Show classes
@@ -79,10 +79,10 @@ if (db_num_rows($res) > 0) {
   echo "<h3>Classes</h3>";
   
   while ($row = db_fetch_assoc ($res)) {
-    $row['Name'] = htmlspecialchars($row['Name']);
+    $row['name'] = htmlspecialchars($row['name']);
     
-    echo "<p><strong><a href=\"class.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
-    echo $row['Description'];
+    echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+    echo $row['description'];
   }
 }
 
@@ -98,10 +98,10 @@ if (db_num_rows($res) > 0) {
   echo "<h3>Interfaces</h3>";
   
   while ($row = db_fetch_assoc ($res)) {
-    $row['Name'] = htmlspecialchars($row['Name']);
+    $row['name'] = htmlspecialchars($row['name']);
     
-    echo "<p><strong><a href=\"interface.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
-    echo $row['Description'];
+    echo "<p><strong><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+    echo $row['description'];
   }
 }
 
@@ -118,12 +118,12 @@ if (db_num_rows($res) > 0) {
   
   while ($row = db_fetch_assoc ($res)) {
     // encode for output
-    $row['Name'] = htmlspecialchars($row['Name']);
-    $row['Arguments'] = htmlspecialchars($row['Arguments']);
+    $row['name'] = htmlspecialchars($row['name']);
+    $row['arguments'] = htmlspecialchars($row['arguments']);
     
     // display the function
-    echo "<p><strong><a href=\"function.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
-    echo $row['Description'];
+    echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+    echo $row['description'];
   }
 }
 
@@ -143,15 +143,15 @@ if (db_num_rows($res) > 0) {
   echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
   while ($row = db_fetch_assoc ($res)) {
     // encode for output
-    $row['Name'] = htmlspecialchars($row['Name']);
-    $row['Value'] = htmlspecialchars($row['Value']);
-    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
+    $row['name'] = htmlspecialchars($row['name']);
+    $row['value'] = htmlspecialchars($row['value']);
+    if ($row['description'] == null) $row['description'] = '&nbsp;';
     
     // display the constant
     echo "<tr>";
-    echo "<td><code>{$row['Name']}</code></td>";
-    echo "<td><code>{$row['Value']}</code></td>";
-    echo "<td>{$row['Description']}</td>";
+    echo "<td><code>{$row['name']}</code></td>";
+    echo "<td><code>{$row['value']}</code></td>";
+    echo "<td>{$row['description']}</td>";
     echo "</tr>\n";
   }
   echo "</table>\n";

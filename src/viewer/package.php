@@ -34,10 +34,10 @@ if (db_num_rows($res) == 0) {
   echo '<p>Invalid package specified.</p>';
 }
 $row = db_fetch_assoc($res);
-$row['Name'] = htmlspecialchars($row['Name']);
+$row['name'] = htmlspecialchars($row['name']);
 
 
-echo "<h2>{$row['Name']}</h2>";
+echo "<h2>{$row['name']}</h2>";
 
 
 // Show files
@@ -49,13 +49,13 @@ $q = "SELECT Files.ID, Files.Name, Files.Description
   WHERE Files.PackageID = {$id}";
 $res = db_query ($q);
 while ($row = db_fetch_assoc ($res)) {
-  $row['Name'] = htmlspecialchars($row['Name']);
+  $row['name'] = htmlspecialchars($row['name']);
   
   // output
-  echo "<p><strong><a href=\"file.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
-  echo $row['Description'];
+  echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+  echo $row['description'];
   
-  $file_ids[] = $row['ID'];
+  $file_ids[] = $row['id'];
 }
 
 $file_ids = implode (', ', $file_ids);
@@ -72,10 +72,10 @@ if (db_num_rows($res) > 0) {
   echo "<h3>Classes</h3>";
   
   while ($row = db_fetch_assoc ($res)) {
-    $row['Name'] = htmlspecialchars($row['Name']);
+    $row['name'] = htmlspecialchars($row['name']);
     
-    echo "<p><strong><a href=\"class.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
-    echo $row['Description'];
+    echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+    echo $row['description'];
   }
 }
 
@@ -91,10 +91,10 @@ if (db_num_rows($res) > 0) {
   echo "<h3>Interfaces</h3>";
   
   while ($row = db_fetch_assoc ($res)) {
-    $row['Name'] = htmlspecialchars($row['Name']);
+    $row['name'] = htmlspecialchars($row['name']);
     
-    echo "<p><strong><a href=\"interface.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
-    echo $row['Description'];
+    echo "<p><strong><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+    echo $row['description'];
   }
 }
 
@@ -111,12 +111,12 @@ if (db_num_rows($res) > 0) {
   
   while ($row = db_fetch_assoc ($res)) {
     // encode for output
-    $row['Name'] = htmlspecialchars($row['Name']);
-    $row['Arguments'] = htmlspecialchars($row['Arguments']);
+    $row['name'] = htmlspecialchars($row['name']);
+    $row['arguments'] = htmlspecialchars($row['arguments']);
     
     // display the function
-    echo "<p><strong><a href=\"function.php?id={$row['ID']}\">{$row['Name']}</a></strong></p>";
-    echo $row['Description'];
+    echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+    echo $row['description'];
   }
 }
 
@@ -135,15 +135,15 @@ if (db_num_rows($res) > 0) {
   echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
   while ($row = db_fetch_assoc ($res)) {
     // encode for output
-    $row['Name'] = htmlspecialchars($row['Name']);
-    $row['Value'] = htmlspecialchars($row['Value']);
-    if ($row['Description'] == null) $row['Description'] = '&nbsp;';
+    $row['name'] = htmlspecialchars($row['name']);
+    $row['value'] = htmlspecialchars($row['value']);
+    if ($row['description'] == null) $row['description'] = '&nbsp;';
     
     // display the constant
     echo "<tr>";
-    echo "<td><code>{$row['Name']}</code></td>";
-    echo "<td><code>{$row['Value']}</code></td>";
-    echo "<td>{$row['Description']}</td>";
+    echo "<td><code>{$row['name']}</code></td>";
+    echo "<td><code>{$row['value']}</code></td>";
+    echo "<td>{$row['description']}</td>";
     echo "</tr>\n";
   }
   echo "</table>\n";

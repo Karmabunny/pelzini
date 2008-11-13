@@ -78,7 +78,15 @@ function db_quote($str) {
 * Fetches a MySQL result set as an associative array
 **/
 function db_fetch_assoc($res) {
-  return mysql_fetch_assoc($res);
+  $result = array();
+  
+  $row = mysql_fetch_assoc($res);
+  foreach ($row as $field => $val) {
+    $field = strtolower ($field);
+    $result[$field] = $val;
+  }
+  
+  return $result;
 }
 
 /**

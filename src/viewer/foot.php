@@ -36,7 +36,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
     </td>
     
     <td align="center">
-      <?= $project['License']; ?>
+      <?= $project['license']; ?>
     </td>
     
     <td align="right">

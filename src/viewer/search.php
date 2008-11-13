@@ -45,22 +45,22 @@ if ($num != 0) {
   echo '<h3>Classes (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
   
   while ($row = db_fetch_assoc ($res)) {
-    $row['Name'] = htmlspecialchars ($row['Name']);
-    $row['Filename'] = htmlspecialchars ($row['Filename']);
+    $row['name'] = htmlspecialchars ($row['name']);
+    $row['filename'] = htmlspecialchars ($row['filename']);
     
-    echo "<p><strong><a href=\"class.php?id={$row['ID']}\">{$row['Name']}</a></strong>";
+    echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong>";
     
-    if ($row['Extends'] != null) {
-      $row['Extends'] = htmlspecialchars($row['Extends']);
-      echo " <small>extends <a href=\"class.php?name={$row['Extends']}\">{$row['Extends']}</a></small>";
+    if ($row['extends'] != null) {
+      $row['extends'] = htmlspecialchars($row['extends']);
+      echo " <small>extends <a href=\"class.php?name={$row['extends']}\">{$row['extends']}</a></small>";
     }
     
-    if ($row['Abstract'] == 1) {
+    if ($row['abstract'] == 1) {
       echo " <small>(abstract)</small>";
     }
     
-    echo "<br>{$row['Description']}";
-    echo "<br><small>From <a href=\"file.php?id={$row['FileID']}\">{$row['Filename']}</a></small></p>";
+    echo "<br>{$row['description']}";
+    echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></p>";
   }
 }
 
@@ -78,18 +78,18 @@ if ($num != 0) {
   echo '<h3>Functions (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
   
   while ($row = db_fetch_assoc ($res)) {
-    $row['Name'] = htmlspecialchars ($row['Name']);
-    $row['Filename'] = htmlspecialchars ($row['Filename']);
+    $row['name'] = htmlspecialchars ($row['name']);
+    $row['filename'] = htmlspecialchars ($row['filename']);
     
-    echo "<p><strong><a href=\"function.php?id={$row['ID']}\">{$row['Name']}</a></strong>";
+    echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
     
-    if ($row['Class'] != null) {
-      $row['Class'] = htmlspecialchars($row['Class']);
-      echo " <small>from class <a href=\"class.php?id={$row['ClassID']}\">{$row['Class']}</a></small>";
+    if ($row['class'] != null) {
+      $row['class'] = htmlspecialchars($row['class']);
+      echo " <small>from class <a href=\"class.php?id={$row['classid']}\">{$row['class']}</a></small>";
     }
     
-    echo "<br>{$row['Description']}";
-    echo "<br><small>From <a href=\"file.php?id={$row['FileID']}\">{$row['Filename']}</a></small></p>";
+    echo "<br>{$row['description']}";
+    echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></p>";
   }
 }
 
