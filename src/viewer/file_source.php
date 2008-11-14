@@ -35,14 +35,14 @@ if ($id == 0) {
     fatal ("<p>Invalid filename!</p>");
   }
   $name = db_escape ($name);
-  $where = "Name LIKE '{$name}'";
+  $where = "name LIKE '{$name}'";
 } else {
-  $where = "ID = {$id}";
+  $where = "id = {$id}";
 }
 
 
 // Get the details of this file
-$q = "SELECT Name, Description, Source FROM Files WHERE {$where} LIMIT 1";
+$q = "SELECT name, description, source FROM files WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $row = db_fetch_assoc ($res);
 echo "<h2>{$row['name']}</h2>";

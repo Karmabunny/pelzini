@@ -35,19 +35,19 @@ if ($id == 0) {
     fatal ("<p>Invalid function name!</p>");
   }
   $name = db_escape ($name);
-  $where = "Functions.Name LIKE '{$name}'";
+  $where = "Functions.name LIKE '{$name}'";
 } else {
-  $where = "Functions.ID = {$id}";
+  $where = "functions.id = {$id}";
 }
 
 
 // Get the details of this function
-$q = "SELECT Functions.ID, Functions.Name, Functions.Description, Files.Name AS Filename, Functions.ClassID,
-  Classes.Name AS Class, Functions.Static, Functions.Final, Functions.SinceVersion,
-  Functions.ReturnType, Functions.ReturnDescription
-  FROM Functions
-  INNER JOIN Files ON Functions.FileID = Files.ID
-  LEFT JOIN Classes ON Functions.ClassID = Classes.ID
+$q = "SELECT functions.id, functions.name, functions.description, files.name AS filename, functions.classid,
+  classes.name AS class, functions.static, functions.final, functions.sinceversion,
+  functions.returntype, functions.returndescription
+  FROM functions
+  INNER JOIN files ON functions.fileid = files.id
+  LEFT JOIN classes ON functions.classid = classes.id
   WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $function = db_fetch_assoc ($res);
@@ -78,7 +78,7 @@ echo '<div class="function-usage">';
 if ($function['returntype']) echo $function['returntype'], ' ';
 echo '<b>', $function['name'], '</b> ( ';
 
-$q = "SELECT Name, Type, DefaultValue FROM Arguments WHERE FunctionID = {$function['id']}";
+$q = "SELECT name, type, defaultvalue FROM arguments WHERE functionid = {$function['id']}";
 $res = db_query($q);
 $j = 0;
 while ($row = db_fetch_assoc ($res)) {
@@ -101,7 +101,7 @@ show_authors ($function['id'], LINK_TYPE_FUNCTION);
 
 
 // Show Arguments
-$q = "SELECT ID, Name, Type, DefaultValue, Description FROM Arguments WHERE FunctionID = {$function['id']}";
+$q = "SELECT id, name, type, defaultvalue, description FROM arguments WHERE functionid = {$function['id']}";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo "<h3>Arguments</h3>";

@@ -26,7 +26,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once 'functions.php';
 
-$q = "SELECT Name, License FROM Projects WHERE ID = {$dvgProjectID}";
+$q = "SELECT name, license FROM projects WHERE id = {$dvgProjectID}";
 $res = db_query($q);
 $project = db_fetch_assoc($res);
 ?>
@@ -64,7 +64,7 @@ if (isset($_SESSION['last_selected_type'])) {
   &nbsp;
   
   <?php
-  $q = "SELECT ID, Name FROM Packages ORDER BY Name";
+  $q = "SELECT id, name FROM packages ORDER BY name";
   $res = db_query($q);
   while ($row = db_fetch_assoc($res)) {
     $row['name'] = htmlspecialchars($row['name']);

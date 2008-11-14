@@ -134,10 +134,6 @@ abstract class DatabaseOutputter extends Outputter {
           $table = $words[1];
           break;
           
-        case 'ENGINE':
-          //$dest_tables[$table]['Engine'] = $words[1];
-          break;
-          
         case 'PK':
           $dest_tables[$table]['PK'] = $words[1];
           break;
@@ -159,10 +155,10 @@ abstract class DatabaseOutputter extends Outputter {
       
       foreach ($colres as $colrow) {
         $def = $colrow['Type'];
-        if (! $colrow['Null']) $def .= ' NOT NULL';
+        if (! $colrow['Null']) $def .= ' not null';
         if ($colrow['Extra']) $def .= ' ' . $colrow['Extra'];
         
-        $curr_tables[$table_name]['Columns'][$colrow['Field']] = $def;
+        $curr_tables[$table_name]['Columns'][$colrow['Field']] = strtolower($def);
         
         if ($colrow['Key'] == 'PRI') {
           $curr_tables[$table_name]['PK'] = $colrow['Field'];
@@ -288,22 +284,22 @@ abstract class DatabaseOutputter extends Outputter {
       return false;
     }
     
-    $this->query ("TRUNCATE Projects");
-    $this->query ("TRUNCATE Files");
-    $this->query ("TRUNCATE Functions");
-    $this->query ("TRUNCATE Arguments");
-    $this->query ("TRUNCATE Classes");
-    $this->query ("TRUNCATE Packages");
-    $this->query ("TRUNCATE Interfaces");
-    $this->query ("TRUNCATE Variables");
-    $this->query ("TRUNCATE Constants");
-    $this->query ("TRUNCATE Authors");
+    $this->query ("TRUNCATE projects");
+    $this->query ("TRUNCATE files");
+    $this->query ("TRUNCATE functions");
+    $this->query ("TRUNCATE arguments");
+    $this->query ("TRUNCATE classes");
+    $this->query ("TRUNCATE packages");
+    $this->query ("TRUNCATE interfaces");
+    $this->query ("TRUNCATE variables");
+    $this->query ("TRUNCATE constants");
+    $this->query ("TRUNCATE authors");
     
     $insert_data = array();
-    $insert_data['ID'] = $dpqProjectID;
-    $insert_data['Name'] = $this->sql_safen ($dpgProjectName);
-    $insert_data['License'] = $this->sql_safen ($dpgLicenseText);
-    $q = $this->create_insert_query('Projects', $insert_data);
+    $insert_data['id'] = $dpqProjectID;
+    $insert_data['name'] = $this->sql_safen ($dpgProjectName);
+    $insert_data['license'] = $this->sql_safen ($dpgLicenseText);
+    $q = $this->create_insert_query('projects', $insert_data);
     $this->query($q);
     
     // get all of the unique package names, and create packages
@@ -312,8 +308,8 @@ abstract class DatabaseOutputter extends Outputter {
       if ($file->package != null) {
         if (! isset($packages[$file->package])) {
           $insert_data = array();
-          $insert_data['Name'] = $this->sql_safen ($file->package);
-          $q = $this->create_insert_query('Packages', $insert_data);
+          $insert_data['name'] = $this->sql_safen ($file->package);
+          $q = $this->create_insert_query('packages', $insert_data);
           
           $this->query($q);
           $packages[$file->package] = $this->insert_id();
@@ -326,8 +322,8 @@ abstract class DatabaseOutputter extends Outputter {
     
     if ($needs_default_package) {
       $insert_data = array();
-      $insert_data['Name'] = $this->sql_safen ('Default');
-      $q = $this->create_insert_query('Packages', $insert_data);
+      $insert_data['name'] = $this->sql_safen ('Default');
+      $q = $this->create_insert_query('packages', $insert_data);
       
       $this->query($q);
       $default_id = $this->insert_id();
@@ -341,13 +337,13 @@ abstract class DatabaseOutputter extends Outputter {
       $package = $this->sql_safen($package);
       
       $insert_data = array();
-      $insert_data['Name'] = $this->sql_safen($file->name);
-      $insert_data['Description'] = $this->sql_safen($file->description);
-      $insert_data['Source'] = $this->sql_safen($file->source);
-      $insert_data['SinceVersion'] = $this->sql_safen($file->since);
-      $insert_data['PackageID'] = $package;
+      $insert_data['name'] = $this->sql_safen($file->name);
+      $insert_data['description'] = $this->sql_safen($file->description);
+      $insert_data['source'] = $this->sql_safen($file->source);
+      $insert_data['sinceversion'] = $this->sql_safen($file->since);
+      $insert_data['packageid'] = $package;
       
-      $q = $this->create_insert_query('Files', $insert_data);
+      $q = $this->create_insert_query('files', $insert_data);
       $this->query ($q);
       $file_id = $this->insert_id ();
       
@@ -385,32 +381,32 @@ abstract class DatabaseOutputter extends Outputter {
   private function save_function ($function, $file_id, $class_id = null, $interface_id = null) {
     // prepare data for inserting
     $insert_data = array();
-    $insert_data['Static'] = 0;
-    $insert_data['Final'] = 0;
-    $insert_data['Name'] = $this->sql_safen($function->name);
-    $insert_data['Description'] = $this->sql_safen($function->description);
-    $insert_data['FileID'] = $file_id;
-    $insert_data['SinceVersion'] = $this->sql_safen($function->since);
+    $insert_data['static'] = 0;
+    $insert_data['final'] = 0;
+    $insert_data['name'] = $this->sql_safen($function->name);
+    $insert_data['description'] = $this->sql_safen($function->description);
+    $insert_data['fileid'] = $file_id;
+    $insert_data['sinceversion'] = $this->sql_safen($function->since);
     
     // Class-specific details
     if ($class_id != null) {
-      $insert_data['ClassID'] = $class_id;
-      $insert_data['Visibility'] = $this->sql_safen($function->visibility);
+      $insert_data['classid'] = $class_id;
+      $insert_data['visibility'] = $this->sql_safen($function->visibility);
       
     // Interface-specific details
     } else if ($interface_id != null) {
-      $insert_data['InterfaceID'] = $interface_id;
-      $insert_data['Visibility'] = $this->sql_safen($function->visibility);
+      $insert_data['interfaceid'] = $interface_id;
+      $insert_data['visibility'] = $this->sql_safen($function->visibility);
     }
     
     // Return value
     if ($function->return_type != null) {
-      $insert_data['ReturnType'] = $this->sql_safen($function->return_type);
-      $insert_data['ReturnDescription'] = $this->sql_safen($function->return_description);
+      $insert_data['returntype'] = $this->sql_safen($function->return_type);
+      $insert_data['returndescription'] = $this->sql_safen($function->return_description);
     }
     
-    if ($function->static) $insert_data['Static'] = 1;
-    if ($function->final) $insert_data['Final'] = 1;
+    if ($function->static) $insert_data['static'] = 1;
+    if ($function->final) $insert_data['final'] = 1;
     
     // build arguments string
     if (count($function->args) > 0) {
@@ -422,14 +418,14 @@ abstract class DatabaseOutputter extends Outputter {
           $args[] = $arg->name;
         }
       }
-      $insert_data['Arguments'] = $this->sql_safen(implode (', ', $args));
+      $insert_data['arguments'] = $this->sql_safen(implode (', ', $args));
       
     } else {
-      $insert_data['Arguments'] = "''";
+      $insert_data['arguments'] = "''";
     }
     
     // build query from prepared data
-    $q = $this->create_insert_query('Functions', $insert_data);
+    $q = $this->create_insert_query('functions', $insert_data);
     $this->query ($q);
     $function_id = $this->insert_id ();
     
@@ -443,14 +439,14 @@ abstract class DatabaseOutputter extends Outputter {
     // insert Arguments
     foreach ($function->args as $arg) {
       $insert_data = array();
-      $insert_data['Name'] = $this->sql_safen($arg->name);
-      $insert_data['Type'] = $this->sql_safen($arg->type);
-      $insert_data['DefaultValue'] = $this->sql_safen($arg->default);
-      $insert_data['Description'] = $this->sql_safen($arg->description);
-      $insert_data['FunctionID'] = $this->sql_safen($function_id);
+      $insert_data['name'] = $this->sql_safen($arg->name);
+      $insert_data['type'] = $this->sql_safen($arg->type);
+      $insert_data['defaultvalue'] = $this->sql_safen($arg->default);
+      $insert_data['description'] = $this->sql_safen($arg->description);
+      $insert_data['functionid'] = $this->sql_safen($function_id);
       
       // build query from prepared data
-      $q = $this->create_insert_query('Arguments', $insert_data);
+      $q = $this->create_insert_query('arguments', $insert_data);
       $this->query ($q);
     }
     
@@ -458,13 +454,13 @@ abstract class DatabaseOutputter extends Outputter {
     // insert return value
     if ($function->return != null) {
       $insert_data = array();
-      $insert_data['Name'] = $this->sql_safen('__RETURN__');
-      $insert_data['Type'] = $this->sql_safen($function->return->type);
-      $insert_data['Description'] = $this->sql_safen($function->return->description);
-      $insert_data['FunctionID'] = $this->sql_safen($function_id);
+      $insert_data['name'] = $this->sql_safen('__RETURN__');
+      $insert_data['type'] = $this->sql_safen($function->return->type);
+      $insert_data['description'] = $this->sql_safen($function->return->description);
+      $insert_data['functionid'] = $this->sql_safen($function_id);
       
       // build query from prepared data
-      $q = $this->create_insert_query('Arguments', $insert_data);
+      $q = $this->create_insert_query('arguments', $insert_data);
       $this->query ($q);
     }
   }
@@ -476,20 +472,20 @@ abstract class DatabaseOutputter extends Outputter {
   private function save_class ($class, $file_id) {
     // prepare the data for inserting
     $insert_data = array();
-    $insert_data['Abstract'] = 0;
-    $insert_data['Final'] = 0;
-    $insert_data['Name'] = $this->sql_safen($class->name);
-    $insert_data['Description'] = $this->sql_safen($class->description);
-    $insert_data['Extends'] = $this->sql_safen($class->extends);
-    $insert_data['Visibility'] = $this->sql_safen($class->visibility);
-    $insert_data['FileID'] = $file_id;
-    $insert_data['SinceVersion'] = $this->sql_safen($class->since);
+    $insert_data['abstract'] = 0;
+    $insert_data['final'] = 0;
+    $insert_data['name'] = $this->sql_safen($class->name);
+    $insert_data['description'] = $this->sql_safen($class->description);
+    $insert_data['extends'] = $this->sql_safen($class->extends);
+    $insert_data['visibility'] = $this->sql_safen($class->visibility);
+    $insert_data['fileid'] = $file_id;
+    $insert_data['sinceversion'] = $this->sql_safen($class->since);
     
-    if ($class->abstract) $insert_data['Abstract'] = 1;
-    if ($class->final) $insert_data['Final'] = 1;
+    if ($class->abstract) $insert_data['abstract'] = 1;
+    if ($class->final) $insert_data['final'] = 1;
     
     // Build and process query from prepared data
-    $q = $this->create_insert_query('Classes', $insert_data);
+    $q = $this->create_insert_query('classes', $insert_data);
     $this->query ($q);
     $class_id = $this->insert_id ();
     
@@ -517,16 +513,16 @@ abstract class DatabaseOutputter extends Outputter {
   private function save_interface ($interface, $file_id) {
     // prepare the data for inserting
     $insert_data = array();
-    $insert_data['Name'] = $this->sql_safen($interface->name);
-    $insert_data['Description'] = $this->sql_safen($interface->description);
-    $insert_data['Extends'] = $this->sql_safen($interface->extends);
-    $insert_data['Visibility'] = $this->sql_safen($interface->visibility);
-    $insert_data['FileID'] = $file_id;
-    $insert_data['SinceVersion'] = $this->sql_safen($interface->since);
+    $insert_data['name'] = $this->sql_safen($interface->name);
+    $insert_data['description'] = $this->sql_safen($interface->description);
+    $insert_data['extends'] = $this->sql_safen($interface->extends);
+    $insert_data['visibility'] = $this->sql_safen($interface->visibility);
+    $insert_data['fileid'] = $file_id;
+    $insert_data['sinceversion'] = $this->sql_safen($interface->since);
     
     
     // Build and process query from prepared data
-    $q = $this->create_insert_query('Interfaces', $insert_data);
+    $q = $this->create_insert_query('interfaces', $insert_data);
     $this->query ($q);
     $interface_id = $this->insert_id ();
 
@@ -549,27 +545,27 @@ abstract class DatabaseOutputter extends Outputter {
   private function save_variable ($variable, $class_id = null, $interface_id = null) {
     // prepare data for inserting
     $insert_data = array();
-    $insert_data['Static'] = 0;
-    $insert_data['Name'] = $this->sql_safen($variable->name);
-    $insert_data['Description'] = $this->sql_safen($variable->description);
-    //$insert_data['Visibility'] = $this->sql_safen($variable->visibility);
-    $insert_data['SinceVersion'] = $this->sql_safen($variable->since);
+    $insert_data['static'] = 0;
+    $insert_data['name'] = $this->sql_safen($variable->name);
+    $insert_data['description'] = $this->sql_safen($variable->description);
+    //$insert_data['visibility'] = $this->sql_safen($variable->visibility);
+    $insert_data['sinceversion'] = $this->sql_safen($variable->since);
     
     
     // Class-specific details
     if ($class_id != null) {
-      $insert_data['ClassID'] = $class_id;
+      $insert_data['classid'] = $class_id;
       
     // Interface-specific details
     } else if ($interface_id != null) {
-      $insert_data['InterfaceID'] = $interface_id;
+      $insert_data['interfaceid'] = $interface_id;
     }
     
-    if ($variable->static) $insert_data['Static'] = 1;
+    if ($variable->static) $insert_data['static'] = 1;
     
     
     // Build and process query from prepared data
-    $q = $this->create_insert_query('Variables', $insert_data);
+    $q = $this->create_insert_query('variables', $insert_data);
     $this->query ($q);
     $variable_id = $this->insert_id ();
     
@@ -586,15 +582,15 @@ abstract class DatabaseOutputter extends Outputter {
   private function save_constant ($constant, $file_id = null) {
     // prepare data for inserting
     $insert_data = array();
-    $insert_data['Name'] = $this->sql_safen($constant->name);
-    $insert_data['Value'] = $this->sql_safen($constant->value);
-    $insert_data['Description'] = $this->sql_safen($constant->description);
-    $insert_data['FileID'] = $this->sql_safen($file_id);
-    $insert_data['SinceVersion'] = $this->sql_safen($constant->since);
+    $insert_data['name'] = $this->sql_safen($constant->name);
+    $insert_data['value'] = $this->sql_safen($constant->value);
+    $insert_data['description'] = $this->sql_safen($constant->description);
+    $insert_data['fileid'] = $this->sql_safen($file_id);
+    $insert_data['sinceversion'] = $this->sql_safen($constant->since);
     
     
     // Build and process query from prepared data
-    $q = $this->create_insert_query('Constants', $insert_data);
+    $q = $this->create_insert_query('constants', $insert_data);
     $this->query ($q);
     $constant_id = $this->insert_id ();
     
@@ -610,14 +606,14 @@ abstract class DatabaseOutputter extends Outputter {
   **/
   private function save_author ($link_type, $link_id, $author) {
     $insert_data = array();
-    $insert_data['LinkID'] = $this->sql_safen($link_id);
-    $insert_data['LinkType'] = $this->sql_safen($link_type);
-    $insert_data['Name'] = $this->sql_safen($author->name);
-    $insert_data['Email'] = $this->sql_safen($author->email);
-    $insert_data['Description'] = $this->sql_safen($author->description);
+    $insert_data['linkid'] = $this->sql_safen($link_id);
+    $insert_data['linktype'] = $this->sql_safen($link_type);
+    $insert_data['name'] = $this->sql_safen($author->name);
+    $insert_data['email'] = $this->sql_safen($author->email);
+    $insert_data['description'] = $this->sql_safen($author->description);
     
     // Build and process query from prepared data
-    $q = $this->create_insert_query('Authors', $insert_data);
+    $q = $this->create_insert_query('authors', $insert_data);
     $this->query ($q);
   }
   

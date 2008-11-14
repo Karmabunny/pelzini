@@ -35,17 +35,17 @@ if ($id == 0) {
     fatal ("<p>Invalid interface name!</p>");
   }
   $name = db_escape ($name);
-  $where = "Interfaces.Name LIKE '{$name}'";
+  $where = "interfaces.name LIKE '{$name}'";
 } else {
-  $where = "Interfaces.ID = {$id}";
+  $where = "interfaces.id = {$id}";
 }
 
 
 // Get the details of this class
-$q = "SELECT Interfaces.ID, Interfaces.Name, Interfaces.Description, Files.Name AS Filename,
-  Interfaces.SinceVersion
-  FROM Interfaces
-  INNER JOIN Files ON Interfaces.FileID = Files.ID
+$q = "SELECT interfaces.id, interfaces.name, interfaces.description, files.name AS filename,
+  interfaces.sinceversion
+  FROM interfaces
+  INNER JOIN files ON interfaces.fileid = files.id
   WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $row = db_fetch_assoc ($res);
@@ -61,7 +61,7 @@ show_authors ($row['id'], LINK_TYPE_INTERFACE);
 
 
 // Show functions
-$q = "SELECT ID, Name, Description, Arguments FROM Functions WHERE InterfaceID = {$id}";
+$q = "SELECT id, name, description, arguments FROM functions WHERE interfaceid = {$id}";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo "<h3>Functions</h3>";

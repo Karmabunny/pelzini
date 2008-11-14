@@ -34,7 +34,7 @@ require_once 'head.php';
 
 
 <?php
-$q = "SELECT ID, Name FROM Packages ORDER BY Name";
+$q = "SELECT id, name FROM packages ORDER BY name";
 $res = db_query($q);
 if (db_num_rows ($res) > 0) {
   echo "<h3>Packages in this project</h3>";

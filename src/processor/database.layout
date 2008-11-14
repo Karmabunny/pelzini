@@ -1,116 +1,106 @@
-TABLE Files
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  Name varchar(255) NOT NULL
-  Description text
-  Source mediumtext NOT NULL
-  PackageID int unsigned
-  SinceVersion varchar(255)
+TABLE files
+PK id
+  id serial
+  name varchar(255) not null
+  description text
+  source mediumtext not null
+  packageid int unsigned
+  sinceversion varchar(255)
   
   
-TABLE Classes
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  FileID int unsigned NOT NULL
-  Name varchar(255) NOT NULL
-  Description text
-  Abstract smallint unsigned NOT NULL
-  Extends varchar(255)
-  Visibility varchar(20) NOT NULL
-  Final smallint unsigned NOT NULL
-  SinceVersion varchar(255)
+TABLE classes
+PK id
+  id serial
+  fileid int unsigned not null
+  name varchar(255) not null
+  description text
+  abstract smallint unsigned not null
+  extends varchar(255)
+  visibility varchar(20) not null
+  final smallint unsigned not null
+  sinceversion varchar(255)
   
   
-TABLE Interfaces
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  FileID int unsigned NOT NULL
-  Name varchar(255) NOT NULL
-  Description text
-  Extends varchar(255)
-  Visibility varchar(20) NOT NULL
-  SinceVersion varchar(255)
+TABLE interfaces
+PK id
+  id serial
+  fileid int unsigned not null
+  name varchar(255) not null
+  description text
+  extends varchar(255)
+  visibility varchar(20) not null
+  sinceversion varchar(255)
   
   
-TABLE Functions
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  FileID int unsigned NOT NULL
-  ClassID int unsigned
-  InterfaceID int unsigned
-  Name varchar(255) NOT NULL
-  Description text
-  Arguments varchar(255) NOT NULL
-  Visibility varchar(20)
-  ReturnType varchar(255)
-  ReturnDescription text
-  Static smallint unsigned NOT NULL
-  Final smallint unsigned NOT NULL
-  SinceVersion varchar(255)
+TABLE functions
+PK id
+  id serial
+  fileid int unsigned not null
+  classid int unsigned
+  interfaceid int unsigned
+  name varchar(255) not null
+  description text
+  arguments varchar(255) not null
+  visibility varchar(20)
+  returntype varchar(255)
+  returndescription text
+  static smallint unsigned not null
+  final smallint unsigned not null
+  sinceversion varchar(255)
   
   
-TABLE Arguments
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  FunctionID int unsigned NOT NULL
-  Name varchar(255) NOT NULL
-  Type varchar(255)
-  DefaultValue varchar(255)
-  Description text
+TABLE arguments
+PK id
+  id serial
+  functionid int unsigned not null
+  name varchar(255) not null
+  type varchar(255)
+  defaultvalue varchar(255)
+  description text
   
   
-TABLE Variables
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  ClassID int unsigned
-  InterfaceID int unsigned
-  Name varchar(255) NOT NULL
-  Type varchar(255)
-  Description text
-  Static smallint unsigned NOT NULL
-  SinceVersion varchar(255)
+TABLE variables
+PK id
+  id serial
+  classid int unsigned
+  interfaceid int unsigned
+  name varchar(255) not null
+  type varchar(255)
+  description text
+  static smallint unsigned not null
+  sinceversion varchar(255)
   
   
-TABLE Constants
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  FileID int unsigned NOT NULL
-  Name varchar(255) NOT NULL
-  Value varchar(255) NOT NULL
-  Description text
-  SinceVersion varchar(255)
+TABLE constants
+PK id
+  id serial
+  fileid int unsigned not null
+  name varchar(255) not null
+  value varchar(255) not null
+  description text
+  sinceversion varchar(255)
   
   
   
   
-TABLE Authors
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  LinkID int unsigned NOT NULL
-  LinkType smallint unsigned NOT NULL
-  Name varchar(255) NOT NULL
-  Email varchar(255) NOT NULL
-  Description text
+TABLE authors
+PK id
+  id serial
+  linkid int unsigned not null
+  linktype smallint unsigned not null
+  name varchar(255) not null
+  email varchar(255) not null
+  description text
   
   
-TABLE Packages
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  Name varchar(50) NOT NULL
+TABLE packages
+PK id
+  id serial
+  name varchar(50) not null
   
   
-TABLE Projects
-ENGINE MyISAM
-PK ID
-  ID SERIAL
-  Name varchar(255) NOT NULL
-  License text
+TABLE projects
+PK id
+  id serial
+  name varchar(255) not null
+  license text

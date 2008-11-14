@@ -35,17 +35,17 @@ if ($id == 0) {
     fatal ("<p>Invalid filename!</p>");
   }
   $name = db_escape ($name);
-  $where = "Files.Name LIKE '{$name}'";
+  $where = "files.name LIKE '{$name}'";
 } else {
-  $where = "Files.ID = {$id}";
+  $where = "files.id = {$id}";
 }
 
 
 // Get the details of this file
-$q = "SELECT Files.ID, Files.Name, Files.Description, Files.PackageID, Packages.Name AS Package,
-  Files.SinceVersion
-  FROM Files
-  INNER JOIN Packages ON Files.PackageID = Packages.ID
+$q = "SELECT files.id, files.name, files.description, files.packageid, packages.name as package,
+  files.sinceversion
+  FROM files
+  INNER JOIN packages ON files.packageid = packages.id
   WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $row = db_fetch_assoc ($res);
@@ -69,10 +69,10 @@ show_authors ($row['id'], LINK_TYPE_FILE);
 
 
 // Show classes
-$q = "SELECT ID, Name, Description
-  FROM Classes
-  WHERE FileID = {$id}
-  ORDER BY Name";
+$q = "SELECT id, name, description
+  FROM classes
+  WHERE fileid = {$id}
+  ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="classes"></a>';
@@ -88,10 +88,10 @@ if (db_num_rows($res) > 0) {
 
 
 // Show interfaces
-$q = "SELECT ID, Name, Description
-  FROM Interfaces
-  WHERE FileID = {$id}
-  ORDER BY Name";
+$q = "SELECT id, name, description
+  FROM interfaces
+  WHERE fileid = {$id}
+  ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="interfaces"></a>';
@@ -107,10 +107,10 @@ if (db_num_rows($res) > 0) {
 
 
 // Show functions
-$q = "SELECT ID, Name, Description, Arguments
-  FROM Functions
-  WHERE FileID = {$id} AND ClassID IS NULL AND InterfaceID IS NULL
-  ORDER BY Name";
+$q = "SELECT id, name, description, arguments
+  FROM functions
+  WHERE fileid = {$id} AND classid IS NULL AND interfaceid IS NULL
+  ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="functions"></a>';
@@ -130,10 +130,10 @@ if (db_num_rows($res) > 0) {
 
 
 // Show constants
-$q = "SELECT Name, Value, Description
-  FROM Constants
-  WHERE FileID = {$id}
-  ORDER BY Name";
+$q = "SELECT name, value, description
+  FROM constants
+  WHERE fileid = {$id}
+  ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="constants"></a>';

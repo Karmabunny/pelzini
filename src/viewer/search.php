@@ -34,10 +34,10 @@ echo '<p>You searched for "<strong>', htmlspecialchars($_GET['q']), '</strong>".
 
 
 // classes
-$q = "SELECT Classes.ID, Classes.Name, Classes.Description, Classes.Extends, Classes.Abstract, Files.Name AS Filename, Classes.FileID
-  FROM Classes
-  INNER JOIN Files ON Classes.FileID = Files.ID
-  WHERE Classes.Name LIKE '%{$query}%' ORDER BY Classes.Name";
+$q = "SELECT classes.id, classes.name, classes.description, classes.extends, classes.abstract, files.name as filename, classes.fileid
+  FROM classes
+  INNER JOIN files ON classes.fileid = files.id
+  WHERE classes.name LIKE '%{$query}%' ORDER BY classes.name";
 $res = db_query ($q);
 $num = db_num_rows ($res);
 if ($num != 0) {
@@ -66,11 +66,11 @@ if ($num != 0) {
 
 
 // functions
-$q = "SELECT Functions.ID, Functions.Name, Functions.Description, Functions.ClassID, Files.Name AS Filename, Functions.FileID, Classes.Name AS Class
-  FROM Functions
-  INNER JOIN Files ON Functions.FileID = Files.ID
-  LEFT JOIN Classes ON Functions.ClassID = Classes.ID
-  WHERE Functions.Name LIKE '%{$query}%' ORDER BY Functions.Name";
+$q = "SELECT functions.id, functions.name, functions.description, functions.classid, files.name as filename, functions.fileid, classes.name as class
+  FROM functions
+  INNER JOIN files ON functions.fileid = files.id
+  LEFT JOIN classes ON functions.classid = classes.id
+  WHERE functions.name LIKE '%{$query}%' ORDER BY functions.name";
 $res = db_query ($q);
 $num = db_num_rows ($res);
 if ($num != 0) {

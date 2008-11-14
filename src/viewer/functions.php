@@ -75,7 +75,7 @@ function get_object_link($name) {
 
   // check classes
   $sql_name = db_escape($name);
-  $q = "SELECT ID FROM Classes WHERE Name = '{$sql_name}' LIMIT 1";
+  $q = "SELECT id FROM classes WHERE name = '{$sql_name}' LIMIT 1";
   $res = db_query($q);
   
   if (db_num_rows($res) != 0) {
@@ -86,7 +86,7 @@ function get_object_link($name) {
   
   // check interfaces
   $sql_name = db_escape($name);
-  $q = "SELECT ID FROM Interfaces WHERE Name = '{$sql_name}' LIMIT 1";
+  $q = "SELECT id FROM interfaces WHERE name = '{$sql_name}' LIMIT 1";
   $res = db_query($q);
   
   if (db_num_rows($res) != 0) {
@@ -100,7 +100,7 @@ function get_object_link($name) {
 
 
 function show_authors ($link_id, $link_type) {
-  $q = "SELECT Name, Email, Description FROM Authors WHERE LinkID = {$link_id} AND LinkType = {$link_type}";
+  $q = "SELECT name, email, description FROM authors WHERE linkid = {$link_id} AND linktype = {$link_type}";
   $res = db_query($q);
   
   if (db_num_rows($res) > 0) {

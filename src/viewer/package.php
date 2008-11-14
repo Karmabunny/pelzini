@@ -28,7 +28,7 @@ require_once 'head.php';
 
 
 $id = (int) $_GET['id'];
-$q = "SELECT Name FROM Packages WHERE ID = {$id} LIMIT 1";
+$q = "SELECT name FROM packages WHERE id = {$id} LIMIT 1";
 $res = db_query($q);
 if (db_num_rows($res) == 0) {
   echo '<p>Invalid package specified.</p>';
@@ -44,9 +44,9 @@ echo "<h2>{$row['name']}</h2>";
 echo "<h3>Files</h3>";
 $file_ids = array();
 
-$q = "SELECT Files.ID, Files.Name, Files.Description
-  FROM Files
-  WHERE Files.PackageID = {$id}";
+$q = "SELECT files.id, files.name, files.description
+  FROM files
+  WHERE files.packageid = {$id}";
 $res = db_query ($q);
 while ($row = db_fetch_assoc ($res)) {
   $row['name'] = htmlspecialchars($row['name']);
@@ -62,10 +62,10 @@ $file_ids = implode (', ', $file_ids);
 
 
 // Show classes
-$q = "SELECT ID, Name, Description
-  FROM Classes
-  WHERE FileID IN ({$file_ids})
-  ORDER BY Name";
+$q = "SELECT id, name, description
+  FROM classes
+  WHERE fileid IN ({$file_ids})
+  ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="classes"></a>';
@@ -81,10 +81,10 @@ if (db_num_rows($res) > 0) {
 
 
 // Show interfaces
-$q = "SELECT ID, Name, Description
-  FROM Interfaces
-  WHERE FileID IN ({$file_ids})
-  ORDER BY Name";
+$q = "SELECT id, name, description
+  FROM interfaces
+  WHERE fileid IN ({$file_ids})
+  ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="interfaces"></a>';
@@ -100,10 +100,10 @@ if (db_num_rows($res) > 0) {
 
 
 // Show functions
-$q = "SELECT ID, Name, Description, Arguments
-  FROM Functions
-  WHERE FileID IN ({$file_ids}) AND ClassID IS NULL AND InterfaceID IS NULL
-  ORDER BY Name";
+$q = "SELECT id, name, description, arguments
+  FROM functions
+  WHERE fileid IN ({$file_ids}) AND classid IS NULL AND interfaceid IS NULL
+  ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="functions"></a>';
@@ -122,10 +122,10 @@ if (db_num_rows($res) > 0) {
 
 
 // Show constants
-$q = "SELECT Name, Value, Description
-  FROM Constants
-  WHERE FileID IN ({$file_ids})
-  ORDER BY Name";
+$q = "SELECT name, value, description
+  FROM constants
+  WHERE fileid IN ({$file_ids})
+  ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="constants"></a>';

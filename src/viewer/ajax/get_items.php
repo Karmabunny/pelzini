@@ -27,16 +27,16 @@ $where = array ();
 
 switch ($_GET['type']) {
   case 'classes':
-    $table = 'Classes';
+    $table = 'classes';
     break;
     
   case 'functions':
-    $table = 'Functions';
-    $where[] = 'ClassID IS NULL';
+    $table = 'functions';
+    $where[] = 'classid IS NULL';
     break;
     
   case 'files':
-    $table = 'Files';
+    $table = 'files';
     break;
     
   default:
@@ -49,7 +49,7 @@ switch ($_GET['type']) {
 $_SESSION['last_selected_type'] = $_GET['type'];
 
 if ($_SESSION['current_package'] != null) {
-  $where[] = 'Files.PackageID = ' . $_SESSION['current_package'];
+  $where[] = 'files.packageid = ' . $_SESSION['current_package'];
 }
 
 
@@ -57,19 +57,19 @@ $where = implode(' AND ', $where);
 
 if ($table == 'Files') {
   // files don't need a join
-  $q = "SELECT ID, Name
-    FROM Files";
+  $q = "SELECT id, name
+    FROM files";
   if ($where != '') $q .= ' WHERE ' . $where;
-  $q .= ' ORDER BY Name';
+  $q .= ' ORDER BY name';
   
   
 } else {
   // other tables do
-  $q = "SELECT {$table}.ID, {$table}.Name
+  $q = "SELECT {$table}.id, {$table}.name
     FROM {$table}
-    INNER JOIN Files ON {$table}.FileID = Files.ID";
+    INNER JOIN files ON {$table}.fileid = files.id";
   if ($where != '') $q .= ' WHERE ' . $where;
-  $q .= " ORDER BY {$table}.Name";
+  $q .= " ORDER BY {$table}.name";
   
 }
 
