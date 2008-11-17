@@ -3,26 +3,37 @@ It stores all of its documentation in a database, and the documentation is viewe
 so that cool features like search can be created. Search was the main reason for the creation of docu.
 
 
+FEATURES
+
+Docu currently supports all aspects of PHP, with the documentation being stores in a MySQL database.
+Docu has a modular design, so other laoguages and output engines will be supported in the future.
+Docu supports code search. You can search for class names, interface names and function names. The search
+feature is planned to be massivly upgraded in the future.
+
+
+
 INSTALLATION
 
-Installation currently is quite manual, but it is simple.
+1. Extract the archive somewhere accessable by your web server.
 
-1. Put all of the files in the src/ directory somewhere accessable by your web server.
+2. Run installer/install.php.
+   If you have granted write access to the install directory, your config files will be created,
+   and you will need to copy config.processor.php into the processor directory, and config.viewer.php into the viewer directory
+   
+   If you did not granted write access to the install directory, your config files will be shown to the screen.
+   You will need to copy them into a text editor, and save in the locaitons shown, as the filenames shown.
 
-2. Create a MySQL database for docu, and grant your user ALL access. The ALL access requirerment will be lifted in version 0.2
-
-3. Copy processor/config.example.php to processor/config.php, and set your database details.
-   You can also use processor/create_config.php
-
-4. Copy viewer/config.example.php to viewer/config.php, and set your database details
-
-4. Run the src/processor/database_layout_sync.php tool. This tool should create your database layout.
-   If you update your version of docu, just run this tool again to get the new layout.
-
-5. Run src/processor/main.php to generate your documentation.
+3. Run processor/main.php to generate your documentation.
    Re-run the tool every time your code changes.
 
-6. View the documentation using the viewer directory (e.g. http://www.example.com/docs/viewer)
+4. View the documentation using the viewer directory (e.g. http://www.example.com/docs/viewer)
+
+
+NOTES
+
+ * It is possible for the processor directory and the viewer directory to reside in different areas of the filesystem if required
+   These two directories can even reside on different computers if nessasary. Compatibility between the viewer and the processor
+   is only guarenteed for the same version, but may work for similar versions.
 
 
 MORE INFORMATION
