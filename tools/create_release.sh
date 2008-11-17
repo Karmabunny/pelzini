@@ -43,6 +43,7 @@ fi
 
 echo "Exporting repository..."
 svn export https://docu.svn.sourceforge.net/svnroot/docu/trunk/src "$DIRNAME"
+svn export --depth=files --force https://docu.svn.sourceforge.net/svnroot/docu/trunk "$DIRNAME"
 echo
 
 echo "Preforming automatic alterations..."
