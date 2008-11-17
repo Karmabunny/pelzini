@@ -152,8 +152,6 @@ class PostgresqlOutputter extends DatabaseOutputter {
       $tables[] = $row['name'];
     }
     
-    print_r ($tables);
-    
     return $tables;
   }
   
@@ -164,16 +162,68 @@ class PostgresqlOutputter extends DatabaseOutputter {
   *   [0] => Array [
   *      'Field' => field name
   *      'Type' => field type, (e.g. 'int unsigned' or 'varchar(255)')
-  *      'Null' => nullable?, (e.g. 'NO' or 'YES')
+  *      'Null' => nullable?, (true or false)
   *      'Key' => indexed?, ('PRI' for primary key)
-  *      'Extra' => extra info, (to contain 'auto_increment' if an auto-inc column)
   *      ]
   *    [1] => ...
   *    [n] => ...
   **/
   protected function get_column_details ($table_name) {
-    return array();
-    // TODO;
+    
+    $q = "SELECT c.oid, n.nspname, c.relname
+      FROM pg_catalog.pg_class c
+        LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+      WHERE c.relname ~ '^({$table_name})$'
+        AND pg_catalog.pg_table_is_visible(c.oid)
+      ORDER BY 2, 3";
+    $res = $this->query ($q);
+    $row = $this->fetch_assoc ($res);
+    
+    $q = "SELECT a.attname,
+      pg_catalog.format_type(a.atttypid, a.atttypmod),
+      (
+        SELECT substring(pg_catalog.pg_get_expr(d.adbin, d.adrelid) for 128)
+        FROM pg_catalog.pg_attrdef d
+        WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum AND a.atthasdef
+      ) as extra,
+      a.attnotnull, a.attnum
+      FROM pg_catalog.pg_attribute a
+      WHERE a.attrelid = '{$row['oid']}' AND a.attnum > 0 AND NOT a.attisdropped
+      ORDER BY a.attnum";
+    $res = $this->query ($q);
+    
+    $columns = array();
+    while ($row = $this->fetch_assoc ($res)) {
+      $item = array();
+      
+      $row['format_type'] = str_replace ('character varying', 'varchar', $row['format_type']);
+      $row['format_type'] = str_replace ('integer', 'int', $row['format_type']);
+      
+      $item['Field'] = $row['attname'];
+      $item['Type'] = $row['format_type'];
+      $item['Null'] = ($row['attnotnull'] != 't');
+      
+      if (strpos ($row['extra'], 'nextval') !== false) {
+        $item['Key'] = 'PRI';
+        $item['Type'] = 'serial';
+        $item['Null'] = true;
+      }
+      
+      $columns[] = $item;
+    }
+    
+    return $columns;
+  }
+  
+  /**
+  * Gets the query that alters a column to match the new SQL definition
+  **/
+  protected function get_alter_column_query ($table_name, $column_name, $new_definition) {
+    $new_definition = explode (' ', $new_definition);
+    $new_definition = $new_definition[0];
+    
+    $q = "ALTER TABLE {$table_name} ALTER COLUMN {$column_name} TYPE {$new_definition}";
+    return $q;
   }
 }
 

@@ -89,6 +89,12 @@ abstract class DatabaseOutputter extends Outputter {
   **/
   abstract protected function get_column_details ($table_name);
   
+  /**
+  * Gets the query that alters a column to match the new SQL definition
+  **/
+  abstract protected function get_alter_column_query ($table, $column_name, $new_definition);
+  
+  
   
   /**
   * Creates an insert query from the data provided.
@@ -156,7 +162,6 @@ abstract class DatabaseOutputter extends Outputter {
       foreach ($colres as $colrow) {
         $def = $colrow['Type'];
         if (! $colrow['Null']) $def .= ' not null';
-        if ($colrow['Extra']) $def .= ' ' . $colrow['Extra'];
         
         $curr_tables[$table_name]['Columns'][$colrow['Field']] = strtolower($def);
         
@@ -166,12 +171,13 @@ abstract class DatabaseOutputter extends Outputter {
       }
     }
     
+    
     echo '<pre>';
     
     foreach ($dest_tables as $table_name => $dest_table) {
       $curr_table = $curr_tables[$table_name];
       
-      if ($curr_table == null) {
+      if ($curr_table === null) {
         // Create the table if it does not yet exist.
         echo "Create table {$table_name}.\n";
         
@@ -222,7 +228,7 @@ abstract class DatabaseOutputter extends Outputter {
           } else if ($curr_column != $dest_column) {
             echo "  Update col {$column_name}. Old def: '{$curr_column}' New def: '{$dest_column}'\n";
             
-            $q = "ALTER TABLE {$table_name} MODIFY COLUMN {$column_name} {$dest_column}";
+            $q = $this->get_alter_column_query ($table_name, $column_name, $dest_column);
             echo "    <b>Query: {$q}</b>\n";
             
             if ($_GET['action'] == 1) {

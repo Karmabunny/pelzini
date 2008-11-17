@@ -142,7 +142,6 @@ class MysqlOutputter extends DatabaseOutputter {
   *      'Type' => field type, (e.g. 'int unsigned' or 'varchar(255)')
   *      'Null' => nullable?, (true or false)
   *      'Key' => indexed?, ('PRI' for primary key)
-  *      'Extra' => extra info, (to contain 'auto_increment' if an auto-inc column)
   *      ]
   *    [1] => ...
   *    [n] => ...
@@ -175,6 +174,14 @@ class MysqlOutputter extends DatabaseOutputter {
     }
     
     return $columns;
+  }
+  
+  /**
+  * Gets the query that alters a column to match the new SQL definition
+  **/
+  protected function get_alter_column_query ($table, $column_name, $new_definition) {
+    $q = "ALTER TABLE {$table_name} MODIFY COLUMN {$column_name} {$new_definition}";
+    return $q;
   }
 }
 

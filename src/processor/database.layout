@@ -4,27 +4,27 @@ PK id
   name varchar(255) not null
   description text
   source mediumtext not null
-  packageid int unsigned
+  packageid int
   sinceversion varchar(255)
   
   
 TABLE classes
 PK id
   id serial
-  fileid int unsigned not null
+  fileid int not null
   name varchar(255) not null
   description text
-  abstract smallint unsigned not null
+  abstract smallint not null
   extends varchar(255)
   visibility varchar(20) not null
-  final smallint unsigned not null
+  final smallint not null
   sinceversion varchar(255)
   
   
 TABLE interfaces
 PK id
   id serial
-  fileid int unsigned not null
+  fileid int not null
   name varchar(255) not null
   description text
   extends varchar(255)
@@ -35,24 +35,24 @@ PK id
 TABLE functions
 PK id
   id serial
-  fileid int unsigned not null
-  classid int unsigned
-  interfaceid int unsigned
+  fileid int not null
+  classid int
+  interfaceid int
   name varchar(255) not null
   description text
   arguments varchar(255) not null
   visibility varchar(20)
   returntype varchar(255)
   returndescription text
-  static smallint unsigned not null
-  final smallint unsigned not null
+  static smallint not null
+  final smallint not null
   sinceversion varchar(255)
   
   
 TABLE arguments
 PK id
   id serial
-  functionid int unsigned not null
+  functionid int not null
   name varchar(255) not null
   type varchar(255)
   defaultvalue varchar(255)
@@ -62,19 +62,19 @@ PK id
 TABLE variables
 PK id
   id serial
-  classid int unsigned
-  interfaceid int unsigned
+  classid int
+  interfaceid int
   name varchar(255) not null
   type varchar(255)
   description text
-  static smallint unsigned not null
+  static smallint not null
   sinceversion varchar(255)
   
   
 TABLE constants
 PK id
   id serial
-  fileid int unsigned not null
+  fileid int not null
   name varchar(255) not null
   value varchar(255) not null
   description text
@@ -86,8 +86,8 @@ PK id
 TABLE authors
 PK id
   id serial
-  linkid int unsigned not null
-  linktype smallint unsigned not null
+  linkid int not null
+  linktype smallint not null
   name varchar(255) not null
   email varchar(255) not null
   description text
