@@ -44,6 +44,9 @@ echo "<h2>{$row['name']}</h2>";
 echo "<h3>Files</h3>";
 $file_ids = array();
 
+$alt = false;
+echo '<div class="list">';
+
 $q = "SELECT files.id, files.name, files.description
   FROM files
   WHERE files.packageid = {$id}";
@@ -51,13 +54,19 @@ $res = db_query ($q);
 while ($row = db_fetch_assoc ($res)) {
   $row['name'] = htmlspecialchars($row['name']);
   
+  $class = 'item';
+  if ($alt) $class .= '-alt';
+  
   // output
+  echo "<div class=\"{$class}\">";
   echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
   echo $row['description'];
+  echo '</div>';
   
   $file_ids[] = $row['id'];
+  $alt = ! $alt;
 }
-
+echo '</div>';
 $file_ids = implode (', ', $file_ids);
 
 
@@ -71,12 +80,22 @@ if (db_num_rows($res) > 0) {
   echo '<a name="classes"></a>';
   echo "<h3>Classes</h3>";
   
+  $alt = false;
+  echo '<div class="list">';
   while ($row = db_fetch_assoc ($res)) {
     $row['name'] = htmlspecialchars($row['name']);
     
+    $class = 'item';
+    if ($alt) $class .= '-alt';
+    
+    echo "<div class=\"{$class}\">";
     echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
     echo $row['description'];
+    echo '</div>';
+    
+    $alt = ! $alt;
   }
+  echo '</div>';
 }
 
 
@@ -90,12 +109,22 @@ if (db_num_rows($res) > 0) {
   echo '<a name="interfaces"></a>';
   echo "<h3>Interfaces</h3>";
   
+  $alt = false;
+  echo '<div class="list">';
   while ($row = db_fetch_assoc ($res)) {
     $row['name'] = htmlspecialchars($row['name']);
     
+    $class = 'item';
+    if ($alt) $class .= '-alt';
+    
+    echo "<div class=\"{$class}\">";
     echo "<p><strong><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
     echo $row['description'];
+    echo '</div>';
+    
+    $alt = ! $alt;
   }
+  echo '</div>';
 }
 
 
@@ -109,15 +138,25 @@ if (db_num_rows($res) > 0) {
   echo '<a name="functions"></a>';
   echo "<h3>Functions</h3>";
   
+  $alt = false;
+  echo '<div class="list">';
   while ($row = db_fetch_assoc ($res)) {
     // encode for output
     $row['name'] = htmlspecialchars($row['name']);
     $row['arguments'] = htmlspecialchars($row['arguments']);
     
+    $class = 'item';
+    if ($alt) $class .= '-alt';
+    
     // display the function
+    echo "<div class=\"{$class}\">";
     echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
     echo $row['description'];
+    echo "</div>";
+    
+    $alt = ! $alt;
   }
+  echo '</div>';
 }
 
 

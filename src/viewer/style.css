@@ -28,7 +28,7 @@ a img {
 }
 
 div.header {
-      background-color: #6e7aff;
+  background-color: #6e7aff;
   color: white;
   padding: 0.5em;
   margin: 0.5em;
@@ -149,40 +149,13 @@ td.main h3 small {
   font-weight: normal;
 }
 
-
-table.function-list {
-  border: 1px #CCC solid;
-}
-
-table.function-list td {
-  border: 1px #CCC solid;
-}
-
-table.function-list a {
-  color: black;
-  text-decoration: none;
-}
-
-table.parameter-list {
-  border: 1px #CCC solid;
-}
-
-table.parameter-list td {
-  border: 1px #CCC solid;
-}
-
-table.parameter-list a {
-  color: black;
-  text-decoration: none;
-}
-
 .source {
   border: 1px #CCC solid;
   background: #EEE;
 }
 
 pre {
-  margin: 2px 0px 15px 0px;
+  margin: 2px 0px 2px 0px;
 }
 
 p {
@@ -190,15 +163,15 @@ p {
 }
 
 a {
-  color: #9b6e3f;
+  color: #CE464C;
 }
 
 a:visited {
-  color: #9b6e3f;
+  color: #CE464C;
 }
 
 a:active {
-  color: #e3bd94;
+  color: #B21A21;
 }
 
 ul {
@@ -216,6 +189,20 @@ div.function-usage {
   background-color: #FFE;
 }
 
+
+div.list div.item {
+  margin-bottom: 0.7em;
+  padding: 3px;
+  background-color: #F2FFE8;
+  border: 1px #B8FF81 solid;
+}
+
+div.list div.item-alt {
+  margin-bottom: 0.7em;
+  padding: 3px;
+  background-color: #E8FFF5;
+  border: 1px #83FFCC solid;
+}
 
 
 
