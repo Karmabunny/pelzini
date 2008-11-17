@@ -1,106 +1,106 @@
 TABLE files
 PK id
-  id serial
-  name varchar(255) not null
+  id serial notnull
+  name string notnull
   description text
-  source mediumtext not null
-  packageid int
-  sinceversion varchar(255)
+  source text
+  packageid largenum
+  sinceversion string
   
   
 TABLE classes
 PK id
-  id serial
-  fileid int not null
-  name varchar(255) not null
+  id serial notnull
+  fileid largenum notnull
+  name string notnull
   description text
-  abstract smallint not null
-  extends varchar(255)
-  visibility varchar(20) not null
-  final smallint not null
-  sinceversion varchar(255)
+  abstract smallnum notnull
+  extends string
+  visibility string notnull
+  final smallnum notnull
+  sinceversion string
   
   
 TABLE interfaces
 PK id
-  id serial
-  fileid int not null
-  name varchar(255) not null
+  id serial notnull
+  fileid largenum notnull
+  name string notnull
   description text
-  extends varchar(255)
-  visibility varchar(20) not null
-  sinceversion varchar(255)
+  extends string 
+  visibility string notnull
+  sinceversion string 
   
   
 TABLE functions
 PK id
-  id serial
-  fileid int not null
-  classid int
-  interfaceid int
-  name varchar(255) not null
+  id serial notnull
+  fileid largenum notnull
+  classid largenum
+  interfaceid largenum
+  name string notnull
   description text
-  arguments varchar(255) not null
-  visibility varchar(20)
-  returntype varchar(255)
+  arguments string notnull
+  visibility string
+  returntype string 
   returndescription text
-  static smallint not null
-  final smallint not null
-  sinceversion varchar(255)
+  static smallnum notnull
+  final smallnum notnull
+  sinceversion string 
   
   
 TABLE arguments
 PK id
-  id serial
-  functionid int not null
-  name varchar(255) not null
-  type varchar(255)
-  defaultvalue varchar(255)
+  id serial notnull
+  functionid largenum notnull
+  name string notnull
+  type string 
+  defaultvalue string 
   description text
   
   
 TABLE variables
 PK id
-  id serial
-  classid int
-  interfaceid int
-  name varchar(255) not null
-  type varchar(255)
+  id serial notnull
+  classid largenum
+  interfaceid largenum
+  name string notnull
+  type string 
   description text
-  static smallint not null
-  sinceversion varchar(255)
+  static smallnum notnull
+  sinceversion string 
   
   
 TABLE constants
 PK id
-  id serial
-  fileid int not null
-  name varchar(255) not null
-  value varchar(255) not null
+  id serial notnull
+  fileid largenum notnull
+  name string notnull
+  value string notnull
   description text
-  sinceversion varchar(255)
+  sinceversion string 
   
   
   
   
 TABLE authors
 PK id
-  id serial
-  linkid int not null
-  linktype smallint not null
-  name varchar(255) not null
-  email varchar(255) not null
+  id serial notnull
+  linkid largenum notnull
+  linktype smallnum notnull
+  name string notnull
+  email string notnull
   description text
   
   
 TABLE packages
 PK id
-  id serial
-  name varchar(50) not null
+  id serial notnull
+  name string notnull
   
   
 TABLE projects
 PK id
-  id serial
-  name varchar(255) not null
+  id serial notnull
+  name string notnull
   license text

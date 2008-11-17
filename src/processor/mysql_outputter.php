@@ -134,13 +134,39 @@ class MysqlOutputter extends DatabaseOutputter {
   }
   
   /**
+  * Converts an internal type into the database-specific SQL type.
+  * The defined internal types are:
+  *   - serial: a number that automatically increments whenever a record is added
+  *   - smallnum: a small number. needs to be able to hold at least 32,767 possible values (e.g. a 16-bit signed integer)
+  *   - largenum: a large number. needs to be the same size or larger than a serial type
+  *   - string: a character field long enough to hold identifiers of objects (e.g. function names)
+  *   - text: a field that can hold arbitary pieces of text larger than 65536 chars in length.
+  *
+  * @param string $internal_type_name The internal type name.
+  * @return string The name used by the SQL database.
+  **/
+  protected function get_sql_type ($internal_type_name) {
+    switch ($internal_type_name) {
+      case 'serial': return 'SERIAL';
+      case 'smallnum': return 'SMALLINT UNSIGNED';
+      case 'largenum': return 'INT UNSIGNED';
+      case 'string': return 'VARCHAR(255)';
+      case 'text': return 'MEDIUMTEXT';
+      default:
+        throw new Exception ("Undefined type '{$internal_type_name}' specified");
+        break;
+    }
+  }
+  
+  
+  /**
   * Should return a multi-dimentional array of the column details
   * Format:
   * Array [
   *   [0] => Array [
   *      'Field' => field name
-  *      'Type' => field type, (e.g. 'int unsigned' or 'varchar(255)')
-  *      'Null' => nullable?, (true or false)
+  *      'Type' => field type, (e.g. 'serial', 'smallnum' or 'identifier')
+  *      'NotNull' => nullable?, (true or false)
   *      'Key' => indexed?, ('PRI' for primary key)
   *      ]
   *    [1] => ...
@@ -153,23 +179,31 @@ class MysqlOutputter extends DatabaseOutputter {
     $columns = array();
     while ($row = $this->fetch_assoc($res)) {
       if ($row['Null'] == 'YES') {
-        $row['Null'] = true;
+        $row['NotNull'] = false;
       } else {
-        $row['Null'] = false;
+        $row['NotNull'] = true;
       }
       
-      // Removes numbers after interger columns (tinyint, int, bigint)
-      $row['Type'] = preg_replace('/int\s*\([0-9]+\)/i', 'int', $row['Type']);
+      // Remap the SQL types back to docu type
+      $row['Type'] = preg_replace ('/\(.+\)/', '', $row['Type']);
+      $row['Type'] = strtolower($row['Type']);
+      switch ($row['Type']) {
+        case 'smallint unsigned': $row['Type'] = 'smallnum'; break;
+        case 'smallint': $row['Type'] = 'smallnum'; break;
+        case 'int unsigned': $row['Type'] = 'largenum'; break;
+        case 'int': $row['Type'] = 'largenum'; break;
+        case 'varchar': $row['Type'] = 'string'; break;
+        case 'mediumtext': $row['Type'] = 'text'; break;
+      }
       
-      // Hides SERIAL columns as SERIAL columns.
+      // SERIAL takes a touch more thinking
       if (strcasecmp('bigint unsigned', $row['Type']) == 0
-        and ! $row['Null']
+        and $row['NotNull']
         and stripos('auto_increment', $row['Extra']) !== false) {
-          $row['Type'] = 'SERIAL';
-          $row['Null'] = true;
-          $row['Extra'] = '';
+          $row['Type'] = 'serial';
       }
       
+      unset ($row['Extra'], $row['Default']);
       $columns[] = $row;
     }
     
@@ -179,8 +213,10 @@ class MysqlOutputter extends DatabaseOutputter {
   /**
   * Gets the query that alters a column to match the new SQL definition
   **/
-  protected function get_alter_column_query ($table, $column_name, $new_definition) {
-    $q = "ALTER TABLE {$table_name} MODIFY COLUMN {$column_name} {$new_definition}";
+  protected function get_alter_column_query ($table, $column_name, $new_type, $not_null) {
+    $new_type = $this->get_sql_type($new_type);
+    
+    $q = "ALTER TABLE {$table} MODIFY COLUMN {$new_type} {$new_type}";
     return $q;
   }
 }

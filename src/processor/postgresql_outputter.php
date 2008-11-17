@@ -133,6 +133,7 @@ class PostgresqlOutputter extends DatabaseOutputter {
   }
   
   
+  
   /**
   * Returns an array of the tables in this database
   **/
@@ -156,13 +157,38 @@ class PostgresqlOutputter extends DatabaseOutputter {
   }
   
   /**
+  * Converts an internal type into the database-specific SQL type.
+  * The defined internal types are:
+  *   - serial: a number that automatically increments whenever a record is added
+  *   - smallnum: a small number. needs to be able to hold at least 32,767 possible values (e.g. a 16-bit signed integer)
+  *   - largenum: a large number. needs to be the same size or larger than a serial type
+  *   - string: a character field long enough to hold identifiers of objects (e.g. function names)
+  *   - text: a field that can hold arbitary pieces of text larger than 65536 chars in length.
+  *
+  * @param string $internal_type_name The internal type name.
+  * @return string The name used by the SQL database.
+  **/
+  protected function get_sql_type ($internal_type_name) {
+    switch ($internal_type_name) {
+      case 'serial': return 'serial';
+      case 'smallnum': return 'smallint';
+      case 'largenum': return 'integer';
+      case 'string': return 'character varying(255)';
+      case 'text': return 'text';
+      default:
+        throw new Exception ("Undefined type '{$internal_type_name}' specified");
+        break;
+    }
+  }
+  
+  /**
   * Should return a multi-dimentional array of the column details
   * Format:
   * Array [
   *   [0] => Array [
   *      'Field' => field name
-  *      'Type' => field type, (e.g. 'int unsigned' or 'varchar(255)')
-  *      'Null' => nullable?, (true or false)
+  *      'Type' => field type, (e.g. 'serial', 'smallnum' or 'identifier')
+  *      'NotNull' => nullable?, (true or false)
   *      'Key' => indexed?, ('PRI' for primary key)
   *      ]
   *    [1] => ...
@@ -196,17 +222,28 @@ class PostgresqlOutputter extends DatabaseOutputter {
     while ($row = $this->fetch_assoc ($res)) {
       $item = array();
       
-      $row['format_type'] = str_replace ('character varying', 'varchar', $row['format_type']);
-      $row['format_type'] = str_replace ('integer', 'int', $row['format_type']);
-      
       $item['Field'] = $row['attname'];
       $item['Type'] = $row['format_type'];
-      $item['Null'] = ($row['attnotnull'] != 't');
+      if ($row['attnotnull'] == 't') {
+        $item['NotNull'] = true;
+      } else {
+        $item['NotNull'] = false;
+      }
+      
+      // Remap the SQL types back to docu type
+      $row['format_type'] = preg_replace ('/\(.+\)/', '', $row['format_type']);
+      $row['format_type'] = strtolower($row['format_type']);
+      switch ($row['format_type']) {
+        case 'smallint': $item['Type'] = 'smallnum'; break;
+        case 'integer': $item['Type'] = 'largenum'; break;
+        case 'character varying': $item['Type'] = 'string'; break;
+        case 'text': $item['Type'] = 'text'; break;
+      }
       
       if (strpos ($row['extra'], 'nextval') !== false) {
         $item['Key'] = 'PRI';
         $item['Type'] = 'serial';
-        $item['Null'] = true;
+        $item['NotNull'] = true;
       }
       
       $columns[] = $item;
@@ -218,11 +255,19 @@ class PostgresqlOutputter extends DatabaseOutputter {
   /**
   * Gets the query that alters a column to match the new SQL definition
   **/
-  protected function get_alter_column_query ($table_name, $column_name, $new_definition) {
-    $new_definition = explode (' ', $new_definition);
-    $new_definition = $new_definition[0];
+  protected function get_alter_column_query ($table, $column_name, $new_type, $not_null) {
+    $new_type = $this->get_sql_type($new_type);
     
-    $q = "ALTER TABLE {$table_name} ALTER COLUMN {$column_name} TYPE {$new_definition}";
+    echo "NOT NULL: $not_null\n";
+    
+    $q = "ALTER TABLE {$table} ALTER COLUMN {$column_name} TYPE {$new_type}";
+    $q .= ";\n";
+    
+    if (! $not_null) {
+      $q .= "ALTER TABLE {$table} ALTER COLUMN {$column_name} SET NOT NULL";
+    } else {
+      $q .= "ALTER TABLE {$table} ALTER COLUMN {$column_name} DROP NOT NULL";
+    }
     return $q;
   }
 }

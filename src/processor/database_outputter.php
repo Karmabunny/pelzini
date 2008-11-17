@@ -79,10 +79,9 @@ abstract class DatabaseOutputter extends Outputter {
   * Array [
   *   [0] => Array [
   *      'Field' => field name
-  *      'Type' => field type, (e.g. 'int unsigned' or 'varchar(255)')
-  *      'Null' => nullable?, (e.g. 'NO' or 'YES')
+  *      'Type' => field type, (e.g. 'serial', 'smallnum' or 'identifier')
+  *      'NotNull' => nullable?, (true or false)
   *      'Key' => indexed?, ('PRI' for primary key)
-  *      'Extra' => extra info, (to contain 'auto_increment' if an auto-inc column)
   *      ]
   *    [1] => ...
   *    [n] => ...
@@ -92,7 +91,21 @@ abstract class DatabaseOutputter extends Outputter {
   /**
   * Gets the query that alters a column to match the new SQL definition
   **/
-  abstract protected function get_alter_column_query ($table, $column_name, $new_definition);
+  abstract protected function get_alter_column_query ($table, $column_name, $new_type, $null_allowed);
+  
+  /**
+  * Converts an internal type into the database-specific SQL type.
+  * The defined internal types are:
+  *   - serial: a number that automatically increments whenever a record is added
+  *   - smallnum: a small number. needs to be able to hold at least 32,767 possible values (e.g. a 16-bit signed integer)
+  *   - largenum: a large number. needs to be the same size or larger than a serial type
+  *   - string: a character field long enough to hold identifiers of objects (e.g. function names)
+  *   - text: a field that can hold arbitary pieces of text larger than 65536 chars in length.
+  *
+  * @param string $internal_type_name The internal type name.
+  * @return string The name used by the SQL database.
+  **/
+  abstract protected function get_sql_type ($internal_type_name);
   
   
   
@@ -133,7 +146,7 @@ abstract class DatabaseOutputter extends Outputter {
       $line = trim ($line);
       if ($line == '') continue;
       
-      $words = explode (' ', $line, 2);
+      $words = explode (' ', $line, 3);
       
       switch ($words[0]) {
         case 'TABLE':
@@ -145,7 +158,14 @@ abstract class DatabaseOutputter extends Outputter {
           break;
           
         default:
-          $dest_tables[$table]['Columns'][$words[0]] = $words[1];
+          $col = array();
+          $col['Type'] = $words[1];
+          
+          $col['NotNull'] = 0;
+          if ($words[2] == 'notnull') $col['NotNull'] = 1;
+          if ($words[2] == 'null') $col['NotNull'] = 0;
+          
+          $dest_tables[$table]['Columns'][$words[0]] = $col;
           break;
       }
     }
@@ -160,14 +180,14 @@ abstract class DatabaseOutputter extends Outputter {
       $colres = $this->get_column_details($table_name);
       
       foreach ($colres as $colrow) {
-        $def = $colrow['Type'];
-        if (! $colrow['Null']) $def .= ' not null';
-        
-        $curr_tables[$table_name]['Columns'][$colrow['Field']] = strtolower($def);
+        $colrow['Type'] = strtolower($colrow['Type']);
         
         if ($colrow['Key'] == 'PRI') {
           $curr_tables[$table_name]['PK'] = $colrow['Field'];
         }
+        unset ($colrow['Key']);
+        
+        $curr_tables[$table_name]['Columns'][$colrow['Field']] = $colrow;
       }
     }
     
@@ -183,7 +203,11 @@ abstract class DatabaseOutputter extends Outputter {
         
         $q = "CREATE TABLE {$table_name} (\n";
         foreach ($dest_table['Columns'] as $col_name => $col_def) {
-          $q .= "  {$col_name} {$col_def},\n";
+          
+          $dest_sql = $this->get_sql_type($col_def['Type']);
+          if ($col_def['NotNull']) $dest_sql .= ' not null';
+          
+          $q .= "  {$col_name} {$dest_sql},\n";
         }
         $q .= "  PRIMARY KEY ({$dest_table['PK']})\n";
         $q .= ")";
@@ -210,25 +234,13 @@ abstract class DatabaseOutputter extends Outputter {
         foreach ($dest_table['Columns'] as $column_name => $dest_column) {
           $curr_column = $curr_table['Columns'][$column_name];
           
+          $dest_sql = $this->get_sql_type($dest_column['Type']);
+          if ($dest_column['NotNull']) $dest_sql .= ' not null';
           
           if ($curr_column == null) {
-            echo "  Create column {$column_name}. New def: '{$dest_column}'\n";
+            echo "  Create column {$column_name}. New def: '{$dest_sql}'\n";
             
-            $q = "ALTER TABLE {$table_name} ADD COLUMN {$column_name} {$dest_column}";
-            echo "    <b>Query: {$q}</b>\n";
-            
-            if ($_GET['action'] == 1) {
-              $res = $this->query ($q);
-              if ($res) echo '    Affected rows: ', $this->affected_rows($res), "\n";
-            } else {
-              $has_queries = true;
-            }
-            
-            
-          } else if ($curr_column != $dest_column) {
-            echo "  Update col {$column_name}. Old def: '{$curr_column}' New def: '{$dest_column}'\n";
-            
-            $q = $this->get_alter_column_query ($table_name, $column_name, $dest_column);
+            $q = "ALTER TABLE {$table_name} ADD COLUMN {$column_name} {$dest_sql}";
             echo "    <b>Query: {$q}</b>\n";
             
             if ($_GET['action'] == 1) {
@@ -240,8 +252,26 @@ abstract class DatabaseOutputter extends Outputter {
             
             
           } else {
-            echo "  Column {$column_name} does not need to be changed\n";
+            $curr_sql = $this->get_sql_type($curr_column['Type']);
+            if ($curr_column['NotNull']) $curr_sql .= ' not null';
+            
+            if ($curr_sql != $dest_sql) {
+              echo "  Update col {$column_name}. Old def: '{$curr_sql}' New def: '{$dest_sql}'\n";
+              
+              $q = $this->get_alter_column_query ($table_name, $column_name, $curr_column['Type'], $curr_column['NotNull']);
+              echo "    <b>Query: {$q}</b>\n";
+              
+              if ($_GET['action'] == 1) {
+                $res = $this->query ($q);
+                if ($res) echo '    Affected rows: ', $this->affected_rows($res), "\n";
+              } else {
+                $has_queries = true;
+              }
+            } else {
+              echo "  Column {$column_name} does not need to be changed\n";
+            }
           }
+          
         }
       }
       
