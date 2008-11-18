@@ -42,11 +42,8 @@ class ParserInterface extends ParserItem {
     $this->visibility = 'public';
   }
 
-  public function apply_comment ($text) {
-    $comment = parse_doc_comment ($text);
-    $this->processDocblockTags ($comment);
-    
-    $this->description = htmlify_text($comment['@summary']);
+  protected function processSpecificDocblockTags($docblock_tags) {
+    $this->description = htmlify_text($docblock_tags['@summary']);
   }
 
   public function dump() {

@@ -33,7 +33,6 @@ class ParserFunction extends ParserItem {
   public $visibility;
   public $abstract;
   public $description;
-  public $comment;
   public $return_type;
   public $return_description;
   public $static;
@@ -49,16 +48,13 @@ class ParserFunction extends ParserItem {
     $this->final = false;
   }
   
-  public function apply_comment ($text) {
-    $this->comment = parse_doc_comment ($text);
-    $this->processDocblockTags ($this->comment);
+  protected function processSpecificDocblockTags($docblock_tags) {
+    $this->description = htmlify_text($docblock_tags['@summary']);
   }
   
   public function post_load () {
-    $this->description = htmlify_text($this->comment['@summary']);
-    
     // Do arguments
-    $params = $this->comment['@param'];
+    $params = $this->docblock_tags['@param'];
     if ($params != null) {
       foreach ($params as $param_tag) {
         list ($type, $name, $desc) = explode(' ', $param_tag, 3);
@@ -82,8 +78,8 @@ class ParserFunction extends ParserItem {
     }
     
     // Do return value
-    $return = $this->comment['@return'];
-    if ($return == null) $return = $this->comment['@returns'];
+    $return = $this->docblock_tags['@return'];
+    if ($return == null) $return = $this->docblock_tags['@returns'];
     if ($return != null) {
       $return = array_pop ($return);
       list ($this->return_type, $this->return_description) = explode(' ', $return, 2);

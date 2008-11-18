@@ -57,11 +57,8 @@ class ParserClass extends ParserItem {
   *
   * @param $text The content of the DocBlock
   **/
-  public function apply_comment ($text) {
-    $comment = parse_doc_comment ($text);
-    $this->processDocblockTags ($comment);
-    
-    $this->description = htmlify_text($comment['@summary']);
+  protected function processSpecificDocblockTags($docblock_tags) {
+    $this->description = htmlify_text($docblock_tags['@summary']);
   }
 
   public function dump() {

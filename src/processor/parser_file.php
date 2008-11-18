@@ -35,7 +35,6 @@ class ParserFile extends ParserItem {
   public $classes;
   public $constants;
   public $source;
-  private $comment_applied;
   
   public function __construct() {
     parent::__construct();
@@ -51,21 +50,14 @@ class ParserFile extends ParserItem {
   *
   * @param $text The content of the DocBlock
   **/
-  public function apply_comment ($text) {
-    if ($this->comment_applied) return;
-    
-    $comment = parse_doc_comment ($text);
-    $this->processDocblockTags ($comment);
-    
-    $this->description = htmlify_text($comment['@summary']);
+  protected function processSpecificDocblockTags($docblock_tags) {
+    $this->description = htmlify_text($docblock_tags['@summary']);
     
     // set the packages. all packages are forced to have non-space names
-    $packages = $comment['@package'];
+    $packages = $docblock_tags['@package'];
     if ($packages != null) {
       $this->package = array_pop($packages);
     }
-    
-    $this->comment_applied = true;
   }
   
   public function dump() {

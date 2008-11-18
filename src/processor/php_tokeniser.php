@@ -67,6 +67,7 @@ class PhpTokeniser {
     $static = false;
     $final = false;
     $next_comment = null;
+    $file_has_comment = false;
     
     // debugger
     if ($debug) {
@@ -168,9 +169,10 @@ class PhpTokeniser {
             
             
           case T_DOC_COMMENT:
-            if ($next_comment) {
-              $current_file->apply_comment($next_comment);
+            if ($next_comment and ! $file_has_comment) {
+              $current_file->applyComment($next_comment);
               $next_comment = null;
+              $file_has_comment = true;
             }
             $next_comment = $text;
             break;
@@ -191,7 +193,7 @@ class PhpTokeniser {
               $final = false;
             }
             if ($next_comment) {
-              $current_function->apply_comment($next_comment);
+              $current_function->applyComment($next_comment);
               $next_comment = null;
             }
             break;
@@ -207,7 +209,7 @@ class PhpTokeniser {
               $final = false;
             }
             if ($next_comment) {
-              $current_class->apply_comment($next_comment);
+              $current_class->applyComment($next_comment);
               $next_comment = null;
             }
             break;
@@ -216,7 +218,7 @@ class PhpTokeniser {
           case T_INTERFACE:
             $current_class = new ParserInterface();
             if ($next_comment) {
-              $current_class->apply_comment($next_comment);
+              $current_class->applyComment($next_comment);
               $next_comment = null;
             }
             break;
@@ -244,7 +246,7 @@ class PhpTokeniser {
                 $static = false;
               }
               if ($next_comment) {
-                $variable->apply_comment($next_comment);
+                $variable->applyComment($next_comment);
                 $next_comment = null;
               }
               $inside_class->variables[] = $variable;
@@ -288,7 +290,7 @@ class PhpTokeniser {
               $current_constant = new ParserConstant();
               
               if ($next_comment) {
-                $current_constant->apply_comment($next_comment);
+                $current_constant->applyComment($next_comment);
                 $next_comment = null;
               }
               
@@ -370,9 +372,10 @@ class PhpTokeniser {
     
     // If there is a comment left that never got assigned,
     // assign it to the file
-    if ($next_comment) {
-      $current_file->apply_comment($next_comment);
+    if ($next_comment and ! $file_has_comment) {
+      $current_file->applyComment($next_comment);
       $next_comment = null;
+      $file_has_comment = true;
     }
     
     if ($debug) echo '</pre>';

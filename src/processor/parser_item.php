@@ -35,18 +35,39 @@ abstract class ParserItem {
   public $authors;
   public $since;
   
+  protected $docblock_tags;
+  
+  
+  /**
+  * Processes the docblock tags for a specific item
+  **/
+  abstract protected function processSpecificDocblockTags($docblock_tags);
+  
+  
   /**
   * This constructor must be called by extending classes
   **/
   protected function __construct () {
-    $this->authors = array ();
+    $this->docblock_tags = array();
+    $this->authors = array();
     $this->since = null;
+  }
+  
+  
+  /**
+  * This processes a comment for a specific item
+  **/
+  public function applyComment ($comment) {
+    $this->docblock_tags = parse_doc_comment ($comment);
+    
+    $this->processGenericDocblockTags($this->docblock_tags);
+    $this->processSpecificDocblockTags($this->docblock_tags);
   }
   
   /**
   * Processes general DocBlock tags that should apply to everything
   **/
-  protected function processDocblockTags($docblock_tags) {
+  protected function processGenericDocblockTags($docblock_tags) {
     // @author
     if (@count ($docblock_tags['@author']) > 0) {
       // This regex is for taking an author string, and getting the name (required),
@@ -76,7 +97,6 @@ abstract class ParserItem {
       $this->since = $docblock_tags['@since'][0];
     }
   }
-  
   
   protected function dump () {
     echo '<br>Authors: '; foreach ($this->authors as $a) $a->dump();
