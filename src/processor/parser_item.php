@@ -45,6 +45,15 @@ abstract class ParserItem {
   
   
   /**
+  * Cascades Docblock tags into the children that do not have any tags, and then
+  * runs processTags() for all of the children items.
+  *
+  * This should probably be extended
+  **/
+  public function processChildrenItems() {}
+  
+  
+  /**
   * This constructor must be called by extending classes
   **/
   protected function __construct () {
@@ -55,13 +64,25 @@ abstract class ParserItem {
   
   
   /**
-  * This processes a comment for a specific item
+  * This parses a comment for a specific item
   **/
   public function applyComment ($comment) {
     $this->docblock_tags = parse_doc_comment ($comment);
-    
+  }
+  
+  /**
+  * Processes the tags for a specific item
+  **/
+  public function processTags() {
     $this->processGenericDocblockTags($this->docblock_tags);
     $this->processSpecificDocblockTags($this->docblock_tags);
+  }
+  
+  /**
+  * Gets the Docblock tags of this item
+  **/
+  public function getDocblockTags() {
+    return $this->docblock_tags;
   }
   
   /**

@@ -31,7 +31,7 @@ class ParserInterface extends ParserItem {
   public $name;
   public $functions;
   public $extends;
-  public $visibility;	
+  public $visibility;
   public $description;
 
   public function __construct() {
@@ -45,7 +45,18 @@ class ParserInterface extends ParserItem {
   protected function processSpecificDocblockTags($docblock_tags) {
     $this->description = htmlify_text($docblock_tags['@summary']);
   }
-
+  
+  /**
+  * Cascades Docblock tags into the children that do not have any tags, and then
+  * runs processTags() for all of the children items.
+  **/
+  public function processChildrenItems() {
+    foreach ($this->functions as $item) {
+      $item->processTags();
+      $item->processChildrenItems();
+    }
+  }
+  
   public function dump() {
     echo '<div style="border: 1px orange solid;">';
     echo $this->visibility . ' ';

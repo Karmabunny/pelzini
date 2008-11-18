@@ -60,7 +60,23 @@ class ParserClass extends ParserItem {
   protected function processSpecificDocblockTags($docblock_tags) {
     $this->description = htmlify_text($docblock_tags['@summary']);
   }
-
+  
+  /**
+  * Cascades Docblock tags into the children that do not have any tags, and then
+  * runs processTags() for all of the children items.
+  **/
+  public function processChildrenItems() {
+    foreach ($this->functions as $item) {
+      $item->processTags();
+      $item->processChildrenItems();
+    }
+    
+    foreach ($this->variables as $item) {
+      $item->processTags();
+      $item->processChildrenItems();
+    }
+  }
+  
   public function dump() {
     echo '<div style="border: 1px blue solid;">';
     echo $this->visibility . ' ';

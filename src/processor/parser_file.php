@@ -50,13 +50,34 @@ class ParserFile extends ParserItem {
   *
   * @param $text The content of the DocBlock
   **/
-  protected function processSpecificDocblockTags($docblock_tags) {
+  public function processSpecificDocblockTags($docblock_tags) {
     $this->description = htmlify_text($docblock_tags['@summary']);
     
     // set the packages. all packages are forced to have non-space names
     $packages = $docblock_tags['@package'];
     if ($packages != null) {
       $this->package = array_pop($packages);
+    }
+  }
+  
+  /**
+  * Cascades Docblock tags into the children that do not have any tags, and then
+  * runs processTags() for all of the children items.
+  **/
+  public function processChildrenItems() {
+    foreach ($this->classes as $item) {
+      $item->processTags();
+      $item->processChildrenItems();
+    }
+    
+    foreach ($this->functions as $item) {
+      $item->processTags();
+      $item->processChildrenItems();
+    }
+    
+    foreach ($this->constants as $item) {
+      $item->processTags();
+      $item->processChildrenItems();
     }
   }
   
