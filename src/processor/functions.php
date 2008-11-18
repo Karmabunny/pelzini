@@ -141,7 +141,8 @@ function get_filenames ($directory) {
   global $dpgBaseDirectory, $dpgExcludeDirectories;
   
   if (isset ($dpgExcludeDirectories)) {
-    if (in_array ($directory, $dpgExcludeDirectories)) return null;
+    $exclude_dir = preg_replace('!^/!', '', $directory);
+    if (in_array ($exclude_dir, $dpgExcludeDirectories)) return null;
   }
   
   $files = array();
@@ -149,9 +150,9 @@ function get_filenames ($directory) {
   while (($file = readdir($handle)) !== false) {
     if ($file[0] == '.') continue;
     
-    if (is_dir($dpgBaseDirectory . $directory . $file)) {
+    if (is_dir($dpgBaseDirectory . $directory . '/'. $file)) {
       // If its a directory, get the files in it
-      $files2 = get_filenames($directory . $file);
+      $files2 = get_filenames($directory . '/'. $file);
       if (is_array ($files2)) {
         $files = array_merge($files, $files2);
       }

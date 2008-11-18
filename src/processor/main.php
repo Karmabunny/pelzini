@@ -40,7 +40,7 @@ output_status("Initalised PHP parser.");
 
 // Determine the file names
 output_status ("Getting filenames for parsing.");
-$file_names = get_filenames ('/');
+$file_names = get_filenames ('');
 output_status ("Retrieved " . count($file_names) . " files.");
 
 output_status ('');
