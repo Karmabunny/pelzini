@@ -171,7 +171,7 @@ abstract class ParserItem {
         $table = new ParserTable();
         
         if ($found_action) {
-          $table->action = $parts[0];
+          $table->action = strtoupper($parts[0]);
           $table->name = $parts[1];
           $table->description = $parts[2];
           

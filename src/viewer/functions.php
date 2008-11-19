@@ -126,4 +126,35 @@ function show_authors ($link_id, $link_type) {
     echo '</ul>';
   }
 }
+
+
+/**
+* Shows the tables used by a specific file, function or class
+**/
+function show_tables ($link_id, $link_type) {
+  $q = "SELECT name, action, description FROM item_tables WHERE linkid = {$link_id} AND linktype = {$link_type}";
+  $res = db_query($q);
+  
+  if (db_num_rows($res) > 0) {
+    echo "<h3>Tables used</h3>";
+    
+    echo '<ul>';
+    while ($row = db_fetch_assoc ($res)) {
+      $row['name'] = htmlspecialchars($row['name']);
+      
+      echo "<li>{$row['name']}";
+      
+      if ($row['action']) {
+        echo " ({$row['action']})";
+      }
+      
+      if ($row['description']) {
+        echo "<br>{$row['description']}";
+      }
+      
+      echo '</li>';
+    }
+    echo '</ul>';
+  }
+}
 ?>

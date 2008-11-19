@@ -66,6 +66,7 @@ $id = $row['id'];
 
 
 show_authors ($row['id'], LINK_TYPE_FILE);
+show_tables ($row['id'], LINK_TYPE_FILE);
 
 
 // Show classes

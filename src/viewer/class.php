@@ -107,6 +107,7 @@ ksort($variables);
 
 
 show_authors ($class['id'], LINK_TYPE_CLASS);
+show_tables ($class['id'], LINK_TYPE_CLASS);
 
 
 if ($_GET['complete'] == 1 and count ($class_names) > 0) {

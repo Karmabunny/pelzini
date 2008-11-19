@@ -98,6 +98,7 @@ echo '</div>';
 
 
 show_authors ($function['id'], LINK_TYPE_FUNCTION);
+show_tables ($function['id'], LINK_TYPE_FUNCTION);
 
 
 // Show Arguments
