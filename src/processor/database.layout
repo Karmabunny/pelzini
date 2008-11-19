@@ -81,18 +81,6 @@ PK id
   sinceversion string 
   
   
-  
-  
-TABLE authors
-PK id
-  id serial notnull
-  linkid largenum notnull
-  linktype smallnum notnull
-  name string notnull
-  email string notnull
-  description text
-  
-  
 TABLE packages
 PK id
   id serial notnull
@@ -104,3 +92,24 @@ PK id
   id serial notnull
   name string notnull
   license text
+  
+  
+  
+TABLE item_authors
+PK id
+  id serial notnull
+  linkid largenum notnull
+  linktype smallnum notnull
+  name string notnull
+  email string notnull
+  description text
+  
+  
+TABLE item_tables
+PK id
+  id serial notnull
+  linkid largenum notnull
+  linktype smallnum notnull
+  name string notnull
+  action string null
+  description text

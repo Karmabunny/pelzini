@@ -86,6 +86,7 @@ abstract class ParserItem {
   **/
   protected function cascadeTags ($child) {
     global $dpgCascaseDocblockTags;
+    if (! isset ($dpgCascaseDocblockTags)) return;
     
     $child_tags = $child->getDocblockTags();
     

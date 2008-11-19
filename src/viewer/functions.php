@@ -100,7 +100,7 @@ function get_object_link($name) {
 
 
 function show_authors ($link_id, $link_type) {
-  $q = "SELECT name, email, description FROM authors WHERE linkid = {$link_id} AND linktype = {$link_type}";
+  $q = "SELECT name, email, description FROM item_authors WHERE linkid = {$link_id} AND linktype = {$link_type}";
   $res = db_query($q);
   
   if (db_num_rows($res) > 0) {

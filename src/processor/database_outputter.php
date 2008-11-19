@@ -329,7 +329,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ("TRUNCATE interfaces");
     $this->query ("TRUNCATE variables");
     $this->query ("TRUNCATE constants");
-    $this->query ("TRUNCATE authors");
+    $this->query ("TRUNCATE item_authors");
     
     $insert_data = array();
     $insert_data['id'] = $dpqProjectID;
@@ -649,7 +649,7 @@ abstract class DatabaseOutputter extends Outputter {
     $insert_data['description'] = $this->sql_safen($author->description);
     
     // Build and process query from prepared data
-    $q = $this->create_insert_query('authors', $insert_data);
+    $q = $this->create_insert_query('item_authors', $insert_data);
     $this->query ($q);
   }
   
