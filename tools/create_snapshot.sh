@@ -23,7 +23,9 @@
 # This tool creates a snapshot of the docu repository
 #
 
-mkdir dist_snapshot
+if [ ! -d dist_snapshot ]; then
+  mkdir dist_snapshot
+fi
 cd dist_snapshot
 
 echo "Checking out repository..."
@@ -31,7 +33,7 @@ svn co https://docu.svn.sourceforge.net/svnroot/docu/trunk docu-snapshot
 
 REV=`svnversion docu-snapshot`
 DATE=`date +"%Y-%m-%d"`
-DESTFILENAME="docu-snapshot-r$REV-$DATE.tar.bz2"
+DESTFILENAME="docu-snapshot-r$REV-$DATE.zip"
 
 echo "Compressing snapshot, saving as $DESTFILENAME..."
-tar -cj docu-snapshot > "$DESTFILENAME"
+zip -rq "$DESTFILENAME" docu-snapshot
