@@ -118,7 +118,7 @@ function show_authors ($link_id, $link_type) {
       }
       
       if ($row['description']) {
-        echo "<br>{$row['description']}";
+        echo "<br><small>{$row['description']}</small>";
       }
       
       echo '</li>';
@@ -140,16 +140,13 @@ function show_tables ($link_id, $link_type) {
     
     echo '<ul>';
     while ($row = db_fetch_assoc ($res)) {
+      $name_url = urlencode($row['name']);
       $row['name'] = htmlspecialchars($row['name']);
       
-      echo "<li>{$row['name']}";
-      
-      if ($row['action']) {
-        echo " ({$row['action']})";
-      }
+      echo "<li><i>{$row['action']}</i> <a href=\"table.php?name={$name_url}\">{$row['name']}</a>";
       
       if ($row['description']) {
-        echo "<br>{$row['description']}";
+        echo "<br><small>{$row['description']}</small>";
       }
       
       echo '</li>';
