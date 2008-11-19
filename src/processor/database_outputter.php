@@ -330,6 +330,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ("TRUNCATE variables");
     $this->query ("TRUNCATE constants");
     $this->query ("TRUNCATE item_authors");
+    $this->query ("TRUNCATE item_tables");
     
     $insert_data = array();
     $insert_data['id'] = $dpqProjectID;
@@ -406,6 +407,11 @@ abstract class DatabaseOutputter extends Outputter {
       foreach ($file->authors as $author) {
         $this->save_author (LINK_TYPE_FILE, $file_id, $author);
       }
+      
+      // The tables
+      foreach ($file->tables as $table) {
+        $this->save_table (LINK_TYPE_FILE, $file_id, $table);
+      }
     }
     
     return true;
@@ -469,6 +475,11 @@ abstract class DatabaseOutputter extends Outputter {
     // insert authors
     foreach ($function->authors as $author) {
       $this->save_author (LINK_TYPE_FUNCTION, $function_id, $author);
+    }
+    
+    // The tables
+    foreach ($function->tables as $table) {
+      $this->save_table (LINK_TYPE_FUNCTION, $function_id, $table);
     }
     
     
@@ -539,6 +550,11 @@ abstract class DatabaseOutputter extends Outputter {
     // insert authors
     foreach ($class->authors as $author) {
       $this->save_author (LINK_TYPE_CLASS, $class_id, $author);
+    }
+    
+    // The tables
+    foreach ($class->tables as $table) {
+      $this->save_table (LINK_TYPE_CLASS, $class_id, $table);
     }
   }
   
@@ -639,6 +655,7 @@ abstract class DatabaseOutputter extends Outputter {
   
   /**
   * Saves author information about an item
+  * @table item_authors
   **/
   private function save_author ($link_type, $link_id, $author) {
     $insert_data = array();
@@ -650,6 +667,24 @@ abstract class DatabaseOutputter extends Outputter {
     
     // Build and process query from prepared data
     $q = $this->create_insert_query('item_authors', $insert_data);
+    $this->query ($q);
+  }
+  
+  
+  /**
+  * Saves table usage information about an item
+  * @table insert item_tables Adds information about the tables that are used by a function, class or file.
+  **/
+  private function save_table ($link_type, $link_id, $table) {
+    $insert_data = array();
+    $insert_data['linkid'] = $this->sql_safen($link_id);
+    $insert_data['linktype'] = $this->sql_safen($link_type);
+    $insert_data['name'] = $this->sql_safen($table->name);
+    $insert_data['action'] = $this->sql_safen($table->action);
+    $insert_data['description'] = $this->sql_safen($table->description);
+    
+    // Build and process query from prepared data
+    $q = $this->create_insert_query('item_tables', $insert_data);
     $this->query ($q);
   }
   

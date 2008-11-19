@@ -62,4 +62,15 @@ class ParserAuthor {
     echo '</div>';
   }
 }
+
+
+/**
+* Represents the contents of a @table tag
+* @since 0.2
+**/
+class ParserTable {
+  public $name;
+  public $action;
+  public $description;
+}
 ?>

@@ -34,6 +34,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 abstract class ParserItem {
   public $authors;
   public $since;
+  public $tables;
   
   protected $docblock_tags;
   
@@ -60,6 +61,7 @@ abstract class ParserItem {
     $this->docblock_tags = array();
     $this->authors = array();
     $this->since = null;
+    $this->tables = array();
   }
   
   
@@ -146,6 +148,40 @@ abstract class ParserItem {
     // @since
     if (@count ($docblock_tags['@since']) > 0) {
       $this->since = $docblock_tags['@since'][0];
+    }
+    
+    // @table
+    if (@count ($docblock_tags['@table']) > 0) {
+      $valid_actions = array('select', 'insert', 'update', 'delete');
+      
+      foreach ($docblock_tags['@table'] as $table_def) {
+        if ($table_def == '') continue;
+        
+        $parts = explode (' ', $table_def, 3);
+        
+        $found_action = false;
+        foreach ($valid_actions as $action) {
+          if (strcasecmp($parts[0], $action) == 0) {
+            $found_action = true;
+            break;
+          }
+        }
+        
+        
+        $table = new ParserTable();
+        
+        if ($found_action) {
+          $table->action = $parts[0];
+          $table->name = $parts[1];
+          $table->description = $parts[2];
+          
+        } else {
+          $table->name = $parts[0];
+          $table->description = $parts[1] . ' ' . $parts[2];
+        }
+        
+        $this->tables[] = $table;
+      }
     }
   }
   
