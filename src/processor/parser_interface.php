@@ -52,6 +52,7 @@ class ParserInterface extends ParserItem {
   **/
   public function processChildrenItems() {
     foreach ($this->functions as $item) {
+      $this->cascadeTags($item);
       $item->processTags();
       $item->processChildrenItems();
     }

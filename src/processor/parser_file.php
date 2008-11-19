@@ -66,16 +66,19 @@ class ParserFile extends ParserItem {
   **/
   public function processChildrenItems() {
     foreach ($this->classes as $item) {
+      $this->cascadeTags($item);
       $item->processTags();
       $item->processChildrenItems();
     }
     
     foreach ($this->functions as $item) {
+      $this->cascadeTags($item);
       $item->processTags();
       $item->processChildrenItems();
     }
     
     foreach ($this->constants as $item) {
+      $this->cascadeTags($item);
       $item->processTags();
       $item->processChildrenItems();
     }

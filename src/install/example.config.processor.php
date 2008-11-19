@@ -37,4 +37,8 @@ $dpgBaseDirectory = '{{project_base_dir}}';
 
 /* These are directories that should be excluded from the processing. */
 $dpgExcludeDirectories = {{project_exclude}};
+
+/* These are the Javadoc tags that should cascade from their parent */
+$dpgCascaseDocblockTags[] = '@author';
+$dpgCascaseDocblockTags[] = '@since';
 ?>

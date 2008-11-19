@@ -79,10 +79,39 @@ abstract class ParserItem {
   }
   
   /**
+  * Cascades parent Docblock tags into a child item
+  * Only cascades the tags specified in the config
+  *
+  * @param ParserItem $child The child item to cascade the tags into
+  **/
+  protected function cascadeTags ($child) {
+    global $dpgCascaseDocblockTags;
+    
+    $child_tags = $child->getDocblockTags();
+    
+    foreach ($dpgCascaseDocblockTags as $cascade_tag) {
+      if (! in_array ($cascade_tag, array_keys ($child_tags))) {
+        $child_tags[$cascade_tag] = $this->docblock_tags[$cascade_tag];
+      }
+    }
+    
+    $child->setDocblockTags($child_tags);
+  }
+  
+  /**
   * Gets the Docblock tags of this item
   **/
   public function getDocblockTags() {
     return $this->docblock_tags;
+  }
+  
+  /**
+  * Sets the Docblock tags for this item
+  *
+  * @param array $tags The new docblock tags.
+  **/
+  public function setDocblockTags($tags) {
+    $this->docblock_tags = $tags;
   }
   
   /**
