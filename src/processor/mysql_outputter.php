@@ -216,7 +216,7 @@ class MysqlOutputter extends DatabaseOutputter {
   protected function get_alter_column_query ($table, $column_name, $new_type, $not_null) {
     $new_type = $this->get_sql_type($new_type);
     
-    $q = "ALTER TABLE {$table} MODIFY COLUMN {$new_type} {$new_type}";
+    $q = "ALTER TABLE {$table} MODIFY COLUMN {$column_name} {$new_type}";
     return $q;
   }
 }
