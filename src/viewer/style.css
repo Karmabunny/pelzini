@@ -99,7 +99,7 @@ td.sidebar {
 }
 
 div.box-nohead {
-  background-color: #bbb;
+  background-color: #ccc;
   color: black;
   margin: 0px;
   margin-bottom: 1em;
@@ -111,22 +111,25 @@ div.box {
   color: black;
   margin: 0px;
   margin-bottom: 1em;
+  border: 1px solid #ccc;
 }
 
 div.box h2 {
-  font-size: 102%;
+  font-size: 95%;
   margin: 0px;
-  background-color: #bbb;
-  padding: 0.3em;
+  background-color: #ccc;
+  padding: 0.25em;
 }
 
 div.box p {
   margin: 0px auto;
-  font-size: 90%;
+  font-size: 88%;
 }
 
 div.box div {
   padding: 0.3em;
+  overflow: auto;
+  max-height: 300px;
 }
 
 td.main {

@@ -104,7 +104,29 @@ if (db_num_rows ($res) > 0) {
   echo '    <div id="sidebar_items">';
   
   while ($row = db_fetch_assoc ($res)) {
-    echo "<p><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></p>";
+    echo "<p><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></p>\n";
+  }
+  
+  echo '    </div>';
+  echo '  </div>';
+}
+
+
+// Interfaces list
+$q = "SELECT interfaces.id, interfaces.name
+  FROM interfaces
+  INNER JOIN files ON interfaces.fileid = files.id";
+if ($_SESSION['current_package']) $q .= " WHERE files.packageid = {$_SESSION['current_package']}";
+$q .= " ORDER BY interfaces.name";
+
+$res = db_query ($q);
+if (db_num_rows ($res) > 0) {
+  echo '  <div class="box">';
+  echo '    <h2>Interfaces</h2>';
+  echo '    <div id="sidebar_items">';
+  
+  while ($row = db_fetch_assoc ($res)) {
+    echo "<p><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></p>\n";
   }
   
   echo '    </div>';
@@ -127,7 +149,7 @@ if (db_num_rows ($res) > 0) {
   echo '    <div id="sidebar_items">';
   
   while ($row = db_fetch_assoc ($res)) {
-    echo "<p><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></p>";
+    echo "<p><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></p>\n";
   }
   
   echo '    </div>';
@@ -148,7 +170,7 @@ if (db_num_rows ($res) > 0) {
   echo '    <div id="sidebar_items">';
   
   while ($row = db_fetch_assoc ($res)) {
-    echo "<p><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></p>";
+    echo "<p><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></p>\n";
   }
   
   echo '    </div>';
