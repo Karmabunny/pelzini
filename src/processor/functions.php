@@ -200,7 +200,7 @@ function htmlify_text($text) {
   }
   
   // put into a pre
-  $text = '<pre>';
+  $text = "<pre>\n";
   $j = 0;
   foreach ($lines as $line) {
     if ($j++ > 0) $text .= "\n";

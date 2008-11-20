@@ -28,7 +28,7 @@ div pre {border: 1px #777 solid;}
 
 <?php
 /**
-* @package Testsuite
+* @package Test suite
 **/
 
 
@@ -63,5 +63,7 @@ foreach ($tests as $test_filename) {
   }
 }
 
+$success = (int) $success;
+$failure = (int) $failure;
 echo "<p>{$success} test(s) were successful, {$failure} test(s) failed.</p>";
 ?>
