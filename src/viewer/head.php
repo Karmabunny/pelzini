@@ -88,69 +88,73 @@ if (isset($_SESSION['last_selected_type'])) {
     </form>
   </div>
   
-  <script>
-  function change_sidebar_type(type) {
-    ajax_request('ajax/get_items.php?type=' + type, change_sidebar_type_process)
+  
+<?php
+// Classes list
+$q = "SELECT classes.id, classes.name
+  FROM classes
+  INNER JOIN files ON classes.fileid = files.id";
+if ($_SESSION['current_package']) $q .= " WHERE files.packageid = {$_SESSION['current_package']}";
+$q .= " ORDER BY classes.name";
+
+$res = db_query ($q);
+if (db_num_rows ($res) > 0) {
+  echo '  <div class="box">';
+  echo '    <h2>Classes</h2>';
+  echo '    <div id="sidebar_items">';
+  
+  while ($row = db_fetch_assoc ($res)) {
+    echo "<p><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></p>";
   }
   
-  function change_sidebar_type_process(top_node) {
-    var items = top_node.getElementsByTagName('item');
-    var type = top_node.firstChild.getAttribute('type');
-    
-    var box = document.getElementById('sidebar_items');
-    
-    while (box.firstChild) {
-      box.removeChild(box.firstChild);
-    }
-    
-    switch (type) {
-      case 'classes':   var base_url = 'class.php'; break;
-      case 'functions': var base_url = 'function.php'; break;
-      case 'files':     var base_url = 'file.php'; break;
-      default:
-        box.appendChild(document.createTextNode('Select something from the drop-down list above'));
-        return;
-    }
-    
-    var select = document.getElementById('sidebar_type_select');
-    select.value = type;
-    
-    // populate the items
-    for (var i = 0; i < items.length; i++) {
-      var item_name = items[i].firstChild.data;
-      var item_id = items[i].getAttribute('id');
-   
-      item_name = item_name.replace(/&/, "%26");
-      var item_url = base_url + '?id=' + item_id;
-   
-      a = document.createElement('a');
-      a.setAttribute('href', item_url);
-      a.appendChild(document.createTextNode(item_name));
-   
-      var p = document.createElement('p');
-      p.appendChild(a);
-      box.appendChild(p);
-    }
-    
-    // show a 'nothing was found' message
-    if (! box.firstChild) {
-      box.appendChild(document.createTextNode('Nothing was found for this package'));
-    }
-  }
-  </script>
+  echo '    </div>';
+  echo '  </div>';
+}
+
+
+// Functions list
+$q = "SELECT functions.id, functions.name
+  FROM functions
+  INNER JOIN files ON functions.fileid = files.id
+  WHERE functions.classid IS NULL AND functions.interfaceid IS NULL";
+if ($_SESSION['current_package']) $q .= " AND files.packageid = {$_SESSION['current_package']}";
+$q .= " ORDER BY functions.name";
+$res = db_query ($q);
+
+if (db_num_rows ($res) > 0) {
+  echo '  <div class="box">';
+  echo '    <h2>Functions</h2>';
+  echo '    <div id="sidebar_items">';
   
-  <div class="box">
-    <h2><select onchange="change_sidebar_type(this.value)" id="sidebar_type_select">
-      <option value="">-- Select below --</option>
-      <option value="classes">Classes</option>
-      <option value="functions">Functions</option>
-      <option value="files">Files</option>
-    </select></h2>
-    
-    <div id="sidebar_items">
-      Select something from the drop-down list above
-    </div>
-  </div>
+  while ($row = db_fetch_assoc ($res)) {
+    echo "<p><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></p>";
+  }
+  
+  echo '    </div>';
+  echo '  </div>';
+}
+
+
+// Files list
+$q = "SELECT files.id, files.name
+  FROM files";
+if ($_SESSION['current_package']) $q .= " WHERE files.packageid = {$_SESSION['current_package']}";
+$q .= " ORDER BY files.name";
+$res = db_query ($q);
+
+if (db_num_rows ($res) > 0) {
+  echo '  <div class="box">';
+  echo '    <h2>Files</h2>';
+  echo '    <div id="sidebar_items">';
+  
+  while ($row = db_fetch_assoc ($res)) {
+    echo "<p><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></p>";
+  }
+  
+  echo '    </div>';
+  echo '  </div>';
+}
+?>
 </td>
 
 <td class="main">
