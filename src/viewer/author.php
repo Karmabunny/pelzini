@@ -29,21 +29,21 @@ require_once 'head.php';
 
 $_GET['name'] = trim($_GET['name']);
 if ($_GET['name'] == '') {
-  echo "Invalid table specified";
+  echo "Invalid author specified";
   exit;
 }
 
 $name_sql = db_quote ($_GET['name']);
 
 
-echo "<h2>Code that uses the table <i>{$_GET['name']}</i></h2>";
+echo "<h2>Code written by <i>{$_GET['name']}</i></h2>";
 
 
 // Show files
-$q = "SELECT files.id, files.name, item_tables.action, item_tables.description
+$q = "SELECT files.id, files.name, item_authors.description
   FROM files
-  INNER JOIN item_tables ON item_tables.linktype = " . LINK_TYPE_FILE . " AND item_tables.linkid = files.id
-  WHERE item_tables.name = {$name_sql}
+  INNER JOIN item_authors ON item_authors.linktype = " . LINK_TYPE_FILE . " AND item_authors.linkid = files.id
+  WHERE item_authors.name = {$name_sql}
   ORDER BY files.name";
 $res = db_query ($q);
 if (db_num_rows($res) > 0) {
@@ -71,10 +71,10 @@ if (db_num_rows($res) > 0) {
 
 
 // Show classes
-$q = "SELECT classes.id, classes.name, item_tables.action, item_tables.description
+$q = "SELECT classes.id, classes.name, item_authors.description
   FROM classes
-  INNER JOIN item_tables ON item_tables.linktype = " . LINK_TYPE_CLASS . " AND item_tables.linkid = classes.id
-  WHERE item_tables.name = {$name_sql}
+  INNER JOIN item_authors ON item_authors.linktype = " . LINK_TYPE_CLASS . " AND item_authors.linkid = classes.id
+  WHERE item_authors.name = {$name_sql}
   ORDER BY classes.name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
@@ -101,10 +101,10 @@ if (db_num_rows($res) > 0) {
 
 
 // Show functions
-$q = "SELECT functions.id, functions.name, item_tables.action, item_tables.description
+$q = "SELECT functions.id, functions.name, item_authors.description
   FROM functions
-  INNER JOIN item_tables ON item_tables.linktype = " . LINK_TYPE_FUNCTION . " AND item_tables.linkid = functions.id
-  WHERE item_tables.name = {$name_sql}
+  INNER JOIN item_authors ON item_authors.linktype = " . LINK_TYPE_FUNCTION . " AND item_authors.linkid = functions.id
+  WHERE item_authors.name = {$name_sql}
   ORDER BY functions.name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
