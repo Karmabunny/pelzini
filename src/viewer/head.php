@@ -59,6 +59,10 @@ if (isset($_SESSION['last_selected_type'])) {
 </div>
 
 <div class="navigation">
+  <span style="float: right">
+    <a href="more_info.php">More info</a>
+  </span>
+  
   <a href="index.php">Home</a>
   <a href="select_package.php">All packages</a>
   &nbsp;
