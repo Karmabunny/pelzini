@@ -127,7 +127,9 @@ function parse_tag (&$output, $tag, $buffer) {
 **/
 function output_status($message) {
   if (PHP_SAPI == 'cli') {
-    echo strip_tags ($message) . "\n";
+    $message = preg_replace('/<a[^>]* href=[\'"](.+?)[\'"][^>]*>(.*?)<\/a>/i', '$2 [LINK: $1]', $message);
+    echo strip_tags($message) . "\n";
+    
   } else {
     echo $message . "<br>";
   }

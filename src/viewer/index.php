@@ -1,4 +1,5 @@
 <?php
+
 /*
 Copyright 2008 Josh Heidenreich
 
@@ -23,8 +24,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.1
 **/
-
 require_once 'head.php';
+
 ?>
 
 

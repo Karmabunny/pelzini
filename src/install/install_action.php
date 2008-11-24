@@ -190,7 +190,7 @@ if (! is_writable ('.')) {
   echo '<p>Make sure to not include any whitespace before the &lt;?php or after the ?&gt; in the config files!</p>';
 }
 ?>
-
+Once you have the files config.processor.php and config.viewer.php ready, you can <a href="../processor/main.php">generate your documentation</a>.<p>
 
 </div>
 </body>
