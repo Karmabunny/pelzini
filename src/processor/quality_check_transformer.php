@@ -48,9 +48,15 @@ class QualityCheckTransformer extends Transformer {
     if (count($this->offending_items) == 0) {
       return null;
     }
+    ksort ($this->offending_items);
     
-    $report = "The following items do not have a description:\n\n";
-    $report .= implode("\n", $this->offending_items);
+    $report = "The following items do not have a description:";
+    foreach ($this->offending_items as $type => $items) {
+      natcasesort($items);
+      
+      $report .= "\n\n{$type}:\n - ";
+      $report .= implode("\n - ", $items);
+    }
     
     $document = new ParserDocument();
     $document->name = "Quality check report";
@@ -70,11 +76,16 @@ class QualityCheckTransformer extends Transformer {
     if ($tags['@summary'] == '') $failed = true;
     
     if ($failed) {
-      $this->offending_items[] = "File: {$item->name}";
+      $this->offending_items['Files'][] = $item->name;
     }
     
     foreach ($item->classes as $sub) {
-      $this->check_class($sub);
+      if ($sub instanceof ParserClass) {
+        $this->check_class($sub);
+        
+      } else if ($sub instanceof ParserInterface) {
+        $this->check_interface($sub);
+      }
     }
     
     foreach ($item->functions as $sub) {
@@ -91,24 +102,41 @@ class QualityCheckTransformer extends Transformer {
     if ($tags['@summary'] == '') $failed = true;
     
     if ($failed) {
-      $this->offending_items[] = "Class: {$item->name}";
+      $this->offending_items['Classes'][] = $item->name;
     }
     
     foreach ($item->functions as $sub) {
-      $this->check_function($sub, $item->name);
+      $this->check_function($sub, ' from class ' . $item->name);
+    }
+  }
+  
+  /**
+  * Checks that an interface has high-enough quality documentation
+  **/
+  private function check_interface($item) {
+    $tags = $item->getDocblockTags();
+    
+    if ($tags['@summary'] == '') $failed = true;
+    
+    if ($failed) {
+      $this->offending_items['Interfaces'][] = $item->name;
+    }
+    
+    foreach ($item->functions as $sub) {
+      $this->check_function($sub, ' from interface ' . $item->name);
     }
   }
   
   /**
   * Checks that a function has high-enough quality documentation
   **/
-  private function check_function($item, $class = null) {
+  private function check_function($item, $from = null) {
     $tags = $item->getDocblockTags();
     
     if ($tags['@summary'] == '') $failed = true;
     
     if ($failed) {
-      $this->offending_items[] = "Function: {$item->name}" . ($class ? " from class {$class}" : '');
+      $this->offending_items['Functions'][] = $item->name . $from;
     }
   }
 }
