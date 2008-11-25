@@ -33,7 +33,7 @@ abstract class Transformer {
   * @param array $parser_model The data model to transform
   * @return array The new data model, or null if there was an error
   **/
-  abstract function transform($parser_model);
+  abstract public function transform($parser_model);
   
 }
 

@@ -368,50 +368,60 @@ abstract class DatabaseOutputter extends Outputter {
     }
     
     // go through all the files
-    foreach ($files as $file) {
-      // the file itself
-      $package = $packages[$file->package];
-      if ($package == null) $package = $default_id;
-      $package = $this->sql_safen($package);
-      
-      $insert_data = array();
-      $insert_data['name'] = $this->sql_safen($file->name);
-      $insert_data['description'] = $this->sql_safen($file->description);
-      $insert_data['source'] = $this->sql_safen($file->source);
-      $insert_data['sinceversion'] = $this->sql_safen($file->since);
-      $insert_data['packageid'] = $package;
-      
-      $q = $this->create_insert_query('files', $insert_data);
-      $this->query ($q);
-      $file_id = $this->insert_id ();
-      
-      // this files functions
-      foreach ($file->functions as $function) {
-        $this->save_function ($function, $file_id);
-      }
-
-      // this files classes
-      foreach ($file->classes as $class) {
-        if ($class instanceof ParserClass) {
-          $this->save_class ($class, $file_id);
-        } else if ($class instanceof ParserInterface) {
-          $this->save_interface ($class, $file_id);
+    foreach ($files as $item) {
+      if ($item instanceof ParserFile) {
+        $file = $item;
+        
+        // the file itself
+        $package = $packages[$file->package];
+        if ($package == null) $package = $default_id;
+        $package = $this->sql_safen($package);
+        
+        $insert_data = array();
+        $insert_data['name'] = $this->sql_safen($file->name);
+        $insert_data['description'] = $this->sql_safen($file->description);
+        $insert_data['source'] = $this->sql_safen($file->source);
+        $insert_data['sinceversion'] = $this->sql_safen($file->since);
+        $insert_data['packageid'] = $package;
+        
+        $q = $this->create_insert_query('files', $insert_data);
+        $this->query ($q);
+        $file_id = $this->insert_id ();
+        
+        // this files functions
+        foreach ($file->functions as $function) {
+          $this->save_function ($function, $file_id);
         }
-      }
-      
-      // this files constants
-      foreach ($file->constants as $constant) {
-        $this->save_constant($constant, $file_id);
-      }
-      
-      // The authors
-      foreach ($file->authors as $author) {
-        $this->save_author (LINK_TYPE_FILE, $file_id, $author);
-      }
-      
-      // The tables
-      foreach ($file->tables as $table) {
-        $this->save_table (LINK_TYPE_FILE, $file_id, $table);
+
+        // this files classes
+        foreach ($file->classes as $class) {
+          if ($class instanceof ParserClass) {
+            $this->save_class ($class, $file_id);
+          } else if ($class instanceof ParserInterface) {
+            $this->save_interface ($class, $file_id);
+          }
+        }
+        
+        // this files constants
+        foreach ($file->constants as $constant) {
+          $this->save_constant($constant, $file_id);
+        }
+        
+        // The authors
+        foreach ($file->authors as $author) {
+          $this->save_author (LINK_TYPE_FILE, $file_id, $author);
+        }
+        
+        // The tables
+        foreach ($file->tables as $table) {
+          $this->save_table (LINK_TYPE_FILE, $file_id, $table);
+        }
+        
+        
+      } else if ($item instanceof ParserDocument) {
+        // todo
+        
+        
       }
     }
     

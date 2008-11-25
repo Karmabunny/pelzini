@@ -31,7 +31,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 *
 * @todo Add get/set methods instead of using public variables
 **/
-abstract class CodeParserItem {
+abstract class CodeParserItem extends ParserItem {
   public $authors;
   public $since;
   public $tables;
