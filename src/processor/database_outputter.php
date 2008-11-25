@@ -325,6 +325,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ("TRUNCATE functions");
     $this->query ("TRUNCATE arguments");
     $this->query ("TRUNCATE classes");
+    $this->query ("TRUNCATE class_implements");
     $this->query ("TRUNCATE packages");
     $this->query ("TRUNCATE interfaces");
     $this->query ("TRUNCATE variables");
@@ -535,6 +536,16 @@ abstract class DatabaseOutputter extends Outputter {
     $q = $this->create_insert_query('classes', $insert_data);
     $this->query ($q);
     $class_id = $this->insert_id ();
+    
+    // process implements
+    foreach ($class->implements as $implements) {
+      $insert_data = array();
+      $insert_data['classid'] = $class_id;
+      $insert_data['name'] = $this->sql_safen($implements);
+      
+      $q = $this->create_insert_query('class_implements', $insert_data);
+      $this->query ($q);
+    }
     
     
     // process functions

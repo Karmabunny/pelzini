@@ -32,6 +32,13 @@ PK id
   sinceversion string 
   
   
+TABLE class_implements
+PK id
+  id serial notnull
+  classid largenum notnull
+  name string notnull
+  
+  
 TABLE functions
 PK id
   id serial notnull

@@ -62,20 +62,39 @@ echo "<h2>{$class['name']}</h2>";
 echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($class['filename']) . "</a></p>\n";
 echo $class['description'];
 
-if ($class['abstract'] == 1) echo '<p>Abstract</p>';
+echo "<p>&nbsp;</p>";
+
+if ($class['abstract'] == 1) echo '<p>This class is abstract</p>';
+if ($class['final'] == 1) echo '<p>This class is final</p>';
 
 if ($class['extends'] != null) {
   $class['extends'] = htmlspecialchars($class['extends']);
-  echo "<p>Extends <a href=\"class.php?name={$class['extends']}\">{$class['extends']}</a>";
+  echo "<p><b>Extends:</b> <a href=\"class.php?name={$class['extends']}\">{$class['extends']}</a>";
+}
+
+// Show implements
+$q = "SELECT name FROM class_implements WHERE classid = {$class['id']}";
+$res = db_query ($q);
+
+if (db_num_rows ($res) > 0) {
+  echo "<p><b>Implements:</b> ";
   
-  if ($_GET['complete'] == 1) {
-    echo " | <a href=\"class.php?id={$class['id']}\">Hide inherited members</a></p>";
-  } else {
-    echo " | <a href=\"class.php?id={$class['id']}&complete=1\">Show inherited members</a></p>";
+  $j = 0;
+  while ($row = db_fetch_assoc ($res)) {
+    if ($j++ > 0) echo ', ';
+    echo get_object_link ($row['name']);
   }
 }
 
-if ($class['sinceversion']) echo '<p>Available since: ', htmlspecialchars ($class['sinceversion']), '</p>';
+if ($class['sinceversion']) echo '<p><b>Available since:</b> ', htmlspecialchars ($class['sinceversion']), '</p>';
+
+
+echo "<p>&nbsp;</p>";
+if ($_GET['complete'] == 1) {
+  echo "<p><a href=\"class.php?id={$class['id']}\">Hide inherited members</a></p>";
+} else {
+  echo "<p><a href=\"class.php?id={$class['id']}&complete=1\">Show inherited members</a></p>";
+}
 
 
 $functions = array();
