@@ -27,7 +27,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Represents a constant
 **/
-class ParserConstant extends ParserItem {
+class ParserConstant extends CodeParserItem {
   public $name;
   public $value;
   public $description;

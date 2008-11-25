@@ -27,7 +27,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Represents a file
 **/
-class ParserFile extends ParserItem {
+class ParserFile extends CodeParserItem {
   public $name;
   public $description;
   public $package;

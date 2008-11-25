@@ -27,7 +27,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Represents a function
 **/
-class ParserFunction extends ParserItem {
+class ParserFunction extends CodeParserItem {
   public $name;
   public $args;
   public $visibility;

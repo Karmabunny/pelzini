@@ -27,7 +27,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Represents an interface
 **/
-class ParserInterface extends ParserItem {
+class ParserInterface extends CodeParserItem {
   public $name;
   public $functions;
   public $extends;

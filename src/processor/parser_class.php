@@ -28,7 +28,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Stores information about a specific class
 **/
-class ParserClass extends ParserItem {
+class ParserClass extends CodeParserItem {
   public $name;
   public $functions;
   public $variables;
