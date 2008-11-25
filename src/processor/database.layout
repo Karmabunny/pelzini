@@ -100,6 +100,12 @@ PK id
   name string notnull
   license text
   
+TABLE documents
+PK id
+  id serial notnull
+  name string notnull
+  description text
+  
   
   
 TABLE item_authors

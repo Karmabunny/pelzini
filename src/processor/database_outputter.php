@@ -332,6 +332,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ("TRUNCATE constants");
     $this->query ("TRUNCATE item_authors");
     $this->query ("TRUNCATE item_tables");
+    $this->query ("TRUNCATE documents");
     
     $insert_data = array();
     $insert_data['id'] = $dpqProjectID;
@@ -370,18 +371,16 @@ abstract class DatabaseOutputter extends Outputter {
     // go through all the files
     foreach ($files as $item) {
       if ($item instanceof ParserFile) {
-        $file = $item;
-        
-        // the file itself
-        $package = $packages[$file->package];
+        // Inserts a file
+        $package = $packages[$item->package];
         if ($package == null) $package = $default_id;
         $package = $this->sql_safen($package);
         
         $insert_data = array();
-        $insert_data['name'] = $this->sql_safen($file->name);
-        $insert_data['description'] = $this->sql_safen($file->description);
-        $insert_data['source'] = $this->sql_safen($file->source);
-        $insert_data['sinceversion'] = $this->sql_safen($file->since);
+        $insert_data['name'] = $this->sql_safen($item->name);
+        $insert_data['description'] = $this->sql_safen($item->description);
+        $insert_data['source'] = $this->sql_safen($item->source);
+        $insert_data['sinceversion'] = $this->sql_safen($item->since);
         $insert_data['packageid'] = $package;
         
         $q = $this->create_insert_query('files', $insert_data);
@@ -389,12 +388,12 @@ abstract class DatabaseOutputter extends Outputter {
         $file_id = $this->insert_id ();
         
         // this files functions
-        foreach ($file->functions as $function) {
+        foreach ($item->functions as $function) {
           $this->save_function ($function, $file_id);
         }
 
         // this files classes
-        foreach ($file->classes as $class) {
+        foreach ($item->classes as $class) {
           if ($class instanceof ParserClass) {
             $this->save_class ($class, $file_id);
           } else if ($class instanceof ParserInterface) {
@@ -403,23 +402,29 @@ abstract class DatabaseOutputter extends Outputter {
         }
         
         // this files constants
-        foreach ($file->constants as $constant) {
+        foreach ($item->constants as $constant) {
           $this->save_constant($constant, $file_id);
         }
         
         // The authors
-        foreach ($file->authors as $author) {
+        foreach ($item->authors as $author) {
           $this->save_author (LINK_TYPE_FILE, $file_id, $author);
         }
         
         // The tables
-        foreach ($file->tables as $table) {
+        foreach ($item->tables as $table) {
           $this->save_table (LINK_TYPE_FILE, $file_id, $table);
         }
         
         
       } else if ($item instanceof ParserDocument) {
-        // todo
+        // Inserts a document
+        $insert_data = array();
+        $insert_data['name'] = $this->sql_safen($file->name);
+        $insert_data['description'] = $this->sql_safen($file->description);
+        
+        $q = $this->create_insert_query('documents', $insert_data);
+        $this->query ($q);
         
         
       }

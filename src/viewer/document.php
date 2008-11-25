@@ -27,38 +27,28 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'head.php';
 
 
-echo '<h2>More information</h2>';
+$_GET['name'] = trim($_GET['name']);
+if ($_GET['name'] == '') {
+  echo "Invalid document specified";
+  exit;
+}
 
-
-$q = "SELECT name FROM documents ORDER BY name";
+$name_sql = db_quote ($_GET['name']);
+$q = "SELECT name, description FROM documents WHERE name LIKE {$name_sql}";
 $res = db_query ($q);
 
-if (db_num_rows ($res) > 0) {
-  echo '<h3>Project documents</h3>';
-  echo "<ul>\n";
-  
-  while ($row = db_fetch_assoc ($res)) {
-    $url = htmlspecialchars(urlencode($row['name']));
-    $html = htmlspecialchars($row['name']);
-    
-    echo "<li><a href=\"document.php?name={$url}\">{$html}</a></li>\n";;
-  }
-  
-  echo "</ul>\n";
+if (! $row = db_fetch_assoc ($res)) {
+  echo "Invalid document specified";
+  exit;
 }
-?>
+
+$row['name'] = htmlspecialchars($row['name']);
 
 
-<h3>Additional documents</h3>
-<p><b><a href="authors_list.php">Authors list</a></b>
-<br>Get a list of all of the authors of this project</p>
-
-<br>
-
-<p><b><a href="tables_list.php">Tables list</a></b>
-<br>Get a list of all of the tables used by this project</p>
+echo "<h2>{$row['name']}</h2>";
+echo '<br>';
+echo $row['description'];
 
 
-<?php
 require_once 'foot.php';
 ?>
