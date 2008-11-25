@@ -420,6 +420,9 @@ abstract class DatabaseOutputter extends Outputter {
 
   /**
   * Saves a function to the database
+  *
+  * @table insert functions Adds the function details
+  * @table insert arguments Adds the arguments for this function
   **/
   private function save_function ($function, $file_id, $class_id = null, $interface_id = null) {
     // prepare data for inserting
@@ -516,6 +519,8 @@ abstract class DatabaseOutputter extends Outputter {
   
   /**
   * Saves a class to the database
+  *
+  * @table insert classes Adds the class information for this class
   **/
   private function save_class ($class, $file_id) {
     // prepare the data for inserting
@@ -572,6 +577,8 @@ abstract class DatabaseOutputter extends Outputter {
   
   /**
   * Saves an interface to the database
+  *
+  * @table insert interfaces
   **/
   private function save_interface ($interface, $file_id) {
     // prepare the data for inserting
@@ -604,6 +611,8 @@ abstract class DatabaseOutputter extends Outputter {
   
   /**
   * Saves a variable to the database
+  *
+  * @table insert variables
   **/
   private function save_variable ($variable, $class_id = null, $interface_id = null) {
     // prepare data for inserting
@@ -641,6 +650,8 @@ abstract class DatabaseOutputter extends Outputter {
   
   /**
   * Saves a constant to the database
+  *
+  * @table insert constants
   **/
   private function save_constant ($constant, $file_id = null) {
     // prepare data for inserting
@@ -666,7 +677,8 @@ abstract class DatabaseOutputter extends Outputter {
   
   /**
   * Saves author information about an item
-  * @table item_authors
+  *
+  * @table insert item_authors
   **/
   private function save_author ($link_type, $link_id, $author) {
     $insert_data = array();
@@ -684,6 +696,8 @@ abstract class DatabaseOutputter extends Outputter {
   
   /**
   * Saves table usage information about an item
+  *
+  * @since 0.2
   * @table insert item_tables Adds information about the tables that are used by a function, class or file.
   **/
   private function save_table ($link_type, $link_id, $table) {
