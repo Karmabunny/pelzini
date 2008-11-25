@@ -113,14 +113,16 @@ show_tables ($class['id'], LINK_TYPE_CLASS);
 if ($_GET['complete'] == 1 and count ($class_names) > 0) {
   echo "<h3>Class structure</h3>";
   echo "<ul>";
+  
+  $class_names = array_reverse ($class_names);
   foreach ($class_names as $index => $name) {
-    if ($index == 0) {
+    if ($name == $class['name']) {
       echo '<li>', $name;
       if ($class['final'] == 1) echo ' <small>(Final)</small>';
       echo '</li>';
       
     } else {
-      echo "<li><a href=\"class.php?name={$name}\">{$name}</a></li>";
+      echo '<li>', get_object_link($name), '</li>';
     }
   }
   echo "</ul>";

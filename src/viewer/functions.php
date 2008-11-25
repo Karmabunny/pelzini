@@ -66,7 +66,7 @@ session_start();
 
 
 /**
-* Determines the link for a specified name (might be a class or an interface)
+* Determines the link for a specified name (might be a class, an interface or a function)
 *
 * @param string $name The name to check
 * @return string A piece of HTML usable to represent the object, as a link if possible
@@ -75,7 +75,7 @@ function get_object_link($name) {
 
   // check classes
   $sql_name = db_escape($name);
-  $q = "SELECT id FROM classes WHERE name = '{$sql_name}' LIMIT 1";
+  $q = "SELECT id FROM classes WHERE name = '{$sql_name}'";
   $res = db_query($q);
   
   if (db_num_rows($res) != 0) {
@@ -86,12 +86,23 @@ function get_object_link($name) {
   
   // check interfaces
   $sql_name = db_escape($name);
-  $q = "SELECT id FROM interfaces WHERE name = '{$sql_name}' LIMIT 1";
+  $q = "SELECT id FROM interfaces WHERE name = '{$sql_name}'";
   $res = db_query($q);
   
   if (db_num_rows($res) != 0) {
     $row = db_fetch_assoc($res);
     $ret = "<a href=\"interface.php?id={$row['id']}\">{$name}</a>";
+    return $ret;
+  }
+  
+  // check functions
+  $sql_name = db_escape($name);
+  $q = "SELECT id FROM functions WHERE name = '{$sql_name}' AND classid IS NULL AND interfaceid IS NULL";
+  $res = db_query($q);
+  
+  if (db_num_rows($res) != 0) {
+    $row = db_fetch_assoc($res);
+    $ret = "<a href=\"function.php?id={$row['id']}\">{$name}</a>";
     return $ret;
   }
   

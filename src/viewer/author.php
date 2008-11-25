@@ -128,8 +128,8 @@ if (db_num_rows($res) > 0) {
     echo "<div class=\"{$class}\">";
     
     echo "<p><i>{$row['action']}</i> <strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
-    if ($row['classname']) echo ' <small>from class ', $row['classname'], '</small>';
-    if ($row['interfacename']) echo ' <small>from interface ', $row['interfacename'], '</small>';
+    if ($row['classname']) echo ' <small>from class ', get_object_link($row['classname']), '</small>';
+    if ($row['interfacename']) echo ' <small>from interface ', get_object_link($row['interfacename']), '</small>';
     echo "</p>";
     
     echo $row['description'];
