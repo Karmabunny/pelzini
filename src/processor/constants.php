@@ -29,6 +29,9 @@ define ('OUTPUTTER_MYSQL',      1);
 define ('OUTPUTTER_DEBUG',      2);
 define ('OUTPUTTER_PGSQL',      3);
 
+// The transformers - these alter and mutate the parser model before outptting
+define ('TRANSFORMER_QUALITY_CHECK',    1);
+
 // The link types
 // These are used when linking from tables such as Authors
 // which can potentinally link to multiple tables

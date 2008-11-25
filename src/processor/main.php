@@ -78,6 +78,27 @@ output_status ("  {$success} file(s) were parsed successfully");
 output_status ("  {$failure} file(s) failed to be parsed");
 
 
+// Transform the data model
+output_status ('');
+foreach ($dpgTransformers as $transformer) {
+  switch ($transformer) {
+    case TRANSFORMER_QUALITY_CHECK:
+      $transformer = new QualityCheckTransformer();
+      
+      $result = $transformer->transform($parser_model);
+      
+      if ($result) {
+        output_status ("Generated low quality documentation report succesfully.");
+        $parser_model = $result;
+      } else {
+        output_status ("Generating of low quality documentation report failed.");
+      }
+      break;
+      
+  }
+}
+
+
 // Output the generated tree to the specified outputters
 output_status ('');
 foreach ($dpgOutputters as $outputter) {
@@ -129,8 +150,6 @@ foreach ($dpgOutputters as $outputter) {
   }
 }
 
-
-if (is_array($dpgProcessors))
 
 // If any of the outputters use the viewer, output a small message to that effect.
 if ($uses_viewer) {

@@ -18,10 +18,19 @@ You should have received a copy of the GNU General Public License
 along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+* This file loads the config for the docu processor
+*
+* @since 0.1
+**/
+
+
+$dpgOutputterSettings = array();
+$dpgProcessorSettings = array();
 
 if (file_exists('config.php')) {
   $dpgOutputters = array();
-  $dpgOutputterSettings = array();
+  $dpgTransformers = array();
   
   require_once 'config.php';
   $config_found = true;
@@ -29,7 +38,7 @@ if (file_exists('config.php')) {
 
 if (file_exists('config.processor.php')) {
   $dpgOutputters = array();
-  $dpgOutputterSettings = array();
+  $dpgTransformers = array();
   
   require_once 'config.processor.php';
   $config_found = true;
@@ -78,7 +87,8 @@ if (PHP_SAPI == 'cli') {
     if (count($holding_args) == $arg[1]) {
       if ($arg[2] == 'set_config') {
         $dpgOutputters = array();
-        $dpgOutputterSettings = array();
+        $dpgTransformers = array();
+        
         
         if (! file_exists ($holding_args[0])) {
           echo "Invalid config file specified!\n";
