@@ -18,22 +18,32 @@ You should have received a copy of the GNU General Public License
 along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 /**
 * @package Parser model
 * @author Josh Heidenreich
 * @since 0.2
 **/
 
-abstract class ParserItem {
+/**
+* Represents a function
+**/
+class ParserDocument extends ParserItem {
+  public $name;
+  public $description;
   
-  protected function __construct () {
+  
+  public function __construct() {
+    parent::__construct();
+  }
+  
+  public function dump() {
+    echo '<div style="border: 1px navy solid;">';
+    echo $this->name;
+    echo '<br>' . $this->description;
     
+    parent::dump();
+    echo '</div>';
   }
-  
-  protected function dump() {
-  
-  }
-  
 }
+
 ?>

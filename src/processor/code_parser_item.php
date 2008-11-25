@@ -188,6 +188,8 @@ abstract class CodeParserItem {
   protected function dump () {
     echo '<br>Authors: '; foreach ($this->authors as $a) $a->dump();
     echo '<br>Since: ', $this->since;
+    
+    parent::dump();
   }
 }
 

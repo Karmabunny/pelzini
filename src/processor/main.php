@@ -48,7 +48,7 @@ output_status ("Found " . count($file_names) . " files.");
 // Process each file using its parser to build a code tree.
 output_status ('');
 output_status ('Processing files.');
-$parsed_files = array();
+$parser_model = array();
 $success = 0;
 $failure = 0;
 foreach ($file_names as $file) {
@@ -59,7 +59,7 @@ foreach ($file_names as $file) {
     $result = $parsers[$ext]->Tokenise ($file);
     
     if ($result != null) {
-      $parsed_files[] = $result;
+      $parser_model[] = $result;
       $success++;
     } else {
       output_status ("Processing of file {$file} failed!");
@@ -90,7 +90,7 @@ foreach ($dpgOutputters as $outputter) {
         $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_name']
       );
       
-      $result = $outputter->output($parsed_files);
+      $result = $outputter->output($parser_model);
       
       if ($result) {
         output_status ("Saved to MySQL database succesfully.");
@@ -109,7 +109,7 @@ foreach ($dpgOutputters as $outputter) {
         $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_name']
       );
       
-      $result = $outputter->output($parsed_files);
+      $result = $outputter->output($parser_model);
       
       if ($result) {
         output_status ("Saved to PostgreSQL database succesfully.");
@@ -122,13 +122,15 @@ foreach ($dpgOutputters as $outputter) {
       
     case OUTPUTTER_DEBUG:
       $outputter = new DebugOutputter();
-      $outputter->output($parsed_files);
+      $outputter->output($parser_model);
       break;
       
       
   }
 }
 
+
+if (is_array($dpgProcessors))
 
 // If any of the outputters use the viewer, output a small message to that effect.
 if ($uses_viewer) {
