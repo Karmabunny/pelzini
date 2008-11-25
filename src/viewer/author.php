@@ -101,11 +101,14 @@ if (db_num_rows($res) > 0) {
 
 
 // Show functions
-$q = "SELECT functions.id, functions.name, item_authors.description
+$q = "SELECT functions.id, functions.name, item_authors.description, classes.name AS classname,
+      interfaces.name AS interfacename
   FROM functions
   INNER JOIN item_authors ON item_authors.linktype = " . LINK_TYPE_FUNCTION . " AND item_authors.linkid = functions.id
+  LEFT JOIN classes ON functions.classid = classes.id
+  LEFT JOIN interfaces ON functions.interfaceid = interfaces.id
   WHERE item_authors.name = {$name_sql}
-  ORDER BY functions.name";
+  ORDER BY interfacename, classname, functions.name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="functions"></a>';
@@ -123,7 +126,12 @@ if (db_num_rows($res) > 0) {
     
     // display the function
     echo "<div class=\"{$class}\">";
-    echo "<p><i>{$row['action']}</i> <strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong> </p>";
+    
+    echo "<p><i>{$row['action']}</i> <strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
+    if ($row['classname']) echo ' <small>from class ', $row['classname'], '</small>';
+    if ($row['interfacename']) echo ' <small>from interface ', $row['interfacename'], '</small>';
+    echo "</p>";
+    
     echo $row['description'];
     echo "</div>";
     

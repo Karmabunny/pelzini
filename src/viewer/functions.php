@@ -111,7 +111,7 @@ function show_authors ($link_id, $link_type) {
       $row['name'] = htmlspecialchars($row['name']);
       $row['email'] = htmlspecialchars($row['email']);
       
-      echo "<li>{$row['name']}";
+      echo "<li><a href=\"author.php?name={$row['name']}\">{$row['name']}</a>";
       
       if ($row['email']) {
         echo "<br><a href=\"mailto:{$row['email']}\">{$row['email']}</a>";
