@@ -28,6 +28,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 chdir(dirname(__FILE__));
 
 require_once 'constants.php';
+require_once 'tree.php';
 
 
 // Load configs

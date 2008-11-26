@@ -208,6 +208,18 @@ div.list div.item-alt {
   border: 1px #83FFCC solid;
 }
 
+ul.tree li.on {
+  font-weight: bold;
+}
+
+ul.tree li.on li {
+  font-weight: normal;
+}
+
+ul.tree li.on li.on {
+  font-weight: bold;
+}
+
 
 
 

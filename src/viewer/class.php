@@ -68,8 +68,7 @@ if ($class['abstract'] == 1) echo '<p>This class is abstract</p>';
 if ($class['final'] == 1) echo '<p>This class is final</p>';
 
 if ($class['extends'] != null) {
-  $class['extends'] = htmlspecialchars($class['extends']);
-  echo "<p><b>Extends:</b> <a href=\"class.php?name={$class['extends']}\">{$class['extends']}</a>";
+  echo '<p><b>Extends:</b> ', get_object_link($class['extends']);
 }
 
 // Show implements
@@ -95,6 +94,27 @@ if ($_GET['complete'] == 1) {
 } else {
   echo "<p><a href=\"class.php?id={$class['id']}&complete=1\">Show inherited members</a></p>";
 }
+
+
+// Loads the classes tree
+// and finds this class within it
+$root = create_classes_tree ();
+$matcher = new FieldTreeNodeMatcher('name', $class['name']);
+$node = $root->findNode ($matcher);
+
+// If our class was found - which it should be - find the top ancestor
+// and then draw unordered lists of the class structure
+if ($node != null) {
+  echo "<h3>Class structure</h3>";
+  
+  $ancestors = $node->findAncestors();
+  $top = end ($ancestors);
+  
+  echo "<ul class=\"tree\">\n";
+  draw_class_tree($top, array($node));
+  echo "</ul>\n";
+}
+
 
 
 $functions = array();
@@ -128,24 +148,6 @@ ksort($variables);
 show_authors ($class['id'], LINK_TYPE_CLASS);
 show_tables ($class['id'], LINK_TYPE_CLASS);
 
-
-if ($_GET['complete'] == 1 and count ($class_names) > 0) {
-  echo "<h3>Class structure</h3>";
-  echo "<ul>";
-  
-  $class_names = array_reverse ($class_names);
-  foreach ($class_names as $index => $name) {
-    if ($name == $class['name']) {
-      echo '<li>', $name;
-      if ($class['final'] == 1) echo ' <small>(Final)</small>';
-      echo '</li>';
-      
-    } else {
-      echo '<li>', get_object_link($name), '</li>';
-    }
-  }
-  echo "</ul>";
-}
 
 // Show variables
 if (count($variables) > 0) {
@@ -255,5 +257,32 @@ function load_class($name) {
   }
   
   return array($functions, $variables, $parent);
+}
+
+
+/**
+* Draws the tree from this node and below as unordered lists within unordered lists
+*
+* @param array $higlight_nodes The nodes to put class="on" for the LI element.
+**/
+function draw_class_tree($node, $higlight_nodes) {
+  // Draw this item
+  if (in_array($node, $higlight_nodes, true)) {
+    echo '<li class="on">', get_object_link($node['name']);
+  } else {
+    echo '<li>', get_object_link($node['name']);
+  }
+  
+  // Draw its children if it has any
+  $children = $node->getChildren();
+  if (count($children) > 0) {
+    echo "<ul>\n";
+    foreach ($children as $child) {
+      draw_class_tree($child, $higlight_nodes);
+    }
+    echo "</ul>\n";
+  }
+  
+  echo "</li>\n";
 }
 ?>
