@@ -141,6 +141,22 @@ foreach ($dpgOutputters as $outputter) {
       break;
       
       
+    case OUTPUTTER_SQLITE:
+      $outputter = new SqliteOutputter(
+        $dpgOutputterSettings[OUTPUTTER_SQLITE]['filename']
+      );
+      
+      $result = $outputter->output($parser_model);
+      
+      if ($result) {
+        output_status ("Saved to SQLite database succesfully.");
+        $uses_viewer = true;
+      } else {
+        output_status ("Saving to SQLite database failed.");
+      }
+      break;
+      
+      
     case OUTPUTTER_DEBUG:
       $outputter = new DebugOutputter();
       $outputter->output($parser_model);

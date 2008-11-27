@@ -53,6 +53,16 @@ foreach ($dpgOutputters as $outputter) {
       break;
       
       
+    case OUTPUTTER_SQLITE:
+      echo "<h1>SQLite</h1>";
+      $outputter = new SqliteOutputter(
+        $dpgOutputterSettings[OUTPUTTER_SQLITE]['filename']
+      );
+      
+      $result = $outputter->check_layout('database.layout');
+      break;
+      
+      
   }
 }
 ?>
