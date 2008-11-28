@@ -60,7 +60,7 @@ $filename_clean = htmlentities(urlencode($class['filename']));
 
 echo "<h2>{$class['name']}</h2>";
 echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($class['filename']) . "</a></p>\n";
-echo $class['description'];
+echo process_inline($class['description']);
 
 echo "<p>&nbsp;</p>";
 

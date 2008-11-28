@@ -47,7 +47,7 @@ $row['name'] = htmlspecialchars($row['name']);
 
 echo "<h2>{$row['name']}</h2>";
 echo '<br>';
-echo $row['description'];
+echo process_inline($row['description']);
 
 
 require_once 'foot.php';

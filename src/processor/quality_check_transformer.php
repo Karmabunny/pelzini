@@ -25,6 +25,13 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * @since 0.2
 **/
 
+/**
+* This is a transformer that does quality checks on the codebase
+*
+* It checks that the documentation has the required tags. Currently the 'required tags' are only the summary
+*
+* The documentation is created in a report called the {@link Quality check report}.
+**/
 class QualityCheckTransformer extends Transformer {
   private $offending_items;
   
@@ -76,7 +83,7 @@ class QualityCheckTransformer extends Transformer {
     if ($tags['@summary'] == '') $failed = true;
     
     if ($failed) {
-      $this->offending_items['Files'][] = $item->name;
+      $this->offending_items['Files'][] = '{@link ' . $item->name . '}';
     }
     
     foreach ($item->classes as $sub) {
@@ -102,11 +109,11 @@ class QualityCheckTransformer extends Transformer {
     if ($tags['@summary'] == '') $failed = true;
     
     if ($failed) {
-      $this->offending_items['Classes'][] = $item->name;
+      $this->offending_items['Classes'][] = '{@link ' . $item->name . '}';
     }
     
     foreach ($item->functions as $sub) {
-      $this->check_function($sub, ' from class ' . $item->name);
+      $this->check_function($sub, ' from class {@link ' . $item->name . '}');
     }
   }
   
@@ -119,11 +126,11 @@ class QualityCheckTransformer extends Transformer {
     if ($tags['@summary'] == '') $failed = true;
     
     if ($failed) {
-      $this->offending_items['Interfaces'][] = $item->name;
+      $this->offending_items['Interfaces'][] = '{@link ' . $item->name . '}';
     }
     
     foreach ($item->functions as $sub) {
-      $this->check_function($sub, ' from interface ' . $item->name);
+      $this->check_function($sub, ' from interface {@link ' . $item->name . '}');
     }
   }
   
@@ -136,7 +143,7 @@ class QualityCheckTransformer extends Transformer {
     if ($tags['@summary'] == '') $failed = true;
     
     if ($failed) {
-      $this->offending_items['Functions'][] = $item->name . $from;
+      $this->offending_items['Functions'][] = '{@link ' . $item->name . '}' . $from;
     }
   }
 }

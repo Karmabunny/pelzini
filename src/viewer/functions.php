@@ -183,8 +183,8 @@ function process_inline($text) {
 /**
 * Replaces @link tags
 **/
-function process_inline_link($text) {
-  list ($text, $link_text) = explode(' ', $text, 2);
+function process_inline_link($original_text) {
+  list ($text, $link_text) = explode(' ', $original_text, 2);
   if ($link_text == '') $link_text = $text;
   
   $text = trim($text);
@@ -264,7 +264,17 @@ function process_inline_link($text) {
     return "<a href=\"function.php?id={$row['id']}\">{$link_text}</a>";
   }
   
-  return $link_text;
+  // Look for documents
+  // This is very last, and is done against the original full text (you cannot define an alternate name for the link of a document)
+  $orig_text = db_quote($original_text);
+  $q = "SELECT id, name FROM documents WHERE name LIKE {$orig_text}";
+  $res = db_query($q);
+  if ($row = db_fetch_assoc($res)) {
+    $row['name'] = urlencode($row['name']);
+    return "<a href=\"document.php?name={$row['name']}\">{$original_text}</a>";
+  }
+  
+  return $original_text;
 }
 
 
