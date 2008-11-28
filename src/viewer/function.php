@@ -67,7 +67,7 @@ if ($function['classid'] != null) {
   echo '</p>';
 }
 
-echo $function['description'];
+echo process_inline($function['description']);
 
 if ($function['sinceversion']) echo '<p>available since: ', htmlspecialchars ($function['sinceversion']), '</p>';
 

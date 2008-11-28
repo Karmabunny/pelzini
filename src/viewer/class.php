@@ -151,6 +151,7 @@ show_tables ($class['id'], LINK_TYPE_CLASS);
 
 // Show variables
 if (count($variables) > 0) {
+  echo '<a name="variables"></a>';
   echo "<h3>Variables</h3>";
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Description</th></tr>\n";

@@ -69,6 +69,20 @@ function php_documented_arguments_function ($arg1, $arg2) {
 
 /**
 * Contains arguments with defaults
+*
+* This description contains inline links.
+* - Link to class: {@link php_documented_super_class}
+* - Link to function: {@link php_documented_arguments_function}
+* - Link to function: {@link php_documented_arguments_function()}
+* - Link to constant: {@link PHP_STRING_CONST}
+* - Link to file: {@link processor/main.php}
+* - Link to file: {@link /processor/main.php}
+* - Link to file: {@link main.php}
+* - Link to method: {@link php_documented_super_class::php_documented_method()}
+* - Link to variable: {@link php_documented_super_class::$php_var1}
+* - Link to website: {@link http://www.ahi.org.au}
+* - Link to website: {@link http://www.ahi.org.au Australia HOPE International}
+*
 * @param string $arg1 Default is 'default1'
 * @param string $arg2 Default is 100
 * @param string $arg3 Default is 15.2

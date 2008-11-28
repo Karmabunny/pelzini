@@ -166,4 +166,106 @@ function show_tables ($link_id, $link_type) {
     echo '</ul>';
   }
 }
+
+
+/**
+* Processes inline tags within text
+*
+* @param string $text the input text
+* @return string The output, with inline text replaced
+**/
+function process_inline($text) {
+  $text = preg_replace ('/{@link ([^}]*?)}/ie', 'process_inline_link(\'$1\')', $text);
+  $text = preg_replace ('/{@see ([^}]*?)}/ie', 'process_inline_link(\'$1\')', $text);
+  return $text;
+}
+
+/**
+* Replaces @link tags
+**/
+function process_inline_link($text) {
+  list ($text, $link_text) = explode(' ', $text, 2);
+  if ($link_text == '') $link_text = $text;
+  
+  $text = trim($text);
+  $text_sql = db_quote($text);
+  
+  if (preg_match('/^(?:https?|ftp|mailto|telnet|ssh|rsync):/', $text)) {
+    // It's a URL
+    return "<a href=\"{$text}\">{$link_text}</a>";
+    
+  } else if (strpos($text, '::') !== false) {
+    // It's a class member
+    list ($class, $member) = explode ('::', $text, 2);
+    
+    $class_sql = db_quote($class);
+    $q = "SELECT id, name FROM classes WHERE name LIKE {$class_sql}";
+    $res = db_query($q);
+    if ($row = db_fetch_assoc($res)) {
+      $class_id = $row['id'];
+      
+      if (substr($member, -2) == '()') {
+        $member = trim(substr($member, 0, -2));
+      }
+      $text_sql = db_quote($member);
+      
+      // member functions
+      $q = "SELECT id, name FROM functions WHERE name LIKE {$text_sql} AND classid = {$class_id}";
+      $res = db_query($q);
+      if ($row = db_fetch_assoc($res)) {
+        return "<a href=\"function.php?id={$row['id']}\">{$link_text}</a>";
+      }
+      
+      // member variables
+      $q = "SELECT id, name FROM variables WHERE name LIKE {$text_sql} AND classid = {$class_id}";
+      $res = db_query($q);
+      if ($row = db_fetch_assoc($res)) {
+        return "<a href=\"class.php?id={$class_id}#variables\">{$link_text}</a>";
+      }
+      
+      return $link_text;
+    }
+  }
+  
+  // Look for classes
+  $q = "SELECT id, name FROM classes WHERE name LIKE {$text_sql}";
+  $res = db_query($q);
+  if ($row = db_fetch_assoc($res)) {
+    return "<a href=\"class.php?id={$row['id']}\">{$link_text}</a>";
+  }
+  
+  // Look for files
+  $file = $text;
+  if ($file[0] != '/') $file = '/' . $file;
+  $file_sql = db_quote($file);
+  $q = "SELECT id, name FROM files WHERE name LIKE {$file_sql}";
+  $res = db_query($q);
+  if ($row = db_fetch_assoc($res)) {
+    return "<a href=\"file.php?id={$row['id']}\">{$link_text}</a>";
+  }
+  
+  // Look for constants
+  $q = "SELECT id, name, fileid FROM constants WHERE name LIKE {$text_sql}";
+  $res = db_query($q);
+  if ($row = db_fetch_assoc($res)) {
+    return "<a href=\"file.php?id={$row['fileid']}#constants\">{$link_text}</a>";
+  }
+  
+  if (substr($text, -2) == '()') {
+    $text = trim(substr($text, 0, -2));
+    $text_sql = db_quote($text);
+  }
+      
+  // Look for functions
+  $q = "SELECT id, name FROM functions WHERE name LIKE {$text_sql} AND classid IS NULL AND interfaceid IS NULL";
+  if ($class_id) $q .= " AND classid = {$class_id}";
+  $res = db_query($q);
+  if ($row = db_fetch_assoc($res)) {
+    return "<a href=\"function.php?id={$row['id']}\">{$link_text}</a>";
+  }
+  
+  return $link_text;
+}
+
+
 ?>
