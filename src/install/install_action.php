@@ -161,12 +161,94 @@ $result = $outputter->check_layout('../processor/database.layout');
 
 <h3>Creating config files</h3>
 <?php
-$vars = $_POST;
-$vars['project_exclude'] = 'array("' . str_replace("\n", '", "', $vars['project_exclude']) . '")';
+$_POST['project_exclude'] = trim ($_POST['project_exclude']);
+
+foreach ($_POST as $key => $val) {
+  if ($key == 'project_exclude') continue;
+  
+  $_POST[$key] = addslashes($val);
+}
 
 echo '<p>Generating config files</p>';
-$processor = template_file('example.config.processor.php', $vars);
-$viewer = template_file('example.config.viewer.php', $vars);
+
+$processor  = "<?php\n";
+$processor .= "/*\n";
+$processor .= " * This is the example docu processor configuration file\n";
+$processor .= " * For more information about configuration, see\n";
+$processor .= " * http://docu.sourceforge.net\n";
+$processor .= " */\n";
+$processor .= "\n";
+$processor .= "ini_set('memory_limit', '-1');\n";
+$processor .= "\n";
+$processor .= "\n";
+$processor .= "/* This should be the name of your project */\n";
+$processor .= "\$dpgProjectName = '{$_POST['project_name']}';\n";
+$processor .= "\n";
+$processor .= "/* The project ID. Nessasary for multiple docs per database */\n";
+$processor .= "\$dpqProjectID = 1;\n";
+$processor .= "\n";
+$processor .= "/* This should be the terms that your documentation is made available under\n";
+$processor .= "   It will be shown in the footer of the viewer */\n";
+$processor .= "\$dpgLicenseText = 'Documentation is made available under the \n";
+$processor .= "  <a href=\"http://www.gnu.org/copyleft/fdl.html\">GNU Free Documentation License 1.2</a>.';\n";
+$processor .= "\n";
+$processor .= "/* List the outputters here.\n";
+$processor .= "   Currently you can only have one instance of each outputter.\n";
+$processor .= "   Use the outputter constants defined in the constants.php file. */\n";
+$processor .= "\$dpgOutputters[] = OUTPUTTER_MYSQL;\n";
+$processor .= "//\$dpgOutputters[] = OUTPUTTER_PGSQL;\n";
+$processor .= "//\$dpgOutputters[] = OUTPUTTER_SQLITE;\n";
+$processor .= "//\$dpgOutputters[] = OUTPUTTER_DEBUG;\n";
+$processor .= "\n";
+$processor .= "/* This should contain the outputter settings\n";
+$processor .= "   The settings are an array, with one array for each outputter */\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_MYSQL]['database_server'] = '{$_POST['database_server']}';\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_MYSQL]['database_username'] = '{$_POST['database_user']}';\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_MYSQL]['database_password'] = '{$_POST['database_password']}';\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_MYSQL]['database_name'] = '{$_POST['database_name']}';\n";
+$processor .= "\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_PGSQL]['database_server'] = '{$_POST['database_server']}';\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_PGSQL]['database_username'] = '{$_POST['database_user']}';\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_PGSQL]['database_password'] = '{$_POST['database_password']}';\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_PGSQL]['database_name'] = '{$_POST['database_name']}';\n";
+$processor .= "\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_SQLITE]['filename'] = '../output/docu.sqlite';\n";
+$processor .= "\n";
+$processor .= "/* This is the base directory that the parsing of your application should take place */\n";
+$processor .= "\$dpgBaseDirectory = '{$_POST['project_base_dir']}';\n";
+$processor .= "\n";
+$processor .= "/* These are directories that should be excluded from the processing. */\n";
+if (! $_POST['project_exclude']) $processor .= '//';
+$processor .= "\$dpgExcludeDirectories = array('" . str_replace("\n", "', '", $_POST['project_exclude']) . "');\n";
+$processor .= "\n";
+$processor .= "/* These are the Javadoc tags that should cascade from their parent */\n";
+$processor .= "\$dpgCascaseDocblockTags[] = '@author';\n";
+$processor .= "\$dpgCascaseDocblockTags[] = '@since';\n";
+$processor .= "?>\n";
+
+$viewer  = "<?php\n";
+$viewer .= "/*\n";
+$viewer .= " * This is the example docu viewer configuration file\n";
+$viewer .= " * For more information about configuration, see\n";
+$viewer .= " * http://docu.sourceforge.net\n";
+$viewer .= " */\n";
+$viewer .= "\n";
+$viewer .= "/* The project ID. Nessasary for multiple docs per database */\n";
+$viewer .= "\$dvgProjectID = 1;\n";
+$viewer .= "\n";
+$viewer .= "/* The database engine to use in the viewer. Supported values are 'mysql', 'postgresql' and 'sqlite' */\n";
+$viewer .= "\$dvgDatabaseEngine = 'mysql';\n";
+$viewer .= "\n";
+$viewer .= "/* This should contain the database settings\n";
+$viewer .= "   The following are used for typical database engines (MySQL and PostgreSQL) */\n";
+$viewer .= "\$dvgDatabaseSettings['server'] = '{$_POST['database_server']}';\n";
+$viewer .= "\$dvgDatabaseSettings['username'] = '{$_POST['database_user']}';\n";
+$viewer .= "\$dvgDatabaseSettings['password'] = '{$_POST['database_password']}';\n";
+$viewer .= "\$dvgDatabaseSettings['name'] = '{$_POST['database_name']}';\n";
+$viewer .= "\n";
+$viewer .= "/* This setting is used by SQLite */\n";
+$viewer .= "\$dvgDatabaseSettings['filename'] = '../output/docu.sqlite';\n";
+$viewer .= "?>\n";
 
 if (is_writable ('.')) {
   echo '<p>Saving config files</p>';
@@ -195,17 +277,3 @@ Once you have the files config.processor.php and config.viewer.php ready, you ca
 </div>
 </body>
 </html>
-<?php
-/**
-* Returns a string
-**/
-function template_file($template, $vars) {
-  $content = file_get_contents($template);
-  
-  foreach ($vars as $name => $value) {
-    $content = str_replace ('{{' . $name . '}}', $value, $content);
-  }
-  
-  return $content;
-}
-?>
