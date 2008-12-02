@@ -108,6 +108,21 @@ abstract class DatabaseOutputter extends Outputter {
   abstract protected function get_sql_type ($internal_type_name);
   
   
+  /**
+  * The database engine should start a transaction. If transactions are not supported, it should do nothing.
+  **/
+  abstract protected function start_transaction ();
+  
+  /**
+  * The database engine should commit a transaction. If transactions are not supported, it should do nothing.
+  **/
+  abstract protected function commit_transaction ();
+  
+  /**
+  * The database engine should rollback a transaction. If transactions are not supported, it should do nothing.
+  **/
+  abstract protected function rollback_transaction ();
+  
   
   /**
   * Creates an insert query from the data provided.
@@ -320,6 +335,8 @@ abstract class DatabaseOutputter extends Outputter {
       return false;
     }
     
+    $this->start_transaction();
+    
     $this->query ("TRUNCATE projects");
     $this->query ("TRUNCATE files");
     $this->query ("TRUNCATE functions");
@@ -430,6 +447,8 @@ abstract class DatabaseOutputter extends Outputter {
         
       }
     }
+    
+    $this->commit_transaction();
     
     return true;
   }

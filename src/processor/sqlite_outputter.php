@@ -61,6 +61,8 @@ class SqliteOutputter extends DatabaseOutputter {
   * Executes a MySQL query
   */
   protected function query ($query) {
+    $query = str_ireplace ('TRUNCATE', 'DELETE FROM', $query);
+    
     $return = sqlite_query ($query, $this->db, SQLITE_BOTH, $error);
     if ($return === false) {
       echo "<p>Error in query <em>{$query}</em>. SQLite reported the following: <em>{$error}</em></p>";
@@ -215,6 +217,28 @@ class SqliteOutputter extends DatabaseOutputter {
     
     $q = "ALTER TABLE {$table} MODIFY COLUMN {$column_name} {$new_type}";
     return $q;
+  }
+  
+  
+  /**
+  * The database engine should start a transaction. If transactions are not supported, it should do nothing.
+  **/
+  protected function start_transaction () {
+    $this->query ('BEGIN TRANSACTION');
+  }
+  
+  /**
+  * The database engine should commit a transaction. If transactions are not supported, it should do nothing.
+  **/
+  protected function commit_transaction () {
+    $this->query ('COMMIT TRANSACTION');
+  }
+  
+  /**
+  * The database engine should rollback a transaction. If transactions are not supported, it should do nothing.
+  **/
+  protected function rollback_transaction () {
+    $this->query ('ROLLBACK TRANSACTION');
   }
 }
 

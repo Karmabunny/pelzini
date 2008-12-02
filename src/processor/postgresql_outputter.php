@@ -270,6 +270,28 @@ class PostgresqlOutputter extends DatabaseOutputter {
     }
     return $q;
   }
+  
+  
+  /**
+  * The database engine should start a transaction. If transactions are not supported, it should do nothing.
+  **/
+  protected function start_transaction () {
+    $this->query ('BEGIN');
+  }
+  
+  /**
+  * The database engine should commit a transaction. If transactions are not supported, it should do nothing.
+  **/
+  protected function commit_transaction () {
+    $this->query ('COMMIT');
+  }
+  
+  /**
+  * The database engine should rollback a transaction. If transactions are not supported, it should do nothing.
+  **/
+  protected function rollback_transaction () {
+    $this->query ('ROLLBACK');
+  }
 }
 
 ?>
