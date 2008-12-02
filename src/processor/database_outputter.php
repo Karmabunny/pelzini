@@ -331,7 +331,7 @@ abstract class DatabaseOutputter extends Outputter {
     $insert_data['id'] = $dpqProjectID;
     $insert_data['name'] = $this->sql_safen ($dpgProjectName);
     $insert_data['license'] = $this->sql_safen ($dpgLicenseText);
-    $insert_data['dategenerated'] = $this->sql_safen (date('Y-m-d'));
+    $insert_data['dategenerated'] = $this->sql_safen (date('Y-m-d h:i a T'));
     $q = $this->create_insert_query('projects', $insert_data);
     $this->query($q);
     
@@ -346,7 +346,7 @@ abstract class DatabaseOutputter extends Outputter {
           
           $this->query($q);
           $packages[$file->package] = $this->insert_id();
-        }
+            }
         
       } else {
         $needs_default_package = true;

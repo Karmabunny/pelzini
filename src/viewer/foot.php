@@ -25,7 +25,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
 $generated = strtotime($project['dategenerated']);
-$generated = date('l, jS F, Y', $generated);
+$generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a (T O)', $generated);
 
 $colours = array ('red', 'blue', 'green', 'orange');
 $colour = $colours[array_rand ($colours)];
