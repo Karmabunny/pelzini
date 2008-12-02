@@ -24,6 +24,11 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * @since 0.1
 **/
 
+$generated = strtotime($project['dategenerated']);
+$generated = date('l, jS F, Y', $generated);
+
+$colours = array ('red', 'blue', 'green', 'orange');
+$colour = $colours[array_rand ($colours)];
 ?>
 </td>
 </tr>
@@ -31,17 +36,19 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 <table class="footer">
   <tr>
-    <td align="left">
+    <td align="left" style="width: 100px">
       Powered by <a href="http://docu.sourceforge.net">docu</a>, version <?= DOCU_VERSION; ?>
     </td>
     
     <td align="center">
       <?= $project['license']; ?>
+      <br>
+      Generated: <?= $generated; ?>
     </td>
     
-    <td align="right">
+    <td align="right" style="width: 100px">
       <a href="http://docu.sourceforge.net">
-        <img src="images/docs_by_docu_red.png" width="80" height="15">
+        <img src="images/docs_by_docu_<?= $colour; ?>.png" width="80" height="15">
       </a>
     </td>
   </tr>

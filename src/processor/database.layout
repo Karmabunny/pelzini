@@ -99,6 +99,7 @@ PK id
   id serial notnull
   name string notnull
   license text
+  dategenerated string
   
 TABLE documents
 PK id
