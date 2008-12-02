@@ -36,7 +36,7 @@ $colour = $colours[array_rand ($colours)];
 
 <table class="footer">
   <tr>
-    <td align="left" style="width: 100px">
+    <td align="left" style="width: 20em;">
       Powered by <a href="http://docu.sourceforge.net">docu</a>, version <?= DOCU_VERSION; ?>
     </td>
     
@@ -46,7 +46,7 @@ $colour = $colours[array_rand ($colours)];
       Generated: <?= $generated; ?>
     </td>
     
-    <td align="right" style="width: 100px">
+    <td align="right" style="width: 20em;">
       <a href="http://docu.sourceforge.net">
         <img src="images/docs_by_docu_<?= $colour; ?>.png" width="80" height="15">
       </a>
