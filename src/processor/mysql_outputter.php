@@ -220,26 +220,45 @@ class MysqlOutputter extends DatabaseOutputter {
     return $q;
   }
   
+  /**
+  * Creates a table
+  **/
+  protected function create_table ($table_name, $dest_table) {
+    $q = "CREATE TABLE {$table_name} (\n";
+    foreach ($dest_table['Columns'] as $col_name => $col_def) {
+      $dest_sql = $this->get_sql_type($col_def['Type']);
+      if ($col_def['NotNull']) $dest_sql .= ' not null';
+      
+      $q .= "  {$col_name} {$dest_sql},\n";
+    }
+    $q .= "  PRIMARY KEY ({$dest_table['PK']})\n";
+    $q .= ") ENGINE=InnoDB";
+    echo "<b>Query:\n{$q}</b>\n";
+    
+    $res = $this->query ($q);
+    if ($res) echo 'Affected rows: ', $this->affected_rows($res), "\n";
+  }
+  
   
   /**
   * The database engine should start a transaction. If transactions are not supported, it should do nothing.
   **/
   protected function start_transaction () {
-    // Not supported yet until the create uses InnoDB
+    $this->query('START TRANSACTION');
   }
   
   /**
   * The database engine should commit a transaction. If transactions are not supported, it should do nothing.
   **/
   protected function commit_transaction () {
-    // Not supported yet until the create uses InnoDB
+    $this->query('COMMIT');
   }
   
   /**
   * The database engine should rollback a transaction. If transactions are not supported, it should do nothing.
   **/
   protected function rollback_transaction () {
-    // Not supported yet until the create uses InnoDB
+    $this->query('ROLLBACK');
   }
 }
 

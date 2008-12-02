@@ -107,6 +107,10 @@ abstract class DatabaseOutputter extends Outputter {
   **/
   abstract protected function get_sql_type ($internal_type_name);
   
+  /**
+  * Creates a table
+  **/
+  abstract protected function create_table ($table_name, $columns);
   
   /**
   * The database engine should start a transaction. If transactions are not supported, it should do nothing.
@@ -216,24 +220,7 @@ abstract class DatabaseOutputter extends Outputter {
         // Create the table if it does not yet exist.
         echo "Create table {$table_name}.\n";
         
-        $q = "CREATE TABLE {$table_name} (\n";
-        foreach ($dest_table['Columns'] as $col_name => $col_def) {
-          
-          $dest_sql = $this->get_sql_type($col_def['Type']);
-          if ($col_def['NotNull']) $dest_sql .= ' not null';
-          
-          $q .= "  {$col_name} {$dest_sql},\n";
-        }
-        $q .= "  PRIMARY KEY ({$dest_table['PK']})\n";
-        $q .= ")";
-        echo "<b>Query:\n{$q}</b>\n";
-        
-        if ($_GET['action'] == 1) {
-          $res = $this->query ($q);
-          if ($res) echo 'Affected rows: ', $this->affected_rows($res), "\n";
-        } else {
-          $has_queries = true;
-        }
+        $this->create_table($table_name, $dest_table);
         
         
       } else {
@@ -258,12 +245,8 @@ abstract class DatabaseOutputter extends Outputter {
             $q = "ALTER TABLE {$table_name} ADD COLUMN {$column_name} {$dest_sql}";
             echo "    <b>Query: {$q}</b>\n";
             
-            if ($_GET['action'] == 1) {
-              $res = $this->query ($q);
-              if ($res) echo '    Affected rows: ', $this->affected_rows($res), "\n";
-            } else {
-              $has_queries = true;
-            }
+            $res = $this->query ($q);
+            if ($res) echo '    Affected rows: ', $this->affected_rows($res), "\n";
             
             
           } else {
@@ -276,12 +259,9 @@ abstract class DatabaseOutputter extends Outputter {
               $q = $this->get_alter_column_query ($table_name, $column_name, $curr_column['Type'], $curr_column['NotNull']);
               echo "    <b>Query: {$q}</b>\n";
               
-              if ($_GET['action'] == 1) {
-                $res = $this->query ($q);
-                if ($res) echo '    Affected rows: ', $this->affected_rows($res), "\n";
-              } else {
-                $has_queries = true;
-              }
+              $res = $this->query ($q);
+              if ($res) echo '    Affected rows: ', $this->affected_rows($res), "\n";
+              
             } else {
               echo "  Column {$column_name} does not need to be changed\n";
             }
@@ -303,12 +283,8 @@ abstract class DatabaseOutputter extends Outputter {
         $q = "DROP TABLE {$table_name}";
         echo "<b>Query:\n{$q}</b>\n";
         
-        if ($_GET['action'] == 1) {
-          $res = $this->query ($q);
-          if ($res) echo 'Affected rows: ', $this->affected_rows($res), "\n";
-        } else {
-          $has_queries = true;
-        }
+        $res = $this->query ($q);
+        if ($res) echo 'Affected rows: ', $this->affected_rows($res), "\n";
       }
     }
     
