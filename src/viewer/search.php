@@ -93,6 +93,41 @@ if ($num != 0) {
   }
 }
 
+
+// source
+$q = "SELECT files.id, files.name AS filename, files.source  
+  FROM files
+  WHERE files.source LIKE '%{$query}%' ORDER BY files.name";
+$res = db_query ($q);
+$num = db_num_rows ($res);
+if ($num != 0) {
+  $results = true;
+  echo '<h3>Files (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
+  
+  while ($row = db_fetch_assoc ($res)) {
+    $row['filename'] = htmlspecialchars ($row['filename']);
+    
+    echo "<h4><a href=\"file.php?id={$row['id']}\">{$row['filename']}</a></h4>";
+    
+    // Finds the lines, and highlights the term
+    echo "<p>";
+    $lines = explode("\n", $row['source']);
+    foreach ($lines as $num => $line) {
+      if (stripos($line, $query) !== false) {
+        $num++;
+        $line = htmlspecialchars($line);
+        $query = htmlspecialchars($query);
+        $query = str_replace ('/', '\/', $query);
+        $line = preg_replace('/(' . $query . ')/i', "<span class=\"highlight\">\$1</span>", $line);
+        
+        echo "Line {$num}: <code>{$line}</code><br>";
+      }
+    }
+    echo "</p>";
+  }
+}
+
+
 // no results
 if (! $results) {
   echo "<p>Nothing was found!</p>";

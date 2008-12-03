@@ -219,7 +219,9 @@ ul.tree li.on li.on {
   font-weight: bold;
 }
 
-
+span.highlight {
+  color: #C3C;
+}
 
 
 
