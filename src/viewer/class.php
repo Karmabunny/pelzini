@@ -43,7 +43,7 @@ if ($id == 0) {
 
 // Get the details of this class
 $q = "SELECT classes.id, classes.name, classes.description, classes.extends, files.name as filename,
-  classes.final, classes.abstract, classes.sinceversion
+  classes.final, classes.abstract, classes.sinceid
   FROM classes
   INNER JOIN files ON classes.fileid = files.id
   WHERE {$where}
@@ -85,7 +85,7 @@ if (db_num_rows ($res) > 0) {
   }
 }
 
-if ($class['sinceversion']) echo '<p><b>Available since:</b> ', htmlspecialchars ($class['sinceversion']), '</p>';
+if ($class['sinceid']) echo '<p><b>Available since:</b> ', get_since_version($class['sinceid']), '</p>';
 
 
 echo "<p>&nbsp;</p>";

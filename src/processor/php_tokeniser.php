@@ -381,11 +381,7 @@ class PhpTokeniser {
     if ($debug) echo '</pre>';
     
     
-    $current_file->processTags();
-    $current_file->processChildrenItems();
-    
     return $current_file;
   }
 }
-
 ?>

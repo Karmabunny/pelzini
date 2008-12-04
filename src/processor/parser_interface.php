@@ -50,11 +50,11 @@ class ParserInterface extends CodeParserItem {
   * Cascades Docblock tags into the children that do not have any tags, and then
   * runs processTags() for all of the children items.
   **/
-  public function processChildrenItems() {
+  public function treeWalk($function_name) {
+    call_user_func ($function_name, $this);
+    
     foreach ($this->functions as $item) {
-      $this->cascadeTags($item);
-      $item->processTags();
-      $item->processChildrenItems();
+      $item->treeWalk($function_name);
     }
   }
   

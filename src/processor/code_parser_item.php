@@ -46,12 +46,11 @@ abstract class CodeParserItem extends ParserItem {
   
   
   /**
-  * Cascades Docblock tags into the children that do not have any tags, and then
-  * runs processTags() for all of the children items.
+  * Executes a function for this ParserItem, and all of its children ParserItems
   *
-  * This should probably be extended
+  * The function will be called with a single argument, the ParserItem that it should operate on
   **/
-  public function processChildrenItems() {}
+  public function treeWalk($function_name) {}
   
   
   /**

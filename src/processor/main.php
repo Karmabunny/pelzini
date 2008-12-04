@@ -78,6 +78,20 @@ output_status ("  {$success} file(s) were parsed successfully");
 output_status ("  {$failure} file(s) failed to be parsed");
 
 
+// Does processing of Javadoc tags
+// Ths should be hidden away somewhere, but meh
+foreach ($parser_model as $item) {
+  if ($item instanceof ParserFile) {
+    $item->treeWalk ('processJavadocTags');
+  }
+}
+
+function processJavadocTags(ParserItem $parser_item) {
+  //$parser_item->cascadeTags($item);
+  $parser_item->processTags();
+}
+
+
 // Transform the data model
 output_status ('');
 foreach ($dpgTransformers as $transformer) {

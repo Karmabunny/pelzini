@@ -43,7 +43,7 @@ if ($id == 0) {
 
 // Get the details of this function
 $q = "SELECT functions.id, functions.name, functions.description, files.name AS filename, functions.classid,
-  classes.name AS class, functions.static, functions.final, functions.sinceversion,
+  classes.name AS class, functions.static, functions.final, functions.sinceid,
   functions.returntype, functions.returndescription
   FROM functions
   INNER JOIN files ON functions.fileid = files.id
@@ -69,7 +69,7 @@ if ($function['classid'] != null) {
 
 echo process_inline($function['description']);
 
-if ($function['sinceversion']) echo '<p>available since: ', htmlspecialchars ($function['sinceversion']), '</p>';
+if ($function['sinceid']) echo '<p>available since: ', get_since_version($function['sinceid']), '</p>';
 
 
 // Usage

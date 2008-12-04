@@ -61,6 +61,36 @@ if (isset($_SESSION['last_selected_type'])) {
 <div class="navigation">
   <span style="float: right">
     <a href="more_info.php">More info</a>
+    
+    <form action="select_version.php" method="get">
+    <input type="hidden" name="redirect" value="<?= $_SERVER['REQUEST_URI']; ?>">
+    <b>Version:</b>
+    <select name="id" onchange="this.form.submit();">
+      <?php
+      if ($_SESSION['current_version'] == null) {
+        echo "<option value=\"\" selected>All</option>\n";
+      } else {
+        echo "<option value=\"\">All</option>\n";
+      }
+      
+      $q = "SELECT id, name FROM versions ORDER BY id";
+      $res = db_query($q);
+      while ($row = db_fetch_assoc ($res)) {
+        if ($_SESSION['current_version'] == $row['id']) {
+          echo "<option value=\"{$row['id']}\" selected>{$row['name']}</option>\n";
+        } else {
+          echo "<option value=\"{$row['id']}\">{$row['name']}</option>\n";
+        }
+      }
+      
+      if ($_SESSION['current_version'] == -1) {
+        echo "<option value=\"-1\" selected>Unversioned</option>\n";
+      } else {
+        echo "<option value=\"-1\">Unversioned</option>\n";
+      }
+      ?>
+    </select>
+    </form>
   </span>
   
   <a href="index.php">Home</a>

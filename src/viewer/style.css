@@ -57,6 +57,10 @@ div.navigation a.on {
   background-color: #d7d7d7;
 }
 
+div.navigation form {
+  display: inline;
+}
+
 div.container {
   margin: 0px;
   padding: 0px;

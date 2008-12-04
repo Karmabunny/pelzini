@@ -1,4 +1,4 @@
-<?php
+  <?php
 /*
 Copyright 2008 Josh Heidenreich
 
@@ -43,7 +43,7 @@ if ($id == 0) {
 
 // Get the details of this class
 $q = "SELECT interfaces.id, interfaces.name, interfaces.description, files.name AS filename,
-  interfaces.sinceversion
+  interfaces.sinceid
   FROM interfaces
   INNER JOIN files ON interfaces.fileid = files.id
   WHERE {$where} LIMIT 1";
@@ -55,7 +55,7 @@ echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row
 echo $row['description'];
 $id = $row['id'];
 
-if ($row['sinceversion']) echo '<p>Available since: ', htmlspecialchars ($row['sinceversion']), '</p>';
+if ($row['sinceid']) echo '<p>Available since: ', get_since_version($function['sinceid']), '</p>';
 
 show_authors ($row['id'], LINK_TYPE_INTERFACE);
 

@@ -169,6 +169,21 @@ function show_tables ($link_id, $link_type) {
 
 
 /**
+* Gets HTML for a version, based on the version id
+*
+* @table select versions Will only select once, results are stored in a static array
+**/
+function get_since_version($version_id) {
+  $version_id = (int) $version_id;
+  
+  $q = "SELECT name FROM versions WHERE id = {$version_id}";
+  $res = db_query($q);
+  $row = db_fetch_assoc($res);
+  
+  return $row['name'];
+}
+
+/**
 * Processes inline tags within text
 *
 * @param string $text the input text

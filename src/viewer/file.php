@@ -43,7 +43,7 @@ if ($id == 0) {
 
 // Get the details of this file
 $q = "SELECT files.id, files.name, files.description, files.packageid, packages.name as package,
-  files.sinceversion
+  files.sinceid
   FROM files
   INNER JOIN packages ON files.packageid = packages.id
   WHERE {$where} LIMIT 1";
@@ -55,8 +55,8 @@ if ($row['packageid'] != null) {
   echo "<p>Package: <a href=\"package.php?id={$row['packageid']}\">{$row['package']}</a></p>";
 }
 
-if ($row['sinceversion'] != null) {
-  echo '<p>Available since: ', htmlspecialchars ($row['sinceversion']), '</p>';
+if ($row['sinceid'] != null) {
+  echo '<p>Available since: ', get_since_version($row['sinceid']), '</p>';
 }
 
 echo "<p><small><a href=\"file_source.php?id={$row['id']}\">View Source</a></small></p>";

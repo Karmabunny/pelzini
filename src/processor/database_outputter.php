@@ -29,6 +29,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * Outputs the tree to a database
 **/
 abstract class DatabaseOutputter extends Outputter {
+  static private $since_versions;
   
   /**
   * Connects to the database
@@ -297,6 +298,20 @@ abstract class DatabaseOutputter extends Outputter {
   }
   
   
+  static function addSinceVersion($parser_item) {
+    if ($parser_item->since == '') return;
+    
+    if (! in_array ($parser_item->since, self::$since_versions)) {
+      self::$since_versions[] = $parser_item->since;
+    }
+  }
+  
+  private function getSinceVersionId($since_version) {
+    $res = array_search($since_version, self::$since_versions);
+    if ($res === false) return null;
+    return $res + 1;
+  }
+  
   /**
   * Does the actual outputting of the file objects (and their sub-objects) to the database
   *
@@ -326,6 +341,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ("TRUNCATE item_authors");
     $this->query ("TRUNCATE item_tables");
     $this->query ("TRUNCATE documents");
+    $this->query ("TRUNCATE versions");
     
     $insert_data = array();
     $insert_data['id'] = $dpqProjectID;
@@ -362,6 +378,27 @@ abstract class DatabaseOutputter extends Outputter {
       $default_id = $this->insert_id();
     }
     
+    // Determine the versions that are available
+    self::$since_versions = array();
+    foreach ($files as $item) {
+      if ($item instanceof ParserFile) {
+        $item->treeWalk(array('DatabaseOutputter', 'addSinceVersion'));
+      }
+    }
+    
+    // Sorts the versions array
+    natsort(self::$since_versions);
+    self::$since_versions = array_reverse(self::$since_versions);
+    
+    // And add them to the table
+    foreach (self::$since_versions as $version) {
+      $insert_data = array();
+      $insert_data['name'] = $this->sql_safen($version);
+      
+      $q = $this->create_insert_query('versions', $insert_data);
+      $this->query ($q);
+    }
+    
     // go through all the files
     foreach ($files as $item) {
       if ($item instanceof ParserFile) {
@@ -374,7 +411,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['name'] = $this->sql_safen($item->name);
         $insert_data['description'] = $this->sql_safen($item->description);
         $insert_data['source'] = $this->sql_safen($item->source);
-        $insert_data['sinceversion'] = $this->sql_safen($item->since);
+        $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($item->since));
         $insert_data['packageid'] = $package;
         
         $q = $this->create_insert_query('files', $insert_data);
@@ -443,7 +480,7 @@ abstract class DatabaseOutputter extends Outputter {
     $insert_data['name'] = $this->sql_safen($function->name);
     $insert_data['description'] = $this->sql_safen($function->description);
     $insert_data['fileid'] = $file_id;
-    $insert_data['sinceversion'] = $this->sql_safen($function->since);
+    $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($function->since));
     
     // Class-specific details
     if ($class_id != null) {
@@ -543,7 +580,7 @@ abstract class DatabaseOutputter extends Outputter {
     $insert_data['extends'] = $this->sql_safen($class->extends);
     $insert_data['visibility'] = $this->sql_safen($class->visibility);
     $insert_data['fileid'] = $file_id;
-    $insert_data['sinceversion'] = $this->sql_safen($class->since);
+    $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($class->since));
     
     if ($class->abstract) $insert_data['abstract'] = 1;
     if ($class->final) $insert_data['final'] = 1;
@@ -599,7 +636,7 @@ abstract class DatabaseOutputter extends Outputter {
     $insert_data['extends'] = $this->sql_safen($interface->extends);
     $insert_data['visibility'] = $this->sql_safen($interface->visibility);
     $insert_data['fileid'] = $file_id;
-    $insert_data['sinceversion'] = $this->sql_safen($interface->since);
+    $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($interface->since));
     
     
     // Build and process query from prepared data
@@ -632,7 +669,7 @@ abstract class DatabaseOutputter extends Outputter {
     $insert_data['name'] = $this->sql_safen($variable->name);
     $insert_data['description'] = $this->sql_safen($variable->description);
     //$insert_data['visibility'] = $this->sql_safen($variable->visibility);
-    $insert_data['sinceversion'] = $this->sql_safen($variable->since);
+    $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($variable->since));
     
     
     // Class-specific details
@@ -671,7 +708,7 @@ abstract class DatabaseOutputter extends Outputter {
     $insert_data['value'] = $this->sql_safen($constant->value);
     $insert_data['description'] = $this->sql_safen($constant->description);
     $insert_data['fileid'] = $this->sql_safen($file_id);
-    $insert_data['sinceversion'] = $this->sql_safen($constant->since);
+    $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($constant->since));
     
     
     // Build and process query from prepared data

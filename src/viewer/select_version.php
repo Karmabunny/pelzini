@@ -21,7 +21,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * @package Viewer
 * @author Josh Heidenreich
-* @since 0.2
+* @since 0.1
 **/
 
 require_once 'functions.php';
@@ -30,11 +30,11 @@ require_once 'functions.php';
 $_GET['id'] = (int) $_GET['id'];
 
 if ($_GET['id'] == 0) {
-  unset ($_SESSION['current_package']);
-  header('Location: index.php');
+  unset ($_SESSION['current_version']);
   
 } else {
-  $_SESSION['current_package'] = $_GET['id'];
-  header('Location: package.php?id=' . $_GET['id']);
+  $_SESSION['current_version'] = $_GET['id'];
 }
+
+header('Location: ' . $_GET['redirect']);
 ?>

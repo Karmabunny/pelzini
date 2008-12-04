@@ -5,7 +5,7 @@ PK id
   description text
   source text
   packageid largenum
-  sinceversion string
+  sinceid largenum
   
   
 TABLE classes
@@ -18,7 +18,7 @@ PK id
   extends string
   visibility string notnull
   final smallnum notnull
-  sinceversion string
+  sinceid largenum
   
   
 TABLE interfaces
@@ -29,7 +29,7 @@ PK id
   description text
   extends string 
   visibility string notnull
-  sinceversion string 
+  sinceid largenum
   
   
 TABLE class_implements
@@ -49,11 +49,11 @@ PK id
   description text
   arguments string notnull
   visibility string
-  returntype string 
+  returntype string
   returndescription text
   static smallnum notnull
   final smallnum notnull
-  sinceversion string 
+  sinceid largenum
   
   
 TABLE arguments
@@ -62,7 +62,7 @@ PK id
   functionid largenum notnull
   name string notnull
   type string 
-  defaultvalue string 
+  defaultvalue string
   description text
   
   
@@ -75,7 +75,7 @@ PK id
   type string 
   description text
   static smallnum notnull
-  sinceversion string 
+  sinceid largenum
   
   
 TABLE constants
@@ -85,7 +85,15 @@ PK id
   name string notnull
   value string notnull
   description text
-  sinceversion string 
+  sinceid largenum
+  
+  
+TABLE documents
+PK id
+  id serial notnull
+  name string notnull
+  description text
+  
   
   
 TABLE packages
@@ -101,11 +109,11 @@ PK id
   license text
   dategenerated string
   
-TABLE documents
+  
+TABLE versions
 PK id
   id serial notnull
   name string notnull
-  description text
   
   
   
