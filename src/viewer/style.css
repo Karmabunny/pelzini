@@ -227,5 +227,9 @@ span.highlight {
   color: #C3C;
 }
 
+img.showhide {
+  float: right;
+  cursor: pointer;
+}
 
 

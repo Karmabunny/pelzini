@@ -35,24 +35,11 @@ $project = db_fetch_assoc($res);
 <head>
   <title>Documentation for <?= $project['name']; ?></title>
   <link href="style.css" rel="stylesheet" type="text/css">
-  <script language="javascript" src="ajax/ajax.js"></script>
   
-<?php
-$body = '<body>';
-
-if (isset($_SESSION['last_selected_type'])) {
-  $body = '<body onload="load();">';
-  
-  echo "<script>
-    function load() {
-      change_sidebar_type('{$_SESSION['last_selected_type']}');
-    }
-  </script>\n";
-}
-?>
-
+  <script type="text/javascript" src="ajax/ajax.js"></script>
+  <script type="text/javascript" src="functions.js"></script>
 </head>
-<?= $body; ?>
+<body>
 
 <div class="header">
   <h1>Documentation for <?= $project['name']; ?></h1>

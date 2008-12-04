@@ -29,6 +29,10 @@ require_once 'head.php';
 $query = db_escape ($_GET['q']);
 $results = false;
 
+
+echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+echo "<span style=\"float: right;\">Show/hide all: &nbsp;</span>";
+
 echo "<h2>Search</h2>";
 echo '<p>You searched for "<strong>', htmlspecialchars($_GET['q']), '</strong>".</p>';
 
@@ -44,10 +48,17 @@ if ($num != 0) {
   $results = true;
   echo '<h3>Classes (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
   
+  $alt = false;
+  echo '<div class="list">';
   while ($row = db_fetch_assoc ($res)) {
     $row['name'] = htmlspecialchars ($row['name']);
     $row['filename'] = htmlspecialchars ($row['filename']);
     
+    $class = 'item';
+    if ($alt) $class .= '-alt';
+    
+    echo "<div class=\"{$class}\">";
+    echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
     echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong>";
     
     if ($row['extends'] != null) {
@@ -59,9 +70,14 @@ if ($num != 0) {
       echo " <small>(abstract)</small>";
     }
     
-    echo "<br>{$row['description']}";
-    echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></p>";
+    echo "<div class=\"content\">";
+    echo $row['description'];
+    echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+    echo "</div>";
+    
+    $alt = ! $alt;
   }
+  echo '</div>';
 }
 
 
@@ -77,10 +93,17 @@ if ($num != 0) {
   $results = true;
   echo '<h3>Functions (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
   
+  $alt = false;
+  echo '<div class="list">';
   while ($row = db_fetch_assoc ($res)) {
     $row['name'] = htmlspecialchars ($row['name']);
     $row['filename'] = htmlspecialchars ($row['filename']);
     
+    $class = 'item';
+    if ($alt) $class .= '-alt';
+    
+    echo "<div class=\"{$class}\">";
+    echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
     echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
     
     if ($row['class'] != null) {
@@ -88,9 +111,14 @@ if ($num != 0) {
       echo " <small>from class <a href=\"class.php?id={$row['classid']}\">{$row['class']}</a></small>";
     }
     
-    echo "<br>{$row['description']}";
-    echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></p>";
+    echo "<div class=\"content\">";
+    echo $row['description'];
+    echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+    echo "</div>";
+    
+    $alt = ! $alt;
   }
+  echo '</div>';
 }
 
 
@@ -104,13 +132,20 @@ if ($num != 0) {
   $results = true;
   echo '<h3>Files (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
   
+  $alt = false;
+  echo '<div class="list">';
   while ($row = db_fetch_assoc ($res)) {
     $row['filename'] = htmlspecialchars ($row['filename']);
     
-    echo "<h4><a href=\"file.php?id={$row['id']}\">{$row['filename']}</a></h4>";
+    $class = 'item';
+    if ($alt) $class .= '-alt';
+    
+    echo "<div class=\"{$class}\">";
+    echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+    echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['filename']}</a></strong></p>";
     
     // Finds the lines, and highlights the term
-    echo "<p>";
+    echo "<p class=\"content\">";
     $lines = explode("\n", $row['source']);
     foreach ($lines as $num => $line) {
       if (stripos($line, $query) !== false) {
@@ -124,7 +159,11 @@ if ($num != 0) {
       }
     }
     echo "</p>";
+    echo "</div>";
+    
+    $alt = ! $alt;
   }
+  echo '</div>';
 }
 
 
