@@ -47,9 +47,13 @@ $file_ids = array();
 $alt = false;
 echo '<div class="list">';
 
-$q = "SELECT files.id, files.name, files.description
-  FROM files
-  WHERE files.packageid = {$id}";
+$q = new SelectQuery();
+$q->addFields('files.id, files.name, files.description');
+$q->setFrom('files');
+$q->addWhere("files.packageid = {$id}");
+$q->addSinceVersionWhere();
+
+$q = $q->buildQuery();
 $res = db_query ($q);
 while ($row = db_fetch_assoc ($res)) {
   $row['name'] = htmlspecialchars($row['name']);

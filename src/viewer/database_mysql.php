@@ -85,7 +85,7 @@ function db_fetch_assoc($res) {
 * Returns the number of rows in a MySQL result set
 **/
 function db_num_rows($res) {
-  return mysql_num_rows($res);
+  return @mysql_num_rows($res);
 }
 
 /**

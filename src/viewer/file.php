@@ -41,12 +41,13 @@ if ($id == 0) {
 }
 
 
-// Get the details of this file
-$q = "SELECT files.id, files.name, files.description, files.packageid, packages.name as package,
-  files.sinceid
-  FROM files
-  INNER JOIN packages ON files.packageid = packages.id
-  WHERE {$where} LIMIT 1";
+$q = new SelectQuery();
+$q->addFields('files.id, files.name, files.description, files.packageid, packages.name as package, files.sinceid');
+$q->setFrom('files');
+$q->addInnerJoin('packages ON files.packageid = packages.id');
+$q->addWhere($where);
+
+$q = $q->buildQuery();
 $res = db_query ($q);
 $row = db_fetch_assoc ($res);
 echo "<h2>{$row['name']}</h2>";

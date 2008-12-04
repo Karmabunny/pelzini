@@ -29,6 +29,7 @@ chdir(dirname(__FILE__));
 
 require_once 'constants.php';
 require_once 'tree.php';
+require_once 'select_query.php';
 
 
 // Load configs
