@@ -29,12 +29,9 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * This is the parser for PHP files. It converts a file from the raw PHP into a document tree
 **/
-class PhpTokeniser {
-  static function CreateInstance () {
-    return new PhpTokeniser;
-  }
-
-  function Tokenise ($filename) {
+class PhpParser {
+  
+  function parseFile ($filename) {
     global $dpgBaseDirectory;
     
     // You can enable the following if you want to debug the parser

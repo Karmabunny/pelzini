@@ -32,10 +32,12 @@ output_status ('Docu is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
 output_status ('For more information, see <a href="http://docu.sourceforge.net/">http://docu.sourceforge.net/</a>');
 
 // Initalise each parser
-$parsers = array();
-$parsers['php'] = new PhpTokeniser();
 output_status ('');
+$parsers = array();
+$parsers['php'] = new PhpParser();
 output_status("Initalised PHP parser.");
+$parsers['js'] = new JavascriptParser();
+output_status("Initalised Javascript parser.");
 
 
 // Determine the file names
@@ -56,7 +58,7 @@ foreach ($file_names as $file) {
   
   if (isset($parsers[$ext])) {
     //output_status ("Processing file {$file}");
-    $result = $parsers[$ext]->Tokenise ($file);
+    $result = $parsers[$ext]->parseFile ($file);
     
     if ($result != null) {
       $parser_model[] = $result;
