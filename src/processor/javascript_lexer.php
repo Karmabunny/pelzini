@@ -54,6 +54,26 @@ class JavascriptLexer {
         case '}':
           $token = new Token(TOKEN_CLOSE_CURLY_BRACKET);
           break;
+          
+        case '[':
+          $token = new Token(TOKEN_OPEN_SQUARE_BRACKET);
+          break;
+          
+        case ']':
+          $token = new Token(TOKEN_CLOSE_SQUARE_BRACKET);
+          break;
+          
+        case '=':
+          $token = new Token(TOKEN_EQUALS);
+          break;
+          
+        case '.':
+          $token = new Token(TOKEN_PERIOD);
+          break;
+          
+        case ',':
+          $token = new Token(TOKEN_COMMA);
+          break;
       }
       
       // If a single character token was found, add it to the list and move on
@@ -66,21 +86,45 @@ class JavascriptLexer {
       
       // Now use regular expressions to find various other tokens
       // If one is found, add it to the list and move on
-      if (preg_match('/\G\/\*\*(.*?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+      if (preg_match('/\G\/\*\*(.+?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_DOCBLOCK, $matches[0][0]);
-        $offset = $matches[0][1] + strlen($matches[0][0]) + 1;
+        $offset = $matches[0][1] + strlen($matches[0][0]);
         continue;
       }
       
-      if (preg_match('/\G\/\*(.*?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+      if (preg_match('/\G\/\*(.+?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_COMMENT, $matches[0][0]);
-        $offset = $matches[0][1] + strlen($matches[0][0]) + 1;
+        $offset = $matches[0][1] + strlen($matches[0][0]);
+        continue;
+      }
+      
+      if (preg_match('/\G\/\/.*\n/', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $tokens[] = new Token(TOKEN_COMMENT, rtrim($matches[0][0]));
+        $offset = $matches[0][1] + strlen($matches[0][0]);
+        continue;
+      }
+      
+      if (preg_match('/\G"([^\"]|\.)*"/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $tokens[] = new Token(TOKEN_STRING, $matches[0][0]);
+        $offset = $matches[0][1] + strlen($matches[0][0]);
+        continue;
+      }
+      
+      if (preg_match('/\G\'([^\\\']|\.)*\'/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $tokens[] = new Token(TOKEN_STRING, $matches[0][0]);
+        $offset = $matches[0][1] + strlen($matches[0][0]);
         continue;
       }
       
       if (preg_match('/\Gfunction/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_FUNCTION);
-        $offset = $matches[0][1] + strlen($matches[0][0]) + 1;
+        $offset = $matches[0][1] + strlen($matches[0][0]);
+        continue;
+      }
+      
+      if (preg_match('/\G[a-z$_][a-z0-9$_]+/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $tokens[] = new Token(TOKEN_IDENTIFIER, $matches[0][0]);
+        $offset = $matches[0][1] + strlen($matches[0][0]);
         continue;
       }
       

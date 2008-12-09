@@ -58,13 +58,20 @@ define ('TOKEN_CLOSE_NORMAL_BRACKET',  4);    // A normal bracket, i.e. ')'
 define ('TOKEN_CLOSE_CURLY_BRACKET',   5);    // A curly bracket, i.e. '}'
 define ('TOKEN_CLOSE_SQUARE_BRACKET',  6);    // A square bracket, i.e. ']'
 
+define ('TOKEN_EQUALS',                7);    // An equals sign, i.e. '='
+define ('TOKEN_PERIOD',                8);    // A period, i.e. '.'
+define ('TOKEN_COMMA',                 9);    // A comma, i.e. ','
+
 // Keywords
-define ('TOKEN_FUNCTION',              50);   // A function definition e.g. 'function'
-define ('TOKEN_CLASS',                 51);   // A class definition e.g. 'class'
+define ('TOKEN_FUNCTION',              50);   // A function definition, e.g. 'function'
+define ('TOKEN_CLASS',                 51);   // A class definition, e.g. 'class'
 
 // Comments
-define ('TOKEN_DOCBLOCK',              100);  // A docblock comment e.g. '/** whee */'
-define ('TOKEN_COMMENT',               101);  // A docblock comment e.g. '/* whee */' or '// whee'
+define ('TOKEN_DOCBLOCK',              100);  // A docblock comment, e.g. '/** whee */'
+define ('TOKEN_COMMENT',               101);  // A docblock comment, e.g. '/* whee */' or '// whee'
 
+// Identifiers, strings, numbers
+define ('TOKEN_IDENTIFIER',            150);  // An identifier, e.g. 'whee'
+define ('TOKEN_STRING',                151);  // A quoted string, e.g. '"hello"'
 
 ?>
