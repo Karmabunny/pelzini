@@ -31,7 +31,63 @@ class JavascriptLexer {
   * Should return an array of zero or more Token objects
   **/
   public function process($source) {
-    return array();
+    $offset = 0;
+    $length = strlen($source);
+    $tokens = array();
+    
+    while ($offset < $length) {
+      
+      // Firstly, look for single character tokens
+      switch ($source[$offset]) {
+        case '(':
+          $token = new Token(TOKEN_OPEN_NORMAL_BRACKET);
+          break;
+          
+        case ')':
+          $token = new Token(TOKEN_CLOSE_NORMAL_BRACKET);
+          break;
+          
+        case '{':
+          $token = new Token(TOKEN_OPEN_CURLY_BRACKET);
+          break;
+          
+        case '}':
+          $token = new Token(TOKEN_CLOSE_CURLY_BRACKET);
+          break;
+      }
+      
+      // If a single character token was found, add it to the list and move on
+      if ($token) {
+        $tokens[] = $token;
+        $token = null;
+        $offset++;
+        continue;
+      }
+      
+      // Now use regular expressions to find various other tokens
+      // If one is found, add it to the list and move on
+      if (preg_match('/\G\/\*\*(.*?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $tokens[] = new Token(TOKEN_DOCBLOCK, $matches[0][0]);
+        $offset = $matches[0][1] + strlen($matches[0][0]) + 1;
+        continue;
+      }
+      
+      if (preg_match('/\G\/\*(.*?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $tokens[] = new Token(TOKEN_COMMENT, $matches[0][0]);
+        $offset = $matches[0][1] + strlen($matches[0][0]) + 1;
+        continue;
+      }
+      
+      if (preg_match('/\Gfunction/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $tokens[] = new Token(TOKEN_FUNCTION);
+        $offset = $matches[0][1] + strlen($matches[0][0]) + 1;
+        continue;
+      }
+      
+      $offset++;
+    }
+    
+    return $tokens;
   }
 }
 

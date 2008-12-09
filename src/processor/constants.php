@@ -43,4 +43,28 @@ define ('LINK_TYPE_INTERFACE',  3);
 define ('LINK_TYPE_CONSTANT',   4);
 define ('LINK_TYPE_FUNCTION',   5);
 define ('LINK_TYPE_VARIABLE',   6);
+
+
+// These are all of the valid tokens for all languages
+// Some of these tokens represent specific strings, others represent language-specific
+// concepts. These tokens are grouped by type, with each type begining on a 50-number boundry
+
+// Punctuation
+define ('TOKEN_OPEN_NORMAL_BRACKET',   1);    // A normal bracket, i.e. '('
+define ('TOKEN_OPEN_CURLY_BRACKET',    2);    // A curly bracket, i.e. '{'
+define ('TOKEN_OPEN_SQUARE_BRACKET',   3);    // A square bracket, i.e. '['
+
+define ('TOKEN_CLOSE_NORMAL_BRACKET',  4);    // A normal bracket, i.e. ')'
+define ('TOKEN_CLOSE_CURLY_BRACKET',   5);    // A curly bracket, i.e. '}'
+define ('TOKEN_CLOSE_SQUARE_BRACKET',  6);    // A square bracket, i.e. ']'
+
+// Keywords
+define ('TOKEN_FUNCTION',              50);   // A function definition e.g. 'function'
+define ('TOKEN_CLASS',                 51);   // A class definition e.g. 'class'
+
+// Comments
+define ('TOKEN_DOCBLOCK',              100);  // A docblock comment e.g. '/** whee */'
+define ('TOKEN_COMMENT',               101);  // A docblock comment e.g. '/* whee */' or '// whee'
+
+
 ?>

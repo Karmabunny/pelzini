@@ -73,4 +73,40 @@ class ParserTable {
   public $action;
   public $description;
 }
+
+
+/**
+* This class is used to represent a token that has been tokenised using a Lexer. (e.g. the JavascriptLexer)
+* These tokens are used to create various ParserItems, by passing them to an Analyser (e.g. the JavascriptAnalyser)
+**/
+class Token {
+  private $type;
+  private $value;
+  
+  public function __construct($type, $value = null) {
+    $this->type = $type;
+    $this->value = $value;
+  }
+  
+  public function getType() {
+    return $this->type;
+  }
+  
+  public function getValue() {
+    return $this->value;
+  }
+  
+  public function getTypeName() {
+    $constants = get_defined_constants();
+    foreach ($constants as $name => $val) {
+      if (strncmp($name, 'TOKEN_', 6) === 0 and $val == $this->type) {
+        return $name;
+      }
+    }
+    
+    return null;
+  }
+}
+
+
 ?>

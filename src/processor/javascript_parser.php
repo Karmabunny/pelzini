@@ -49,6 +49,10 @@ class JavascriptParser {
     $tokens = $this->lexer->process($source);
     if ($tokens === null) return null;
     
+    echo '<pre>Tokens for file ', $filename, "\n";
+    foreach ($tokens as $t) echo "{$t->getTypeName()}\n";
+    echo '</pre>';
+    
     $file = new ParserFile();
     $file->name = $filename;
     $file->source = $source;
