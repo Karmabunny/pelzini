@@ -22,9 +22,9 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Analyses the javascript tokens, and creates a set of ParserItem objects.
 **/
-class JavascriptAnalyser {
+class JavascriptAnalyser extends Analyser {
   public function resetState() {
-    
+    parent::resetState();
   }
   
   /**
@@ -33,7 +33,41 @@ class JavascriptAnalyser {
   * @return boolean True on success, false on failure
   **/
   public function process($tokens, $parser_file) {
-    return true;
+    $this->setTokens($tokens);
+    
+    while ($function = $this->findTokenForwards(TOKEN_FUNCTION)) {
+      $this->setPos($this->getTokenPos());
+      
+      $parser_function = new ParserFunction();
+      $parser_file->functions[] = $parser_function;
+      
+      // Find the name
+      $name = $this->findTokenForwards(TOKEN_IDENTIFIER);
+      if ($name == null) return false;
+      $parser_function->name = $name->getValue();
+      
+      // Look for a docblock
+      $docblock = $this->findTokenBackwards(TOKEN_DOCBLOCK, array(TOKEN_CLOSE_CURLY_BRACKET));
+      if ($docblock != null) {
+        $parser_function->applyComment($docblock->getValue());
+      }
+      
+      // Find the end of the function by counting curly brackets
+      $depth = 0;
+      $token = $this->findTokenForwards(TOKEN_OPEN_CURLY_BRACKET);
+      $this->setPos($this->getTokenPos());
+      while ($token) {
+        if ($token->getType() == TOKEN_OPEN_CURLY_BRACKET) $depth++;
+        if ($token->getType() == TOKEN_CLOSE_CURLY_BRACKET) $depth--;
+        
+        if ($depth == 0) break;
+        
+        $token = $this->findTokenForwards(array(TOKEN_OPEN_CURLY_BRACKET, TOKEN_CLOSE_CURLY_BRACKET));
+        $this->setPos($this->getTokenPos());
+      }
+      
+      $parser_function->post_load();
+    }
   }
 }
 

@@ -51,7 +51,7 @@ class JavascriptParser {
     
     echo "<style>i {color: #777;}</style>";
     echo '<pre>Tokens for file ', $filename, "\n";
-    foreach ($tokens as $t) echo "{$t->getTypeName()} <i>{$t->getValue()}</i>\n";
+    foreach ($tokens as $i => $t) echo "<b>{$i}</b> {$t->getTypeName()} <i>{$t->getValue()}</i>\n";
     echo '</pre>';
     
     $file = new ParserFile();
