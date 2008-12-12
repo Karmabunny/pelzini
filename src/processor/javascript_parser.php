@@ -49,10 +49,10 @@ class JavascriptParser {
     $tokens = $this->lexer->process($source);
     if ($tokens === null) return null;
     
-    echo "<style>i {color: #777;}</style>";
-    echo '<pre>Tokens for file ', $filename, "\n";
-    foreach ($tokens as $i => $t) echo "<b>{$i}</b> {$t->getTypeName()} <i>{$t->getValue()}</i>\n";
-    echo '</pre>';
+    //echo "<style>i {color: #777;}</style>";
+    //echo '<pre>Tokens for file ', $filename, "\n";
+    //foreach ($tokens as $i => $t) echo "<b>{$i}</b> {$t->getTypeName()} <i>{$t->getValue()}</i>\n";
+    //echo '</pre>';
     
     $file = new ParserFile();
     $file->name = $filename;

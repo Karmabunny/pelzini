@@ -50,7 +50,9 @@ abstract class CodeParserItem extends ParserItem {
   *
   * The function will be called with a single argument, the ParserItem that it should operate on
   **/
-  public function treeWalk($function_name) {}
+  public function treeWalk($function_name) {
+    call_user_func ($function_name, $this);
+  }
   
   
   /**
