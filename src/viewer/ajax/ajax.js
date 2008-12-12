@@ -18,8 +18,22 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+/**
+* @since 0.1
+* @author Josh
+* @package Viewer
+**/
+
 var request;
-  
+
+/**
+* Sends an AJAX request
+*
+* @param string url The URL to request
+* @param function response_func The function to call when the result is returned.
+*   The function is called with a single argument, request.responseXML
+* @returns boolean True on success, false on failure
+**/
 function ajax_request(url, response_func) {
   if (request != null) {
     return false;

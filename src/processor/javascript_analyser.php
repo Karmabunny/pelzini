@@ -52,6 +52,39 @@ class JavascriptAnalyser extends Analyser {
         $parser_function->applyComment($docblock->getValue());
       }
       
+      // Find the end of the arguments by counting regular brackets
+      $depth = 0;
+      $find_types = array(
+        TOKEN_OPEN_NORMAL_BRACKET,
+        TOKEN_CLOSE_NORMAL_BRACKET,
+        TOKEN_IDENTIFIER
+      );
+      $token = $this->findTokenForwards(TOKEN_OPEN_NORMAL_BRACKET);
+      $this->setPos($this->getTokenPos());
+      while ($token) {
+        switch ($token->getType()) {
+          case TOKEN_OPEN_NORMAL_BRACKET:
+            $depth++;
+            break;
+            
+          case TOKEN_CLOSE_NORMAL_BRACKET:
+            $depth--;
+            break;
+            
+          case TOKEN_IDENTIFIER:
+            $arg = new ParserArgument();
+            $arg->name = $token->getValue();
+            $parser_function->args[] = $arg;
+            break;
+            
+        }
+        
+        if ($depth == 0) break;
+        
+        $token = $this->findTokenForwards($find_types);
+        $this->setPos($this->getTokenPos());
+      }
+      
       // Find the end of the function by counting curly brackets
       $depth = 0;
       $token = $this->findTokenForwards(TOKEN_OPEN_CURLY_BRACKET);
