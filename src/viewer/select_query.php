@@ -128,11 +128,7 @@ class SelectQuery {
   public function addSinceVersionWhere() {
     if (! $_SESSION['current_version']) return;
     
-    if ($_SESSION['current_version'] == -1) {
-      $this->addWhere("{$this->from}.sinceid IS NULL");
-    } else {
-      $this->addWhere("{$this->from}.sinceid >= {$_SESSION['current_version']}");
-    }
+    $this->addWhere("({$this->from}.sinceid >= {$_SESSION['current_version']} OR {$this->from}.sinceid IS NULL)");
   }
 }
 

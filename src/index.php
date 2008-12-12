@@ -23,13 +23,16 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * in which case, the user gets redirected to the installer
 **/
 
+$dir = dirname(__FILE__);
+if (substr($dir, -1, 1) != '/') $dir .= '/';
 
-if (file_exists('viewer/viewer.config.php')) {
+
+if (file_exists($dir . 'viewer/config.viewer.php')) {
   header ('Location: viewer/');
   exit;
 }
 
-if (file_exists('viewer/config.php')) {
+if (file_exists($dir . 'viewer/config.php')) {
   header ('Location: viewer/');
   exit;
 }

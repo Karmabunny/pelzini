@@ -69,12 +69,6 @@ $project = db_fetch_assoc($res);
           echo "<option value=\"{$row['id']}\">{$row['name']}</option>\n";
         }
       }
-      
-      if ($_SESSION['current_version'] == -1) {
-        echo "<option value=\"-1\" selected>Unversioned</option>\n";
-      } else {
-        echo "<option value=\"-1\">Unversioned</option>\n";
-      }
       ?>
     </select>
     </form>

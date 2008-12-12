@@ -132,6 +132,9 @@ if ($num != 0) {
   $results = true;
   echo '<h3>Files (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
   
+  $regex_search = htmlspecialchars($_GET['q']);
+  $regex_search = '/(' . preg_quote ($regex_search). ')/i';
+  
   $alt = false;
   echo '<div class="list">';
   while ($row = db_fetch_assoc ($res)) {
@@ -148,12 +151,10 @@ if ($num != 0) {
     echo "<p class=\"content\">";
     $lines = explode("\n", $row['source']);
     foreach ($lines as $num => $line) {
-      if (stripos($line, $query) !== false) {
+      if (stripos($line, $_GET['q']) !== false) {
         $num++;
         $line = htmlspecialchars($line);
-        $query = htmlspecialchars($query);
-        $query = str_replace ('/', '\/', $query);
-        $line = preg_replace('/(' . $query . ')/i', "<span class=\"highlight\">\$1</span>", $line);
+        $line = preg_replace($regex_search, "<span class=\"highlight\">\$1</span>", $line);
         
         echo "Line {$num}: <code>{$line}</code><br>";
       }

@@ -64,7 +64,42 @@ db_connect();
 
 session_start();
 
+if (get_magic_quotes_gpc ()) {
+  $_POST = fix_magic_quotes ($_POST);
+  $_GET = fix_magic_quotes ($_GET);
+}
 
+
+
+
+/**
+* Fixes all magically quoted strings in the given array or string
+* 
+* @param mixed &$item The string or array in which to fix magic quotes
+* @return mixed The resultant string or array
+*/
+function fix_magic_quotes (&$item) {
+  if (is_array ($item)) {
+    // if a key is magically quoted, it needs to be modified - do key modifications after the loop is done,
+    // so that the same data does not get fixed twice
+    $key_replacements = array ();
+    foreach ($item as $key => $val) {
+      $new_key = stripslashes ($key);
+      if ($new_key != $key) $key_replacements[$key] = $new_key;
+      $item[$key] = fix_magic_quotes ($val);
+    }
+    
+    foreach ($key_replacements as $old_key => $new_key) {
+      $item[$new_key] = $item[$old_key];
+      unset ($item[$old_key]);
+    }
+    
+  } else {
+    $item = stripslashes ($item);
+  }
+  
+  return $item;
+}
 
 
 /**
