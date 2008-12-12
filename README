@@ -16,7 +16,7 @@ INSTALLATION
 
 1. Extract the archive somewhere accessable by your web server.
 
-2. Run installer/install.php.
+2. Run install/install.php.
    If you have granted write access to the install directory, your config files will be created,
    and you will need to copy config.processor.php into the processor directory, and config.viewer.php into the viewer directory
    
@@ -25,6 +25,7 @@ INSTALLATION
 
 3. Run processor/main.php to generate your documentation.
    Re-run the tool every time your code changes.
+   You can run this tool from the command line
 
 4. View the documentation using the viewer directory (e.g. http://www.example.com/docs/viewer)
 
