@@ -98,7 +98,7 @@ $project = db_fetch_assoc($res);
 <td class="sidebar">
   <div class="box-nohead">
     <form action="search.php" method="get">
-      <input type="text" name="q" style="width: 135px;" value="<?= htmlspecialchars ($_GET['q']); ?>">
+      <input type="text" name="q" style="width: 200px;" value="<?= htmlspecialchars ($_GET['q']); ?>">
       <input type="submit" value="Search">
     </form>
   </div>
@@ -115,8 +115,9 @@ $q .= " ORDER BY classes.name";
 $res = db_query ($q);
 if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
+  echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
   echo '    <h2>Classes</h2>';
-  echo '    <div id="sidebar_items">';
+  echo '    <div id="sidebar_items" class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
     echo "<p><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></p>\n";
@@ -137,8 +138,9 @@ $q .= " ORDER BY interfaces.name";
 $res = db_query ($q);
 if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
+  echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
   echo '    <h2>Interfaces</h2>';
-  echo '    <div id="sidebar_items">';
+  echo '    <div id="sidebar_items" class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
     echo "<p><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></p>\n";
@@ -160,8 +162,9 @@ $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
+  echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
   echo '    <h2>Functions</h2>';
-  echo '    <div id="sidebar_items">';
+  echo '    <div id="sidebar_items" class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
     echo "<p><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></p>\n";
@@ -181,8 +184,9 @@ $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
+  echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
   echo '    <h2>Files</h2>';
-  echo '    <div id="sidebar_items">';
+  echo '    <div id="sidebar_items" class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
     echo "<p><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></p>\n";
