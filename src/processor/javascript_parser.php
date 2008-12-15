@@ -20,6 +20,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link JavascriptParser} class
+*
+* @package Parsers
+* @author Josh
+* @since 0.2
+**/
+
+/**
 * Does the complete parsing of a javascript file.
 **/
 class JavascriptParser {

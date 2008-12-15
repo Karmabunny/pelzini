@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Contains the {@link ParserFunction} class
+*
 * @package Parser model
 * @author Josh Heidenreich
 * @since 0.1
@@ -48,10 +50,17 @@ class ParserFunction extends CodeParserItem {
     $this->final = false;
   }
   
+  /**
+  * Processes Javadoc tags that are specific to this PaserItem
+  **/
   protected function processSpecificDocblockTags($docblock_tags) {
     $this->description = htmlify_text($docblock_tags['@summary']);
   }
   
+  /**
+  * Does post-pasing processing of this ParserFunction.
+  * Specifically, loads types for the function arguments
+  **/
   public function post_load () {
     // Do arguments
     $params = $this->docblock_tags['@param'];
@@ -85,7 +94,10 @@ class ParserFunction extends CodeParserItem {
       list ($this->return_type, $this->return_description) = explode(' ', $return, 2);
     }
   }
-
+  
+  /**
+  * Debugging use only
+  **/
   public function dump() {
     echo '<div style="border: 1px red solid;">';
     echo $this->visibility . ' ';

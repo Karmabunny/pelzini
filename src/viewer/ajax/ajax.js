@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Functions for the sending of AJAX requests
+*
 * @since 0.1
 * @author Josh
 * @package Viewer

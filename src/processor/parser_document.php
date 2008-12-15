@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Contains the {@link ParserDocument} class
+*
 * @package Parser model
 * @author Josh Heidenreich
 * @since 0.2
@@ -36,6 +38,9 @@ class ParserDocument extends ParserItem {
     parent::__construct();
   }
   
+  /**
+  * Debugging use only
+  **/
   public function dump() {
     echo '<div style="border: 1px navy solid;">';
     echo $this->name;

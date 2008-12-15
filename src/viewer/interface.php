@@ -19,9 +19,12 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Shows information about a specific interface
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1
+* @see ParserInterface
 **/
 
 require_once 'head.php';

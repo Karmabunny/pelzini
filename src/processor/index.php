@@ -18,7 +18,13 @@ You should have received a copy of the GNU General Public License
 along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+/**
+* Links to the main processor and the database sync tool
+*
+* @package Processor
+* @author Josh
+* @since 0.1
+**/
 ?>
 <html>
 <head>

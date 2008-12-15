@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Contains the {@link ParserFile} class
+*
 * @package Parser model
 * @author Josh Heidenreich
 * @since 0.1
@@ -80,6 +82,9 @@ class ParserFile extends CodeParserItem {
     }
   }
   
+  /**
+  * Debugging use only
+  **/
   public function dump() {
     echo '<div style="border: 1px black solid;">';
     echo $this->name;

@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Various useful functions
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1
@@ -147,6 +149,9 @@ function get_object_link($name) {
 }
 
 
+/**
+* Echos a list of all of the authors of a specifc item
+**/
 function show_authors ($link_id, $link_type) {
   $q = "SELECT name, email, description FROM item_authors WHERE linkid = {$link_id} AND linktype = {$link_type}";
   $res = db_query($q);

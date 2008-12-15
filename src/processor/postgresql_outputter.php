@@ -20,9 +20,11 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link PostgresqlOutputter} class
+*
 * @package Outputters
 * @author Josh
-* @since 0.1
+* @since 0.2
 **/
 
 /**

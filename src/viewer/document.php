@@ -19,9 +19,12 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Shows a specific document
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.2
+* @see ParserDocument
 **/
 
 require_once 'head.php';

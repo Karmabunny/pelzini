@@ -18,9 +18,14 @@ You should have received a copy of the GNU General Public License
 along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 /**
 * This file redirects the user to the viewer, unless if a suitable config cannot be found
 * in which case, the user gets redirected to the installer
+*
+* @since 0.2
+* @author Josh
+* @package Viewer
 **/
 
 $dir = dirname(__FILE__);

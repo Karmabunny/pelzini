@@ -19,6 +19,15 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+/**
+* This is the main processor engine. It does all of the grunt-work of the processor
+*
+* @package Processor
+* @author Josh
+* @since 0.1
+**/
+
+
 chdir(dirname(__FILE__));
 
 require_once 'functions.php';
@@ -86,11 +95,6 @@ foreach ($parser_model as $item) {
   if ($item instanceof ParserFile) {
     $item->treeWalk ('processJavadocTags');
   }
-}
-
-function processJavadocTags(ParserItem $parser_item) {
-  //$parser_item->cascadeTags($item);
-  $parser_item->processTags();
 }
 
 

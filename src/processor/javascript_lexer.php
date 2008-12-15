@@ -20,6 +20,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link JavascriptLexer} class
+*
+* @package Parsers
+* @author Josh
+* @since 0.2
+**/
+
+/**
 * Tokenises a javascript file.
 **/
 class JavascriptLexer {
@@ -49,6 +57,9 @@ class JavascriptLexer {
   private $reserved_values = array('null', 'true', 'false');
   
   
+  /**
+  * Resets any state variables used by this class back to their initial state
+  **/
   public function resetState() {}
   
   /**

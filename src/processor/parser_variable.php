@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Contains the {@link ParserVariable} class
+*
 * @package Parser model
 * @author Josh Heidenreich
 * @since 0.1
@@ -49,7 +51,10 @@ class ParserVariable extends CodeParserItem {
   protected function processSpecificDocblockTags($docblock_tags) {
     $this->description = htmlify_text($docblock_tags['@summary']);
   }
-
+  
+  /**
+  * Debugging use only
+  **/
   public function dump() {
     echo '<div style="border: 1px purple solid;">';
     echo $this->visibility . ' ';

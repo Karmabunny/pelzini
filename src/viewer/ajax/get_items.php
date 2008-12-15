@@ -18,6 +18,12 @@ You should have received a copy of the GNU General Public License
 along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+* Returns a list of items
+* Not used.
+*
+* @package Viewer
+**/
 
 header('Content-type: text/xml; charset=UTF-8');
 require_once '../functions.php';

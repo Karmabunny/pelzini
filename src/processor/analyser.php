@@ -20,7 +20,15 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
-* Generic language analyser
+* Contains the {@link Analyser} class
+*
+* @package Parsers
+* @author Josh
+* @since 0.2
+**/
+
+/**
+* Generic language analyser. Analysers are used to tranform the language-specific tokens into a set of {@link CodeParserItem ParserItems}
 **/
 class Analyser {
   private $tokens;
@@ -51,10 +59,20 @@ class Analyser {
     $this->pos = $pos;
   }
   
+  /**
+  * Moves the internal token pointer forwards
+  *
+  * @param $num integer The number of positions to move the pointer forwards
+  **/
   protected function movePosForward($num = 1) {
     $this->pos += $num;
   }
   
+  /**
+  * Moves the internal token pointer backwards
+  *
+  * @param $num integer The number of positions to move the pointer backwards
+  **
   protected function movePosBackward($num = 1) {
     $this->pos += $num;
   }

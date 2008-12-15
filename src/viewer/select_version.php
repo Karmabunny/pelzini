@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Selects a version as the 'current version'
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1

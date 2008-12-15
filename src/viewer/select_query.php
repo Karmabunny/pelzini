@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* A system for the automatic creation of select queries
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.2

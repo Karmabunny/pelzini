@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Contains the {@link ParserInterface} class
+*
 * @package Parser model
 * @author Josh Heidenreich
 * @since 0.1
@@ -41,7 +43,10 @@ class ParserInterface extends CodeParserItem {
     $this->variables = array ();
     $this->visibility = 'public';
   }
-
+  
+  /**
+  * Processes Javadoc tags that are specific to this PaserItem
+  **/
   protected function processSpecificDocblockTags($docblock_tags) {
     $this->description = htmlify_text($docblock_tags['@summary']);
   }
@@ -58,6 +63,9 @@ class ParserInterface extends CodeParserItem {
     }
   }
   
+  /**
+  * Debugging use only
+  **/
   public function dump() {
     echo '<div style="border: 1px orange solid;">';
     echo $this->visibility . ' ';

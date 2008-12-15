@@ -20,6 +20,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Useful functions
+*
+* @package Processor
+* @author Josh
+* @since 0.1
+**/
+
+/**
 * Automatically loads the classes that are needed
 **/
 function __autoload ($class) {
@@ -213,4 +221,12 @@ function htmlify_text($text) {
   return $text;
 }
 
+
+/**
+* Processes the javadoc tags for a specific parser item
+**/
+function processJavadocTags(CodeParserItem $parser_item) {
+  //$parser_item->cascadeTags($item);
+  $parser_item->processTags();
+}
 ?>

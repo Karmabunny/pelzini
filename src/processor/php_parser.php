@@ -28,9 +28,15 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 * This is the parser for PHP files. It converts a file from the raw PHP into a document tree
+*
+* @todo Convert to new parser system (e.g. Javascript parser)
+* @todo Add support for namespaces, even on PHP < 5.3
 **/
 class PhpParser {
   
+  /**
+  * Parses a specific file
+  **/
   function parseFile ($filename) {
     global $dpgBaseDirectory;
     

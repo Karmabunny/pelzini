@@ -19,6 +19,9 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* A simple tree system
+*
+* @author Josh
 * @package Viewer
 * @since 0.2
 **/
@@ -33,37 +36,63 @@ class TreeNode implements ArrayAccess {
   private $parent = null;
   
   
+  /**
+  * Adds a child node to this node
+  **/
   public function addChild (TreeNode $child) {
     $this->children[] = $child;
     $child->parent = $this;
   }
   
+  /**
+  * Returns a list of all the child nodes of this node
+  **/
   public function getChildren () {
     return $this->children;
   }
   
+  /**
+  * Returns all of the data of this node
+  **/
   public function getData() {
     return $this->data;
   }
   
   
+  /**
+  * Returns true if a specific data field exists, and false otherwise
+  **/
   public function offsetExists ($index) {
     return isset ($this->data[$index]);
   }
   
+  /**
+  * Returns the value of a specific data field
+  **/
   public function offsetGet ($index) {
     return $this->data[$index];
   }
   
+  /**
+  * Sets the value of a specific data field
+  **/
   public function offsetSet ($index, $value) {
     $this->data[$index] = $value;
   }
   
+  /**
+  * Removes a specific data field
+  **/
   public function offsetUnset ($index) {
     unset ($this->data[$index]);
   }
   
   
+  /**
+  * Finds a node in the database
+  *
+  * @param TreeNodeMatcher $matcher The class which is used to determine if a node should be found or not
+  **/
   public function findNode (TreeNodeMatcher $matcher) {
     $res = $matcher->match ($this);
     if ($res) return $this;
@@ -91,6 +120,9 @@ class TreeNode implements ArrayAccess {
     return $ancestors;
   }
   
+  /**
+  * Used for debugging only
+  **/
   public function dump () {
     echo '<div style="border: 1px black solid; padding: 0.5em; margin: 0.5em;">';
     foreach ($this->data as $key => $val) {
@@ -109,6 +141,14 @@ class TreeNode implements ArrayAccess {
 **/
 class RootTreeNode extends TreeNode {
   
+  /**
+  * Creates a tree based on a set of nodes in the database
+  *
+  * @param resource $res A database resource created with db_query
+  * @param string $id_col The name of the identification column in the database query
+  * @param string $parent_col The name of the column in the database that references the id column of another record
+  * @returns The loaded tree
+  **/
   static function createFromDatabase ($res, $id_col, $parent_col) {
     // load query results into tree
     $root = new RootTreeNode;
@@ -179,11 +219,24 @@ class RootTreeNode extends TreeNode {
   
 }
 
+
+/**
+* The generic interface for classes which look for nodes that match specific conditions
+**/
 interface TreeNodeMatcher {
+  /**
+  * Will return true if the node matches the specified condition, or false otherwise
+  *
+  * @param TreeNode $node The node to check
+  * @return boolean True if the node matches, false otherwise
+  **/
   public function match ($node);
 }
 
 
+/**
+* Finds nodes in the tree which have a specified field which matches a specified value
+**/
 class FieldTreeNodeMatcher implements TreeNodeMatcher {
   private $field;
   private $value;
@@ -193,6 +246,12 @@ class FieldTreeNodeMatcher implements TreeNodeMatcher {
     $this->value = $value;
   }
   
+  /**
+  * Will return true if the node matches the specified condition, or false otherwise
+  *
+  * @param TreeNode $node The node to check
+  * @return boolean True if the node matches, false otherwise
+  **/
   public function match ($node) {
     $data = $node->getData();
     foreach ($data as $field => $value) {

@@ -20,13 +20,15 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link DatabaseOutputter} class
+*
 * @package Outputters
 * @author Josh
 * @since 0.2
 **/
 
 /**
-* Outputs the tree to a database
+* Outputs the tree to a database.
 **/
 abstract class DatabaseOutputter extends Outputter {
   static private $since_versions;
@@ -297,8 +299,11 @@ abstract class DatabaseOutputter extends Outputter {
     }
   }
   
-  
-  static function addSinceVersion($parser_item) {
+  /**
+  * Adds a @since version to from a {@link CodeParserItem} to the internal list
+  * This list is used to fill a table with all of the versions of the program in existance
+  **/
+  static function addSinceVersion(CodeParserItem $parser_item) {
     if ($parser_item->since == '') return;
     
     if (! in_array ($parser_item->since, self::$since_versions)) {
@@ -306,6 +311,9 @@ abstract class DatabaseOutputter extends Outputter {
     }
   }
   
+  /**
+  * Gets the database id of a record for a specific @since version
+  **/
   private function getSinceVersionId($since_version) {
     $res = array_search($since_version, self::$since_versions);
     if ($res === false) return null;

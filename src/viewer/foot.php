@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* The viewer footer
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1

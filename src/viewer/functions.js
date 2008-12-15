@@ -18,6 +18,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Various useful functions
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1

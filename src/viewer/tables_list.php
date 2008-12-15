@@ -19,9 +19,12 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Displays a list of all of the tables used
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.2
+* @see viewer/table.php
 **/
 
 require_once 'head.php';

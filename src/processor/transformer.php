@@ -20,11 +20,17 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link Transformer} class
+*
 * @package Transformers
 * @author Josh
 * @since 0.2
 **/
 
+/**
+* The top-level class of all transformers.
+* Transformers alter the parser model before it is outputted, for creating reports, etc.
+**/
 abstract class Transformer {
   
   /**

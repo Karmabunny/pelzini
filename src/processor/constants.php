@@ -20,6 +20,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* All of the constats used in docu
+*
+* @since 0.1
+* @author Josh
+* @package Processor
+**/
+
+/**
 * The current version of docu.
 **/
 define ('DOCU_VERSION', '0.2-pre');

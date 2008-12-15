@@ -20,6 +20,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link MysqlOutputter} class
+*
 * @package Outputters
 * @author Josh
 * @since 0.1

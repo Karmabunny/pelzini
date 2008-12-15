@@ -18,10 +18,13 @@ You should have received a copy of the GNU General Public License
 along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 /**
 * This file loads the config for the docu processor
 *
 * @since 0.1
+* @author Josh
+* @package Processor
 **/
 
 

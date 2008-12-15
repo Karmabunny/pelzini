@@ -20,6 +20,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* This file contains the {@link DebugOutputter} class
+*
 * @package Outputters
 * @author Josh
 * @since 0.1

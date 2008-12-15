@@ -20,6 +20,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link QualityCheckTransformer} class
+*
 * @package Transformers
 * @author Josh
 * @since 0.2

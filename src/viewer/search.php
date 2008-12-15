@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Does a search of the database
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1

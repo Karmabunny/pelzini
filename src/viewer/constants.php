@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Constants used by the viewer
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1

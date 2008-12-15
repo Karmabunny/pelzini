@@ -20,13 +20,15 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link SqliteOutputter} class
+*
 * @package Outputters
 * @author Josh
-* @since 0.1
+* @since 0.2
 **/
 
 /**
-* Outputs the tree as MySQL
+* Outputs the tree to a SQLite database
 **/
 class SqliteOutputter extends DatabaseOutputter {
   private $filename;

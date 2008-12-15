@@ -20,14 +20,17 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link CodeParserItem} class
+*
 * @package Parser model
 * @author Josh Heidenreich
 * @since 0.1
 **/
 
 /**
-* Stores information about parser items in general
-* Stores such information as authors, etc.
+* Stores information about parser items that are actual source code.
+* Typically these parser items have authors and versions, so all of that information
+* is stored in this class.
 *
 * @todo Add get/set methods instead of using public variables
 **/
@@ -59,6 +62,8 @@ abstract class CodeParserItem extends ParserItem {
   * This constructor must be called by extending classes
   **/
   protected function __construct () {
+    parent::__construct();
+    
     $this->docblock_tags = array();
     $this->authors = array();
     $this->since = null;
@@ -186,6 +191,9 @@ abstract class CodeParserItem extends ParserItem {
     }
   }
   
+  /**
+  * Debugging use only
+  **/
   protected function dump () {
     echo '<br>Authors: '; foreach ($this->authors as $a) $a->dump();
     echo '<br>Since: ', $this->since;

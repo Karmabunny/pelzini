@@ -19,6 +19,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+/**
+* This tool syncs the database layout specified in <i>database.layout</i> to the actual database
+*
+* @since 0.1
+* @author Josh
+* @package Processor
+**/
+
 require_once 'functions.php';
 require_once 'constants.php';
 require_once 'load_config.php';

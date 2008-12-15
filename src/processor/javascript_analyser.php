@@ -20,9 +20,20 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link JavascriptAnalyser} class
+*
+* @package Parsers
+* @author Josh
+* @since 0.2
+**/
+
+/**
 * Analyses the javascript tokens, and creates a set of ParserItem objects.
 **/
 class JavascriptAnalyser extends Analyser {
+  /**
+  * Resets any state variables used by this class back to their initial state
+  **/
   public function resetState() {
     parent::resetState();
   }

@@ -19,9 +19,14 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Shows a list of reports and parser documents
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.2
+* @see ParserDocuemnt
+* @see viewer/authors_list.php
+* @see viewer/tables_list.php
 **/
 
 require_once 'head.php';

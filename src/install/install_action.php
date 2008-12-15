@@ -19,6 +19,17 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+/**
+* Does the actual install
+*
+* @package Installer
+* @since 0.1
+* @author Josh
+**/
+
+/**
+* Outputs an error
+**/
 function err ($msg) {
   global $has_errors;
   $has_errors = true;
@@ -26,6 +37,9 @@ function err ($msg) {
   echo "<p class=\"error\">ERROR: {$msg}</p>";
 }
 
+/**
+* Outputs an error, and dies
+**/
 function fatal ($msg) {
   echo "<p class=\"error\">ERROR: {$msg}</p>";
   exit;

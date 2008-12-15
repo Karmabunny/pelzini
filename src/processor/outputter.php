@@ -20,19 +20,25 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link Outputter} class
+*
 * @package Outputters
 * @author Josh
 * @since 0.2
 **/
 
+/**
+* The top-level class for all outputters
+**/
 abstract class Outputter {
   
   /**
   * Does the actual outputting of the file objects (and their sub-objects)
   *
-  * @param array $files The file objects to save
+  * @param array $parser_items The ParserItem(s) to save
+  * @return boolean True on success, false on failure
   **/
-  abstract function output($files);
+  abstract function output($parser_items);
   
 }
 

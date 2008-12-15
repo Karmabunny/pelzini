@@ -19,6 +19,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+* Displays information about a specific package
+*
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1

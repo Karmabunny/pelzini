@@ -19,13 +19,16 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* @package Parser model
+* Some small misc classes
+*
+* @package Processor
 * @author Josh
 * @since 0.1
 **/
 
 /**
 * Represents a function argument
+*
 * @todo Getters and setters
 **/
 class ParserArgument {
@@ -34,6 +37,9 @@ class ParserArgument {
   public $description;
   public $default;
   
+  /**
+  * Debugging use only
+  **/
   public function dump() {
     echo '<div style="border: 1px green solid;">';
     echo 'Name: ' . $this->name;
@@ -47,6 +53,7 @@ class ParserArgument {
 
 /**
 * Represents an author of a parser item (e.g. a ParserFunction or ParserClass)
+*
 * @todo Getters and setters
 **/
 class ParserAuthor {
@@ -54,6 +61,9 @@ class ParserAuthor {
   public $email;
   public $description;
   
+  /**
+  * Debugging use only
+  **/
   public function dump() {
     echo '<div style="border: 1px green solid;">';
     echo 'Name: ' . $this->name;
@@ -88,14 +98,25 @@ class Token {
     $this->value = $value;
   }
   
+  /**
+  * Gets the type of this token
+  **/
   public function getType() {
     return $this->type;
   }
   
+  /**
+  * Gets the value of this token
+  **/
   public function getValue() {
     return $this->value;
   }
   
+  /**
+  * Uses some PHP cleverness to get the name of the constant
+  * that this token referres to.
+  * Good for debugging
+  **/
   public function getTypeName() {
     $constants = get_defined_constants();
     foreach ($constants as $name => $val) {

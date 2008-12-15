@@ -20,20 +20,29 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
+* Contains the {@link ParserItem} class
+*
 * @package Parser model
 * @author Josh Heidenreich
 * @since 0.2
 **/
 
+/**
+* The top-level class of all parser items. Almost all ParserItems should extend {@link CodeParserItem}.
+**/
 abstract class ParserItem {
   
-  protected function __construct () {
-    
-  }
+  /**
+  * In almost all cases this method should be overwritten, but it does not have to be.
+  * All overwriting classes must call this method at the beginning of their constructor:
+  *   parent::__construct();
+  **/
+  protected function __construct () {}
   
-  protected function dump() {
-  
-  }
+  /**
+  * Is used for debugging.
+  **/
+  abstract protected function dump();
   
 }
 ?>
