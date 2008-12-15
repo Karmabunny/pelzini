@@ -49,7 +49,7 @@ $q = "SELECT name, description, source FROM files WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $row = db_fetch_assoc ($res);
 echo "<h2>{$row['name']}</h2>";
-echo $row['description'];
+echo process_inline($row['description']);
 
 $source = trim($row['source']);
 $source = explode("\n", $source);

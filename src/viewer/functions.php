@@ -237,7 +237,11 @@ function process_inline($text) {
 }
 
 /**
-* Replaces @link tags
+* Replaces the content of a @link or @see tag with its actual link.
+* The content is defines as the part after @link or @see, up to the closing curly bracket
+*
+* @param string $original_text The original content
+* @return string HTML for the link to the item, or plain text if no link could be found
 **/
 function process_inline_link($original_text) {
   list ($text, $link_text) = explode(' ', $original_text, 2);
@@ -334,4 +338,29 @@ function process_inline_link($original_text) {
 }
 
 
+/**
+* Replaces an inline @link or @see with the plain-text version of that @link or @see.
+* This is used in places where excessive links are overkill.
+*
+* @param string $text the input text
+* @return string The output, with inline text replaced
+**/
+function delink_inline($text) {
+  $text = preg_replace ('/{@link ([^}]*?)}/ie', 'process_inline_delink(\'$1\')', $text);
+  $text = preg_replace ('/{@see ([^}]*?)}/ie', 'process_inline_delink(\'$1\')', $text);
+  return $text;
+}
+
+/**
+* Replaces the content of a @link or @see tag with the plain text version of the link
+* The content is defines as the part after @link or @see, up to the closing curly bracket
+*
+* @param string $original_text The original content
+* @return string The plain text version of a link
+**/
+function process_inline_delink($original_text) {
+  $link = explode(' ', $original_text, 2);
+  
+  return $link[1] ? $link[1] : $link[0];
+}
 ?>

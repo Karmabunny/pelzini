@@ -55,7 +55,7 @@ $row = db_fetch_assoc ($res);
 echo "<h2>{$row['name']}</h2>";
 $filename_clean = htmlentities(urlencode($row['filename']));
 echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['filename']) . "</a></p>\n";
-echo $row['description'];
+echo process_inline($row['description']);
 $id = $row['id'];
 
 if ($row['sinceid']) echo '<p>Available since: ', get_since_version($function['sinceid']), '</p>';

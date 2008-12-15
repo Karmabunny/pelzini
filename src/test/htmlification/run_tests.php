@@ -28,7 +28,7 @@ div pre {border: 1px #777 solid;}
 
 <?php
 /**
-* Runs a set of tests that check that the htmlify() function, which turns docu-text into HTML makes sence
+* Runs a set of tests that check that the {@link htmlify_text()} function, which turns docu-text into HTML makes sence
 *
 * @since 0.2
 * @author Josh

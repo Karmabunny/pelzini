@@ -73,7 +73,7 @@ if ($num != 0) {
     }
     
     echo "<div class=\"content\">";
-    echo $row['description'];
+    echo delink_inline($row['description']);
     echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
     echo "</div>";
     
@@ -114,7 +114,7 @@ if ($num != 0) {
     }
     
     echo "<div class=\"content\">";
-    echo $row['description'];
+    echo delink_inline($row['description']);
     echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
     echo "</div>";
     

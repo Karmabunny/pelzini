@@ -189,7 +189,7 @@ if (count($functions) > 0) {
     }
     echo "</h3>";
     
-    echo $row['description'];
+    echo process_inline($row['description']);
     
     // show return value
     if ($row['returntype'] != null) {
