@@ -49,7 +49,7 @@ class PhpParser {
     $source = @file_get_contents($dpgBaseDirectory . $filename);
     if ($source == null) return null;
     
-    $tokens = token_get_all($source);
+    $tokens = @token_get_all($source);
     
     
     $current_file = new ParserFile ();

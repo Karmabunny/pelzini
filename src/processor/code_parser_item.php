@@ -51,10 +51,11 @@ abstract class CodeParserItem extends ParserItem {
   /**
   * Executes a function for this ParserItem, and all of its children ParserItems
   *
-  * The function will be called with a single argument, the ParserItem that it should operate on
+  * The function will be called with a two arguments, the ParserItem that it should operate on, and the parent
+  * of the parser item
   **/
-  public function treeWalk($function_name) {
-    call_user_func ($function_name, $this);
+  public function treeWalk($function_name, ParserItem $parent_item = null) {
+    call_user_func ($function_name, $this, $parent_item);
   }
   
   
@@ -92,7 +93,7 @@ abstract class CodeParserItem extends ParserItem {
   *
   * @param ParserItem $child The child item to cascade the tags into
   **/
-  protected function cascadeTags ($child) {
+  public function cascadeTags ($child) {
     global $dpgCascaseDocblockTags;
     if (! isset ($dpgCascaseDocblockTags)) return;
     

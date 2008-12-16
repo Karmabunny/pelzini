@@ -93,7 +93,7 @@ output_status ("  {$failure} file(s) failed to be parsed");
 // Ths should be hidden away somewhere, but meh
 foreach ($parser_model as $item) {
   if ($item instanceof ParserFile) {
-    $item->treeWalk ('processJavadocTags');
+    $item->treeWalk ('process_javadoc_tags');
   }
 }
 

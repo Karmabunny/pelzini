@@ -303,7 +303,7 @@ abstract class DatabaseOutputter extends Outputter {
   * Adds a @since version to from a {@link CodeParserItem} to the internal list
   * This list is used to fill a table with all of the versions of the program in existance
   **/
-  static function addSinceVersion(CodeParserItem $parser_item) {
+  static function addSinceVersion(CodeParserItem $parser_item, $parent) {
     if ($parser_item->since == '') return;
     
     if (! in_array ($parser_item->since, self::$since_versions)) {

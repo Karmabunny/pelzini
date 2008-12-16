@@ -225,8 +225,11 @@ function htmlify_text($text) {
 /**
 * Processes the javadoc tags for a specific parser item
 **/
-function processJavadocTags(CodeParserItem $parser_item) {
-  //$parser_item->cascadeTags($item);
+function process_javadoc_tags(CodeParserItem $parser_item, $parent) {
+  if ($parent != null) {
+    $parent->cascadeTags($parser_item);
+  }
+  
   $parser_item->processTags();
 }
 ?>

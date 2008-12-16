@@ -66,19 +66,19 @@ class ParserFile extends CodeParserItem {
   * Cascades Docblock tags into the children that do not have any tags, and then
   * runs processTags() for all of the children items.
   **/
-  public function treeWalk($function_name) {
-    call_user_func ($function_name, $this);
+  public function treeWalk($function_name, ParserItem $parent_item = null) {
+    call_user_func ($function_name, $this, $parent_item);
     
     foreach ($this->classes as $item) {
-      $item->treeWalk($function_name);
+      $item->treeWalk($function_name, $this);
     }
     
     foreach ($this->functions as $item) {
-      $item->treeWalk($function_name);
+      $item->treeWalk($function_name, $this);
     }
     
     foreach ($this->constants as $item) {
-      $item->treeWalk($function_name);
+      $item->treeWalk($function_name, $this);
     }
   }
   
