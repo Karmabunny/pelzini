@@ -36,6 +36,13 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 **/
 class QualityCheckTransformer extends Transformer {
   private $offending_items;
+  private $required_tags;
+  
+  public function __construct ($required_tags) {
+    $this->required_tags = $required_tags;
+    
+    if (@count($this->required_tags) == 0) $this->required_tags = array('@summary');
+  }
   
   /**
   * Transforms the data model before outputting.
@@ -59,11 +66,11 @@ class QualityCheckTransformer extends Transformer {
     }
     ksort ($this->offending_items);
     
-    $report = "The following items do not have a description:";
+    $report = "The following items have insufficent documentation:";
     foreach ($this->offending_items as $type => $items) {
       natcasesort($items);
       
-      $report .= "\n\n{$type}:\n - ";
+      $report .= "\n\n<b>{$type}:</b>\n - ";
       $report .= implode("\n - ", $items);
     }
     
@@ -81,11 +88,22 @@ class QualityCheckTransformer extends Transformer {
   **/
   private function check_files($item) {
     $tags = $item->getDocblockTags();
+    $problems = array();
     
-    if ($tags['@summary'] == '') $failed = true;
+    foreach ($this->required_tags as $tag_name) {
+      if ($tags[$tag_name] == '') {
+        if ($tag_name == '@summary') {
+          $tag_name = 'summary';
+        } else {
+          $tag_name .= ' tag';
+        }
+        
+        $problems[] = "No {$tag_name}";
+      }
+    }
     
-    if ($failed) {
-      $this->offending_items['Files'][] = '{@link ' . $item->name . '}';
+    if (count($problems)) {
+      $this->offending_items['Files'][] = '{@link ' . $item->name . '}: <i>' . implode (', ', $problems) . '</i>';
     }
     
     foreach ($item->classes as $sub) {
@@ -107,11 +125,22 @@ class QualityCheckTransformer extends Transformer {
   **/
   private function check_class($item) {
     $tags = $item->getDocblockTags();
+    $problems = array();
     
-    if ($tags['@summary'] == '') $failed = true;
+    foreach ($this->required_tags as $tag_name) {
+      if ($tags[$tag_name] == '') {
+        if ($tag_name == '@summary') {
+          $tag_name = 'summary';
+        } else {
+          $tag_name .= ' tag';
+        }
+        
+        $problems[] = "No {$tag_name}";
+      }
+    }
     
-    if ($failed) {
-      $this->offending_items['Classes'][] = '{@link ' . $item->name . '}';
+    if (count($problems)) {
+      $this->offending_items['Classes'][] = '{@link ' . $item->name . '}: <i>' . implode (', ', $problems) . '</i>';
     }
     
     foreach ($item->functions as $sub) {
@@ -124,11 +153,22 @@ class QualityCheckTransformer extends Transformer {
   **/
   private function check_interface($item) {
     $tags = $item->getDocblockTags();
+    $problems = array();
     
-    if ($tags['@summary'] == '') $failed = true;
+    foreach ($this->required_tags as $tag_name) {
+      if ($tags[$tag_name] == '') {
+        if ($tag_name == '@summary') {
+          $tag_name = 'summary';
+        } else {
+          $tag_name .= ' tag';
+        }
+        
+        $problems[] = "No {$tag_name}";
+      }
+    }
     
-    if ($failed) {
-      $this->offending_items['Interfaces'][] = '{@link ' . $item->name . '}';
+    if (count($problems)) {
+      $this->offending_items['Interfaces'][] = '{@link ' . $item->name . '}: <i>' . implode (', ', $problems) . '</i>';
     }
     
     foreach ($item->functions as $sub) {
@@ -141,11 +181,22 @@ class QualityCheckTransformer extends Transformer {
   **/
   private function check_function($item, $from = null) {
     $tags = $item->getDocblockTags();
+    $problems = array();
     
-    if ($tags['@summary'] == '') $failed = true;
+    foreach ($this->required_tags as $tag_name) {
+      if ($tags[$tag_name] == '') {
+        if ($tag_name == '@summary') {
+          $tag_name = 'summary';
+        } else {
+          $tag_name .= ' tag';
+        }
+        
+        $problems[] = "No {$tag_name}";
+      }
+    }
     
-    if ($failed) {
-      $this->offending_items['Functions'][] = '{@link ' . $item->name . '}' . $from;
+    if (count($problems)) {
+      $this->offending_items['Functions'][] = '{@link ' . $item->name . '}' . $from . ': <i>' . implode (', ', $problems) . '</i>';
     }
   }
 }

@@ -29,7 +29,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 
 $dpgOutputterSettings = array();
-$dpgProcessorSettings = array();
+$dpgTransformerSettings = array();
 
 if (file_exists('config.php')) {
   $dpgOutputters = array();

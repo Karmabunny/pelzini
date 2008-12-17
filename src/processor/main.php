@@ -103,7 +103,9 @@ output_status ('');
 foreach ($dpgTransformers as $transformer) {
   switch ($transformer) {
     case TRANSFORMER_QUALITY_CHECK:
-      $transformer = new QualityCheckTransformer();
+      $transformer = new QualityCheckTransformer(
+        $dpgTransformerSettings[TRANSFORMER_QUALITY_CHECK]['required_tags']
+      );
       
       $result = $transformer->transform($parser_model);
       

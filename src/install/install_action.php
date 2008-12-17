@@ -211,6 +211,10 @@ $processor .= "   Currently you can only have one instance of each transformer.\
 $processor .= "   Use the transformer constants defined in the constants.php file. */\n";
 $processor .= "\$dpgTransformers[] = TRANSFORMER_QUALITY_CHECK;\n";
 $processor .= "\n";
+$processor .= "/* This should contain the transformer settings\n";
+$processor .= "   The settings are an array, with one array for each transformer */\n";
+$processor .= "\$dpgTransformerSettings[TRANSFORMER_QUALITY_CHECK]['required_tags'] = array ('@summary');\n";
+$processor .= "\n";
 $processor .= "/* List the outputters here. Outputters saved the parsed files to a database or an output file.\n";
 $processor .= "   Currently you can only have one instance of each outputter.\n";
 $processor .= "   Use the outputter constants defined in the constants.php file. */\n";
