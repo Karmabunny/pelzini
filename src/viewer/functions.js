@@ -45,7 +45,7 @@ function hide_content(event) {
   // and if they are of the class 'content', turn them off
   nodes = elem.parentNode.getElementsByTagName('*');
   for (i = 0; i < nodes.length; i++) {
-    if (nodes[i].className == 'content') {
+    if (nodes[i].className.indexOf('content') != -1) {
       nodes[i].style.display = 'none';
     }
   }
@@ -53,7 +53,7 @@ function hide_content(event) {
   // Looks for nodes that are + or - buttons, and turns them into + buttons
   nodes = elem.parentNode.getElementsByTagName('img');
   for (i = 0; i < nodes.length; i++) {
-    if (nodes[i].className == 'showhide') {
+    if (nodes[i].className.indexOf('showhide') != -1) {
       nodes[i].src = 'images/icon_add.png';
       nodes[i].title = 'Show this result';
       nodes[i].onclick = show_content;
@@ -86,7 +86,7 @@ function show_content(event) {
   // and if they are of the class 'content', turn them on
   var nodes = elem.parentNode.getElementsByTagName('*');
   for (var i = 0; i < nodes.length; i++) {
-    if (nodes[i].className == 'content') {
+    if (nodes[i].className.indexOf('content') != -1) {
       nodes[i].style.display = '';
     }
   }
@@ -94,7 +94,7 @@ function show_content(event) {
   // Looks for nodes that are + or - buttons, and turns them into - buttons
   nodes = elem.parentNode.getElementsByTagName('img');
   for (i = 0; i < nodes.length; i++) {
-    if (nodes[i].className == 'showhide') {
+    if (nodes[i].className.indexOf('showhide') != -1) {
       nodes[i].src = 'images/icon_remove.png';
       nodes[i].title = 'Hide this result';
       nodes[i].onclick = hide_content;

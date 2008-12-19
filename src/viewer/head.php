@@ -81,7 +81,15 @@ $project = db_fetch_assoc($res);
   &nbsp;
   
   <?php
-  $q = "SELECT id, name FROM packages ORDER BY name";
+  $q = new SelectQuery();
+  $q->addFields('packages.id, packages.name');
+  $q->setFrom('files');
+  $q->addInnerJoin('packages ON files.packageid = packages.id');
+  $q->setGroupBy('packages.id');
+  $q->setOrderBy('packages.name');
+  $q->addSinceVersionWhere();
+  
+  $q = $q->buildQuery();
   $res = db_query($q);
   while ($row = db_fetch_assoc($res)) {
     $row['name'] = htmlspecialchars($row['name']);
