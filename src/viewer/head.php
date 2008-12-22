@@ -108,9 +108,11 @@ $project = db_fetch_assoc($res);
 <td class="sidebar">
   <div class="box-nohead">
     <form action="search.php" method="get">
+      <input type="hidden" name="advanced" value="0">
       <input type="text" name="q" style="width: 200px;" value="<?= htmlspecialchars ($_GET['q']); ?>">
       <input type="submit" value="Search">
     </form>
+    <p style="font-size: smaller; margin-top: 3px;"><a href="advanced_search.php?q=<?= urlencode($_GET['q']); ?>">Advanced search</a></p>
   </div>
   
   

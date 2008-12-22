@@ -29,6 +29,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'head.php';
 
 $query = db_escape ($_GET['q']);
+$_GET['advanced'] = (int) $_GET['advanced'];
 $results = false;
 
 
@@ -40,133 +41,139 @@ echo '<p>You searched for "<strong>', htmlspecialchars($_GET['q']), '</strong>".
 
 
 // classes
-$q = "SELECT classes.id, classes.name, classes.description, classes.extends, classes.abstract, files.name as filename, classes.fileid
-  FROM classes
-  INNER JOIN files ON classes.fileid = files.id
-  WHERE classes.name LIKE '%{$query}%' ORDER BY classes.name";
-$res = db_query ($q);
-$num = db_num_rows ($res);
-if ($num != 0) {
-  $results = true;
-  echo '<h3>Classes (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars ($row['name']);
-    $row['filename'] = htmlspecialchars ($row['filename']);
+if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
+  $q = "SELECT classes.id, classes.name, classes.description, classes.extends, classes.abstract, files.name as filename, classes.fileid
+    FROM classes
+    INNER JOIN files ON classes.fileid = files.id
+    WHERE classes.name LIKE '%{$query}%' ORDER BY classes.name";
+  $res = db_query ($q);
+  $num = db_num_rows ($res);
+  if ($num != 0) {
+    $results = true;
+    echo '<h3>Classes (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
     
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    echo "<div class=\"{$class}\">";
-    echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-    echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong>";
-    
-    if ($row['extends'] != null) {
-      $row['extends'] = htmlspecialchars($row['extends']);
-      echo " <small>extends <a href=\"class.php?name={$row['extends']}\">{$row['extends']}</a></small>";
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+      $row['name'] = htmlspecialchars ($row['name']);
+      $row['filename'] = htmlspecialchars ($row['filename']);
+      
+      $class = 'item';
+      if ($alt) $class .= '-alt';
+      
+      echo "<div class=\"{$class}\">";
+      echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+      echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong>";
+      
+      if ($row['extends'] != null) {
+        $row['extends'] = htmlspecialchars($row['extends']);
+        echo " <small>extends <a href=\"class.php?name={$row['extends']}\">{$row['extends']}</a></small>";
+      }
+      
+      if ($row['abstract'] == 1) {
+        echo " <small>(abstract)</small>";
+      }
+      
+      echo "<div class=\"content\">";
+      echo delink_inline($row['description']);
+      echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+      echo "</div>";
+      
+      $alt = ! $alt;
     }
-    
-    if ($row['abstract'] == 1) {
-      echo " <small>(abstract)</small>";
-    }
-    
-    echo "<div class=\"content\">";
-    echo delink_inline($row['description']);
-    echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
-    echo "</div>";
-    
-    $alt = ! $alt;
+    echo '</div>';
   }
-  echo '</div>';
 }
 
 
 // functions
-$q = "SELECT functions.id, functions.name, functions.description, functions.classid, files.name as filename, functions.fileid, classes.name as class
-  FROM functions
-  INNER JOIN files ON functions.fileid = files.id
-  LEFT JOIN classes ON functions.classid = classes.id
-  WHERE functions.name LIKE '%{$query}%' ORDER BY functions.name";
-$res = db_query ($q);
-$num = db_num_rows ($res);
-if ($num != 0) {
-  $results = true;
-  echo '<h3>Functions (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars ($row['name']);
-    $row['filename'] = htmlspecialchars ($row['filename']);
+if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
+  $q = "SELECT functions.id, functions.name, functions.description, functions.classid, files.name as filename, functions.fileid, classes.name as class
+    FROM functions
+    INNER JOIN files ON functions.fileid = files.id
+    LEFT JOIN classes ON functions.classid = classes.id
+    WHERE functions.name LIKE '%{$query}%' ORDER BY functions.name";
+  $res = db_query ($q);
+  $num = db_num_rows ($res);
+  if ($num != 0) {
+    $results = true;
+    echo '<h3>Functions (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
     
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    echo "<div class=\"{$class}\">";
-    echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-    echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
-    
-    if ($row['class'] != null) {
-      $row['class'] = htmlspecialchars($row['class']);
-      echo " <small>from class <a href=\"class.php?id={$row['classid']}\">{$row['class']}</a></small>";
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+      $row['name'] = htmlspecialchars ($row['name']);
+      $row['filename'] = htmlspecialchars ($row['filename']);
+      
+      $class = 'item';
+      if ($alt) $class .= '-alt';
+      
+      echo "<div class=\"{$class}\">";
+      echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+      echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
+      
+      if ($row['class'] != null) {
+        $row['class'] = htmlspecialchars($row['class']);
+        echo " <small>from class <a href=\"class.php?id={$row['classid']}\">{$row['class']}</a></small>";
+      }
+      
+      echo "<div class=\"content\">";
+      echo delink_inline($row['description']);
+      echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+      echo "</div>";
+      
+      $alt = ! $alt;
     }
-    
-    echo "<div class=\"content\">";
-    echo delink_inline($row['description']);
-    echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
-    echo "</div>";
-    
-    $alt = ! $alt;
+    echo '</div>';
   }
-  echo '</div>';
 }
 
 
 // source
-$q = "SELECT files.id, files.name AS filename, files.source  
-  FROM files
-  WHERE files.source LIKE '%{$query}%' ORDER BY files.name";
-$res = db_query ($q);
-$num = db_num_rows ($res);
-if ($num != 0) {
-  $results = true;
-  echo '<h3>Files (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
-  
-  $regex_search = htmlspecialchars($_GET['q']);
-  $regex_search = '/(' . preg_quote ($regex_search). ')/i';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['filename'] = htmlspecialchars ($row['filename']);
+if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
+  $q = "SELECT files.id, files.name AS filename, files.source
+    FROM files
+    WHERE files.source LIKE '%{$query}%' ORDER BY files.name";
+  $res = db_query ($q);
+  $num = db_num_rows ($res);
+  if ($num != 0) {
+    $results = true;
+    echo '<h3>Files (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
     
-    $class = 'item';
-    if ($alt) $class .= '-alt';
+    $regex_search = htmlspecialchars($_GET['q']);
+    $regex_search = '/(' . preg_quote ($regex_search). ')/i';
     
-    echo "<div class=\"{$class}\">";
-    echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-    echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['filename']}</a></strong></p>";
-    
-    // Finds the lines, and highlights the term
-    echo "<p class=\"content\">";
-    $lines = explode("\n", $row['source']);
-    foreach ($lines as $num => $line) {
-      if (stripos($line, $_GET['q']) !== false) {
-        $num++;
-        $line = htmlspecialchars($line);
-        $line = preg_replace($regex_search, "<span class=\"highlight\">\$1</span>", $line);
-        
-        echo "Line {$num}: <code>{$line}</code><br>";
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+      $row['filename'] = htmlspecialchars ($row['filename']);
+      
+      $class = 'item';
+      if ($alt) $class .= '-alt';
+      
+      echo "<div class=\"{$class}\">";
+      echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+      echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['filename']}</a></strong></p>";
+      
+      // Finds the lines, and highlights the term
+      echo "<p class=\"content\">";
+      $lines = explode("\n", $row['source']);
+      foreach ($lines as $num => $line) {
+        if (stripos($line, $_GET['q']) !== false) {
+          $num++;
+          $line = htmlspecialchars($line);
+          $line = preg_replace($regex_search, "<span class=\"highlight\">\$1</span>", $line);
+          
+          echo "Line {$num}: <code>{$line}</code><br>";
+        }
       }
+      echo "</p>";
+      echo "</div>";
+      
+      $alt = ! $alt;
     }
-    echo "</p>";
-    echo "</div>";
-    
-    $alt = ! $alt;
+    echo '</div>';
   }
-  echo '</div>';
 }
 
 
