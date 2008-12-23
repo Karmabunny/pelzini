@@ -55,6 +55,11 @@ if (db_num_rows ($res) > 0) {
 
 
 <h3>Additional documents</h3>
+<p><b><a href="class_tree.php">Class tree</a></b>
+<br>Get a tree of all of the classes in this project</p>
+
+<br>
+
 <p><b><a href="authors_list.php">Authors list</a></b>
 <br>Get a list of all of the authors of this project</p>
 

@@ -324,6 +324,12 @@ abstract class DatabaseOutputter extends Outputter {
   * Does the actual outputting of the file objects (and their sub-objects) to the database
   *
   * @param array $files The file objects to save to the database
+  *
+  * @table insert projects The main project record
+  * @table insert packages All of the packages used by this project
+  * @table insert versions All of the project versions documented
+  * @table insert files All of the files
+  * @table insert documents All of the documents
   **/
   public function output ($files) {
     global $dpqProjectID, $dpgProjectName, $dpgLicenseText;
@@ -577,6 +583,7 @@ abstract class DatabaseOutputter extends Outputter {
   * Saves a class to the database
   *
   * @table insert classes Adds the class information for this class
+  * @table insert class_implements Adds the interfaces that this class extends
   **/
   private function save_class ($class, $file_id) {
     // prepare the data for inserting

@@ -51,39 +51,80 @@ $q = "SELECT interfaces.id, interfaces.name, interfaces.description, files.name 
   INNER JOIN files ON interfaces.fileid = files.id
   WHERE {$where} LIMIT 1";
 $res = db_query ($q);
-$row = db_fetch_assoc ($res);
-echo "<h2>{$row['name']}</h2>";
-$filename_clean = htmlentities(urlencode($row['filename']));
-echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($row['filename']) . "</a></p>\n";
-echo process_inline($row['description']);
-$id = $row['id'];
+$interface = db_fetch_assoc ($res);
+echo "<h2>{$interface['name']}</h2>";
+$filename_clean = htmlentities(urlencode($interface['filename']));
+echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($interface['filename']) . "</a></p>\n";
+echo process_inline($interface['description']);
 
-if ($row['sinceid']) echo '<p>Available since: ', get_since_version($function['sinceid']), '</p>';
+if ($interface['sinceid']) echo '<p>Available since: ', get_since_version($function['sinceid']), '</p>';
 
-show_authors ($row['id'], LINK_TYPE_INTERFACE);
+show_authors ($interface['id'], LINK_TYPE_INTERFACE);
+
+
+// Show implementors
+$name = db_quote($interface['name']);
+$q = "SELECT classes.id, classes.name
+  FROM classes
+  INNER JOIN class_implements ON class_implements.classid = classes.id
+  WHERE class_implements.name = {$name}";
+$res = db_query ($q);
+if (db_num_rows($res) > 0) {
+  echo "<h3>Implemented by</h3>";
+  echo "<ul>";
+  while ($row = db_fetch_assoc ($res)) {
+    echo "<li>", get_object_link($row['name']);
+  }
+  echo "</ul>";
+}
 
 
 // Show functions
-$q = "SELECT id, name, description, arguments FROM functions WHERE interfaceid = {$id}";
+$q = "SELECT id, name, description, arguments FROM functions WHERE interfaceid = {$interface['id']}";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo "<h3>Functions</h3>";
-  echo "<table class=\"function-list\">\n";
-  echo "<tr><th>Name</th><th>Description</th></tr>\n";
   while ($row = db_fetch_assoc ($res)) {
     // encode for output
-    $row['name'] = htmlspecialchars($row['name']);
-    if ($row['description'] == null) $row['description'] = '&nbsp;';
-    $row['arguments'] = htmlspecialchars($row['arguments']);
-      
+    if ($row['description'] == null) {
+      $row['description'] = '<em>This function does not have a description</em>';
+    }
+    
     // display
-    echo "<tr>";
-    echo "<td><code><a href=\"function.php?id={$row['id']}\">";
-    echo "{$row['name']}({$row['arguments']})</a></code></td>";
-    echo "<td>{$row['description']}</td>";
-    echo "</tr>\n";
+    echo "<h3>{$row['visibility']} <a href=\"function.php?id={$row['id']}\">{$row['name']}</a>";
+    if ($row['classname'] != $class['name']) {
+      echo " <small>(from <a href=\"class.php?name={$row['classname']}\">{$row['classname']}</a>)</small>";
+    }
+    echo "</h3>";
+    
+    echo process_inline($row['description']);
+    
+    // show return value
+    if ($row['returntype'] != null) {
+      $link = get_object_link($row['returntype']);
+      echo "<p>Returns <b>{$link}</b>";
+      
+      if ($row['returndescription'] != null) {
+        echo ': ', $row['returndescription'];
+      }
+      echo '</p>';
+    }
+    
+    // Show parameters
+    $q = "SELECT name, type, description FROM arguments WHERE functionid = {$row['id']}";
+    $res = db_query($q);
+    if (db_num_rows($res) > 0) {
+      echo "<ul>\n";
+      while ($param = db_fetch_assoc ($res)) {
+        if ($param['description'] != null) {
+          $param['description'] = ': ' . str_replace("\n", '<br>', $param['description']);
+        }
+        
+        $link = get_object_link($param['type']);
+        echo "<li>{$link} <b>{$param['name']}</b>{$param['description']}</li>";
+      }
+      echo "</ul>\n";
+    }
   }
-  echo "</table>\n";
 }
 
 require_once 'foot.php';

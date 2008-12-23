@@ -24,6 +24,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1
+* @see ParserClass
 **/
 
 require_once 'head.php';
@@ -278,6 +279,8 @@ function draw_class_tree($node, $higlight_nodes) {
   
   // Draw its children if it has any
   $children = $node->getChildren();
+  usort($children, 'nodenamesort');
+  
   if (count($children) > 0) {
     echo "<ul>\n";
     foreach ($children as $child) {
@@ -287,5 +290,9 @@ function draw_class_tree($node, $higlight_nodes) {
   }
   
   echo "</li>\n";
+}
+
+function nodenamesort($a, $b) {
+  return strcasecmp($a['name'], $b['name']);
 }
 ?>

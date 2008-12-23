@@ -31,11 +31,15 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 *
 * @todo Getters and setters
 **/
-class ParserArgument {
+class ParserArgument extends ParserItem {
   public $name;
   public $type;
   public $description;
   public $default;
+  
+  public function __construct() {
+    parent::__construct();
+  }
   
   /**
   * Debugging use only
@@ -56,10 +60,14 @@ class ParserArgument {
 *
 * @todo Getters and setters
 **/
-class ParserAuthor {
+class ParserAuthor extends ParserItem {
   public $name;
   public $email;
   public $description;
+  
+  public function __construct() {
+    parent::__construct();
+  }
   
   /**
   * Debugging use only
@@ -78,10 +86,25 @@ class ParserAuthor {
 * Represents the contents of a @table tag
 * @since 0.2
 **/
-class ParserTable {
+class ParserTable extends ParserItem {
   public $name;
   public $action;
   public $description;
+  
+  public function __construct() {
+    parent::__construct();
+  }
+  
+  /**
+  * Debugging use only
+  **/
+  public function dump() {
+    echo '<div style="border: 1px whitesmoke solid;">';
+    echo 'Name: ' . $this->name;
+    echo '<br>Action: ' . $this->action;
+    echo '<br>Description: ' . $this->description;
+    echo '</div>';
+  }
 }
 
 

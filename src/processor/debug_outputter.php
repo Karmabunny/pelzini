@@ -30,7 +30,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Outputs the tree to the screen
 **/
-class DebugOutputter {
+class DebugOutputter extends Outputter {
   
   /**
   * Outputs the entire tree to the screen

@@ -129,7 +129,7 @@ if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
   echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
   echo '    <h2>Classes</h2>';
-  echo '    <div id="sidebar_items" class="content" style="display: none;">';
+  echo '    <div class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
     echo "<p><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></p>\n";
@@ -152,7 +152,7 @@ if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
   echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
   echo '    <h2>Interfaces</h2>';
-  echo '    <div id="sidebar_items" class="content" style="display: none;">';
+  echo '    <div class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
     echo "<p><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></p>\n";
@@ -176,7 +176,7 @@ if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
   echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
   echo '    <h2>Functions</h2>';
-  echo '    <div id="sidebar_items" class="content" style="display: none;">';
+  echo '    <div class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
     echo "<p><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></p>\n";
@@ -198,7 +198,7 @@ if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
   echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
   echo '    <h2>Files</h2>';
-  echo '    <div id="sidebar_items" class="content" style="display: none;">';
+  echo '    <div class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
     echo "<p><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></p>\n";
@@ -211,3 +211,8 @@ if (db_num_rows ($res) > 0) {
 </td>
 
 <td class="main">
+
+<!-- Main content begins here -->
+
+
+

@@ -32,6 +32,11 @@ $generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a', $generated)
 $colours = array ('red', 'blue', 'green', 'orange');
 $colour = $colours[array_rand ($colours)];
 ?>
+
+
+
+<!-- Main content ends here -->
+
 </td>
 </tr>
 </table>
