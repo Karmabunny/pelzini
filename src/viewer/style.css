@@ -199,16 +199,18 @@ div.function-usage {
 
 div.list div.item {
   margin-bottom: 0.7em;
-  padding: 3px;
-  background-color: #F2FFE8;
-  border: 1px #B8FF81 solid;
+  padding: 3px 6px;
+  background-color: #F8FFF2;
+  border-top: 1px #DDFFBF solid;
+  border-bottom: 1px #58BF00 solid;
 }
 
 div.list div.item-alt {
   margin-bottom: 0.7em;
-  padding: 3px;
-  background-color: #E8FFF5;
-  border: 1px #83FFCC solid;
+  padding: 3px 6px;
+  background-color: #F2FFFA;
+  border-top: 1px #BFFFE6 solid;
+  border-bottom: 1px #00BF70 solid;
 }
 
 ul.tree li.on {
@@ -232,4 +234,17 @@ img.showhide {
   cursor: pointer;
 }
 
+.function-list {
+  border-collapse: collapse;
+}
 
+.function-list th {
+  background-color: #EEE;
+  border-bottom: 1px #BFC5FF solid;
+  padding: 3px 10px;
+}
+
+.function-list td {
+  border: 1px #EFEFEF solid;
+  padding: 2px 5px;
+}

@@ -77,27 +77,7 @@ if ($function['sinceid']) echo '<p>available since: ', get_since_version($functi
 
 // Usage
 echo "<h3>Usage</h3>";
-echo '<div class="function-usage">';
-if ($function['returntype']) echo $function['returntype'], ' ';
-echo '<b>', $function['name'], '</b> ( ';
-
-$q = "SELECT name, type, defaultvalue FROM arguments WHERE functionid = {$function['id']}";
-$res = db_query($q);
-$j = 0;
-while ($row = db_fetch_assoc ($res)) {
-  $row['name'] = htmlspecialchars($row['name']);
-  $row['type'] = htmlspecialchars($row['type']);
-  if ($row['type'] == '') $row['type'] = 'mixed';
-  
-  if ($row['defaultvalue']) echo '[';
-  if ($j++ > 0) echo ', ';
-  
-  echo " {$row['type']} {$row['name']} ";
-  if ($row['defaultvalue']) $num_close++;
-}
-echo str_repeat (']', $num_close);
-echo ' );';
-echo '</div>';
+show_function_usage ($function['id']);
 
 
 show_authors ($function['id'], LINK_TYPE_FUNCTION);

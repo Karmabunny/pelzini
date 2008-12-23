@@ -84,7 +84,6 @@ $q = "SELECT id, name, description, arguments FROM functions WHERE interfaceid =
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   while ($row = db_fetch_assoc ($res)) {
-    // encode for output
     if ($row['description'] == null) {
       $row['description'] = '<em>This function does not have a description</em>';
     }
@@ -96,34 +95,9 @@ if (db_num_rows($res) > 0) {
     }
     echo "</h3>";
     
+    show_function_usage ($row['id']);
+    echo '<br>';
     echo process_inline($row['description']);
-    
-    // show return value
-    if ($row['returntype'] != null) {
-      $link = get_object_link($row['returntype']);
-      echo "<p>Returns <b>{$link}</b>";
-      
-      if ($row['returndescription'] != null) {
-        echo ': ', $row['returndescription'];
-      }
-      echo '</p>';
-    }
-    
-    // Show parameters
-    $q = "SELECT name, type, description FROM arguments WHERE functionid = {$row['id']}";
-    $res = db_query($q);
-    if (db_num_rows($res) > 0) {
-      echo "<ul>\n";
-      while ($param = db_fetch_assoc ($res)) {
-        if ($param['description'] != null) {
-          $param['description'] = ': ' . str_replace("\n", '<br>', $param['description']);
-        }
-        
-        $link = get_object_link($param['type']);
-        echo "<li>{$link} <b>{$param['name']}</b>{$param['description']}</li>";
-      }
-      echo "</ul>\n";
-    }
   }
 }
 
