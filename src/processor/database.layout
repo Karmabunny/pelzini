@@ -135,3 +135,12 @@ PK id
   name string notnull
   action string null
   description text
+  
+TABLE item_see
+PK id
+  id serial notnull
+  linkid largenum notnull
+  linktype smallnum notnull
+  name string notnull
+
+

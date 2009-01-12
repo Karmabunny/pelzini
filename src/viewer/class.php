@@ -196,6 +196,9 @@ if (count($functions) > 0) {
 }
 
 
+show_see_also ($class['id'], LINK_TYPE_CLASS);
+
+
 require_once 'foot.php';
 
 

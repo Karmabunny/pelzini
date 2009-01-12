@@ -60,7 +60,7 @@ echo process_inline($interface['description']);
 if ($interface['sinceid']) echo '<p>Available since: ', get_since_version($function['sinceid']), '</p>';
 
 show_authors ($interface['id'], LINK_TYPE_INTERFACE);
-
+show_see_also ($interface['id'], LINK_TYPE_INTERFACE);
 
 // Show implementors
 $name = db_quote($interface['name']);

@@ -210,6 +210,25 @@ function show_tables ($link_id, $link_type) {
 
 
 /**
+* Shows the 'see also' things for a specific file, function or class
+**/
+function show_see_also ($link_id, $link_type) {
+  $q = "SELECT name FROM item_see WHERE linkid = {$link_id} AND linktype = {$link_type}";
+  $res = db_query($q);
+  
+  if (db_num_rows($res) > 0) {
+    echo "<h3>See also</h3>";
+    
+    echo '<ul>';
+    while ($row = db_fetch_assoc ($res)) {
+      echo '<li>', process_inline_link($row['name']), '</li>';
+    }
+    echo '</ul>';
+  }
+}
+
+
+/**
 * Gets HTML for a version, based on the version id
 *
 * @table select versions Will only select once, results are stored in a static array

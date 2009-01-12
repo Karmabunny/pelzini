@@ -120,6 +120,9 @@ if ($function['returntype'] or $function['returndescription']) {
 }
 
 
+show_see_also ($function['id'], LINK_TYPE_FUNCTION);
+
+
 require_once 'foot.php';
 ?>
 

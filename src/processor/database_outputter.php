@@ -356,6 +356,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ("TRUNCATE item_tables");
     $this->query ("TRUNCATE documents");
     $this->query ("TRUNCATE versions");
+    $this->query ("TRUNCATE item_see");
     
     $insert_data = array();
     $insert_data['id'] = $dpqProjectID;
@@ -451,15 +452,10 @@ abstract class DatabaseOutputter extends Outputter {
           $this->save_constant($constant, $file_id);
         }
         
-        // The authors
-        foreach ($item->authors as $author) {
-          $this->save_author (LINK_TYPE_FILE, $file_id, $author);
-        }
-        
-        // The tables
-        foreach ($item->tables as $table) {
-          $this->save_table (LINK_TYPE_FILE, $file_id, $table);
-        }
+        // Common items
+        $this->save_author_items (LINK_TYPE_FILE, $file_id, $item->authors);
+        $this->save_table_items (LINK_TYPE_FILE, $file_id, $item->tables);
+        $this->save_see_items (LINK_TYPE_FILE, $file_id, $item->see);
         
         
       } else if ($item instanceof ParserDocument) {
@@ -538,15 +534,10 @@ abstract class DatabaseOutputter extends Outputter {
     $function_id = $this->insert_id ();
     
     
-    // insert authors
-    foreach ($function->authors as $author) {
-      $this->save_author (LINK_TYPE_FUNCTION, $function_id, $author);
-    }
-    
-    // The tables
-    foreach ($function->tables as $table) {
-      $this->save_table (LINK_TYPE_FUNCTION, $function_id, $table);
-    }
+    // Insert common items
+    $this->save_author_items (LINK_TYPE_FUNCTION, $function_id, $function->authors);
+    $this->save_table_items (LINK_TYPE_FUNCTION, $function_id, $function->tables);
+    $this->save_see_items (LINK_TYPE_FUNCTION, $function_id, $function->see);
     
     
     // insert Arguments
@@ -626,15 +617,10 @@ abstract class DatabaseOutputter extends Outputter {
       $this->save_variable($variable, $class_id);
     }
     
-    // insert authors
-    foreach ($class->authors as $author) {
-      $this->save_author (LINK_TYPE_CLASS, $class_id, $author);
-    }
-    
-    // The tables
-    foreach ($class->tables as $table) {
-      $this->save_table (LINK_TYPE_CLASS, $class_id, $table);
-    }
+    // Insert common items
+    $this->save_author_items (LINK_TYPE_CLASS, $class_id, $class->authors);
+    $this->save_table_items (LINK_TYPE_CLASS, $class_id, $class->tables);
+    $this->save_see_items (LINK_TYPE_CLASS, $class_id, $class->see);
   }
   
   
@@ -665,10 +651,9 @@ abstract class DatabaseOutputter extends Outputter {
       $this->save_function ($function, $file_id, null, $interface_id);
     }
     
-    // insert authors
-    foreach ($interface->authors as $author) {
-      $this->save_author (LINK_TYPE_INTERFACE, $interface_id, $author);
-    }
+    // insert common items
+    $this->save_author_items (LINK_TYPE_INTERFACE, $interface_id, $interface->authors);
+    $this->save_see_items (LINK_TYPE_INTERFACE, $interface_id, $interface->see);
   }
   
   
@@ -704,10 +689,9 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ($q);
     $variable_id = $this->insert_id ();
     
-    // insert authors
-    foreach ($variable->authors as $author) {
-      $this->save_author (LINK_TYPE_VARIABLE, $variable_id, $author);
-    }
+    // insert common items
+    $this->save_author_items (LINK_TYPE_VARIABLE, $variable_id, $variable->authors);
+    $this->save_see_items (LINK_TYPE_VARIABLE, $variable_id, $variable->see);
   }
   
   
@@ -731,10 +715,9 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ($q);
     $constant_id = $this->insert_id ();
     
-    // insert authors
-    foreach ($constant->authors as $author) {
-      $this->save_author (LINK_TYPE_CONSTANT, $constant_id, $author);
-    }
+    // insert common items
+    $this->save_author_items (LINK_TYPE_CONSTANT, $constant_id, $constant->authors);
+    $this->save_see_items (LINK_TYPE_CONSTANT, $constant_id, $constant->see);
   }
   
   
@@ -743,17 +726,19 @@ abstract class DatabaseOutputter extends Outputter {
   *
   * @table insert item_authors
   **/
-  private function save_author ($link_type, $link_id, $author) {
-    $insert_data = array();
-    $insert_data['linkid'] = $this->sql_safen($link_id);
-    $insert_data['linktype'] = $this->sql_safen($link_type);
-    $insert_data['name'] = $this->sql_safen($author->name);
-    $insert_data['email'] = $this->sql_safen($author->email);
-    $insert_data['description'] = $this->sql_safen($author->description);
-    
-    // Build and process query from prepared data
-    $q = $this->create_insert_query('item_authors', $insert_data);
-    $this->query ($q);
+  private function save_author_items ($link_type, $link_id, $items) {
+    foreach ($items as $item) {
+      $insert_data = array();
+      $insert_data['linkid'] = $this->sql_safen($link_id);
+      $insert_data['linktype'] = $this->sql_safen($link_type);
+      $insert_data['name'] = $this->sql_safen($item->name);
+      $insert_data['email'] = $this->sql_safen($item->email);
+      $insert_data['description'] = $this->sql_safen($item->description);
+      
+      // Build and process query from prepared data
+      $q = $this->create_insert_query('item_authors', $insert_data);
+      $this->query ($q);
+    }
   }
   
   
@@ -763,19 +748,40 @@ abstract class DatabaseOutputter extends Outputter {
   * @since 0.2
   * @table insert item_tables Adds information about the tables that are used by a function, class or file.
   **/
-  private function save_table ($link_type, $link_id, $table) {
-    $insert_data = array();
-    $insert_data['linkid'] = $this->sql_safen($link_id);
-    $insert_data['linktype'] = $this->sql_safen($link_type);
-    $insert_data['name'] = $this->sql_safen($table->name);
-    $insert_data['action'] = $this->sql_safen($table->action);
-    $insert_data['description'] = $this->sql_safen($table->description);
-    
-    // Build and process query from prepared data
-    $q = $this->create_insert_query('item_tables', $insert_data);
-    $this->query ($q);
+  private function save_table_items ($link_type, $link_id, $items) {
+    foreach ($items as $item) {
+      $insert_data = array();
+      $insert_data['linkid'] = $this->sql_safen($link_id);
+      $insert_data['linktype'] = $this->sql_safen($link_type);
+      $insert_data['name'] = $this->sql_safen($item->name);
+      $insert_data['action'] = $this->sql_safen($item->action);
+      $insert_data['description'] = $this->sql_safen($item->description);
+      
+      // Build and process query from prepared data
+      $q = $this->create_insert_query('item_tables', $insert_data);
+      $this->query ($q);
+    }
   }
   
+  
+  /**
+  * Saves author information about an item
+  *
+  * @since 0.2
+  * @table insert item_see Adds 'see also' links for a function, class, file, etc.
+  **/
+  private function save_see_items ($link_type, $link_id, $items) {
+    foreach ($items as $item) {
+      $insert_data = array();
+      $insert_data['linkid'] = $this->sql_safen($link_id);
+      $insert_data['linktype'] = $this->sql_safen($link_type);
+      $insert_data['name'] = $this->sql_safen($item);
+      
+      // Build and process query from prepared data
+      $q = $this->create_insert_query('item_see', $insert_data);
+      $this->query ($q);
+    }
+  }
 }
 
 ?>

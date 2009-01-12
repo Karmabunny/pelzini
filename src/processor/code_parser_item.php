@@ -38,6 +38,7 @@ abstract class CodeParserItem extends ParserItem {
   public $authors;
   public $since;
   public $tables;
+  public $see;
   
   protected $docblock_tags;
   
@@ -69,6 +70,7 @@ abstract class CodeParserItem extends ParserItem {
     $this->authors = array();
     $this->since = null;
     $this->tables = array();
+    $this->see = array();
   }
   
   
@@ -188,6 +190,13 @@ abstract class CodeParserItem extends ParserItem {
         }
         
         $this->tables[] = $table;
+      }
+    }
+    
+    // @see
+    if (@count ($docblock_tags['@see']) > 0) {
+      foreach ($docblock_tags['@see'] as $see) {
+        $this->see[] = $see;
       }
     }
   }

@@ -193,5 +193,8 @@ if (db_num_rows($res) > 0) {
 }
 
 
+show_see_also ($id, LINK_TYPE_FILE);
+
+
 require_once 'foot.php';
 ?>
