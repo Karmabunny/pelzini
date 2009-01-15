@@ -27,7 +27,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * @see ParserFunciton
 **/
 
-require_once 'head.php';
+require_once 'functions.php';
 
 
 // Determine what to show
@@ -54,6 +54,11 @@ $q = "SELECT functions.id, functions.name, functions.description, files.name AS 
   WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $function = db_fetch_assoc ($res);
+
+
+$skin['page_name'] = "{$function['name']}() function";
+require_once 'head.php';
+
 
 echo "<h2><span class=\"unimportant\">function</span> <i>{$function['name']}</i>()</h2>";
 

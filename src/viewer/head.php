@@ -31,11 +31,16 @@ require_once 'functions.php';
 $q = "SELECT name, license, dategenerated FROM projects WHERE id = {$dvgProjectID}";
 $res = db_query($q);
 $project = db_fetch_assoc($res);
+
+$browser_title = 'Documentation for ' . $project['name'];
+if ($skin['page_name']) $browser_title .= ' - ' . $skin['page_name'];
+
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-  <title>Documentation for <?= $project['name']; ?></title>
+  <title><?= $browser_title; ?></title>
   <link href="style.css" rel="stylesheet" type="text/css">
   
   <script type="text/javascript" src="ajax/ajax.js"></script>
