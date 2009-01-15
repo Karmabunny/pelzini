@@ -92,6 +92,7 @@ class ParserFunction extends CodeParserItem {
     if ($return != null) {
       $return = array_pop ($return);
       list ($this->return_type, $this->return_description) = explode(' ', $return, 2);
+      $this->return_description = htmlify_text($this->return_description);
     }
   }
   

@@ -55,24 +55,31 @@ $q = "SELECT functions.id, functions.name, functions.description, files.name AS 
 $res = db_query ($q);
 $function = db_fetch_assoc ($res);
 
-echo "<h2>{$function['name']}</h2>";
-
-$filename_url = 'file.php?name=' . urlencode($function['filename']);
-echo '<p>File: <a href="', htmlspecialchars($filename_url), '">';
-echo htmlspecialchars($function['filename']), '</a></p>';
-
-if ($function['classid'] != null) {
-  echo "<p>Class: <a href=\"class.php?id={$function['classid']}\">{$function['class']}</a>";
-  
-  if ($function['static']) echo ', Static';
-  if ($function['final']) echo ', Final';
-  
-  echo '</p>';
-}
+echo "<h2><span class=\"unimportant\">function</span> <i>{$function['name']}</i>()</h2>";
 
 echo process_inline($function['description']);
 
-if ($function['sinceid']) echo '<p>available since: ', get_since_version($function['sinceid']), '</p>';
+
+echo "<ul>";
+
+$filename_url = 'file.php?name=' . urlencode($function['filename']);
+echo '<li>File: <a href="', htmlspecialchars($filename_url), '">';
+echo htmlspecialchars($function['filename']), '</a></li>';
+
+if ($function['classid']) {
+  echo "<li>Class: <a href=\"class.php?id={$function['classid']}\">{$function['class']}</a>";
+  
+  if ($function['static']) echo ', Static method';
+  if ($function['final']) echo ', Final method';
+  
+  echo '</li>';
+}
+
+if ($function['sinceid']) {
+  echo '<li>Available since: ', get_since_version($function['sinceid']), '</li>';
+}
+
+echo "</ul>";
 
 
 // Usage
@@ -90,16 +97,15 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo "<h3>Arguments</h3>";
   
-  echo "<ol>";
+  echo "<ol class=\"spaced-list\">";
   while ($row = db_fetch_assoc ($res)) {
     $row['name'] = htmlspecialchars($row['name']);
     $row['type'] = htmlspecialchars($row['type']);
     $row['defaultvalue'] = htmlspecialchars($row['defaultvalue']);
     
-    echo "<li><strong>{$row['name']}</strong>";
-    echo "<br>{$row['type']}";
-    if ($row['defaultvalue']) echo " (default: {$row['defaultvalue']})";
-    echo "<br>{$row['description']}";
+    echo '<li>', get_object_link ($row['type']), " <strong>{$row['name']}</strong>";
+    if ($row['defaultvalue']) echo " = {$row['defaultvalue']}";
+    echo '<br>', process_inline ($row['description']);
     echo "</li>";
   }
   echo "</ol>\n";
@@ -112,11 +118,13 @@ if ($function['returntype'] or $function['returndescription']) {
   
   echo "<h3>Return value</h3>";
   
+  echo "<ul><li>";
   if ($function['returntype']) {
-    echo "<p>Type: {$function['returntype']}</p>";
+    echo get_object_link ($function['returntype']), '<br>';
   }
   
-  echo $function['returndescription'];
+  echo process_inline ($function['returndescription']);
+  echo "</li></ul>";
 }
 
 

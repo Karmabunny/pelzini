@@ -87,10 +87,12 @@ function php_documented_arguments_function ($arg1, $arg2) {
 * @param string $arg2 Default is 100
 * @param string $arg3 Default is 15.2
 * @param string $arg4 Default is null
+* @param string $arg5 Default is true
+* @param string $arg6 Default is false
 * @author Josh <josh@example.com>
 * @author Bob <bob@example.com>
 **/
-function php_documented_default_arguments_function ($arg1 = 'default1', $arg2 = 100, $arg3 = 15.2, $arg4 = null) {
+function php_documented_default_arguments_function ($arg1 = 'default1', $arg2 = 100, $arg3 = 15.2, $arg4 = null, $arg5 = true, $arg6 = false) {
   return;
 }
 
@@ -170,7 +172,7 @@ final class php_documented_super_class extends php_documented_base_class impleme
       if ($baz) {
         echo $this->php_var2;
       }
-    }                                                                  
+    }
   }
 
   /**

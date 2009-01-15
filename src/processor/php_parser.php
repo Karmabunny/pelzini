@@ -279,6 +279,26 @@ class PhpParser {
                 $argument->default = 'NULL';
               }
               
+            } else if (strcasecmp ($text, 'true') == 0) {
+              if ($current_constant) {
+                $current_constant->value = 'TRUE';
+                $current_file->constants[] = $current_constant;
+                $current_constant = null;
+                
+              } else if ($argument) {
+                $argument->default = 'TRUE';
+              }
+              
+            } else if (strcasecmp ($text, 'false') == 0) {
+              if ($current_constant) {
+                $current_constant->value = 'FALSE';
+                $current_file->constants[] = $current_constant;
+                $current_constant = null;
+                
+              } else if ($argument) {
+                $argument->default = 'FALSE';
+              }
+              
             } else if ($current_function != null) {
               if ($current_function->name == '') {
                 $current_function->name = $text;
