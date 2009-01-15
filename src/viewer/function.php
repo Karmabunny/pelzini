@@ -44,14 +44,17 @@ if ($id == 0) {
 }
 
 
-// Get the details of this function
-$q = "SELECT functions.id, functions.name, functions.description, files.name AS filename, functions.classid,
+$q = new SelectQuery();
+$q->addFields('functions.id, functions.name, functions.description, files.name AS filename, functions.classid,
   classes.name AS class, functions.static, functions.final, functions.sinceid,
-  functions.returntype, functions.returndescription
-  FROM functions
-  INNER JOIN files ON functions.fileid = files.id
-  LEFT JOIN classes ON functions.classid = classes.id
-  WHERE {$where} LIMIT 1";
+  functions.returntype, functions.returndescription');
+$q->setFrom('functions');
+$q->addInnerJoin('files ON functions.fileid = files.id');
+$q->addLeftJoin('classes ON functions.classid = classes.id');
+$q->addWhere($where);
+$q->addSinceVersionWhere();
+
+$q = $q->buildQuery();
 $res = db_query ($q);
 $function = db_fetch_assoc ($res);
 

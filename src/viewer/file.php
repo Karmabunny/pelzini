@@ -49,6 +49,7 @@ $q->addFields('files.id, files.name, files.description, files.packageid, package
 $q->setFrom('files');
 $q->addInnerJoin('packages ON files.packageid = packages.id');
 $q->addWhere($where);
+$q->addSinceVersionWhere();
 
 $q = $q->buildQuery();
 $res = db_query ($q);

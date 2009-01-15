@@ -59,44 +59,56 @@ if (db_num_rows ($res) == 0) {
 }
 
 $class = db_fetch_assoc ($res);
-$filename_clean = htmlentities(urlencode($class['filename']));
 
-echo "<h2>{$class['name']}</h2>";
-echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($class['filename']) . "</a></p>\n";
+
+echo "<div class=\"viewer_options\">";
+echo "<p><b>Viewer options:</b></p>";
+if ($_GET['complete'] == 1) {
+  echo "<p><a href=\"class.php?id={$class['id']}\">Hide inherited members</a></p>";
+} else {
+  echo "<p><a href=\"class.php?id={$class['id']}&complete=1\">Show inherited members</a></p>";
+}
+echo "</div>";
+
+
+echo "<h2><span class=\"unimportant\">class</span> <i>{$class['name']}</i></h2>";
+
 echo process_inline($class['description']);
 
-echo "<p>&nbsp;</p>";
 
-if ($class['abstract'] == 1) echo '<p>This class is abstract</p>';
-if ($class['final'] == 1) echo '<p>This class is final</p>';
+echo "<ul>";
+
+$filename_url = 'file.php?name=' . urlencode($class['filename']);
+echo '<li>File: <a href="', htmlspecialchars($filename_url), '">';
+echo htmlspecialchars($class['filename']), '</a></li>';
 
 if ($class['extends'] != null) {
-  echo '<p><b>Extends:</b> ', get_object_link($class['extends']);
+  echo '<li>Extends: ', get_object_link($class['extends']), '</li>';
 }
+
+if ($class['abstract'] == 1) echo '<li>This class is abstract</li>';
+if ($class['final'] == 1) echo '<li>This class is final</li>';
 
 // Show implements
 $q = "SELECT name FROM class_implements WHERE classid = {$class['id']}";
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo "<p><b>Implements:</b> ";
+  echo "<li>Implements: ";
   
   $j = 0;
   while ($row = db_fetch_assoc ($res)) {
     if ($j++ > 0) echo ', ';
     echo get_object_link ($row['name']);
   }
+  echo '</li>';
 }
 
-if ($class['sinceid']) echo '<p><b>Available since:</b> ', get_since_version($class['sinceid']), '</p>';
-
-
-echo "<p>&nbsp;</p>";
-if ($_GET['complete'] == 1) {
-  echo "<p><a href=\"class.php?id={$class['id']}\">Hide inherited members</a></p>";
-} else {
-  echo "<p><a href=\"class.php?id={$class['id']}&complete=1\">Show inherited members</a></p>";
+if ($class['sinceid']) {
+  echo '<li>Available since: ', get_since_version($class['sinceid']), '</li>';
 }
+
+echo "</ul>";
 
 
 // Loads the classes tree
