@@ -1,0 +1,2 @@
+This function creates a <select> tag. It also creates various <img src="">, <img alt="" src="">, <img width="100" height="100"> tags,
+as well as some <a href=''> and <a href='http://www.ahi.org.au'> tags.

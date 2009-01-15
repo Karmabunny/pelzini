@@ -191,6 +191,7 @@ function htmlify_text($text) {
   if ($text == '') return null;
   
   // if the code contains block level HTML, output it as is
+  // todo: come up with a smarter solution
   $has_block_html = preg_match('/<(p|div|pre|table)( .*)?>/i', $text);
   if ($has_block_html) {
     return $text;
@@ -209,16 +210,45 @@ function htmlify_text($text) {
     $min_num_spaces = min($min_num_spaces, $num_spaces);
   }
   
-  // put into a pre
-  $text = "<pre>\n";
+  // remove trailing whitespace
+  $text = '';
   $j = 0;
   foreach ($lines as $line) {
     if ($j++ > 0) $text .= "\n";
     $text .= substr($line, $min_num_spaces);
   }
-  $text .= '</pre>';
+  
+  // remove invalid HTML tags
+  $text = str_replace('&', '&amp;', $text);
+  $text = preg_replace('/<\/?([a-z]+)(?>\s|"[^"]*"|\'[^\']*\'|[^\'">])*>/ie', 'htmlify_check_tag(stripslashes("$0"), stripslashes("$1"))', $text);
+  $text = preg_replace('/<([^\/a-z])/i', '&lt;$1', $text);
+  $text = preg_replace('/([^"\'a-z])>/i', '$1&gt;', $text);
+  $text = str_replace('"', '&quot;', $text);
+  
+  // wrap it all in a PRE
+  $text = "<pre>\n{$text}</pre>";
   
   return $text;
+}
+
+/**
+* Does processing on a single HTML tag, as provided by a regex in {@link htmlify_text}
+*
+* @param string $full_match The full tag that was found (e.g. '<select name="blah">')
+* @param string $tag_name The name of the tag that was found (e.g. 'select')
+* @return string What the tag should be replaced with
+**/
+function htmlify_check_tag ($full_match, $tag_name) {;
+  // valid tags get used as-is
+  $valid_tags = array ('b', 'i', 'em', 'strong');
+  if (in_array($tag_name, $valid_tags)) {
+    return $full_match;
+  }
+  
+  // everything else gets encoded
+  $full_match = str_replace('<', '&lt;', $full_match);
+  $full_match = str_replace('>', '&gt;', $full_match);
+  return $full_match;
 }
 
 
