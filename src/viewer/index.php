@@ -35,20 +35,14 @@ require_once 'head.php';
 <p>This is the documentation for <?= $project['name']; ?>.</p>
 
 
+<h3>Seach code</h3>
+<form action="search.php" method="get">
+  <input type="hidden" name="advanced" value="0">
+  <input type="text" name="q">
+  <input type="submit" value="Search">
+</form>
+<p><a href="advanced_search.php">Advanced search</a></p>
 
-<?php
-$q = "SELECT id, name FROM packages ORDER BY name";
-$res = db_query($q);
-if (db_num_rows ($res) > 0) {
-  echo "<h3>Packages in this project</h3>";
-  
-  while ($row = db_fetch_assoc($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    echo "<p><a href=\"select_package.php?id={$row['id']}\">{$row['name']}</a></p>";
-  }
-}
-?>
 
 
 <?php
