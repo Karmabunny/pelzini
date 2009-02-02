@@ -142,6 +142,7 @@ if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
     
     $regex_search = htmlspecialchars($_GET['q']);
     $regex_search = '/(' . preg_quote ($regex_search). ')/i';
+    $url_keyword = urlencode($_GET['q']);
     
     $alt = false;
     echo '<div class="list">';
@@ -153,7 +154,10 @@ if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
       
       echo "<div class=\"{$class}\">";
       echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-      echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['filename']}</a></strong></p>";
+      echo "<p>";
+      echo "<strong><a href=\"file.php?id={$row['id']}\">{$row['filename']}</a></strong> &nbsp; ";
+      echo "<small><a href=\"file_source.php?id={$row['id']}&keyword={$url_keyword}\">Highlighted file source</a></small>";
+      echo "</p>\n";
       
       // Finds the lines, and highlights the term
       echo "<p class=\"content\">";
@@ -164,7 +168,10 @@ if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
           $line = htmlspecialchars($line);
           $line = preg_replace($regex_search, "<span class=\"highlight\">\$1</span>", $line);
           
-          echo "Line {$num}: <code>{$line}</code><br>";
+          $source_url = "file_source.php?id={$row['id']}&highlight={$num}";
+          if ($num > 5) $source_url .= '#line' . ($num - 5);
+          
+          echo "Line <a href=\"{$source_url}\">{$num}</a>: <code>{$line}</code><br>";
         }
       }
       echo "</p>";

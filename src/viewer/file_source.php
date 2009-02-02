@@ -43,6 +43,27 @@ if ($id == 0) {
   $where = "id = {$id}";
 }
 
+// Line highlighting
+if ($_GET['highlight']) {
+  $parts = explode ('-', $_GET['highlight']);
+  
+  if (count($parts) == 1) {
+    $highlight_begin = $parts[0];
+    $highlight_end = $parts[0];
+    
+  } else if (count($parts) == 2) {
+    $highlight_begin = $parts[0];
+    $highlight_end = $parts[1];
+  }
+}
+
+// Keyword highlighting
+if ($_GET['keyword']) {
+  $keyword_search = htmlspecialchars($_GET['keyword']);
+  $keyword_search = '/(' . preg_quote ($keyword_search). ')/i';
+}
+
+
 
 // Get the details of this file
 $q = "SELECT name, description, source FROM files WHERE {$where} LIMIT 1";
@@ -52,7 +73,8 @@ echo "<h2>{$row['name']}</h2>";
 echo process_inline($row['description']);
 
 $source = trim($row['source']);
-$source = explode("\n", $source);
+$source = explode("\n", "\n" . $source);
+unset ($source[0]);
 
 $num = count($source);
 $cols = strlen($num);
@@ -62,8 +84,22 @@ echo "<table><tr>";
 
 echo '<td><pre>';
 foreach ($source as $num => $line) {
-  echo str_pad(($num + 1), $cols, ' ', STR_PAD_LEFT) . "\n";
-  $lines .= htmlspecialchars ($line) . "\n";
+  echo "<a name=\"line{$num}\"></a>", str_pad($num, $cols, ' ', STR_PAD_LEFT) . "\n";
+  
+  if ($num == $highlight_begin) {
+    $lines .= '<span class="highlight">';
+  }
+  
+  $line = htmlspecialchars ($line);
+  if ($keyword_search) {
+    $line = preg_replace($keyword_search, "<span class=\"highlight\">\$1</span>", $line);
+  }
+  
+  $lines .= "{$line}\n";
+  
+  if ($num == $highlight_end) {
+    $lines .= '</span>';
+  }
 }
 echo '</pre></td>';
 
