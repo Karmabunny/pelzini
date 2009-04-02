@@ -4,12 +4,12 @@
 #
 # This file is part of docu.
 # 
-# Docu is free software: you can redistribute it and/or modify
+# Pelzini is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 # 
-# Docu is distributed in the hope that it will be useful,
+# Pelzini is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
@@ -20,7 +20,7 @@
 
 
 #
-# This tool creates a snapshot of the docu repository
+# This tool creates a snapshot of the Pelzini repository
 #
 
 if [ ! -d dist_snapshot ]; then

@@ -2,20 +2,20 @@
 /*
 Copyright 2008 Josh Heidenreich
 
-This file is part of docu.
+This file is part of Pelzini.
 
-Docu is free software: you can redistribute it and/or modify
+Pelzini is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Docu is distributed in the hope that it will be useful,
+Pelzini is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with docu.  If not, see <http://www.gnu.org/licenses/>.
+along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
@@ -50,9 +50,9 @@ if (! $config_found) {
   header ('Content-type: text/plain');
   echo "ERROR:\n";
   echo "Unable to find required configuration file 'config.php' or 'config.viewer.php'.\n";
-  echo "Please configure the docu viewer. For more information, see:\n";
+  echo "Please configure the Pelzini viewer. For more information, see:\n";
   echo "http://docu.sourceforge.net\n\n";
-  echo "The easiest way to configure docu is to run the installer and follow the instructions provided.";
+  echo "The easiest way to configure Pelzini is to run the installer and follow the instructions provided.";
   exit;
 }
 

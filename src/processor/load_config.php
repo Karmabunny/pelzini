@@ -2,25 +2,25 @@
 /*
 Copyright 2008 Josh Heidenreich
 
-This file is part of docu.
+This file is part of Pelzini.
 
-Docu is free software: you can redistribute it and/or modify
+Pelzini is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Docu is distributed in the hope that it will be useful,
+Pelzini is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with docu.  If not, see <http://www.gnu.org/licenses/>.
+along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
 /**
-* This file loads the config for the docu processor
+* This file loads the config for the Pelzini processor
 *
 * @since 0.1
 * @author Josh
@@ -122,9 +122,9 @@ if (! $config_found) {
   echo "ERROR:\n";
   echo "Unable to find required configuration file 'config.php' or 'config.processor.php', ";
   echo "and no config file was specified on the command line (using the --config option).\n";
-  echo "Please configure the docu processor. For more information, see:\n";
+  echo "Please configure the Pelzini processor. For more information, see:\n";
   echo "http://docu.sourceforge.net\n\n";
-  echo "The easiest way to configure docu is to run the installer and follow the instructions provided.\n";
+  echo "The easiest way to configure Pelzini is to run the installer and follow the instructions provided.\n";
   exit;
 }
 
@@ -136,7 +136,7 @@ if (! $config_found) {
 function show_help ($args) {
   global $supported_args;
   
-  echo "This is the docu processor\n\nSupported arguments:\n";
+  echo "This is the Pelzini processor\n\nSupported arguments:\n";
   foreach ($supported_args as $arg) {
     echo str_pad($arg[0], 20), '  ', $arg[3], "\n";
   }

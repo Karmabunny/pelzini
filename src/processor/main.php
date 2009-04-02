@@ -2,20 +2,20 @@
 /*
 Copyright 2008 Josh Heidenreich
 
-This file is part of docu.
+This file is part of Pelzini.
 
-Docu is free software: you can redistribute it and/or modify
+Pelzini is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Docu is distributed in the hope that it will be useful,
+Pelzini is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with docu.  If not, see <http://www.gnu.org/licenses/>.
+along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -36,8 +36,8 @@ require_once 'misc_classes.php';
 require_once 'load_config.php';
 
 
-output_status ('This is the docu processor, docu version ' . DOCU_VERSION);
-output_status ('Docu is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
+output_status ('This is the Pelzini processor, Pelzini version ' . DOCU_VERSION);
+output_status ('Pelzini is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
 output_status ('For more information, see <a href="http://docu.sourceforge.net/">http://docu.sourceforge.net/</a>');
 
 // Initalise each parser

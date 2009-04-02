@@ -2,20 +2,20 @@
 /*
 Copyright 2008 Josh Heidenreich
 
-This file is part of docu.
+This file is part of Pelzini.
 
-Docu is free software: you can redistribute it and/or modify
+Pelzini is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Docu is distributed in the hope that it will be useful,
+Pelzini is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with docu.  If not, see <http://www.gnu.org/licenses/>.
+along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
@@ -44,7 +44,7 @@ $colour = $colours[array_rand ($colours)];
 <table class="footer">
   <tr>
     <td align="left" style="width: 20em;">
-      Powered by <a href="http://docu.sourceforge.net">docu</a>, version <?= DOCU_VERSION; ?>
+      Powered by <a href="http://docu.sourceforge.net">Pelzini</a>, version <?= DOCU_VERSION; ?>
     </td>
     
     <td align="center">

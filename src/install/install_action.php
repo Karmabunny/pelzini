@@ -2,20 +2,20 @@
 /*
 Copyright 2008 Josh Heidenreich
 
-This file is part of docu.
+This file is part of Pelzini.
 
-Docu is free software: you can redistribute it and/or modify
+Pelzini is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Docu is distributed in the hope that it will be useful,
+Pelzini is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with docu.  If not, see <http://www.gnu.org/licenses/>.
+along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -55,12 +55,12 @@ foreach ($_POST as $key => $value) {
 <html>
 <head>
   <link type="text/css" rel="stylesheet" href="install.css">
-  <title>Docu installer</title>
+  <title>Pelzini installer</title>
 </head>
 <body>
 <div class="main">
 
-<h1>Docu installer</h1>
+<h1>Pelzini installer</h1>
 
 
 <h3>Checking input</h3>
@@ -187,7 +187,7 @@ echo '<p>Generating config files</p>';
 
 $processor  = "<?php\n";
 $processor .= "/*\n";
-$processor .= " * This is the example docu processor configuration file\n";
+$processor .= " * This is the example Pelzini processor configuration file\n";
 $processor .= " * For more information about configuration, see\n";
 $processor .= " * http://docu.sourceforge.net\n";
 $processor .= " */\n";
@@ -235,7 +235,7 @@ $processor .= "\$dpgOutputterSettings[OUTPUTTER_PGSQL]['database_username'] = '{
 $processor .= "\$dpgOutputterSettings[OUTPUTTER_PGSQL]['database_password'] = '{$_POST['database_password']}';\n";
 $processor .= "\$dpgOutputterSettings[OUTPUTTER_PGSQL]['database_name'] = '{$_POST['database_name']}';\n";
 $processor .= "\n";
-$processor .= "\$dpgOutputterSettings[OUTPUTTER_SQLITE]['filename'] = '../output/docu.sqlite';\n";
+$processor .= "\$dpgOutputterSettings[OUTPUTTER_SQLITE]['filename'] = '../output/pelzini.sqlite';\n";
 $processor .= "\n";
 $processor .= "/* This is the base directory that the parsing of your application should take place */\n";
 $processor .= "\$dpgBaseDirectory = '{$_POST['project_base_dir']}';\n";
@@ -251,7 +251,7 @@ $processor .= "?>\n";
 
 $viewer  = "<?php\n";
 $viewer .= "/*\n";
-$viewer .= " * This is the example docu viewer configuration file\n";
+$viewer .= " * This is the example Pelzini viewer configuration file\n";
 $viewer .= " * For more information about configuration, see\n";
 $viewer .= " * http://docu.sourceforge.net\n";
 $viewer .= " */\n";
@@ -270,7 +270,7 @@ $viewer .= "\$dvgDatabaseSettings['password'] = '{$_POST['database_password']}';
 $viewer .= "\$dvgDatabaseSettings['name'] = '{$_POST['database_name']}';\n";
 $viewer .= "\n";
 $viewer .= "/* This setting is used by SQLite */\n";
-$viewer .= "\$dvgDatabaseSettings['filename'] = '../output/docu.sqlite';\n";
+$viewer .= "\$dvgDatabaseSettings['filename'] = '../output/pelzini.sqlite';\n";
 $viewer .= "?>\n";
 
 if (is_writable ('.')) {

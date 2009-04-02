@@ -2,20 +2,20 @@
 /*
 Copyright 2008 Josh Heidenreich
 
-This file is part of docu.
+This file is part of Pelzini.
 
-Docu is free software: you can redistribute it and/or modify
+Pelzini is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Docu is distributed in the hope that it will be useful,
+Pelzini is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with docu.  If not, see <http://www.gnu.org/licenses/>.
+along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
@@ -31,7 +31,7 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 <html>
 <head>
   <link type="text/css" rel="stylesheet" href="install.css">
-  <title>Docu installer</title>
+  <title>Pelzini installer</title>
   
   <script>
   function db_type_change (newval) {
@@ -50,9 +50,9 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 <form action="install_action.php" method="post">
 
 
-<h1>Docu installer</h1>
+<h1>Pelzini installer</h1>
 
-<p>This is the docu installer. This installer will create a database, create all the nessasary tables,
+<p>This is the Pelzini installer. This installer will create a database, create all the nessasary tables,
 and create config files for the viewer and the processor.</p>
 
 <?php
@@ -64,7 +64,7 @@ if (! is_writable ('.')) {
 
 <p>To install docu, fill in all the relevant options below.</p>
 
-<p>You can also use this tool to upgrade docu.</p>
+<p>You can also use this tool to upgrade Pelzini.</p>
 
 
 

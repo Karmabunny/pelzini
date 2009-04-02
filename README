@@ -1,13 +1,13 @@
-Docu is a code documentation tool. It is planned to support many different programming languages.
+Pelzini is a code documentation tool. It is planned to support many different programming languages.
 It stores all of its documentation in a database, and the documentation is viewed dynamically. This is
-so that cool features like search can be created. Search was the main reason for the creation of docu.
+so that cool features like search can be created. Search was the main reason for the creation of Pelzini.
 
 
 FEATURES
 
-Docu currently supports all aspects of PHP, with the documentation being stores in a MySQL database.
-Docu has a modular design, so other laoguages and output engines will be supported in the future.
-Docu supports code search. You can search for class names, interface names and function names. The search
+Pelzini currently supports all aspects of PHP, with the documentation being stores in a MySQL database.
+Pelzini has a modular design, so other laoguages and output engines will be supported in the future.
+Pelzini supports code search. You can search for class names, interface names and function names. The search
 feature is planned to be massivly upgraded in the future.
 
 
@@ -39,7 +39,7 @@ NOTES
 
 MORE INFORMATION
 
-If you would like more information about docu, please visit the docu website:
+If you would like more information about docu, please visit the Pelzini website:
   http://docu.sourceforge.net
   
 Here you can find information, roadmaps, make sugesstions and bug fixes, submit patches, etc.
