@@ -129,6 +129,45 @@ if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
 }
 
 
+// constants
+if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
+  $q = "SELECT constants.name, constants.description, files.name as filename, constants.fileid, constants.value
+    FROM constants
+    INNER JOIN files ON constants.fileid = files.id
+    WHERE constants.name LIKE '%{$query}%' ORDER BY constants.name";
+  $res = db_query ($q);
+  $num = db_num_rows ($res);
+  if ($num != 0) {
+    $results = true;
+    echo '<h3>Constants (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
+    
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+      $row['name'] = htmlspecialchars ($row['name']);
+      $row['filename'] = htmlspecialchars ($row['filename']);
+      $row['value'] = htmlspecialchars ($row['value']);
+      
+      $class = 'item';
+      if ($alt) $class .= '-alt';
+      
+      echo "<div class=\"{$class}\">";
+      echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+      echo "<p><strong><a href=\"file.php?id={$row['fileid']}\">{$row['name']}</a></strong>";
+      echo " = <strong>{$row['value']}</strong>";
+      
+      echo "<div class=\"content\">";
+      echo delink_inline($row['description']);
+      echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+      echo "</div>";
+      
+      $alt = ! $alt;
+    }
+    echo '</div>';
+  }
+}
+
+
 // source
 if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
   $q = "SELECT files.id, files.name AS filename, files.source

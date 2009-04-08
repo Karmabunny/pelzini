@@ -45,6 +45,7 @@ require_once 'head.php';
     <b>What to search:</b>
     <br><label><input type="checkbox" name="classes" value="y" checked> Classes</label>
     <br><label><input type="checkbox" name="functions" value="y" checked> Functions</label>
+    <br><label><input type="checkbox" name="constants" value="y" checked> Constants</label>
     <br><label><input type="checkbox" name="source" value="y" checked> Source code</label>
   </p>
   
