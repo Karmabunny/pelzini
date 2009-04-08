@@ -141,6 +141,7 @@ function output_status($message) {
   } else {
     echo $message . "<br>";
   }
+  flush();
 }
 
 
