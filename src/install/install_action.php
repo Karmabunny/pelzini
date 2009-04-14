@@ -45,7 +45,41 @@ function fatal ($msg) {
   exit;
 }
 
+/**
+* Fixes all magically quoted strings in the given array or string
+* 
+* @param mixed &$item The string or array in which to fix magic quotes
+* @return mixed The resultant string or array
+*/
+function fix_magic_quotes (&$item) {
+  if (is_array ($item)) {
+    // if a key is magically quoted, it needs to be modified - do key modifications after the loop is done,
+    // so that the same data does not get fixed twice
+    $key_replacements = array ();
+    foreach ($item as $key => $val) {
+      $new_key = stripslashes ($key);
+      if ($new_key != $key) $key_replacements[$key] = $new_key;
+      $item[$key] = fix_magic_quotes ($val);
+    }
+    
+    foreach ($key_replacements as $old_key => $new_key) {
+      $item[$new_key] = $item[$old_key];
+      unset ($item[$old_key]);
+    }
+    
+  } else {
+    $item = stripslashes ($item);
+  }
+  
+  return $item;
+}
 
+
+
+if (get_magic_quotes_gpc ()) {
+  $_POST = fix_magic_quotes ($_POST);
+  $_GET = fix_magic_quotes ($_GET);
+}
 
 foreach ($_POST as $key => $value) {
   $_POST[$key] = trim ($_POST[$key]);
@@ -77,6 +111,7 @@ if ($_POST['database_type'] == 'root') {
 }
 
 if (! $_POST['project_name']) err ('No project name specified');
+if (! $_POST['project_licence']) err ('No project licence specified');
 if (! $_POST['project_base_dir']) err ('No project base directory specified');
 
 if ($has_errors) {
@@ -180,7 +215,7 @@ $_POST['project_exclude'] = trim ($_POST['project_exclude']);
 foreach ($_POST as $key => $val) {
   if ($key == 'project_exclude') continue;
   
-  $_POST[$key] = addslashes($val);
+  $_POST[$key] = str_replace("'", "\'", $_POST[$key]);
 }
 
 echo '<p>Generating config files</p>';
@@ -203,8 +238,7 @@ $processor .= "\$dpqProjectID = 1;\n";
 $processor .= "\n";
 $processor .= "/* This should be the terms that your documentation is made available under\n";
 $processor .= "   It will be shown in the footer of the viewer */\n";
-$processor .= "\$dpgLicenseText = 'Documentation is made available under the \n";
-$processor .= "  <a href=\"http://www.gnu.org/copyleft/fdl.html\">GNU Free Documentation License 1.2</a>.';\n";
+$processor .= "\$dpgLicenseText = '{$_POST['project_licence']}';\n";
 $processor .= "\n";
 $processor .= "/* List the transformers here. Transformers alter the parsed files before outputting\n";
 $processor .= "   Currently you can only have one instance of each transformer.\n";

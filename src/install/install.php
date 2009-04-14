@@ -124,6 +124,13 @@ Admin access create a database</label></b>
 <p><b>Project name:</b>
 <br><input type="text" name="project_name" value=""></p>
 
+<p><b>Licence:</b>
+<br><small>The licence that you would like to release your documentation under:</small>
+<br><textarea name="project_licence" rows="3" cols="90">
+Documentation is made available under the
+&lt;a href="http://www.gnu.org/copyleft/fdl.html"&gt;GNU Free Documentation License 1.2&lt;/a&gt;.
+</textarea>
+
 <p><b>Source directory</b>
 <br><small>This can be specified as an absolute path, or as a path relative to the install location of
 the processor. The default of <code>..</code> can be used if the processor will be put inside the source
