@@ -44,9 +44,13 @@ output_status ('For more information, see <a href="http://docu.sourceforge.net/"
 output_status ('');
 $parsers = array();
 $parsers['php'] = new PhpParser();
-output_status("Initalised PHP parser.");
+output_status("Initalised the PHP parser.");
+
 $parsers['js'] = new JavascriptParser();
-output_status("Initalised Javascript parser.");
+output_status("Initalised the Javascript parser.");
+
+$parsers['c'] = new CParser();
+output_status("Initalised the (expermiental) C parser.");
 
 
 // Determine the file names
