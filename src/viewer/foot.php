@@ -29,8 +29,6 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 $generated = strtotime($project['dategenerated']);
 $generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a', $generated);
 
-$colours = array ('red', 'blue', 'green', 'orange');
-$colour = $colours[array_rand ($colours)];
 ?>
 
 
@@ -55,7 +53,7 @@ $colour = $colours[array_rand ($colours)];
     
     <td align="right" style="width: 20em;">
       <a href="http://docu.sourceforge.net">
-        <img src="images/docs_by_docu_<?= $colour; ?>.png" width="80" height="15">
+        <img src="images/docs_pelzini.png" width="80" height="15">
       </a>
     </td>
   </tr>
