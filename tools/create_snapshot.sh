@@ -29,11 +29,11 @@ fi
 cd dist_snapshot
 
 echo "Checking out repository..."
-svn co https://docu.svn.sourceforge.net/svnroot/docu/trunk docu-snapshot
+svn co https://docu.svn.sourceforge.net/svnroot/docu/trunk pelzini_snapshot
 
-REV=`svnversion docu-snapshot`
+REV=`svnversion pelzini_snapshot`
 DATE=`date +"%Y-%m-%d"`
-DESTFILENAME="docu-snapshot-r$REV-$DATE.zip"
+DESTFILENAME="pelzini_snapshot_r$REV-$DATE.zip"
 
 echo "Compressing snapshot, saving as $DESTFILENAME..."
-zip -rq "$DESTFILENAME" docu-snapshot
+zip -rq "$DESTFILENAME" pelzini_snapshot

@@ -33,7 +33,7 @@ echo "Release name: "
 read NAME
 echo
 
-DIRNAME="docu-$NAME"
+DIRNAME="pelzini-$NAME"
 
 if [ -d "$DIRNAME" ]; then
   echo "Removing existing release directory"

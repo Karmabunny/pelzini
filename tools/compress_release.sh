@@ -34,7 +34,7 @@ echo "Release name: "
 read NAME
 echo
 
-DIRNAME="docu-$NAME"
+DIRNAME="pelzini-$NAME"
 
 # bzball
 DESTFILENAME="$DIRNAME.tar.bz2"
