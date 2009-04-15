@@ -174,8 +174,8 @@ class SqliteOutputter extends DatabaseOutputter {
   *    [n] => ...
   **/
   protected function get_column_details ($table_name) {
-    $q = "SELECT sql FROM sqlite_master WHERE type='table' AND name='{$table_name}'"
-    $res = $this->query ($q);
+    //$q = "SELECT sql FROM sqlite_master WHERE type='table' AND name='{$table_name}'"
+    //$res = $this->query ($q);
     
     // TODO: parse CREATE TABLE statement.
     // This is going to be painful I think

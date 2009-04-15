@@ -39,11 +39,11 @@ $q = "SELECT name
   ORDER BY name";
 $res = db_query ($q);
 
-if (mysql_num_rows ($res) > 0) {
+if (db_num_rows ($res) > 0) {
   echo "<p>These are the known tables used by this project.</p>";
   
   echo "<ul>";
-  while ($row = mysql_fetch_assoc ($res)) {
+  while ($row = db_fetch_assoc ($res)) {
     echo "<li><a href=\"table.php?name={$row['name']}\">{$row['name']}</a></li>";
   }
   echo "</ul>";
