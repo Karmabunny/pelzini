@@ -31,6 +31,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * Tokenises a C file.
 **/
 class CLexer {
+  // Should this be common for all lexers?
   private $single_characters = array(
     '(' => TOKEN_OPEN_NORMAL_BRACKET,
     ')' => TOKEN_CLOSE_NORMAL_BRACKET,
@@ -41,16 +42,14 @@ class CLexer {
     '=' => TOKEN_EQUALS,
     '.' => TOKEN_PERIOD,
     ',' => TOKEN_COMMA,
-    ';' => TOKEN_SEMICOLON
+    ';' => TOKEN_SEMICOLON,
+    '*' => TOKEN_ASTERIX
   );
   
   private $reserved_words = array(
     'auto', 'break', 'case', 'const', 'continue', 'default', 'do', 'else', 'enum', 'extern',
     'for', 'goto', 'if', 'inline', 'register', 'restrict', 'return', 'sizeof', 'static',
-    'struct', 'switch', 'typedef', 'union', 'volatile', 'while',
-    
-    // these types will need to be handled properly later
-    'int', 'long', '_Bool', 'char', 'short', '_Complex', 'double', 'float', '_Imaginary', 'signed', 'unsigned', 'void'
+    'struct', 'switch', 'typedef', 'union', 'volatile', 'while'
   );
   
   private $reserved_values = array('NULL');
@@ -72,16 +71,24 @@ class CLexer {
     while ($offset < $length) {
       
       // Firstly, look for single character tokens
+      // Should this be common for all lexers?
       foreach ($this->single_characters as $char => $token_type) {
         if ($source[$offset] == $char) {
-          $tokens[] = new Token($token_type);
+          $tokens[] = new Token($token_type, $char);
           $offset++;
-          continue;
+          continue 2;
         }
       }
       
       // Now use regular expressions to find various other tokens
       // If one is found, add it to the list and move on
+      
+      // Search for a preprocessor directive
+      if (preg_match('/\G(#[a-z]+.*?)\n/s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $tokens[] = new Token(TOKEN_C_PREPROCESSOR, $matches[0][0]);
+        $offset = $matches[0][1] + strlen($matches[0][0]);
+        continue;
+      }
       
       // Search for a Docblock comment
       if (preg_match('/\G\/\*\*(.+?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
@@ -125,10 +132,6 @@ class CLexer {
           // Some reserved words get a specific token - basiclly anything that is understood by the analyser
           // everything else just gets the generic 'reserved word' token.
           switch ($word) {
-            case 'function':
-              $tokens[] = new Token(TOKEN_FUNCTION);
-              break;
-              
             default:
               $tokens[] = new Token(TOKEN_RESERVED_WORD, $word);
               break;

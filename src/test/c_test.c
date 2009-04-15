@@ -26,3 +26,33 @@ int addTwo (int bar, int baz)
 {
   return bar + baz;
 }
+
+
+/**
+* Allocates some space
+**/
+void* allocate(int size) { return malloc(size); }
+
+
+unsigned int genRandom () { return 4; }
+
+
+char** getNames() {}
+
+
+/**
+* Returns something which needs to be dereferenced a lot
+**/
+unsigned short int*** manyPointers();
+
+
+/**
+* Gets todays stock value
+*
+* @author Josh 2009-04-15
+*
+* @return float The stock value
+**/
+float todaysStockValue() {
+  return 123.4;
+}

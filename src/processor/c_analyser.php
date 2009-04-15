@@ -54,12 +54,28 @@ class CAnalyser extends Analyser {
       $parser_file->functions[] = $parser_function;
       
       // Find the name
-      $name = $this->findTokenBackwards(TOKEN_IDENTIFIER, array(TOKEN_CLOSE_CURLY_BRACKET));
+      $name = $this->findTokenBackwards(TOKEN_IDENTIFIER, array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
       if ($name == null) return false;
+      $this->setPos($this->getTokenPos());
       $parser_function->name = $name->getValue();
       
-      // Look for a docblock
-      $docblock = $this->findTokenBackwards(TOKEN_DOCBLOCK, array(TOKEN_CLOSE_CURLY_BRACKET));
+      // Find the return type
+      $return_type = '';
+      $return = $this->findTokenBackwards(array(TOKEN_IDENTIFIER, TOKEN_ASTERIX), array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
+      $this->setPos($this->getTokenPos());
+      while ($return != null) {
+        $return_type = $return->getValue() . ' ' . $return_type;
+        
+        $return = $this->findTokenBackwards(array(TOKEN_IDENTIFIER, TOKEN_ASTERIX), array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
+        $this->setPos($this->getTokenPos());
+      }
+      
+      // Set the function return value to the value found
+      if ($return_type == '') $return_type = 'int';
+      $parser_function->return_type = $return_type;
+      
+      // Look for a docblock before the function
+      $docblock = $this->findTokenBackwards(TOKEN_DOCBLOCK, array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
       if ($docblock != null) {
         $parser_function->applyComment($docblock->getValue());
       }
@@ -69,10 +85,13 @@ class CAnalyser extends Analyser {
       $find_types = array(
         TOKEN_OPEN_NORMAL_BRACKET,
         TOKEN_CLOSE_NORMAL_BRACKET,
-        TOKEN_IDENTIFIER
+        TOKEN_IDENTIFIER,
+        TOKEN_COMMA,
+        TOKEN_ASTERIX
       );
       $token = $function_open_bracket;
       $this->setPos($open_bracket_pos);
+      $arg_tokens = array();
       while ($token) {
         switch ($token->getType()) {
           case TOKEN_OPEN_NORMAL_BRACKET:
@@ -84,11 +103,23 @@ class CAnalyser extends Analyser {
             break;
             
           case TOKEN_IDENTIFIER:
-            $arg = new ParserArgument();
-            $arg->name = $token->getValue();
-            $parser_function->args[] = $arg;
+          case TOKEN_ASTERIX:
+            $arg_tokens[] = ' ' . $token->getValue();
             break;
             
+          case TOKEN_COMMA:
+            $arg = new ParserArgument();
+            $parser_function->args[] = $arg;
+            $arg->name = array_pop($arg_tokens);
+            
+            if (count($arg_tokens) == 0) {
+              $arg->type = 'int';
+            } else {
+              $arg->type = implode('', $arg_tokens);
+            }
+            
+            $arg_tokens = array();
+            break;
         }
         
         if ($depth == 0) break;
@@ -97,9 +128,22 @@ class CAnalyser extends Analyser {
         $this->setPos($this->getTokenPos());
       }
       
+      // Adds the last (or only) argument
+      if (count($arg_tokens) > 0) {
+        $arg = new ParserArgument();
+        $parser_function->args[] = $arg;
+        $arg->name = array_pop($arg_tokens);
+        
+        if (count($arg_tokens) == 0) {
+          $arg->type = 'int';
+        } else {
+          $arg->type = implode('', $arg_tokens);
+        }
+      }
+        
       // Find the end of the function by counting curly brackets
       $depth = 0;
-      $token = $this->findTokenForwards(TOKEN_OPEN_CURLY_BRACKET);
+      $token = $this->findTokenForwards(array(TOKEN_OPEN_CURLY_BRACKET, TOKEN_SEMICOLON));
       $this->setPos($this->getTokenPos());
       while ($token) {
         if ($token->getType() == TOKEN_OPEN_CURLY_BRACKET) $depth++;

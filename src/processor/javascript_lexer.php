@@ -31,6 +31,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * Tokenises a javascript file.
 **/
 class JavascriptLexer {
+  // Should this be common for all lexers?
   private $single_characters = array(
     '(' => TOKEN_OPEN_NORMAL_BRACKET,
     ')' => TOKEN_CLOSE_NORMAL_BRACKET,
@@ -73,11 +74,12 @@ class JavascriptLexer {
     while ($offset < $length) {
       
       // Firstly, look for single character tokens
+      // Should this be common for all lexers?
       foreach ($this->single_characters as $char => $token_type) {
         if ($source[$offset] == $char) {
-          $tokens[] = new Token($token_type);
+          $tokens[] = new Token($token_type, $char);
           $offset++;
-          continue;
+          continue 2;
         }
       }
       

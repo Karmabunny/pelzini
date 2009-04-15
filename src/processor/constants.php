@@ -68,6 +68,7 @@ define ('TOKEN_EQUALS',                7);    // An equals sign, i.e. '='
 define ('TOKEN_PERIOD',                8);    // A period, i.e. '.'
 define ('TOKEN_COMMA',                 9);    // A comma, i.e. ','
 define ('TOKEN_SEMICOLON',             10);   // A semi-colon, i.e. ';'
+define ('TOKEN_ASTERIX',               11);   // An asterix, i.e. '*'
 
 // Keywords
 define ('TOKEN_FUNCTION',              50);   // A function definition, e.g. 'function'
@@ -80,7 +81,10 @@ define ('TOKEN_COMMENT',               101);  // A docblock comment, e.g. '/* wh
 // Generic items
 define ('TOKEN_IDENTIFIER',            150);  // An identifier, e.g. 'whee'
 define ('TOKEN_STRING',                151);  // A quoted string, e.g. '"hello"'
-define ('TOKEN_RESERVED_WORD',         152);  // An unknown reserved word
+define ('TOKEN_RESERVED_WORD',         152);  // An unknown reserved word (i.e. not specified above as a specific constant)
 define ('TOKEN_RESERVED_VALUE',        153);  // A reserved value, e.g. 'null' or 'true'
 define ('TOKEN_NUMBER',                154);  // A number, e.g. '123' or '12.34' or '0x3A'
+
+// Language-specific
+define ('TOKEN_C_PREPROCESSOR',        200);  // A 'C' preprocessor directive, e.g. #define whee
 ?>
