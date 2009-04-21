@@ -72,9 +72,9 @@ class Analyser {
   * Moves the internal token pointer backwards
   *
   * @param $num integer The number of positions to move the pointer backwards
-  **
+  **/
   protected function movePosBackward($num = 1) {
-    $this->pos += $num;
+    $this->pos -= $num;
   }
   
   
@@ -84,7 +84,7 @@ class Analyser {
   **/
   protected function getToken($pos = null) {
     if ($pos === null) $pos = $this->pos;
-    $this->tokens[$pos];
+    return $this->tokens[$pos];
   }
   
   /**

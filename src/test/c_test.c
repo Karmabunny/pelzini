@@ -3,6 +3,10 @@
 
 /**
 * This is a test file for the C parser
+*
+* @package Test suite
+* @author Josh
+* @since 0.2
 **/
 
 /**

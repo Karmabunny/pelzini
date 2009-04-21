@@ -46,6 +46,26 @@ class CAnalyser extends Analyser {
   public function process($tokens, $parser_file) {
     $this->setTokens($tokens);
     
+    // File docblock
+    $this->setPos(0);
+    while ($token = $this->getToken()) {
+      switch ($token->getType()) {
+        case TOKEN_COMMENT:
+        case TOKEN_C_PREPROCESSOR:
+          break;
+          
+        case TOKEN_DOCBLOCK:
+          $parser_file->applyComment($token->getValue());
+          break 2;
+          
+        default:
+          break 2;
+      }
+      $this->movePosForward();
+    }
+    
+    // Functions
+    $this->setPos(0);
     while ($function_open_bracket = $this->findTokenForwards(TOKEN_OPEN_NORMAL_BRACKET)) {
       $open_bracket_pos = $this->getTokenPos();
       $this->setPos($open_bracket_pos);

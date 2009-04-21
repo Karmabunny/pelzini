@@ -46,6 +46,25 @@ class JavascriptAnalyser extends Analyser {
   public function process($tokens, $parser_file) {
     $this->setTokens($tokens);
     
+    // File docblock
+    $this->setPos(0);
+    while ($token = $this->getToken()) {
+      switch ($token->getType()) {
+        case TOKEN_COMMENT:
+          break;
+          
+        case TOKEN_DOCBLOCK:
+          $parser_file->applyComment($token->getValue());
+          break 2;
+          
+        default:
+          break 2;
+      }
+      $this->movePosForward();
+    }
+    
+    // Process functions
+    $this->setPos(0);
     while ($function = $this->findTokenForwards(TOKEN_FUNCTION)) {
       $this->setPos($this->getTokenPos());
       
@@ -112,6 +131,8 @@ class JavascriptAnalyser extends Analyser {
       
       $parser_function->post_load();
     }
+    // End of function processing
+    
   }
 }
 
