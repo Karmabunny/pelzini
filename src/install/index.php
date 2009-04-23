@@ -62,7 +62,11 @@ if (! is_writable ('.')) {
 }
 ?>
 
-<p>To install docu, fill in all the relevant options below.</p>
+<p>To install Pelzini, fill in all the relevant options below.</p>
+
+<p>You may also want to look at the
+<a href="http://docu.sourceforge.net/wiki/Install_layouts">Install layouts</a> page on the Pelzini website
+for some suggested ways to install docu</p>
 
 <p>You can also use this tool to upgrade Pelzini.</p>
 
@@ -133,17 +137,15 @@ Documentation is made available under the
 
 <p><b>Source directory</b>
 <br><small>This can be specified as an absolute path, or as a path relative to the install location of
-the processor. The default of <code>..</code> can be used if the processor will be put inside the source
-directory of the project.</small>
-<br><input type="text" name="project_base_dir" value=".."></p>
+the processor. The default of <code>../..</code> is used if the processor and the viewer are both located
+in another directory, typically called <code>docs</code>.</small>
+<br><input type="text" name="project_base_dir" value="../.."></p>
 
 <p><b>Exclude directories</b>
 <br><small>This should be a one-per-line listing of directories to exclude from the base directory,
 relative to the base directory.</small>
 <br><textarea name="project_exclude" rows="5" cols="40">
-processor
-viewer
-install
+docs
 </textarea></p>
 
 

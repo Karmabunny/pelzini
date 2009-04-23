@@ -38,7 +38,7 @@ pre.source {
 }
 
 p.error {
-  border: 1px red solid;
+  border: 5px double red;
   margin: 1em;
   padding: 0.5em;
 }
