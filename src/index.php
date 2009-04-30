@@ -42,6 +42,6 @@ if (file_exists($dir . 'viewer/config.php')) {
   exit;
 }
 
-header ('Location: install/install.php');
+header ('Location: install/');
 exit;
 ?>
