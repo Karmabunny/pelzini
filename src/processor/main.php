@@ -103,30 +103,32 @@ foreach ($parser_model as $item) {
 }
 
 
-// Determine the file names for project documents
-output_status ('');
-output_status ("Getting filenames for project documents.");
-$file_names = get_filenames ($dpgProjectDocumentsDirectory, '');
-output_status ("Found " . count($file_names) . " files.");
-
-
-// Process each document, and add a ParserDocument
-output_status ('');
-output_status ('Processing files.');
-$success = 0;
-$failure = 0;
-foreach ($file_names as $file) {
-  $file_parts = explode ('.', basename ($file));
-  $ext = array_pop($file_parts);
-  if ($ext != 'txt') continue;
+if (isset($dpgProjectDocumentsDirectory)) {
+  // Determine the file names for project documents
+  output_status ('');
+  output_status ("Getting filenames for project documents.");
+  $file_names = get_filenames ($dpgProjectDocumentsDirectory, '');
+  output_status ("Found " . count($file_names) . " files.");
   
-  $content = file_get_contents ($dpgProjectDocumentsDirectory . $file);
-  if ($content == '') continue;
   
-  $doc = new ParserDocument ();
-  $doc->name = implode ('.', $file_parts);
-  $doc->description = htmlify_text ($content);
-  $parser_model[] = $doc;
+  // Process each document, and add a ParserDocument
+  output_status ('');
+  output_status ('Processing files.');
+  $success = 0;
+  $failure = 0;
+  foreach ($file_names as $file) {
+    $file_parts = explode ('.', basename ($file));
+    $ext = array_pop($file_parts);
+    if ($ext != 'txt') continue;
+    
+    $content = file_get_contents ($dpgProjectDocumentsDirectory . $file);
+    if ($content == '') continue;
+    
+    $doc = new ParserDocument ();
+    $doc->name = implode ('.', $file_parts);
+    $doc->description = htmlify_text ($content);
+    $parser_model[] = $doc;
+  }
 }
 
 
