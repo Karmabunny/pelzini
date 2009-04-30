@@ -1,0 +1,14 @@
+Pelzini is split into two parts:
+
+<b>The processor</b>
+The processor does all of the actual thinking for Pelzini. It does the code parsing, and loads the
+parsed documentation into one or more outputtters.
+
+Outputters are currently the three databases, but other outputters are planned for future versions.
+
+<b>The viewer</b>
+The viewer allows for the viewing of database-driven documentation. It is specifically coded in a 'dumb' way,
+it makes no assumptions for anything and relies entierly on the database.
+
+This design allows the processor and the viewer to be physically located in different locations on the
+computer, or evne on different computers entirely.

@@ -461,8 +461,8 @@ abstract class DatabaseOutputter extends Outputter {
       } else if ($item instanceof ParserDocument) {
         // Inserts a document
         $insert_data = array();
-        $insert_data['name'] = $this->sql_safen($file->name);
-        $insert_data['description'] = $this->sql_safen($file->description);
+        $insert_data['name'] = $this->sql_safen($item->name);
+        $insert_data['description'] = $this->sql_safen($item->description);
         
         $q = $this->create_insert_query('documents', $insert_data);
         $this->query ($q);
