@@ -261,7 +261,17 @@ span.unimportant {
 div.viewer_options {
   font-size: small;
   float: right;
+  clear: right;
   margin-top: 15px;
   background-color: #EEE;
   padding: 0.5em;
+  width: 175px;
+}
+
+div.viewer_options a {
+  color: #777;
+}
+
+div.viewer_options .on a {
+  color: #222;
 }

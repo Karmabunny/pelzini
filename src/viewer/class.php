@@ -30,8 +30,15 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'head.php';
 
 
-// Determine what to show
+define ('PAGE_CLASS_GENERAL', 0);
+define ('PAGE_CLASS_USED_BY', 1);
+
+
 $id = (int) $_GET['id'];
+$_GET['page'] = (int) $_GET['page'];
+
+
+// Determine what to show
 if ($id == 0) {
   $name = trim($_GET['name']);
   if ($name == '') {
@@ -61,14 +68,32 @@ if (db_num_rows ($res) == 0) {
 $class = db_fetch_assoc ($res);
 
 
+// Pages
+$pages = array('General', 'Used by');
 echo "<div class=\"viewer_options\">";
-echo "<p><b>Viewer options:</b></p>";
-if ($_GET['complete'] == 1) {
-  echo "<p><a href=\"class.php?id={$class['id']}\">Hide inherited members</a></p>";
-} else {
-  echo "<p><a href=\"class.php?id={$class['id']}&complete=1\">Show inherited members</a></p>";
+echo "<p><b>Info Page:</b></p>";
+foreach ($pages as $num => $page) {
+  if ($_GET['page'] == $num) {
+    echo "<p class=\"on\"><a href=\"class.php?id={$class['id']}&page={$num}\">{$page}</a></p>";
+  } else {
+    echo "<p><a href=\"class.php?id={$class['id']}&page={$num}\">{$page}</a></p>";
+  }
 }
 echo "</div>";
+
+// Page options
+if ($_GET['page'] == 0) {
+  echo "<div class=\"viewer_options\">";
+  echo "<p><b>Page options:</b></p>";
+  if ($_GET['complete'] == 1) {
+    echo "<p class=\"on\"><a href=\"class.php?id={$class['id']}\">Inherited members</a></p>";
+  } else {
+    echo "<p><a href=\"class.php?id={$class['id']}&complete=1\">Inherited members</a></p>";
+  }
+  echo "</div>";
+}
+
+
 
 
 echo "<h2><span class=\"unimportant\">class</span> <i>{$class['name']}</i></h2>";
@@ -76,6 +101,7 @@ echo "<h2><span class=\"unimportant\">class</span> <i>{$class['name']}</i></h2>"
 echo process_inline($class['description']);
 
 
+// Basic class details
 echo "<ul>";
 
 $filename_url = 'file.php?name=' . urlencode($class['filename']);
@@ -132,81 +158,178 @@ if ($node != null) {
 
 
 
-$functions = array();
-$variables = array();
-$name = $class['name'];
-$class_names = array();
-
-if ($_GET['complete'] == 1) {
-  do {
-    $class_names[] = $name;
+switch ($_GET['page']) {
+  case PAGE_CLASS_GENERAL:
+    // Determine a list of variables and functions
+    $functions = array();
+    $variables = array();
+    $name = $class['name'];
+    $class_names = array();
     
-    $result = load_class($name);
-    if ($result == null) break;
+    if ($_GET['complete'] == 1) {
+      do {
+        $class_names[] = $name;
+        
+        $result = load_class($name);
+        if ($result == null) break;
+        
+        list ($funcs, $vars, $parent) = $result;
+        
+        $functions = array_merge($funcs, $functions);
+        $variables = array_merge($vars, $variables);
+        
+        $name = $parent;
+      } while ($name != null);
+      
+    } else {
+      list ($functions, $variables) = load_class($name);
+    }
     
-    list ($funcs, $vars, $parent) = $result;
-    
-    $functions = array_merge($funcs, $functions);
-    $variables = array_merge($vars, $variables);
-    
-    $name = $parent;
-  } while ($name != null);
+    ksort($functions);
+    ksort($variables);
   
-} else {
-  list ($functions, $variables) = load_class($name);
-}
-
-ksort($functions);
-ksort($variables);
-
-
-show_authors ($class['id'], LINK_TYPE_CLASS);
-show_tables ($class['id'], LINK_TYPE_CLASS);
-
-
-// Show variables
-if (count($variables) > 0) {
-  echo '<a name="variables"></a>';
-  echo "<h3>Variables</h3>";
-  echo "<table class=\"function-list\">\n";
-  echo "<tr><th>Name</th><th>Description</th></tr>\n";
-  foreach ($variables as $row) {
-    // encode for output
-    $row['name'] = htmlspecialchars($row['name']);
-    if ($row['description'] == null) $row['description'] = '&nbsp;';
+    show_authors ($class['id'], LINK_TYPE_CLASS);
+    show_tables ($class['id'], LINK_TYPE_CLASS);
     
-    if ($row['static']) $row['name'] .= ' <small>(static)</small>';
     
-    // display
-    echo "<tr>";
-    echo "<td><code>{$row['name']}</code></td>";
-    echo "<td>{$row['description']}</td>";
-    echo "</tr>\n";
-  }
-  echo "</table>\n";
-}
-
-
-// Show functions
-if (count($functions) > 0) {
-  foreach ($functions as $row) {
-    if ($row['description'] == null) {
-      $row['description'] = '<em>This function does not have a description</em>';
+    // Show variables
+    if (count($variables) > 0) {
+      echo '<a name="variables"></a>';
+      echo "<h3>Variables</h3>";
+      echo "<table class=\"function-list\">\n";
+      echo "<tr><th>Name</th><th>Description</th></tr>\n";
+      foreach ($variables as $row) {
+        // encode for output
+        $row['name'] = htmlspecialchars($row['name']);
+        if ($row['description'] == null) $row['description'] = '&nbsp;';
+        
+        if ($row['static']) $row['name'] .= ' <small>(static)</small>';
+        
+        // display
+        echo "<tr>";
+        echo "<td><code>{$row['name']}</code></td>";
+        echo "<td>{$row['description']}</td>";
+        echo "</tr>\n";
+      }
+      echo "</table>\n";
     }
     
-    // display
-    echo "<h3>{$row['visibility']} <a href=\"function.php?id={$row['id']}\">{$row['name']}</a>";
-    if ($row['classname'] != $class['name']) {
-      echo " <small>(from <a href=\"class.php?name={$row['classname']}\">{$row['classname']}</a>)</small>";
-    }
-    echo "</h3>";
     
-    show_function_usage ($row['id']);
-    echo '<br>';
-    echo process_inline($row['description']);
-  }
+    // Show functions
+    if (count($functions) > 0) {
+      foreach ($functions as $row) {
+        if ($row['description'] == null) {
+          $row['description'] = '<em>This function does not have a description</em>';
+        }
+        
+        // display
+        echo "<h3>{$row['visibility']} <a href=\"function.php?id={$row['id']}\">{$row['name']}</a>";
+        if ($row['classname'] != $class['name']) {
+          echo " <small>(from <a href=\"class.php?name={$row['classname']}\">{$row['classname']}</a>)</small>";
+        }
+        echo "</h3>";
+        
+        show_function_usage ($row['id']);
+        echo '<br>';
+        echo process_inline($row['description']);
+      }
+    }
+    break;
+    
+    
+  case PAGE_CLASS_USED_BY:
+    $sql_class_name = db_quote ($class['name']);
+    
+    // Query to get functions which return this class
+    $q = "SELECT functions.id, functions.name, functions.description, functions.classid,
+          files.name as filename, functions.fileid, classes.name as class
+      FROM functions
+      INNER JOIN files ON functions.fileid = files.id
+      LEFT JOIN classes ON functions.classid = classes.id
+      WHERE functions.returntype = {$sql_class_name} ORDER BY functions.name";
+    $res = db_query ($q);
+    
+    // Display any functions which return this class
+    if (db_num_rows ($res) > 0) {
+      echo "<h3>As a function return value</h3>";
+      
+      echo '<div class="list">';
+      while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars ($row['name']);
+        $row['filename'] = htmlspecialchars ($row['filename']);
+        
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+        
+        echo "<div class=\"{$class}\">";
+        echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+        echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
+        
+        if ($row['class'] != null) {
+          $row['class'] = htmlspecialchars($row['class']);
+          echo " <small>from class <a href=\"class.php?id={$row['classid']}\">{$row['class']}</a></small>";
+        }
+        
+        echo "<div class=\"content\">";
+        echo delink_inline($row['description']);
+        echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+        echo "</div>";
+        
+        $alt = ! $alt;
+      }
+      echo '</div>';
+    }
+    
+    
+    // Query to get functions which use this class as an argument
+    $q = "SELECT functions.id, functions.name, functions.description, functions.classid,
+          files.name as filename, functions.fileid, classes.name as class, arguments.name as argname
+      FROM functions
+      INNER JOIN arguments ON arguments.functionid = functions.id
+      INNER JOIN files ON functions.fileid = files.id
+      LEFT JOIN classes ON functions.classid = classes.id
+      WHERE arguments.type = {$sql_class_name} ORDER BY functions.name";
+    $res = db_query ($q);
+    
+    // Display any functions which use this class as an argument
+    if (db_num_rows ($res) > 0) {
+      echo "<h3>As a function argument</h3>";
+      
+      echo '<div class="list">';
+      while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars ($row['name']);
+        $row['filename'] = htmlspecialchars ($row['filename']);
+        
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+        
+        echo "<div class=\"{$class}\">";
+        echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+        echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
+        
+        if ($row['class'] != null) {
+          $row['class'] = htmlspecialchars($row['class']);
+          echo " <small>from class <a href=\"class.php?id={$row['classid']}\">{$row['class']}</a></small>";
+        }
+        
+        echo "<div class=\"content\">";
+        echo delink_inline($row['description']);
+        echo "<br><small>Argument name: {$row['argname']}</small>";
+        echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small>";
+        echo "</div>";
+        echo "</div>";
+        
+        $alt = ! $alt;
+      }
+      echo '</div>';
+    }
+    break;
+    
+    
+  default:
+    echo "<p><i>Invalid page specified.</i></p>";
+    break;
 }
-
 
 show_see_also ($class['id'], LINK_TYPE_CLASS);
 
