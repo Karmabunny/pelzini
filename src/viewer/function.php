@@ -38,7 +38,7 @@ if ($id == 0) {
     fatal ("<p>Invalid function name!</p>");
   }
   $name = db_escape ($name);
-  $where = "Functions.name LIKE '{$name}'";
+  $where = "functions.name LIKE '{$name}'";
 } else {
   $where = "functions.id = {$id}";
 }

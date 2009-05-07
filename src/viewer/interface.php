@@ -27,7 +27,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @see ParserInterface
 **/
 
-require_once 'head.php';
+require_once 'functions.php';
 
 
 // Determine what to show
@@ -52,7 +52,13 @@ $q = "SELECT interfaces.id, interfaces.name, interfaces.description, files.name 
   WHERE {$where} LIMIT 1";
 $res = db_query ($q);
 $interface = db_fetch_assoc ($res);
-echo "<h2>{$interface['name']}</h2>";
+
+$skin['page_name'] = "{$interface['name']} interface";
+require_once 'head.php';
+
+
+echo "<h2><span class=\"unimportant\">interface</span> <i>{$interface['name']}</i></h2>";
+
 $filename_clean = htmlentities(urlencode($interface['filename']));
 echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($interface['filename']) . "</a></p>\n";
 echo process_inline($interface['description']);

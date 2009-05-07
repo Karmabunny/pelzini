@@ -27,7 +27,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @see ParserClass
 **/
 
-require_once 'head.php';
+require_once 'functions.php';
 
 
 define ('PAGE_CLASS_GENERAL', 0);
@@ -66,6 +66,9 @@ if (db_num_rows ($res) == 0) {
 }
 
 $class = db_fetch_assoc ($res);
+
+$skin['page_name'] = "{$class['name']} class";
+require_once 'head.php';
 
 
 // Pages

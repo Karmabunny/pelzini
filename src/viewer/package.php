@@ -26,30 +26,31 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @since 0.1
 **/
 
-require_once 'head.php';
+require_once 'functions.php';
 
 
-$id = (int) $_GET['id'];
-$q = "SELECT name FROM packages WHERE id = {$id} LIMIT 1";
+$_GET['id'] = (int) $_GET['id'];
+$q = "SELECT id, name FROM packages WHERE id = {$_GET['id']} LIMIT 1";
 $res = db_query($q);
 if (db_num_rows($res) == 0) {
   echo '<p>Invalid package specified.</p>';
 }
-$row = db_fetch_assoc($res);
-$row['name'] = htmlspecialchars($row['name']);
+$package = db_fetch_assoc($res);
+$package['name'] = htmlspecialchars($package['name']);
 
+$skin['page_name'] = $package['name'];
+require_once 'head.php';
 
-echo "<h2>{$row['name']}</h2>";
+echo "<h2><span class=\"unimportant\">package</span> <i>{$package['name']}</i></h2>";
 
 
 // Show files
-
 $file_ids = array();
 
 $q = new SelectQuery();
 $q->addFields('files.id, files.name, files.description');
 $q->setFrom('files');
-$q->addWhere("files.packageid = {$id}");
+$q->addWhere("files.packageid = {$package['id']}");
 $q->addSinceVersionWhere();
 
 $q = $q->buildQuery();
@@ -220,6 +221,7 @@ if (db_num_rows($res) > 0) {
   echo "</table>\n";
   echo '</div>';
 }
+
 
 require_once 'foot.php';
 ?>

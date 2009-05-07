@@ -26,6 +26,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @since 0.1
 **/
 
+$skin['page_name'] = 'Search results';
 require_once 'head.php';
 
 $query = db_escape ($_GET['q']);

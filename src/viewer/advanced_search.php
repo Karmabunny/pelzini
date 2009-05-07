@@ -24,6 +24,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @since 0.2
 **/
 
+$skin['page_name'] = 'Advanced search';
 require_once 'head.php';
 ?>
 

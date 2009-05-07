@@ -27,7 +27,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @see ParserFile
 **/
 
-require_once 'head.php';
+require_once 'functions.php';
 
 
 // Determine what to show
@@ -53,31 +53,36 @@ $q->addSinceVersionWhere();
 
 $q = $q->buildQuery();
 $res = db_query ($q);
-$row = db_fetch_assoc ($res);
-echo "<h2>{$row['name']}</h2>";
+$file = db_fetch_assoc ($res);
 
-if ($row['packageid'] != null) {
-  echo "<p>Package: <a href=\"package.php?id={$row['packageid']}\">{$row['package']}</a></p>";
+
+$skin['page_name'] = $file['name'];
+require_once 'head.php';
+
+
+echo "<h2><span class=\"unimportant\">file</span> <i>{$file['name']}</i></h2>";
+
+if ($file['packageid'] != null) {
+  echo "<p>Package: <a href=\"package.php?id={$file['packageid']}\">{$file['package']}</a></p>";
 }
 
-if ($row['sinceid'] != null) {
-  echo '<p>Available since: ', get_since_version($row['sinceid']), '</p>';
+if ($file['sinceid'] != null) {
+  echo '<p>Available since: ', get_since_version($file['sinceid']), '</p>';
 }
 
-echo "<p><small><a href=\"file_source.php?id={$row['id']}\">View Source</a></small></p>";
+echo "<p><small><a href=\"file_source.php?id={$file['id']}\">View Source</a></small></p>";
 
-echo '<br>', process_inline($row['description']);
-$id = $row['id'];
+echo '<br>', process_inline($file['description']);
 
 
-show_authors ($row['id'], LINK_TYPE_FILE);
-show_tables ($row['id'], LINK_TYPE_FILE);
+show_authors ($file['id'], LINK_TYPE_FILE);
+show_tables ($file['id'], LINK_TYPE_FILE);
 
 
 // Show classes
 $q = "SELECT id, name, description
   FROM classes
-  WHERE fileid = {$id}
+  WHERE fileid = {$file['id']}
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
@@ -106,7 +111,7 @@ if (db_num_rows($res) > 0) {
 // Show interfaces
 $q = "SELECT id, name, description
   FROM interfaces
-  WHERE fileid = {$id}
+  WHERE fileid = {$file['id']}
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
@@ -135,7 +140,7 @@ if (db_num_rows($res) > 0) {
 // Show functions
 $q = "SELECT id, name, description, arguments
   FROM functions
-  WHERE fileid = {$id} AND classid IS NULL AND interfaceid IS NULL
+  WHERE fileid = {$file['id']} AND classid IS NULL AND interfaceid IS NULL
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
@@ -168,7 +173,7 @@ if (db_num_rows($res) > 0) {
 // Show constants
 $q = "SELECT name, value, description
   FROM constants
-  WHERE fileid = {$id}
+  WHERE fileid = {$file['id']}
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
@@ -194,7 +199,7 @@ if (db_num_rows($res) > 0) {
 }
 
 
-show_see_also ($id, LINK_TYPE_FILE);
+show_see_also ($file['id'], LINK_TYPE_FILE);
 
 
 require_once 'foot.php';
