@@ -42,13 +42,13 @@ $generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a', $generated)
 <table class="footer">
   <tr>
     <td align="left" style="width: 20em;">
-      Powered by <a href="http://docu.sourceforge.net">Pelzini</a>, version <?= DOCU_VERSION; ?>
+      <?= str (POWERED_BY, 'version', DOCU_VERSION); ?>
     </td>
     
     <td align="center">
       <?= $project['license']; ?>
       <br>
-      Generated: <?= $generated; ?>
+      <?= str (DATE_GENERATED, 'date', $generated); ?>
     </td>
     
     <td align="right" style="width: 20em;">

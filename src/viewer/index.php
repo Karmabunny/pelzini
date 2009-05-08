@@ -32,16 +32,16 @@ require_once 'head.php';
 
 
 <h2><?= $project['name']; ?></h2>
-<p>This is the documentation for <?= $project['name']; ?>.</p>
+<p><?= str (STR_INTRO_PARAGRAPH, 'project', $project['name']); ?></p>
 
 
-<h3>Seach code</h3>
+<h3><?= str (STR_SEARCH_TITLE); ?></h3>
 <form action="search.php" method="get">
   <input type="hidden" name="advanced" value="0">
   <input type="text" name="q">
-  <input type="submit" value="Search">
+  <input type="submit" value="<?= str (STR_SEARCH_GO_BTN); ?>">
 </form>
-<p><a href="advanced_search.php">Advanced search</a></p>
+<p><a href="advanced_search.php"><?= str (STR_ADV_SEARCH_TITLE); ?></a></p>
 
 
 

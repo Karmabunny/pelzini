@@ -49,7 +49,7 @@ if ($skin['page_name']) $browser_title .= ' - ' . $skin['page_name'];
 <body>
 
 <div class="header">
-  <h1>Documentation for <?= $project['name']; ?></h1>
+  <h1><?= str (STR_MAIN_TITLE, 'project', $project['name']); ?></h1>
 </div>
 
 <div class="navigation">
@@ -115,9 +115,9 @@ if ($skin['page_name']) $browser_title .= ' - ' . $skin['page_name'];
     <form action="search.php" method="get">
       <input type="hidden" name="advanced" value="0">
       <input type="text" name="q" style="width: 200px;" value="<?= htmlspecialchars ($_GET['q']); ?>">
-      <input type="submit" value="Search">
+      <input type="submit" value="<?= str (STR_SEARCH_GO_BTN); ?>">
     </form>
-    <p style="font-size: smaller; margin-top: 3px;"><a href="advanced_search.php?q=<?= urlencode($_GET['q']); ?>">Advanced search</a></p>
+    <p style="font-size: smaller; margin-top: 3px;"><a href="advanced_search.php?q=<?= urlencode($_GET['q']); ?>"><?= str (STR_ADV_SEARCH_TITLE); ?></a></p>
   </div>
   
   

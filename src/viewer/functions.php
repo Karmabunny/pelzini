@@ -32,6 +32,7 @@ chdir(dirname(__FILE__));
 require_once 'constants.php';
 require_once 'tree.php';
 require_once 'select_query.php';
+require_once 'i18n.php';
 
 
 // Load configs
@@ -71,6 +72,8 @@ if (get_magic_quotes_gpc ()) {
   $_GET = fix_magic_quotes ($_GET);
 }
 
+loadLanguage ('english');
+//loadLanguage ('hacker');
 
 
 

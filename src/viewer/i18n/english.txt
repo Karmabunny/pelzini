@@ -1,0 +1,21 @@
+;
+; Language: english
+;
+; This is the master language file - it defines which constants are available to the program.
+; If you add or remove any strings, you must run lang_conv.php, which is in the i18n directory.
+; Also note that lang_conv.php requires write access to the i18n directory.
+; Please also make sure that strings.php is committed to the repository.
+;
+
+STR_MAIN_TITLE                      Documentation for {PROJECT}
+STR_INTRO_PARAGRAPH                 This is the code documentation for {PROJECT}.
+
+STR_SEARCH_TITLE                    Search code
+STR_SEARCH_GO_BTN                   Search
+
+STR_ADV_SEARCH_TITLE                Advanced search
+
+POWERED_BY                          Powered by <a href="http://docu.sourceforge.net">Pelzini</a>, version {VERSION}
+
+DATE_GENERATED                      Generated: {DATE}
+

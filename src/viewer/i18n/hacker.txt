@@ -1,0 +1,17 @@
+;
+; Language: hacker.
+;
+; This is basically here just because it is fun, and for testing until I can get some additional translations
+;
+
+STR_MAIN_TITLE                      Docz for {PROJECT}
+STR_INTRO_PARAGRAPH                 This is teh code docz for {PROJECT}.
+
+STR_SEARCH_TITLE                    Search teh code
+STR_SEARCH_GO_BTN                   Search!!!
+
+STR_ADV_SEARCH_TITLE                More leet search
+
+POWERED_BY                          Teh docz are here cos of <a href="http://docu.sourceforge.net">Pelzini</a> version {VERSION}
+
+DATE_GENERATED                      Processed: {DATE}
