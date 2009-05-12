@@ -32,6 +32,7 @@ require_once 'functions.php';
 
 define ('PAGE_CLASS_GENERAL', 0);
 define ('PAGE_CLASS_USED_BY', 1);
+define ('PAGE_CLASS_EXTENDS', 2);
 
 
 $id = (int) $_GET['id'];
@@ -72,7 +73,7 @@ require_once 'head.php';
 
 
 // Pages
-$pages = array('General', 'Used by');
+$pages = array('General', 'Used by', 'Extends');
 echo "<div class=\"viewer_options\">";
 echo "<p><b>Info Page:</b></p>";
 foreach ($pages as $num => $page) {
@@ -326,6 +327,19 @@ switch ($_GET['page']) {
       }
       echo '</div>';
     }
+    break;
+    
+    
+  case PAGE_CLASS_EXTENDS:
+    echo "<h3>Extending this class</h3>";
+    
+    require_once 'php_code_renderer.php';
+    $renderer = new PHPCodeRenderer();
+    $code = $renderer->drawClassExtends ($class['id']);
+    
+    echo "<pre class=\"source\">";
+    echo htmlspecialchars ($code);
+    echo "</pre>";
     break;
     
     

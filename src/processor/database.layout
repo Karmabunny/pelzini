@@ -53,6 +53,7 @@ PK id
   returndescription text
   static smallnum notnull
   final smallnum notnull
+  abstract smallnum notnull
   sinceid largenum
   
   
