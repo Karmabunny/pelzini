@@ -30,7 +30,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * Generic language analyser. Analysers are used to tranform the language-specific tokens into a set of {@link CodeParserItem ParserItems}
 **/
-class Analyser {
+abstract class Analyser {
   private $tokens;
   private $pos;
   private $token_pos;
@@ -44,18 +44,23 @@ class Analyser {
     $this->token_pos = 0;
   }
   
+  /**
+  * Processes a set of token and populates a {@link ParserFile}
+  **/
+  abstract public function process($tokens, $parser_file);
+  
   
   /**
   * Tells the analyser what tokens it should use
   **/
-  protected function setTokens($tokens) {
+  final protected function setTokens($tokens) {
     $this->tokens = $tokens;
   }
   
   /**
   * Sets the current position
   **/
-  protected function setPos($pos) {
+  final protected function setPos($pos) {
     $this->pos = $pos;
   }
   
@@ -64,7 +69,7 @@ class Analyser {
   *
   * @param $num integer The number of positions to move the pointer forwards
   **/
-  protected function movePosForward($num = 1) {
+  final protected function movePosForward($num = 1) {
     $this->pos += $num;
   }
   
@@ -73,7 +78,7 @@ class Analyser {
   *
   * @param $num integer The number of positions to move the pointer backwards
   **/
-  protected function movePosBackward($num = 1) {
+  final protected function movePosBackward($num = 1) {
     $this->pos -= $num;
   }
   
@@ -82,7 +87,7 @@ class Analyser {
   * Returns a token at a specific position
   * If no position is specified, uses the current position
   **/
-  protected function getToken($pos = null) {
+  final protected function getToken($pos = null) {
     if ($pos === null) $pos = $this->pos;
     return $this->tokens[$pos];
   }
@@ -90,7 +95,7 @@ class Analyser {
   /**
   * Returns the current position
   **/
-  protected function getPos() {
+  final protected function getPos() {
     return $this->pos;
   }
   
@@ -104,7 +109,7 @@ class Analyser {
   * @param mixed $stop_list Token(s) that should stop the search process
   * @return Token The found token, or null if nothing was found
   **/
-  protected function findTokenForwards($token_types, $stop_list = null) {
+  final protected function findTokenForwards($token_types, $stop_list = null) {
     if (! is_array($token_types)) $token_types = array($token_types);
     if (! is_array($stop_list)) $stop_list = array($stop_list);
     
@@ -136,7 +141,7 @@ class Analyser {
   * @param mixed $stop_list Token(s) that should stop the search process
   * @return Token The found token, or null if nothing was found
   **/
-  protected function findTokenBackwards($token_types, $stop_list = null) {
+  final protected function findTokenBackwards($token_types, $stop_list = null) {
     if (! is_array($token_types)) $token_types = array($token_types);
     if (! is_array($stop_list)) $stop_list = array($stop_list);
     
@@ -162,7 +167,7 @@ class Analyser {
   /**
   * Gets the position of the last token found using one of the search functions
   **/
-  protected function getTokenPos() {
+  final protected function getTokenPos() {
     return $this->token_pos;
   }
 }
