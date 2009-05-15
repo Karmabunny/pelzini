@@ -357,6 +357,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ("TRUNCATE documents");
     $this->query ("TRUNCATE versions");
     $this->query ("TRUNCATE item_see");
+    $this->query ("TRUNCATE enumerations");
     
     $insert_data = array();
     $insert_data['id'] = $dpqProjectID;
@@ -450,6 +451,11 @@ abstract class DatabaseOutputter extends Outputter {
         // this files constants
         foreach ($item->constants as $constant) {
           $this->save_constant($constant, $file_id);
+        }
+        
+        // this files enums
+        foreach ($item->enumerations as $enumeration) {
+          $this->save_enumeration($enumeration, $file_id);
         }
         
         // Common items
@@ -700,7 +706,7 @@ abstract class DatabaseOutputter extends Outputter {
   *
   * @table insert constants
   **/
-  private function save_constant ($constant, $file_id = null) {
+  private function save_constant ($constant, $file_id = null, $enumeration_id = null) {
     // prepare data for inserting
     $insert_data = array();
     $insert_data['name'] = $this->sql_safen($constant->name);
@@ -709,6 +715,9 @@ abstract class DatabaseOutputter extends Outputter {
     $insert_data['fileid'] = $this->sql_safen($file_id);
     $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($constant->since));
     
+    if ($enumeration_id != null) {
+      $insert_data['enumerationid'] = $enumeration_id;
+    }
     
     // Build and process query from prepared data
     $q = $this->create_insert_query('constants', $insert_data);
@@ -718,6 +727,36 @@ abstract class DatabaseOutputter extends Outputter {
     // insert common items
     $this->save_author_items (LINK_TYPE_CONSTANT, $constant_id, $constant->authors);
     $this->save_see_items (LINK_TYPE_CONSTANT, $constant_id, $constant->see);
+  }
+  
+  
+  /**
+  * Saves a enumeration to the database
+  *
+  * @table insert enumerations
+  **/
+  private function save_enumeration ($enumeration, $file_id = null) {
+    // prepare data for inserting
+    $insert_data = array();
+    $insert_data['name'] = $this->sql_safen($enumeration->name);
+    $insert_data['description'] = $this->sql_safen($enumeration->description);
+    $insert_data['fileid'] = $this->sql_safen($file_id);
+    $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($constant->since));
+    $insert_data['virtual'] = $this->sql_safen($enumeration->virtual);
+    
+    // Build and process query from prepared data
+    $q = $this->create_insert_query('enumerations', $insert_data);
+    $this->query ($q);
+    $enumeration_id = $this->insert_id ();
+    
+    // insert common items
+    $this->save_author_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->authors);
+    $this->save_see_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->see);
+    
+    // Save the constants for this enumeration
+    foreach ($enumeration->constants as $constant) {
+      $this->save_constant ($constant, $file_id, $enumeration_id);
+    }
   }
   
   

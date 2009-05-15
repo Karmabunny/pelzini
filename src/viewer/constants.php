@@ -37,10 +37,11 @@ define ('DOCU_VERSION', '0.3-pre');
 // These are used when linking from tables such as Authors
 // which can potentinally link to multiple tables
 // NOTE: These link types must match the ones defined in processor/constants.php
-define ('LINK_TYPE_FILE',       1);
-define ('LINK_TYPE_CLASS',      2);
-define ('LINK_TYPE_INTERFACE',  3);
-define ('LINK_TYPE_CONSTANT',   4);
-define ('LINK_TYPE_FUNCTION',   5);
-define ('LINK_TYPE_VARIABLE',   6);
+define ('LINK_TYPE_FILE',         1);
+define ('LINK_TYPE_CLASS',        2);
+define ('LINK_TYPE_INTERFACE',    3);
+define ('LINK_TYPE_CONSTANT',     4);
+define ('LINK_TYPE_FUNCTION',     5);
+define ('LINK_TYPE_VARIABLE',     6);
+define ('LINK_TYPE_ENUMERATION',  7);
 ?>

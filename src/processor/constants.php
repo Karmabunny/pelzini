@@ -40,17 +40,19 @@ define ('OUTPUTTER_SQLITE',     4);
 
 // The transformers - these alter and mutate the parser model before outptting
 define ('TRANSFORMER_QUALITY_CHECK',    1);
+define ('TRANSFORMER_VIRTUAL_ENUMS',    2);
 
 // The link types
 // These are used when linking from tables such as Authors
 // which can potentinally link to multiple tables
 // NOTE: These link types must match the ones defined in viewer/constants.php
-define ('LINK_TYPE_FILE',       1);
-define ('LINK_TYPE_CLASS',      2);
-define ('LINK_TYPE_INTERFACE',  3);
-define ('LINK_TYPE_CONSTANT',   4);
-define ('LINK_TYPE_FUNCTION',   5);
-define ('LINK_TYPE_VARIABLE',   6);
+define ('LINK_TYPE_FILE',         1);
+define ('LINK_TYPE_CLASS',        2);
+define ('LINK_TYPE_INTERFACE',    3);
+define ('LINK_TYPE_CONSTANT',     4);
+define ('LINK_TYPE_FUNCTION',     5);
+define ('LINK_TYPE_VARIABLE',     6);
+define ('LINK_TYPE_ENUMERATION',  7);
 
 
 // These are all of the valid tokens for all languages

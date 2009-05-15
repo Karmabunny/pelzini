@@ -36,6 +36,7 @@ class ParserFile extends CodeParserItem {
   public $functions;
   public $classes;
   public $constants;
+  public $enumerations;
   public $source;
   
   public function __construct() {
@@ -44,6 +45,7 @@ class ParserFile extends CodeParserItem {
     $this->functions = array();
     $this->classes = array();
     $this->constants = array();
+    $this->enumerations = array();
     $this->package = null;
   }
 
@@ -80,6 +82,10 @@ class ParserFile extends CodeParserItem {
     foreach ($this->constants as $item) {
       $item->treeWalk($function_name, $this);
     }
+    
+    foreach ($this->enumerations as $item) {
+      $item->treeWalk($function_name, $this);
+    }
   }
   
   /**
@@ -92,6 +98,7 @@ class ParserFile extends CodeParserItem {
     foreach ($this->functions as $a) $a->dump();
     foreach ($this->classes as $a) $a->dump();
     foreach ($this->constants as $a) $a->dump();
+    foreach ($this->enumerations as $a) $a->dump();
     
     parent::dump();
     echo '</div>';

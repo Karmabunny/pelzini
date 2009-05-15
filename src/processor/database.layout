@@ -83,6 +83,7 @@ TABLE constants
 PK id
   id serial notnull
   fileid largenum notnull
+  enumerationid largenum
   name string notnull
   value string notnull
   description text
@@ -94,6 +95,16 @@ PK id
   id serial notnull
   name string notnull
   description text
+  
+  
+TABLE enumerations
+PK id
+  id serial notnull
+  fileid largenum notnull
+  name string notnull
+  description text
+  virtual smallnum notnull
+  sinceid largenum
   
   
   

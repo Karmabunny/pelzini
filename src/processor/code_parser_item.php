@@ -208,7 +208,7 @@ abstract class CodeParserItem extends ParserItem {
     echo '<br>Authors: '; foreach ($this->authors as $a) $a->dump();
     echo '<br>Since: ', $this->since;
     
-    parent::dump();
+    //parent::dump();
   }
 }
 

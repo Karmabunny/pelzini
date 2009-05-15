@@ -169,11 +169,41 @@ if (db_num_rows($res) > 0) {
 }
 
 
+// Show enums
+$q = "SELECT id, name, description
+  FROM enumerations
+  WHERE fileid = {$file['id']}
+  ORDER BY name";
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
+  echo '<a name="functions"></a>';
+  echo "<h3>Enumerations</h3>";
+  
+  $alt = false;
+  echo '<div class="list">';
+  while ($row = db_fetch_assoc ($res)) {
+    // encode for output
+    $row['name'] = htmlspecialchars($row['name']);
+    
+    $class = 'item';
+    if ($alt) $class .= '-alt';
+    
+    // display the function
+    echo "<div class=\"{$class}\">";
+    echo "<p><strong><a href=\"enumeration.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+    echo process_inline($row['description']);
+    echo '</div>';
+    
+    $alt = ! $alt;
+  }
+  echo '</div>';
+}
+
 
 // Show constants
 $q = "SELECT name, value, description
   FROM constants
-  WHERE fileid = {$file['id']}
+  WHERE fileid = {$file['id']} AND enumerationid IS NULL
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {

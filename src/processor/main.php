@@ -151,6 +151,18 @@ foreach ($dpgTransformers as $transformer) {
       }
       break;
       
+      
+    case TRANSFORMER_VIRTUAL_ENUMS:
+      $transformer = new VirtualEnumerationsTransformer();
+      
+      $result = $transformer->transform($parser_model);
+      
+      if ($result) {
+        output_status ("Generated virtual enums succesfully.");
+        $parser_model = $result;
+      } else {
+        output_status ("Generating of virtual enums failed.");
+      }
   }
 }
 
