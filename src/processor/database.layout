@@ -155,4 +155,11 @@ PK id
   linktype smallnum notnull
   name string notnull
 
-
+TABLE item_info_tags
+PK id
+  id serial notnull
+  linkid largenum notnull
+  linktype smallnum notnull
+  name string notnull
+  
+  

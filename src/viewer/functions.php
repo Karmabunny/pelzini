@@ -232,6 +232,25 @@ function show_see_also ($link_id, $link_type) {
 
 
 /**
+* Echos a list of all of the authors of a specifc item
+**/
+function show_tags ($link_id, $link_type) {
+  $q = "SELECT name FROM item_info_tags WHERE linkid = {$link_id} AND linktype = {$link_type}";
+  $res = db_query($q);
+  
+  if (db_num_rows($res) > 0) {
+    echo "<p class=\"tags\"><b>Tags:</b>";
+    
+    while ($row = db_fetch_assoc ($res)) {
+      $row['name'] = htmlspecialchars($row['name']);
+      
+      echo " &nbsp; <a href=\"tag.php?name={$row['name']}\">{$row['name']}</a>";
+    }
+  }
+}
+
+
+/**
 * Gets HTML for a version, based on the version id
 *
 * @table select versions Will only select once, results are stored in a static array

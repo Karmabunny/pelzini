@@ -24,6 +24,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1
+* @tag i18n-done
 **/
 
 require_once 'functions.php';

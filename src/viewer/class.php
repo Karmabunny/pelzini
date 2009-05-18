@@ -191,7 +191,7 @@ switch ($_GET['page']) {
     
     ksort($functions);
     ksort($variables);
-  
+    
     show_authors ($class['id'], LINK_TYPE_CLASS);
     show_tables ($class['id'], LINK_TYPE_CLASS);
     
@@ -349,6 +349,7 @@ switch ($_GET['page']) {
 }
 
 show_see_also ($class['id'], LINK_TYPE_CLASS);
+show_tags ($class['id'], LINK_TYPE_CLASS);
 
 
 require_once 'foot.php';

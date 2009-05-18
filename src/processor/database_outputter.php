@@ -358,6 +358,8 @@ abstract class DatabaseOutputter extends Outputter {
     $this->query ("TRUNCATE versions");
     $this->query ("TRUNCATE item_see");
     $this->query ("TRUNCATE enumerations");
+    $this->query ("TRUNCATE item_info_tags");
+    
     
     $insert_data = array();
     $insert_data['id'] = $dpqProjectID;
@@ -462,6 +464,7 @@ abstract class DatabaseOutputter extends Outputter {
         $this->save_author_items (LINK_TYPE_FILE, $file_id, $item->authors);
         $this->save_table_items (LINK_TYPE_FILE, $file_id, $item->tables);
         $this->save_see_items (LINK_TYPE_FILE, $file_id, $item->see);
+        $this->save_info_tag_items (LINK_TYPE_FILE, $file_id, $item->info_tags);
         
         
       } else if ($item instanceof ParserDocument) {
@@ -544,6 +547,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->save_author_items (LINK_TYPE_FUNCTION, $function_id, $function->authors);
     $this->save_table_items (LINK_TYPE_FUNCTION, $function_id, $function->tables);
     $this->save_see_items (LINK_TYPE_FUNCTION, $function_id, $function->see);
+    $this->save_info_tag_items (LINK_TYPE_FUNCTION, $file_id, $function->info_tags);
     
     
     // insert Arguments
@@ -627,6 +631,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->save_author_items (LINK_TYPE_CLASS, $class_id, $class->authors);
     $this->save_table_items (LINK_TYPE_CLASS, $class_id, $class->tables);
     $this->save_see_items (LINK_TYPE_CLASS, $class_id, $class->see);
+    $this->save_info_tag_items (LINK_TYPE_CLASS, $file_id, $class->info_tags);
   }
   
   
@@ -660,6 +665,7 @@ abstract class DatabaseOutputter extends Outputter {
     // insert common items
     $this->save_author_items (LINK_TYPE_INTERFACE, $interface_id, $interface->authors);
     $this->save_see_items (LINK_TYPE_INTERFACE, $interface_id, $interface->see);
+    $this->save_info_tag_items (LINK_TYPE_INTERFACE, $file_id, $interface->info_tags);
   }
   
   
@@ -698,6 +704,7 @@ abstract class DatabaseOutputter extends Outputter {
     // insert common items
     $this->save_author_items (LINK_TYPE_VARIABLE, $variable_id, $variable->authors);
     $this->save_see_items (LINK_TYPE_VARIABLE, $variable_id, $variable->see);
+    $this->save_info_tag_items (LINK_TYPE_VARIABLE, $file_id, $variable->info_tags);
   }
   
   
@@ -727,6 +734,7 @@ abstract class DatabaseOutputter extends Outputter {
     // insert common items
     $this->save_author_items (LINK_TYPE_CONSTANT, $constant_id, $constant->authors);
     $this->save_see_items (LINK_TYPE_CONSTANT, $constant_id, $constant->see);
+    $this->save_info_tag_items (LINK_TYPE_CONSTANT, $file_id, $constant->info_tags);
   }
   
   
@@ -752,6 +760,7 @@ abstract class DatabaseOutputter extends Outputter {
     // insert common items
     $this->save_author_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->authors);
     $this->save_see_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->see);
+    $this->save_info_tag_items (LINK_TYPE_ENUMERATION, $file_id, $enumeration->info_tags);
     
     // Save the constants for this enumeration
     foreach ($enumeration->constants as $constant) {
@@ -804,7 +813,7 @@ abstract class DatabaseOutputter extends Outputter {
   
   
   /**
-  * Saves author information about an item
+  * Saves 'see also' information about an item
   *
   * @since 0.2
   * @table insert item_see Adds 'see also' links for a function, class, file, etc.
@@ -818,6 +827,26 @@ abstract class DatabaseOutputter extends Outputter {
       
       // Build and process query from prepared data
       $q = $this->create_insert_query('item_see', $insert_data);
+      $this->query ($q);
+    }
+  }
+  
+  
+  /**
+  * Saves info tags for an item
+  *
+  * @since 0.3
+  * @table insert item_info_tags Adds info tags links for a function, class, file, etc.
+  **/
+  private function save_info_tag_items ($link_type, $link_id, $items) {
+    foreach ($items as $item) {
+      $insert_data = array();
+      $insert_data['linkid'] = $this->sql_safen($link_id);
+      $insert_data['linktype'] = $this->sql_safen($link_type);
+      $insert_data['name'] = $this->sql_safen($item);
+      
+      // Build and process query from prepared data
+      $q = $this->create_insert_query('item_info_tags', $insert_data);
       $this->query ($q);
     }
   }

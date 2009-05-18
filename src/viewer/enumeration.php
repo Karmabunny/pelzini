@@ -116,6 +116,7 @@ if (db_num_rows($res) > 0) {
 
 
 show_see_also ($enumeration['id'], LINK_TYPE_FUNCTION);
+show_tags ($enumeration['id'], LINK_TYPE_ENUMERATION);
 
 
 require_once 'foot.php';

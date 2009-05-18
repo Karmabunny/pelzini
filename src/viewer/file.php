@@ -230,6 +230,7 @@ if (db_num_rows($res) > 0) {
 
 
 show_see_also ($file['id'], LINK_TYPE_FILE);
+show_tags ($file['id'], LINK_TYPE_FILE);
 
 
 require_once 'foot.php';

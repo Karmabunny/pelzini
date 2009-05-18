@@ -65,8 +65,10 @@ echo process_inline($interface['description']);
 
 if ($interface['sinceid']) echo '<p>Available since: ', get_since_version($function['sinceid']), '</p>';
 
+
 show_authors ($interface['id'], LINK_TYPE_INTERFACE);
-show_see_also ($interface['id'], LINK_TYPE_INTERFACE);
+show_tables ($interface['id'], LINK_TYPE_INTERFACE);
+
 
 // Show implementors
 $name = db_quote($interface['name']);
@@ -106,6 +108,11 @@ if (db_num_rows($res) > 0) {
     echo process_inline($row['description']);
   }
 }
+
+
+show_tags ($interface['id'], LINK_TYPE_INTERFACE);
+show_see_also ($interface['id'], LINK_TYPE_INTERFACE);
+
 
 require_once 'foot.php';
 ?>
