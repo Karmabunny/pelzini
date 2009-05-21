@@ -24,7 +24,8 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1
-* @see ParserFunciton
+* @see ParserFunction
+* @tag i18n-needed
 **/
 
 require_once 'functions.php';

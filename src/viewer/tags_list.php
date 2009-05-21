@@ -19,38 +19,39 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Shows a list of all authors
+* Displays a list of all of the tables used
 *
 * @package Viewer
 * @author Josh Heidenreich
-* @since 0.2
+* @since 0.3
+* @see viewer/tag.php
 * @tag i18n-needed
 **/
 
 require_once 'head.php';
 
 
-echo "<h2>Authors list</h2>";
+echo "<h2>Tags list</h2>";
 
 
-$q = "SELECT name
-  FROM item_authors
+$q = "SELECT name, COUNT(name) AS num
+  FROM item_info_tags
   GROUP BY name
   ORDER BY name";
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo "<p>These are the known authors of this project.</p>";
+  echo "<p>These are the known tags in use by this project.</p>";
   
   echo "<ul>";
   while ($row = db_fetch_assoc ($res)) {
-    echo "<li><a href=\"author.php?name={$row['name']}\">{$row['name']}</a></li>";
+    echo "<li><a href=\"tag.php?name={$row['name']}\">{$row['name']}</a> ({$row['num']})</li>";
   }
   echo "</ul>";
   
   
 } else {
-  echo "<p>No authors are known for this project.</p>";
+  echo "<p>No tags are in use for this project.</p>";
 }
 
 

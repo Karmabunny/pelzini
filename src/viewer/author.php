@@ -24,6 +24,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.2
+* @tag i18n-needed
 **/
 
 require_once 'head.php';

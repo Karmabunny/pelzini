@@ -25,6 +25,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.1
 * @see ParserClass
+* @tag i18n-needed
 **/
 
 require_once 'functions.php';

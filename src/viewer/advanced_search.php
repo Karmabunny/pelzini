@@ -22,6 +22,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.2
+* @tag i18n-needed
 **/
 
 $skin['page_name'] = 'Advanced search';
