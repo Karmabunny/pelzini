@@ -24,13 +24,13 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.2
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 require_once 'head.php';
 
 
-echo "<h2>Authors list</h2>";
+echo '<h2>', str(STR_AUTHOR_LIST_TITLE), '</h2>';
 
 
 $q = "SELECT name
@@ -40,7 +40,7 @@ $q = "SELECT name
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo "<p>These are the known authors of this project.</p>";
+  echo '<p>', str(STR_AUTHOR_LIST_INTRO), '</p>';
   
   echo "<ul>";
   while ($row = db_fetch_assoc ($res)) {
@@ -50,7 +50,7 @@ if (db_num_rows ($res) > 0) {
   
   
 } else {
-  echo "<p>No authors are known for this project.</p>";
+  echo '<p>', str(STR_AUTHOR_LIST_NONE), '</p>';
 }
 
 

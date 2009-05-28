@@ -28,6 +28,9 @@ STR_FILES                           Files
 STR_CONSTANTS                       Constants
 STR_SOURCE_CODE                     Source code
 
+STR_FROM_CLASS                      <small>from class {CLASS}</small>
+STR_FROM_INTERFACE                  <small>from interface {INTERFACE}</small>
+
 ; Search, advanced search
 STR_SEARCH_TITLE                    Search documentation
 STR_SEARCH_GO_BTN                   Search
@@ -40,5 +43,12 @@ STR_FUNCTIONS_RESULT                Functions ({NUM} result{#PLURAL:NUM||s})
 STR_CONSTANTS_RESULT                Constants ({NUM} result{#PLURAL:NUM||s})
 STR_SOURCE_CODE_RESULT              Source code ({NUM} result{#PLURAL:NUM||s})
 STR_SHOW_HIDE_ALL                   Show/hide all:
+
+; Authors list, author detail page
+STR_AUTHOR_LIST_TITLE               Authors list
+STR_AUTHOR_LIST_INTRO               These are the known authors of this project.
+STR_AUTHOR_LIST_NONE                No authors are known for this project.
+STR_AUTHOR_PAGE_TITLE               Author: {NAME}
+STR_AUTHOR_TITLE                    Code written by <i>{NAME}</i>
 
 
