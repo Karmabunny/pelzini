@@ -7,15 +7,38 @@
 ; Please also make sure that strings.php is committed to the repository.
 ;
 
+
+; Header
 STR_MAIN_TITLE                      Documentation for {PROJECT}
 STR_INTRO_PARAGRAPH                 This is the code documentation for {PROJECT}.
+STR_HOME                            Home
+STR_ALL_PACKAGES                    All packages
+STR_MORE_INFO                       More info
+STR_VERSION                         Version
 
-STR_SEARCH_TITLE                    Search code
+; Footer
+STR_POWERED_BY                      Powered by <a href="http://docu.sourceforge.net">Pelzini</a>, version {VERSION}
+STR_DATE_GENERATED                  Generated: {DATE}
+
+; Sidebar, general use
+STR_CLASSES                         Classes
+STR_INTERFACES                      Interfaces
+STR_FUNCTIONS                       Functions
+STR_FILES                           Files
+STR_CONSTANTS                       Constants
+STR_SOURCE_CODE                     Source code
+
+; Search, advanced search
+STR_SEARCH_TITLE                    Search documentation
 STR_SEARCH_GO_BTN                   Search
-
+STR_SEARCH_TERM                     Search term:
 STR_ADV_SEARCH_TITLE                Advanced search
+STR_WHAT_SEARCH                     What to search:
+STR_YOU_SEARCHED_FOR                You searched for "<b>{TERM}</b>".
+STR_CLASSES_RESULT                  Classes ({NUM} result{#PLURAL:NUM||s})
+STR_FUNCTIONS_RESULT                Functions ({NUM} result{#PLURAL:NUM||s})
+STR_CONSTANTS_RESULT                Constants ({NUM} result{#PLURAL:NUM||s})
+STR_SOURCE_CODE_RESULT              Source code ({NUM} result{#PLURAL:NUM||s})
+STR_SHOW_HIDE_ALL                   Show/hide all:
 
-POWERED_BY                          Powered by <a href="http://docu.sourceforge.net">Pelzini</a>, version {VERSION}
-
-DATE_GENERATED                      Generated: {DATE}
 

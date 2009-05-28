@@ -24,10 +24,12 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
-$skin['page_name'] = 'Search results';
+require_once 'functions.php';
+
+$skin['page_name'] = str(STR_SEARCH_TITLE);
 require_once 'head.php';
 
 $query = db_escape ($_GET['q']);
@@ -36,10 +38,10 @@ $results = false;
 
 
 echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-echo "<span style=\"float: right;\">Show/hide all: &nbsp;</span>";
+echo "<span style=\"float: right;\">", str(STR_SHOW_HIDE_ALL), " &nbsp;</span>";
 
-echo "<h2>Search</h2>";
-echo '<p>You searched for "<strong>', htmlspecialchars($_GET['q']), '</strong>".</p>';
+echo '<h2>', str(STR_SEARCH_TITLE), '</h2>';
+echo '<p>', str(STR_YOU_SEARCHED_FOR, 'term', htmlspecialchars($_GET['q'])), '</p>';
 
 
 // classes
@@ -52,7 +54,7 @@ if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
   $num = db_num_rows ($res);
   if ($num != 0) {
     $results = true;
-    echo '<h3>Classes (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
+    echo '<h3>', str(STR_CLASSES_RESULT, 'num', $num), '</h3>';
     
     $alt = false;
     echo '<div class="list">';
@@ -99,7 +101,7 @@ if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
   $num = db_num_rows ($res);
   if ($num != 0) {
     $results = true;
-    echo '<h3>Functions (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
+    echo '<h3>', str(STR_FUNCTIONS_RESULT, 'num', $num), '</h3>';
     
     $alt = false;
     echo '<div class="list">';
@@ -141,7 +143,7 @@ if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
   $num = db_num_rows ($res);
   if ($num != 0) {
     $results = true;
-    echo '<h3>Constants (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
+    echo '<h3>', str(STR_CONSTANTS_RESULT, 'num', $num), '</h3>';
     
     $alt = false;
     echo '<div class="list">';
@@ -179,7 +181,7 @@ if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
   $num = db_num_rows ($res);
   if ($num != 0) {
     $results = true;
-    echo '<h3>Files (', $num, ' result', ($num == 1 ? '' : 's'), ')</h3>';
+    echo '<h3>', str(STR_SOURCE_CODE_RESULT, 'num', $num), '</h3>';
     
     $regex_search = htmlspecialchars($_GET['q']);
     $regex_search = '/(' . preg_quote ($regex_search). ')/i';

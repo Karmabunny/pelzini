@@ -39,7 +39,8 @@ function loadLanguage ($language) {
         
         $parts = preg_split ('/\s+/', $line, 2);
         
-        $string_id = constant($parts[0]);
+        $string_id = @constant($parts[0]);
+        if ($string_id == null) continue;
         $strings[$string_id] = $parts[1];
     }
     
@@ -92,6 +93,9 @@ function clearParams () {
 **/
 function str ($string_constant) {
     global $strings, $string_params;
+    
+    $string_constant = (int) $string_constant;
+    if ($string_constant == 0) return "!! UNKNOWN STRING CONSTANT !!";
     
     $num_args = func_num_args();
     if ($num_args % 2 == 0) return "!! ERROR INCORECT ARGS !!";

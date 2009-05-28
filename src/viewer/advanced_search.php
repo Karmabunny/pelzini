@@ -22,38 +22,40 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.2
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
-$skin['page_name'] = 'Advanced search';
+require_once 'functions.php';
+
+$skin['page_name'] = str(STR_ADV_SEARCH_TITLE);
 require_once 'head.php';
 ?>
 
 
-<h2>Advanced search</h2>
+<h2><?= str(STR_ADV_SEARCH_TITLE); ?></h2>
 <p>&nbsp;</p>
 
 <form action="search.php" method="get">
   <input type="hidden" name="advanced" value="1">
   
   <p>
-    <b>Search term:</b>
+    <b><?= str(STR_SEARCH_TERM); ?></b>
     <br><input type="text" name="q" value="<?= htmlspecialchars ($_GET['q']); ?>">
   </p>
   
   <p>&nbsp;</p>
   
   <p>
-    <b>What to search:</b>
-    <br><label><input type="checkbox" name="classes" value="y" checked> Classes</label>
-    <br><label><input type="checkbox" name="functions" value="y" checked> Functions</label>
-    <br><label><input type="checkbox" name="constants" value="y" checked> Constants</label>
-    <br><label><input type="checkbox" name="source" value="y" checked> Source code</label>
+    <b><?= str(STR_WHAT_SEARCH); ?></b>
+    <br><label><input type="checkbox" name="classes" value="y" checked> <?= str(STR_CLASSES); ?></label>
+    <br><label><input type="checkbox" name="functions" value="y" checked> <?= str(STR_FUNCTIONS); ?></label>
+    <br><label><input type="checkbox" name="constants" value="y" checked> <?= str(STR_CONSTANTS); ?></label>
+    <br><label><input type="checkbox" name="source" value="y" checked> <?= str(STR_SOURCE_CODE); ?></label>
   </p>
   
   <p>&nbsp;</p>
   
-  <p><input type="submit" value="Search"></p>
+  <p><input type="submit" value="<?= str(STR_SEARCH_GO_BTN); ?>"></p>
 </form>
 
 

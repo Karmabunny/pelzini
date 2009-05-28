@@ -4,14 +4,38 @@
 ; This is basically here just because it is fun, and for testing until I can get some additional translations
 ;
 
+
+; Header
 STR_MAIN_TITLE                      Docz for {PROJECT}
 STR_INTRO_PARAGRAPH                 This is teh code docz for {PROJECT}.
+STR_HOME                            Home!!!
+STR_ALL_PACKAGES                    All pkgz
+STR_MORE_INFO                       more nfo
+STR_VERSION                         vers
 
-STR_SEARCH_TITLE                    Search teh code
+; Footer
+STR_POWERED_BY                      Teh docz are here cos of <a href="http://docu.sourceforge.net">Pelzini</a> {VERSION}
+STR_DATE_GENERATED                  Procezzed: {DATE}
+
+; Sidebar, general use
+STR_CLASSES                         Classez
+STR_INTERFACES                      Interfacez
+STR_FUNCTIONS                       Functionz
+STR_FILES                           Filez
+STR_CONSTANTS                       Constantz
+STR_SOURCE_CODE                     Teh source codez
+
+    ; Search, advanced search
+STR_SEARCH_TITLE                    Search teh docz
 STR_SEARCH_GO_BTN                   Search!!!
-
+STR_SEARCH_TERM                     Enter the search termz:
 STR_ADV_SEARCH_TITLE                More leet search
+STR_WHAT_SEARCH                     What do u want to searchz?
+STR_YOU_SEARCHED_FOR                "<b>{TERM}</b>" wuz ur search termz.
+STR_CLASSES_RESULT                  Classez ({NUM} result{#PLURAL|NUM||z})
+STR_FUNCTIONS_RESULT                Functionz ({NUM} result{#PLURAL|NUM||z})
+STR_CONSTANTS_RESULT                Constantz ({NUM} result{#PLURAL|NUM||z})
+STR_SOURCE_CODE_RESULT              Teh source codez ({NUM} result{#PLURAL|NUM||z})
+STR_SHOW_HIDE_ALL                   Show/hide allz:
 
-POWERED_BY                          Teh docz are here cos of <a href="http://docu.sourceforge.net">Pelzini</a> version {VERSION}
 
-DATE_GENERATED                      Processed: {DATE}

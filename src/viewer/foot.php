@@ -43,13 +43,13 @@ $generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a', $generated)
 <table class="footer">
   <tr>
     <td align="left" style="width: 20em;">
-      <?= str (POWERED_BY, 'version', DOCU_VERSION); ?>
+      <?= str (STR_POWERED_BY, 'version', DOCU_VERSION); ?>
     </td>
     
     <td align="center">
       <?= $project['license']; ?>
       <br>
-      <?= str (DATE_GENERATED, 'date', $generated); ?>
+      <?= str (STR_DATE_GENERATED, 'date', $generated); ?>
     </td>
     
     <td align="right" style="width: 20em;">

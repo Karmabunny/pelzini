@@ -55,11 +55,11 @@ if ($skin['page_name']) $browser_title .= ' - ' . $skin['page_name'];
 
 <div class="navigation">
   <span style="float: right">
-    <a href="more_info.php">More info</a>
+    <a href="more_info.php"><?= str(STR_MORE_INFO); ?></a>
     
     <form action="select_version.php" method="get">
     <input type="hidden" name="redirect" value="<?= $_SERVER['REQUEST_URI']; ?>">
-    <b>Version:</b>
+    <b><?= str(STR_VERSION); ?>:</b>
     <select name="id" onchange="this.form.submit();">
       <?php
       if ($_SESSION['current_version'] == null) {
@@ -82,8 +82,8 @@ if ($skin['page_name']) $browser_title .= ' - ' . $skin['page_name'];
     </form>
   </span>
   
-  <a href="index.php">Home</a>
-  <a href="select_package.php">All packages</a>
+  <a href="index.php"><?= str(STR_HOME); ?></a>
+  <a href="select_package.php"><?= str(STR_ALL_PACKAGES); ?></a>
   &nbsp;
   
   <?php
@@ -134,7 +134,7 @@ $res = db_query ($q);
 if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
   echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
-  echo '    <h2>Classes</h2>';
+  echo '    <h2>', str(STR_CLASSES), '</h2>';
   echo '    <div class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
@@ -157,7 +157,7 @@ $res = db_query ($q);
 if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
   echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
-  echo '    <h2>Interfaces</h2>';
+  echo '    <h2>', str(STR_INTERFACES), '</h2>';
   echo '    <div class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
@@ -181,7 +181,7 @@ $res = db_query ($q);
 if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
   echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
-  echo '    <h2>Functions</h2>';
+  echo '    <h2>', str(STR_FUNCTIONS), '</h2>';
   echo '    <div class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
@@ -203,7 +203,7 @@ $res = db_query ($q);
 if (db_num_rows ($res) > 0) {
   echo '  <div class="box">';
   echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
-  echo '    <h2>Files</h2>';
+  echo '    <h2>', str(STR_FILES), '</h2>';
   echo '    <div class="content" style="display: none;">';
   
   while ($row = db_fetch_assoc ($res)) {
