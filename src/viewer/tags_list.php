@@ -25,13 +25,17 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.3
 * @see viewer/tag.php
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
+
+require_once 'functions.php';
+
+$skin['page_name'] = str(STR_TAG_LIST_TITLE);
 require_once 'head.php';
 
 
-echo "<h2>Tags list</h2>";
+echo '<h2>', str(STR_TAG_LIST_TITLE), '</h2>';
 
 
 $q = "SELECT name, COUNT(name) AS num
@@ -41,7 +45,7 @@ $q = "SELECT name, COUNT(name) AS num
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo "<p>These are the known tags in use by this project.</p>";
+  echo '<p>', str(STR_TAG_LIST_INTRO), '</p>';
   
   echo "<ul>";
   while ($row = db_fetch_assoc ($res)) {
@@ -51,7 +55,7 @@ if (db_num_rows ($res) > 0) {
   
   
 } else {
-  echo "<p>No tags are in use for this project.</p>";
+  echo '<p>', str(STR_TAG_LIST_NONE), '</p>';
 }
 
 

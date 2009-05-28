@@ -24,22 +24,26 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.3
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
-require_once 'head.php';
-
+require_once 'functions.php';
 
 $_GET['name'] = trim($_GET['name']);
 if ($_GET['name'] == '') {
+  require_once 'head.php';
   echo "Invalid tag specified";
+  require_once 'foot.php';
   exit;
 }
 
 $name_sql = db_quote ($_GET['name']);
 
+$skin['page_name'] = str(STR_TAG_PAGE_TITLE, 'name', $_GET['name']);
+require_once 'head.php';
 
-echo "<h2>Code tagged with <i>{$_GET['name']}</i></h2>";
+echo '<h2>', str(STR_TAG_TITLE, 'name', $_GET['name']), '</h2>';
+
 
 
 // Show files
@@ -50,7 +54,7 @@ $q = "SELECT files.id, files.name
   ORDER BY files.name";
 $res = db_query ($q);
 if (db_num_rows($res) > 0) {
-  echo "<h3>Files</h3>";
+  echo '<h3>', str(STR_FILES), '</h3>';
   
   $alt = false;
   echo '<div class="list">';
@@ -81,7 +85,7 @@ $q = "SELECT classes.id, classes.name
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="classes"></a>';
-  echo "<h3>Classes</h3>";
+  echo '<h3>', str(STR_CLASSES), '</h3>';
   
   $alt = false;
   echo '<div class="list">';
@@ -113,7 +117,7 @@ $q = "SELECT functions.id, functions.name, classes.name AS classname,
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="functions"></a>';
-  echo "<h3>Functions</h3>";
+  echo '<h3>', str(STR_FUNCTIONS), '</h3>';
   
   $alt = false;
   echo '<div class="list">';
@@ -129,8 +133,8 @@ if (db_num_rows($res) > 0) {
     echo "<div class=\"{$class}\">";
     
     echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
-    if ($row['classname']) echo ' <small>from class ', get_object_link($row['classname']), '</small>';
-    if ($row['interfacename']) echo ' <small>from interface ', get_object_link($row['interfacename']), '</small>';
+    if ($row['classname']) echo str(STR_FROM_CLASS, 'class', get_object_link($row['classname']));
+    if ($row['interfacename']) echo str(STR_FROM_INTERFACE, 'interface', get_object_link($row['interfacename']));
     echo "</p>";
     echo "</div>";
     

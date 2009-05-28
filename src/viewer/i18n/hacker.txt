@@ -10,7 +10,6 @@ STR_MAIN_TITLE                      Docz for {PROJECT}
 STR_INTRO_PARAGRAPH                 This is teh code docz for {PROJECT}.
 STR_HOME                            Home!!!
 STR_ALL_PACKAGES                    All pkgz
-STR_MORE_INFO                       more nfo
 STR_VERSION                         vers
 
 ; Footer
@@ -41,10 +40,29 @@ STR_CONSTANTS_RESULT                Constantz ({NUM} result{#PLURAL|NUM||z})
 STR_SOURCE_CODE_RESULT              Teh source codez ({NUM} result{#PLURAL|NUM||z})
 STR_SHOW_HIDE_ALL                   Show/hide allz:
 
+; More info page
+STR_MORE_INFO                       m0r3 nfo
+STR_PROJECT_DOCS                    Project docz
+STR_ADDITIONAL_DOCS                 Additional docz
+
 ; Authors list, author detail page
 STR_AUTHOR_LIST_TITLE               Authorz list
 STR_AUTHOR_LIST_INTRO               These are the known authorz of this project.
 STR_AUTHOR_LIST_NONE                No authorz are known for this project.
+STR_AUTHOR_LIST_DESC                Get a list of all of the coderz of this project
 STR_AUTHOR_PAGE_TITLE               The coder {NAME}
 STR_AUTHOR_TITLE                    Codez written by <i>{NAME}</i>
+
+; Tags list, tag detail page
+STR_TAG_LIST_TITLE                  Tagz list
+STR_TAG_LIST_INTRO                  These are the tagz in use by this project.
+STR_TAG_LIST_NONE                   No tagz are in use by this project.
+STR_TAG_LIST_DESC                   Get a list of all of the tagz in this project
+STR_TAG_PAGE_TITLE                  Tag: {NAME}
+STR_TAG_TITLE                       Codez tagged with <i>{NAME}</i>
+
+; Class tree
+STR_CLASS_TREE_TITLE                Clazz tree
+STR_CLASS_TREE_DESC                 Get a tree of all of the classez in this project
+
 

@@ -13,7 +13,6 @@ STR_MAIN_TITLE                      Documentation for {PROJECT}
 STR_INTRO_PARAGRAPH                 This is the code documentation for {PROJECT}.
 STR_HOME                            Home
 STR_ALL_PACKAGES                    All packages
-STR_MORE_INFO                       More info
 STR_VERSION                         Version
 
 ; Footer
@@ -44,11 +43,29 @@ STR_CONSTANTS_RESULT                Constants ({NUM} result{#PLURAL:NUM||s})
 STR_SOURCE_CODE_RESULT              Source code ({NUM} result{#PLURAL:NUM||s})
 STR_SHOW_HIDE_ALL                   Show/hide all:
 
+; More info page
+STR_MORE_INFO                       More info
+STR_PROJECT_DOCS                    Project documents
+STR_ADDITIONAL_DOCS                 Additional documents
+
 ; Authors list, author detail page
 STR_AUTHOR_LIST_TITLE               Authors list
 STR_AUTHOR_LIST_INTRO               These are the known authors of this project.
 STR_AUTHOR_LIST_NONE                No authors are known for this project.
+STR_AUTHOR_LIST_DESC                Get a list of all of the authors of this project
 STR_AUTHOR_PAGE_TITLE               Author: {NAME}
 STR_AUTHOR_TITLE                    Code written by <i>{NAME}</i>
+
+; Tags list, tag detail page
+STR_TAG_LIST_TITLE                  Tags list
+STR_TAG_LIST_INTRO                  These are the tags in use by this project.
+STR_TAG_LIST_NONE                   No tags are in use by this project.
+STR_TAG_LIST_DESC                   Get a list of all of the tags in this project
+STR_TAG_PAGE_TITLE                  Tag: {NAME}
+STR_TAG_TITLE                       Code tagged with <i>{NAME}</i>
+
+; Class tree
+STR_CLASS_TREE_TITLE                Class tree
+STR_CLASS_TREE_DESC                 Get a tree of all of the classes in this project
 
 

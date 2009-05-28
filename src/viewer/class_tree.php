@@ -24,13 +24,13 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.2
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 require_once 'head.php';
 
 
-echo "<h2>Class tree</h2>\n\n";
+echo '<h2>', str(STR_CLASS_TREE_TITLE), '</h2>';
 
 $root = create_classes_tree ();
 $top_nodes = $root->getChildren();

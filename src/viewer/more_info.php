@@ -27,20 +27,20 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @see ParserDocuemnt
 * @see viewer/authors_list.php
 * @see viewer/tables_list.php
-* @tag i18n-needed
+* @tag i18n-partial
 **/
 
 require_once 'head.php';
 
 
-echo '<h2>More information</h2>';
+echo '<h2>', str(STR_MORE_INFO), '</h2>';
 
 
 $q = "SELECT name FROM documents ORDER BY name";
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo '<h3>Project documents</h3>';
+  echo '<h3>', str(STR_PROJECT_DOCS), '</h3>';
   echo "<ul>\n";
   
   while ($row = db_fetch_assoc ($res)) {
@@ -55,14 +55,14 @@ if (db_num_rows ($res) > 0) {
 ?>
 
 
-<h3>Additional documents</h3>
-<p><b><a href="class_tree.php">Class tree</a></b>
-<br>Get a tree of all of the classes in this project</p>
+<h3><?= str(STR_ADDITIONAL_DOCS); ?></h3>
+<p><b><a href="class_tree.php"><?= str(STR_CLASS_TREE_TITLE); ?></a></b>
+<br><?= str(STR_CLASS_TREE_DESC); ?></p>
 
 <br>
 
-<p><b><a href="authors_list.php">Authors list</a></b>
-<br>Get a list of all of the authors of this project</p>
+<p><b><a href="authors_list.php"><?= str(STR_AUTHOR_LIST_TITLE); ?></a></b>
+<br><?= str(STR_AUTHOR_LIST_DESC); ?></p>
 
 <br>
 
@@ -71,9 +71,8 @@ if (db_num_rows ($res) > 0) {
 
 <br>
 
-<p><b><a href="tags_list.php">Tags list</a></b>
-<br>Get a list of all of the tags used by this project</p>
-
+<p><b><a href="tags_list.php"><?= str(STR_TAG_LIST_TITLE); ?></a></b>
+<br><?= str(STR_TAG_LIST_DESC); ?></p>
 
 <?php
 require_once 'foot.php';
