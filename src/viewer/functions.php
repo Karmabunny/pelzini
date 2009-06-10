@@ -74,7 +74,7 @@ if (get_magic_quotes_gpc ()) {
 }
 
 loadLanguage ('english');
-loadLanguage ('hacker');
+//loadLanguage ('hacker');
 
 
 
