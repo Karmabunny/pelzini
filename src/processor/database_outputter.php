@@ -547,7 +547,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->save_author_items (LINK_TYPE_FUNCTION, $function_id, $function->authors);
     $this->save_table_items (LINK_TYPE_FUNCTION, $function_id, $function->tables);
     $this->save_see_items (LINK_TYPE_FUNCTION, $function_id, $function->see);
-    $this->save_info_tag_items (LINK_TYPE_FUNCTION, $file_id, $function->info_tags);
+    $this->save_info_tag_items (LINK_TYPE_FUNCTION, $function_id, $function->info_tags);
     
     
     // insert Arguments
@@ -631,7 +631,7 @@ abstract class DatabaseOutputter extends Outputter {
     $this->save_author_items (LINK_TYPE_CLASS, $class_id, $class->authors);
     $this->save_table_items (LINK_TYPE_CLASS, $class_id, $class->tables);
     $this->save_see_items (LINK_TYPE_CLASS, $class_id, $class->see);
-    $this->save_info_tag_items (LINK_TYPE_CLASS, $file_id, $class->info_tags);
+    $this->save_info_tag_items (LINK_TYPE_CLASS, $class_id, $class->info_tags);
   }
   
   
@@ -665,7 +665,7 @@ abstract class DatabaseOutputter extends Outputter {
     // insert common items
     $this->save_author_items (LINK_TYPE_INTERFACE, $interface_id, $interface->authors);
     $this->save_see_items (LINK_TYPE_INTERFACE, $interface_id, $interface->see);
-    $this->save_info_tag_items (LINK_TYPE_INTERFACE, $file_id, $interface->info_tags);
+    $this->save_info_tag_items (LINK_TYPE_INTERFACE, $interface_id, $interface->info_tags);
   }
   
   
@@ -704,7 +704,7 @@ abstract class DatabaseOutputter extends Outputter {
     // insert common items
     $this->save_author_items (LINK_TYPE_VARIABLE, $variable_id, $variable->authors);
     $this->save_see_items (LINK_TYPE_VARIABLE, $variable_id, $variable->see);
-    $this->save_info_tag_items (LINK_TYPE_VARIABLE, $file_id, $variable->info_tags);
+    $this->save_info_tag_items (LINK_TYPE_VARIABLE, $variable_id, $variable->info_tags);
   }
   
   
@@ -734,7 +734,7 @@ abstract class DatabaseOutputter extends Outputter {
     // insert common items
     $this->save_author_items (LINK_TYPE_CONSTANT, $constant_id, $constant->authors);
     $this->save_see_items (LINK_TYPE_CONSTANT, $constant_id, $constant->see);
-    $this->save_info_tag_items (LINK_TYPE_CONSTANT, $file_id, $constant->info_tags);
+    $this->save_info_tag_items (LINK_TYPE_CONSTANT, $constant_id, $constant->info_tags);
   }
   
   
@@ -760,7 +760,7 @@ abstract class DatabaseOutputter extends Outputter {
     // insert common items
     $this->save_author_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->authors);
     $this->save_see_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->see);
-    $this->save_info_tag_items (LINK_TYPE_ENUMERATION, $file_id, $enumeration->info_tags);
+    $this->save_info_tag_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->info_tags);
     
     // Save the constants for this enumeration
     foreach ($enumeration->constants as $constant) {
