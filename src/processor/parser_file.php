@@ -60,7 +60,10 @@ class ParserFile extends CodeParserItem {
     // set the packages. all packages are forced to have non-space names
     $packages = $docblock_tags['@package'];
     if ($packages != null) {
-      $this->package = array_pop($packages);
+      $package = array_pop($packages);
+      $package = trim($package);
+      $package = preg_split ('/\s+/', $package);
+      $this->package = $package[0];
     }
   }
   
