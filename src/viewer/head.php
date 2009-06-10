@@ -34,7 +34,7 @@ $res = db_query($q);
 $project = db_fetch_assoc($res);
 
 $browser_title = 'Documentation for ' . $project['name'];
-if ($skin['page_name']) $browser_title .= ' - ' . $skin['page_name'];
+if ($skin['page_name']) $browser_title = $skin['page_name'] . ' - ' . $browser_title;
 
 
 ?>
@@ -46,6 +46,8 @@ if ($skin['page_name']) $browser_title .= ' - ' . $skin['page_name'];
   
   <script type="text/javascript" src="ajax/ajax.js"></script>
   <script type="text/javascript" src="functions.js"></script>
+
+  <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
 </head>
 <body>
 
