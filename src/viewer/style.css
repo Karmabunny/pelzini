@@ -213,6 +213,14 @@ div.list div.item-alt {
   border-bottom: 1px #00BF70 solid;
 }
 
+div.list div.summary {
+  margin-bottom: 0.7em;
+  padding: 3px 6px;
+  background-color: #F2F2FF;
+  border-top: 1px #BFC1FF solid;
+  border-bottom: 1px #0006BF solid;
+}
+
 ul.tree li.on {
   font-weight: bold;
 }

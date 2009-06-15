@@ -190,15 +190,17 @@ if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
     FROM files
     WHERE {$this_match_string} ORDER BY files.name";
   $res = db_query ($q);
-  $num = db_num_rows ($res);
-  if ($num != 0) {
+  $num_files = db_num_rows ($res);
+  
+  if ($num_files != 0) {
     $results = true;
-    echo '<h3>', str(STR_SOURCE_CODE_RESULT, 'num', $num), '</h3>';
+    echo '<h3>', str(STR_SOURCE_CODE_RESULT, 'num', $num_files), '</h3>';
     
     $regex_search = htmlspecialchars($_GET['q']);
     $regex_search = '/(' . preg_quote ($regex_search, '/'). ')/i';
     $url_keyword = urlencode($_GET['q']);
     
+    $num_lines = 0;
     $alt = false;
     echo '<div class="list">';
     while ($row = db_fetch_assoc ($res)) {
@@ -226,6 +228,8 @@ if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
           $source_url = "file_source.php?id={$row['id']}&highlight={$num}";
           if ($num > 5) $source_url .= '#line' . ($num - 5);
           
+          $num_lines++;
+          
           echo "Line <a href=\"{$source_url}\">{$num}</a>: <code>{$line}</code><br>";
         }
       }
@@ -234,6 +238,11 @@ if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
       
       $alt = ! $alt;
     }
+    
+    echo "<div class=\"summary\">";
+    echo '<p>', str(STR_NUM_SOURCE_RESULTS, 'lines', $num_lines, 'files', $num_files), '</p>';
+    echo "</div>";
+    
     echo '</div>';
   }
 }

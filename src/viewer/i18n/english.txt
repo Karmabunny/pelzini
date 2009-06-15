@@ -45,6 +45,7 @@ STR_SOURCE_CODE_RESULT              Source code ({NUM} result{#PLURAL|NUM||s})
 STR_SHOW_HIDE_ALL                   Show/hide all:
 STR_SEARCH_OPTIONS                  Search options:
 STR_CASE_SENSITIVE                  Case sensitive
+STR_NUM_SOURCE_RESULTS              A total of {LINES} line{#PLURAL|LINE||s} in {FILES} file{#PLURAL|FILES||s} were found
 
 ; More info page
 STR_MORE_INFO                       More info
