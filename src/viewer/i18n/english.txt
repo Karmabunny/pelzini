@@ -36,12 +36,15 @@ STR_SEARCH_GO_BTN                   Search
 STR_SEARCH_TERM                     Search term:
 STR_ADV_SEARCH_TITLE                Advanced search
 STR_WHAT_SEARCH                     What to search:
-STR_YOU_SEARCHED_FOR                You searched for "<b>{TERM}</b>".
+STR_YOU_SEARCHED_FOR                You searched for "<b>{TERM}</b>" (not case sensitive).
+STR_YOU_SEARCHED_FOR_CASE           You searched for "<b>{TERM}</b>" (case sensitive).
 STR_CLASSES_RESULT                  Classes ({NUM} result{#PLURAL:NUM||s})
 STR_FUNCTIONS_RESULT                Functions ({NUM} result{#PLURAL:NUM||s})
 STR_CONSTANTS_RESULT                Constants ({NUM} result{#PLURAL:NUM||s})
 STR_SOURCE_CODE_RESULT              Source code ({NUM} result{#PLURAL:NUM||s})
 STR_SHOW_HIDE_ALL                   Show/hide all:
+STR_SEARCH_OPTIONS                  Search options:
+STR_CASE_SENSITIVE                  Case sensitive
 
 ; More info page
 STR_MORE_INFO                       More info

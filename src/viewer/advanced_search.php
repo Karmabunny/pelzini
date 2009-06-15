@@ -55,6 +55,13 @@ require_once 'head.php';
   
   <p>&nbsp;</p>
   
+  <p>
+    <b><?= str(STR_SEARCH_OPTIONS); ?></b>
+    <br><label><input type="checkbox" name="case_sensitive" value="y"> <?= str(STR_CASE_SENSITIVE); ?></label>
+  </p>
+  
+  <p>&nbsp;</p>
+  
   <p><input type="submit" value="<?= str(STR_SEARCH_GO_BTN); ?>"></p>
 </form>
 

@@ -36,20 +36,29 @@ $query = db_escape ($_GET['q']);
 $_GET['advanced'] = (int) $_GET['advanced'];
 $results = false;
 
+// Determine the match string
+// #ITEM# will be replaced in the specific search query
+// for for classes, #ITEM# will become classes.name
+$match_string = "#ITEM# LIKE '%{$query}%'";
+if ($_GET['case_sensitive']) $match_string = "BINARY #ITEM# LIKE '%{$query}%'";
+
 
 echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
 echo "<span style=\"float: right;\">", str(STR_SHOW_HIDE_ALL), " &nbsp;</span>";
 
 echo '<h2>', str(STR_SEARCH_TITLE), '</h2>';
-echo '<p>', str(STR_YOU_SEARCHED_FOR, 'term', htmlspecialchars($_GET['q'])), '</p>';
-
+echo '<p>', str(
+    $_GET['case_sensitive'] ? STR_YOU_SEARCHED_FOR_CASE : STR_YOU_SEARCHED_FOR,
+    'term', htmlspecialchars($_GET['q'])
+  ), '</p>';
 
 // classes
 if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
+  $this_match_string = str_replace ('#ITEM#', 'classes.name', $match_string);
   $q = "SELECT classes.id, classes.name, classes.description, classes.extends, classes.abstract, files.name as filename, classes.fileid
     FROM classes
     INNER JOIN files ON classes.fileid = files.id
-    WHERE classes.name LIKE '%{$query}%' ORDER BY classes.name";
+    WHERE {$this_match_string} ORDER BY classes.name";
   $res = db_query ($q);
   $num = db_num_rows ($res);
   if ($num != 0) {
@@ -92,11 +101,12 @@ if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
 
 // functions
 if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
+  $this_match_string = str_replace ('#ITEM#', 'functions.name', $match_string);
   $q = "SELECT functions.id, functions.name, functions.description, functions.classid, files.name as filename, functions.fileid, classes.name as class
     FROM functions
     INNER JOIN files ON functions.fileid = files.id
     LEFT JOIN classes ON functions.classid = classes.id
-    WHERE functions.name LIKE '%{$query}%' ORDER BY functions.name";
+    WHERE {$this_match_string} ORDER BY functions.name";
   $res = db_query ($q);
   $num = db_num_rows ($res);
   if ($num != 0) {
@@ -135,10 +145,11 @@ if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
 
 // constants
 if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
+  $this_match_string = str_replace ('#ITEM#', 'constants.name', $match_string);
   $q = "SELECT constants.name, constants.description, files.name as filename, constants.fileid, constants.value
     FROM constants
     INNER JOIN files ON constants.fileid = files.id
-    WHERE constants.name LIKE '%{$query}%' ORDER BY constants.name";
+    WHERE {$this_match_string} ORDER BY constants.name";
   $res = db_query ($q);
   $num = db_num_rows ($res);
   if ($num != 0) {
@@ -174,9 +185,10 @@ if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
 
 // source
 if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
+  $this_match_string = str_replace ('#ITEM#', 'files.source', $match_string);
   $q = "SELECT files.id, files.name AS filename, files.source
     FROM files
-    WHERE files.source LIKE '%{$query}%' ORDER BY files.name";
+    WHERE {$this_match_string} ORDER BY files.name";
   $res = db_query ($q);
   $num = db_num_rows ($res);
   if ($num != 0) {
