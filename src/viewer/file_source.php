@@ -61,7 +61,7 @@ if ($_GET['highlight']) {
 // Keyword highlighting
 if ($_GET['keyword']) {
   $keyword_search = htmlspecialchars($_GET['keyword']);
-  $keyword_search = '/(' . preg_quote ($keyword_search). ')/i';
+  $keyword_search = '/(' . preg_quote ($keyword_search, '/'). ')/i';
 }
 
 

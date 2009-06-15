@@ -196,7 +196,7 @@ if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
     echo '<h3>', str(STR_SOURCE_CODE_RESULT, 'num', $num), '</h3>';
     
     $regex_search = htmlspecialchars($_GET['q']);
-    $regex_search = '/(' . preg_quote ($regex_search). ')/i';
+    $regex_search = '/(' . preg_quote ($regex_search, '/'). ')/i';
     $url_keyword = urlencode($_GET['q']);
     
     $alt = false;
