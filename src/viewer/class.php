@@ -31,10 +31,11 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'functions.php';
 
 
-define ('PAGE_CLASS_GENERAL', 0);
-define ('PAGE_CLASS_USED_BY', 1);
-define ('PAGE_CLASS_EXTENDS', 2);
-
+define ('PAGE_CLASS_GENERAL',  0);
+define ('PAGE_CLASS_USED_BY',  1);
+define ('PAGE_CLASS_EXTENDS',  2);
+define ('PAGE_CLASS_SOURCE',   3);
+ 
 
 $id = (int) $_GET['id'];
 $_GET['page'] = (int) $_GET['page'];
@@ -74,7 +75,7 @@ require_once 'head.php';
 
 
 // Pages
-$pages = array('General', 'Used by', 'Extends');
+$pages = array('General', 'Used by', 'Extends', 'Source search');
 echo "<div class=\"viewer_options\">";
 echo "<p><b>Info Page:</b></p>";
 foreach ($pages as $num => $page) {
@@ -140,26 +141,6 @@ if ($class['sinceid']) {
 }
 
 echo "</ul>";
-
-
-// Loads the classes tree
-// and finds this class within it
-$root = create_classes_tree ();
-$matcher = new FieldTreeNodeMatcher('name', $class['name']);
-$node = $root->findNode ($matcher);
-
-// If our class was found - which it should be - find the top ancestor
-// and then draw unordered lists of the class structure
-if ($node != null) {
-  echo "<h3>Class structure</h3>";
-  
-  $ancestors = $node->findAncestors();
-  $top = end ($ancestors);
-  
-  echo "<ul class=\"tree\">\n";
-  draw_class_tree($top, array($node));
-  echo "</ul>\n";
-}
 
 
 
@@ -243,6 +224,26 @@ switch ($_GET['page']) {
     
     
   case PAGE_CLASS_USED_BY:
+    // Loads the classes tree
+    // and finds this class within it
+    $root = create_classes_tree ();
+    $matcher = new FieldTreeNodeMatcher('name', $class['name']);
+    $node = $root->findNode ($matcher);
+
+    // If our class was found - which it should be - find the top ancestor
+    // and then draw unordered lists of the class structure
+    if ($node != null) {
+      echo "<h3>Class structure</h3>";
+      
+      $ancestors = $node->findAncestors();
+      $top = end ($ancestors);
+      
+      echo "<ul class=\"tree\">\n";
+      draw_class_tree($top, array($node));
+      echo "</ul>\n";
+    }
+    
+    
     $sql_class_name = db_quote ($class['name']);
     
     // Query to get functions which return this class
@@ -341,6 +342,12 @@ switch ($_GET['page']) {
     echo "<pre class=\"source\">";
     echo htmlspecialchars ($code);
     echo "</pre>";
+    break;
+    
+    
+  case PAGE_CLASS_SOURCE:
+    require_once 'search_functions.php';
+    search_source ($class['name'], true);
     break;
     
     

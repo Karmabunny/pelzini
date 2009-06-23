@@ -28,6 +28,8 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
 require_once 'functions.php';
+require_once 'search_functions.php';
+
 
 $skin['page_name'] = str(STR_SEARCH_TITLE);
 require_once 'head.php';
@@ -185,66 +187,7 @@ if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
 
 // source
 if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
-  $this_match_string = str_replace ('#ITEM#', 'files.source', $match_string);
-  $q = "SELECT files.id, files.name AS filename, files.source
-    FROM files
-    WHERE {$this_match_string} ORDER BY files.name";
-  $res = db_query ($q);
-  $num_files = db_num_rows ($res);
-  
-  if ($num_files != 0) {
-    $results = true;
-    echo '<h3>', str(STR_SOURCE_CODE_RESULT, 'num', $num_files), '</h3>';
-    
-    $regex_search = htmlspecialchars($_GET['q']);
-    $regex_search = '/(' . preg_quote ($regex_search, '/'). ')/i';
-    $url_keyword = urlencode($_GET['q']);
-    
-    $num_lines = 0;
-    $alt = false;
-    echo '<div class="list">';
-    while ($row = db_fetch_assoc ($res)) {
-      $row['filename'] = htmlspecialchars ($row['filename']);
-      
-      $class = 'item';
-      if ($alt) $class .= '-alt';
-      
-      echo "<div class=\"{$class}\">";
-      echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-      echo "<p>";
-      echo "<strong><a href=\"file.php?id={$row['id']}\">{$row['filename']}</a></strong> &nbsp; ";
-      echo "<small><a href=\"file_source.php?id={$row['id']}&keyword={$url_keyword}\">Highlighted file source</a></small>";
-      echo "</p>\n";
-      
-      // Finds the lines, and highlights the term
-      echo "<p class=\"content\">";
-      $lines = explode("\n", $row['source']);
-      foreach ($lines as $num => $line) {
-        if (stripos($line, $_GET['q']) !== false) {
-          $num++;
-          $line = htmlspecialchars($line);
-          $line = preg_replace($regex_search, "<span class=\"highlight\">\$1</span>", $line);
-          
-          $source_url = "file_source.php?id={$row['id']}&highlight={$num}";
-          if ($num > 5) $source_url .= '#line' . ($num - 5);
-          
-          $num_lines++;
-          
-          echo "Line <a href=\"{$source_url}\">{$num}</a>: <code>{$line}</code><br>";
-        }
-      }
-      echo "</p>";
-      echo "</div>";
-      
-      $alt = ! $alt;
-    }
-    
-    echo "<div class=\"summary\">";
-    echo '<p>', str(STR_NUM_SOURCE_RESULTS, 'lines', $num_lines, 'files', $num_files), '</p>';
-    echo "</div>";
-    
-    echo '</div>';
-  }
+  $results =& search_source ($_GET['q'], $_GET['case_sensitive']);
 }
 
 
