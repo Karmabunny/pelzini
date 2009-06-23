@@ -46,11 +46,11 @@ $parsers = array();
 $parsers['php'] = new PhpParser();
 output_status("Initalised the PHP parser.");
 
-//$parsers['js'] = new JavascriptParser();
-//output_status("Initalised the Javascript parser.");
+$parsers['js'] = new JavascriptParser();
+output_status("Initalised the Javascript parser.");
 
-//$parsers['c'] = new CParser();
-//output_status("Initalised the (expermiental) C parser.");
+$parsers['c'] = new CParser();
+output_status("Initalised the (expermiental) C parser.");
 
 $parser_model = array();
 
