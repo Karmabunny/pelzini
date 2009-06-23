@@ -62,3 +62,6 @@ $generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a', $generated)
 
 </body>
 </html>
+<?php
+exit();
+?>

@@ -165,6 +165,20 @@ function param_replace_inner ($matches) {
     } else if (strncasecmp($replace_code, '#NL', 3) == 0) {
         return "<br>";
         
+    } else if (strncasecmp($replace_code, '#URLENC', 7) == 0) {
+        $parts = explode ('|', $replace_code);
+        $replace_code = strtoupper ($parts[1]);
+        
+        $replace_code = strtoupper ($replace_code);
+        return urlencode($string_params[$replace_code]);
+        
+    } else if (strncasecmp($replace_code, '#HTMLENC', 8) == 0) {
+        $parts = explode ('|', $replace_code);
+        $replace_code = strtoupper ($parts[1]);
+        
+        $replace_code = strtoupper ($replace_code);
+        return htmlspecialchars($string_params[$replace_code]);
+        
     } else {
         $replace_code = strtoupper ($replace_code);
         return $string_params[$replace_code];

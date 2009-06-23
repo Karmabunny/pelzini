@@ -19,7 +19,7 @@ STR_VERSION                         Version
 STR_POWERED_BY                      Powered by <a href="http://docu.sourceforge.net">Pelzini</a>, version {VERSION}
 STR_DATE_GENERATED                  Generated: {DATE}
 
-; Sidebar, general use
+; Sidebar
 STR_CLASSES                         Classes
 STR_INTERFACES                      Interfaces
 STR_FUNCTIONS                       Functions
@@ -27,8 +27,17 @@ STR_FILES                           Files
 STR_CONSTANTS                       Constants
 STR_SOURCE_CODE                     Source code
 
+; General use
 STR_FROM_CLASS                      <small>from class {CLASS}</small>
 STR_FROM_INTERFACE                  <small>from interface {INTERFACE}</small>
+STR_AVAIL_SINCE                     Available since: {VERSION}
+STR_FILE                            File: <a href="file.php?name={#URLENC|FILENAME}">{#HTMLENC|FILENAME}</a>
+STR_ERROR_TITLE                     Error
+
+; Column headings in tables
+STR_NAME                            Name
+STR_VALUE                           Value
+STR_DESCRIPTION                     Description
 
 ; Search, advanced search
 STR_SEARCH_TITLE                    Search documentation
@@ -71,5 +80,14 @@ STR_TAG_TITLE                       Code tagged with <i>{NAME}</i>
 ; Class tree
 STR_CLASS_TREE_TITLE                Class tree
 STR_CLASS_TREE_DESC                 Get a tree of all of the classes in this project
+
+; Document page
+STR_INVALID_DOCUMENT                Invalid document specified.
+
+; Enumerations
+STR_ENUM_BROWSER_TITLE              {NAME} enum
+STR_ENUM_PAGE_TITLE                 <span class="unimportant">enum</span> <i>{NAME}</i>
+STR_ENUM_VIRTUAL                    This enumeration is virtual
+STR_ENUM_INVALID                    Invalid enumeration specified.
 
 

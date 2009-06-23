@@ -25,7 +25,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.3
 * @see ParserEnumeration
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 require_once 'functions.php';
@@ -35,9 +35,6 @@ require_once 'functions.php';
 $id = (int) $_GET['id'];
 if ($id == 0) {
   $name = trim($_GET['name']);
-  if ($name == '') {
-    fatal ("<p>Invalid function name!</p>");
-  }
   $name = db_escape ($name);
   $where = "enumerations.name LIKE '{$name}'";
 } else {
@@ -57,29 +54,33 @@ $res = db_query ($q);
 $enumeration = db_fetch_assoc ($res);
 
 
-$skin['page_name'] = "{$enumeration['name']} enum";
+if ($enumeration == null) {
+    require_once 'head.php';
+    echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
+    echo '<p>', str(STR_ENUM_INVALID), '</p>';
+    require_once 'foot.php';
+}
+
+
+$skin['page_name'] = str(STR_ENUM_BROWSER_TITLE, 'name', $enumeration['name']);
 require_once 'head.php';
 
 
-echo "<h2><span class=\"unimportant\">enum</span> <i>{$enumeration['name']}</i></h2>";
+echo '<h2>', str(STR_ENUM_PAGE_TITLE, 'name', $enumeration['name']), '</h2>';
 
 echo process_inline($enumeration['description']);
 
 
 echo "<ul>";
-
-$filename_url = 'file.php?name=' . urlencode($enumeration['filename']);
-echo '<li>File: <a href="', htmlspecialchars($filename_url), '">';
-echo htmlspecialchars($enumeration['filename']), '</a></li>';
+echo '<li>', str(STR_FILE, 'filename', $enumeration['filename']), '</li>';
 
 if ($enumeration['virtual']) {
-  echo '<li>This enumeration is virtual</li>';
+  echo '<li>', str(STR_ENUM_VIRTUAL), '</li>';
 }
 
 if ($enumeration['sinceid']) {
-  echo '<li>Available since: ', get_since_version($enumeration['sinceid']), '</li>';
+  echo '<li>', str(STR_AVAIL_SINCE, 'version', get_since_version($enumeration['sinceid'])), '</li>';
 }
-
 echo "</ul>";
 
 
@@ -95,10 +96,10 @@ $q = "SELECT name, value, description
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="constants"></a>';
-  echo "<h3>Constants</h3>";
+  echo '<h3>', str(STR_CONSTANTS), '</h3>';
   
   echo "<table class=\"function-list\">\n";
-  echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
+  echo '<tr><th>', str(STR_NAME), '</th><th>', str(STR_VALUE), '</th><th>', str(STR_DESCRIPTION), "</th></tr>\n";
   while ($row = db_fetch_assoc ($res)) {
     // encode for output
     $row['name'] = htmlspecialchars($row['name']);
