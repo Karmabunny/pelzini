@@ -152,4 +152,14 @@ STR_CLASS_FUNC_ARG                  As a function argument
 STR_CLASS_EXTENDING                 Extending this class
 STR_CLASS_INVALID_INFO              <i>Invalid info page specified.</i>
 
+; Interfaces
+STR_INTERFACE_INVALID               Invalid interface specified.
+STR_INTERFACE_BROWSER_TITLE         {NAME} interface
+STR_INTERFACE_PAGE_TITLE            <span class="unimportant">interface</span> <i>{NAME}</i>
+STR_INTERFACE_IMPLEMENTORS          Implemented by
 
+; Code renderers
+STR_RENDER_NEW_CLASS_DESC           New class description goes here
+STR_RENDER_NEW_CLASS_NAME           NewClassName
+STR_RENDER_YOUR_NAME                Your Name
+STR_RENDER_METHOD_COMMENT           Method code goes here

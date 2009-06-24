@@ -23,7 +23,6 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1
-* @tag i18n-needed
 **/
 
 

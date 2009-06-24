@@ -25,7 +25,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.1
 * @see ParserInterface
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 require_once 'functions.php';
@@ -35,9 +35,6 @@ require_once 'functions.php';
 $id = (int) $_GET['id'];
 if ($id == 0) {
   $name = trim($_GET['name']);
-  if ($name == '') {
-    fatal ("<p>Invalid interface name!</p>");
-  }
   $name = db_escape ($name);
   $where = "interfaces.name LIKE '{$name}'";
 } else {
@@ -52,19 +49,32 @@ $q = "SELECT interfaces.id, interfaces.name, interfaces.description, files.name 
   INNER JOIN files ON interfaces.fileid = files.id
   WHERE {$where} LIMIT 1";
 $res = db_query ($q);
-$interface = db_fetch_assoc ($res);
 
-$skin['page_name'] = "{$interface['name']} interface";
+if (! $interface = db_fetch_assoc ($res)) {
+    require_once 'head.php';
+    echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
+    echo '<p>', str(STR_INTERFACE_INVALID), '</p>';
+    require_once 'foot.php';
+}
+
+$skin['page_name'] = str(STR_FUNC_BROWSER_TITLE, 'name', $interface['name']);
 require_once 'head.php';
 
 
-echo "<h2><span class=\"unimportant\">interface</span> <i>{$interface['name']}</i></h2>";
+// Show basic details
+echo '<h2>', str(STR_FUNC_PAGE_TITLE, 'name', $interface['name']), '</h2>';
 
-$filename_clean = htmlentities(urlencode($interface['filename']));
-echo "<p>File: <a href=\"file.php?name={$filename_clean}\">" . htmlentities($interface['filename']) . "</a></p>\n";
 echo process_inline($interface['description']);
 
-if ($interface['sinceid']) echo '<p>Available since: ', get_since_version($function['sinceid']), '</p>';
+
+echo '<ul>';
+echo '<li>', str(STR_FILE, 'filename', $interface['filename']), '</li>';
+
+if ($interface['sinceid']) {
+  echo '<li>', str(STR_AVAIL_SINCE, 'version', get_since_version($interface['sinceid'])), '</li>';
+}
+echo '</ul>';
+
 
 
 show_authors ($interface['id'], LINK_TYPE_INTERFACE);
@@ -79,7 +89,7 @@ $q = "SELECT classes.id, classes.name
   WHERE class_implements.name = {$name}";
 $res = db_query ($q);
 if (db_num_rows($res) > 0) {
-  echo "<h3>Implemented by</h3>";
+  echo '<h3>', str(STR_INTERFACE_IMPLEMENTORS), '</h3>';
   echo "<ul>";
   while ($row = db_fetch_assoc ($res)) {
     echo "<li>", get_object_link($row['name']);

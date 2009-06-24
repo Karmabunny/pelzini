@@ -24,7 +24,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.3
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 /**
@@ -47,11 +47,11 @@ class PHPCodeRenderer {
     
     $out .= "<?php\n";
     $out .= "/**\n";
-    $out .= "* New class description goes here\n";
+    $out .= "* " . str(STR_RENDER_NEW_CLASS_DESC) . "\n";
     $out .= "* \n";
-    $out .= "* @author Your Name, {$date}\n";
+    $out .= "* @author " . str(STR_RENDER_YOUR_NAME) . ", {$date}\n";
     $out .= "**/\n";
-    $out .= "class NewClassName extends {$class['name']} {\n";
+    $out .= "class " . str(STR_RENDER_NEW_CLASS_NAME) . " extends {$class['name']} {\n";
     $out .= "    \n";
     
     $q = "SELECT name, arguments, visibility, description
@@ -71,7 +71,7 @@ class PHPCodeRenderer {
       }
       
       $out .= "    {$row['visibility']} function {$row['name']} ({$row['arguments']}) {\n";
-      $out .= "        // Method code goes here\n";
+      $out .= "        // " . str(STR_RENDER_METHOD_COMMENT) . "\n";
       $out .= "    }\n";
       $out .= "    \n";
     }
