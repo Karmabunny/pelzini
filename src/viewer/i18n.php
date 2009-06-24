@@ -130,6 +130,12 @@ function str ($string_constant) {
 *   {#NL}
 *   Adds a new line to the output
 *
+*   {#URLENC|PARAM}
+*   Returns the specified parameter, urlencode()ed.
+*
+*   {#HTMLENC|PARAM}
+*   Returns the specified parameter, htmlspecialchars()ed.
+*
 * @author Josh Heidenreich, 2009-05-05
 *
 * @param string $str The string to do replacements to

@@ -25,24 +25,44 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.1
 * @see ParserFile
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
-require_once 'head.php';
+
+require_once 'functions.php';
 
 
 // Determine what to show
 $id = (int) $_GET['id'];
 if ($id == 0) {
   $name = trim($_GET['name']);
-  if ($name == '') {
-    fatal ("<p>Invalid filename!</p>");
-  }
   $name = db_escape ($name);
   $where = "name LIKE '{$name}'";
 } else {
   $where = "id = {$id}";
 }
+
+
+// Get the details of this file
+$q = "SELECT name, description, source FROM files WHERE {$where} LIMIT 1";
+$res = db_query ($q);
+$file = db_fetch_assoc ($res);
+
+
+if ($file == null) {
+    require_once 'head.php';
+    echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
+    echo '<p>', str(STR_FILE_INVALID), '</p>';
+    require_once 'foot.php';
+}
+
+
+$skin['page_name'] = str(STR_FILE_SOURCE_BROWSER_TITLE, 'name', $file['name']);
+require_once 'head.php';
+
+echo '<h2>', str(STR_FILE_SOURCE_PAGE_TITLE, 'name', $file['name']), '</h2>';
+echo process_inline($file['description']);
+
 
 // Line highlighting
 if ($_GET['highlight']) {
@@ -65,15 +85,8 @@ if ($_GET['keyword']) {
 }
 
 
-
-// Get the details of this file
-$q = "SELECT name, description, source FROM files WHERE {$where} LIMIT 1";
-$res = db_query ($q);
-$row = db_fetch_assoc ($res);
-echo "<h2>{$row['name']}</h2>";
-echo process_inline($row['description']);
-
-$source = trim($row['source']);
+// Prepare source for display
+$source = trim($file['source']);
 $source = explode("\n", "\n" . $source);
 unset ($source[0]);
 

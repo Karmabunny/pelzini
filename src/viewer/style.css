@@ -283,3 +283,15 @@ div.viewer_options a {
 div.viewer_options .on a {
   color: #222;
 }
+
+p.tags {
+  margin-top: 50px;
+  padding: 5px 10px;
+  border-top: 1px solid #CCCCCC;
+  border-bottom: 1px solid #CCCCCC;
+  background-color: #FFFDFA;
+}
+
+p.tags a {
+  color: #6E7AFF;
+}

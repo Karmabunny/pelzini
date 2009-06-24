@@ -25,7 +25,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.1
 * @see ParserFile
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 require_once 'functions.php';
@@ -35,9 +35,6 @@ require_once 'functions.php';
 $id = (int) $_GET['id'];
 if ($id == 0) {
   $name = trim($_GET['name']);
-  if ($name == '') {
-    fatal ("<p>Invalid filename!</p>");
-  }
   $name = db_escape ($name);
   $where = "files.name LIKE '{$name}'";
 } else {
@@ -57,21 +54,29 @@ $res = db_query ($q);
 $file = db_fetch_assoc ($res);
 
 
+if ($file == null) {
+    require_once 'head.php';
+    echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
+    echo '<p>', str(STR_FILE_INVALID), '</p>';
+    require_once 'foot.php';
+}
+
+
 $skin['page_name'] = $file['name'];
 require_once 'head.php';
 
 
-echo "<h2><span class=\"unimportant\">file</span> <i>{$file['name']}</i></h2>";
+echo '<h2>', str(STR_FILE_PAGE_TITLE, 'name', $file['name']), '</h2>';
 
 if ($file['packageid'] != null) {
-  echo "<p>Package: <a href=\"package.php?id={$file['packageid']}\">{$file['package']}</a></p>";
+  echo '<p>', str(STR_PACKAGE, 'id', $file['packageid'], 'name', $file['package']), '</p>';
 }
 
 if ($file['sinceid'] != null) {
-  echo '<p>Available since: ', get_since_version($file['sinceid']), '</p>';
+  echo '<p>', str(STR_AVAIL_SINCE, 'version', get_since_version($file['sinceid'])), '</p>';
 }
 
-echo "<p><small><a href=\"file_source.php?id={$file['id']}\">View Source</a></small></p>";
+echo "<p><small><a href=\"file_source.php?id={$file['id']}\">", str(STR_FILE_VIEW_SOURCE), '</a></small></p>';
 
 echo '<br>', process_inline($file['description']);
 
@@ -88,7 +93,7 @@ $q = "SELECT id, name, description
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="classes"></a>';
-  echo "<h3>Classes</h3>";
+  echo '<h3>', str(STR_CLASSES), '</h3>';
   
   $alt = false;
   echo '<div class="list">';
@@ -117,7 +122,7 @@ $q = "SELECT id, name, description
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="interfaces"></a>';
-  echo "<h3>Interfaces</h3>";
+  echo '<h3>', str(STR_INTERFACES), '</h3>';
   
   $alt = false;
   echo '<div class="list">';
@@ -146,7 +151,7 @@ $q = "SELECT id, name, description, arguments
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="functions"></a>';
-  echo "<h3>Functions</h3>";
+  echo '<h3>', str(STR_FUNCTIONS), '</h3>';
   
   $alt = false;
   echo '<div class="list">';
@@ -178,7 +183,7 @@ $q = "SELECT id, name, description
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="functions"></a>';
-  echo "<h3>Enumerations</h3>";
+  echo '<h3>', str(STR_ENUMERATIONS), '</h3>';
   
   $alt = false;
   echo '<div class="list">';
@@ -209,7 +214,7 @@ $q = "SELECT name, value, description
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="constants"></a>';
-  echo "<h3>Constants</h3>";
+  echo '<h3>', str(STR_CONSTANTS), '</h3>';
   
   echo "<table class=\"function-list\">\n";
   echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";

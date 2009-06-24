@@ -26,13 +26,22 @@ STR_FUNCTIONS                       Functions
 STR_FILES                           Files
 STR_CONSTANTS                       Constants
 STR_SOURCE_CODE                     Source code
+STR_ENUMERATIONS                    Enumerations
+
+STR_AUTHORS                         Authors
+STR_TABLES                          Tables used
+STR_SEE_ALSO                        See also
+STR_TAGS                            Tags:
 
 ; General use
 STR_FROM_CLASS                      <small>from class {CLASS}</small>
 STR_FROM_INTERFACE                  <small>from interface {INTERFACE}</small>
+STR_ERROR_TITLE                     Error
+
+; Various lines of information
 STR_AVAIL_SINCE                     Available since: {VERSION}
 STR_FILE                            File: <a href="file.php?name={#URLENC|FILENAME}">{#HTMLENC|FILENAME}</a>
-STR_ERROR_TITLE                     Error
+STR_PACKAGE                         Package: <a href="package.php?id={ID}">{NAME}</a>
 
 ; Column headings in tables
 STR_NAME                            Name
@@ -90,4 +99,10 @@ STR_ENUM_PAGE_TITLE                 <span class="unimportant">enum</span> <i>{NA
 STR_ENUM_VIRTUAL                    This enumeration is virtual
 STR_ENUM_INVALID                    Invalid enumeration specified.
 
+; Files
+STR_FILE_INVALID                    Invalid file specified.
+STR_FILE_SOURCE_BROWSER_TITLE       Source of {NAME}
+STR_FILE_SOURCE_PAGE_TITLE          <span class="unimportant">source of</span> <i>{NAME}</i>
+STR_FILE_PAGE_TITLE                 <span class="unimportant">file</span> <i>{NAME}</i>
+STR_FILE_VIEW_SOURCE                View source
 

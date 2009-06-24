@@ -24,7 +24,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 
@@ -161,7 +161,7 @@ function show_authors ($link_id, $link_type) {
   $res = db_query($q);
   
   if (db_num_rows($res) > 0) {
-    echo "<h3>Authors</h3>";
+    echo '<h3>', str(STR_AUTHORS), '</h3>';
     
     echo '<ul>';
     while ($row = db_fetch_assoc ($res)) {
@@ -193,7 +193,7 @@ function show_tables ($link_id, $link_type) {
   $res = db_query($q);
   
   if (db_num_rows($res) > 0) {
-    echo "<h3>Tables used</h3>";
+    echo '<h3>', str(STR_TABLES), '</h3>';
     
     echo '<ul>';
     while ($row = db_fetch_assoc ($res)) {
@@ -221,7 +221,7 @@ function show_see_also ($link_id, $link_type) {
   $res = db_query($q);
   
   if (db_num_rows($res) > 0) {
-    echo "<h3>See also</h3>";
+    echo '<h3>', str(STR_SEE_ALSO), '</h3>';
     
     echo '<ul>';
     while ($row = db_fetch_assoc ($res)) {
@@ -240,7 +240,7 @@ function show_tags ($link_id, $link_type) {
   $res = db_query($q);
   
   if (db_num_rows($res) > 0) {
-    echo "<p class=\"tags\"><b>Tags:</b>";
+    echo '<p class="tags">', str(STR_TAGS);
     
     while ($row = db_fetch_assoc ($res)) {
       $row['name'] = htmlspecialchars($row['name']);
