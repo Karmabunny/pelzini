@@ -25,7 +25,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.1
 * @see ParserClass
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 require_once 'functions.php';
@@ -63,21 +63,27 @@ $q = "SELECT classes.id, classes.name, classes.description, classes.extends, fil
   LIMIT 1";
 $res = db_query ($q);
 
-if (db_num_rows ($res) == 0) {
-  echo "<p>Invalid class specified.</p>";
-  exit;
+if (! $class = db_fetch_assoc ($res)) {
+    require_once 'head.php';
+    echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
+    echo '<p>', str(STR_CLASS_INVALID), '</p>';
+    require_once 'foot.php';
 }
 
-$class = db_fetch_assoc ($res);
-
-$skin['page_name'] = "{$class['name']} class";
+$skin['page_name'] = str(STR_CLASS_BROWSER_TITLE, 'name', $class['name']);
 require_once 'head.php';
 
 
 // Pages
-$pages = array('General', 'Used by', 'Extends', 'Source search');
+$pages = array(
+  str(STR_CLASS_PAGE_GENERAL),
+  str(STR_CLASS_PAGE_USED_BY),
+  str(STR_CLASS_PAGE_EXTENDS),
+  str(STR_CLASS_PAGE_SOURCE)
+);
+
 echo "<div class=\"viewer_options\">";
-echo "<p><b>Info Page:</b></p>";
+echo '<p><b>', str(STR_CLASS_PAGE), '</b></p>';
 foreach ($pages as $num => $page) {
   if ($_GET['page'] == $num) {
     echo "<p class=\"on\"><a href=\"class.php?id={$class['id']}&page={$num}\">{$page}</a></p>";
@@ -90,11 +96,11 @@ echo "</div>";
 // Page options
 if ($_GET['page'] == 0) {
   echo "<div class=\"viewer_options\">";
-  echo "<p><b>Page options:</b></p>";
+  echo '<p><b>', str(STR_CLASS_OPTIONS), '</b></p>';
   if ($_GET['complete'] == 1) {
-    echo "<p class=\"on\"><a href=\"class.php?id={$class['id']}\">Inherited members</a></p>";
+    echo "<p class=\"on\"><a href=\"class.php?id={$class['id']}\">", str(STR_CLASS_INHERITED), "</a></p>";
   } else {
-    echo "<p><a href=\"class.php?id={$class['id']}&complete=1\">Inherited members</a></p>";
+    echo "<p><a href=\"class.php?id={$class['id']}&complete=1\">", str(STR_CLASS_INHERITED), "</a></p>";
   }
   echo "</div>";
 }
@@ -102,31 +108,25 @@ if ($_GET['page'] == 0) {
 
 
 
-echo "<h2><span class=\"unimportant\">class</span> <i>{$class['name']}</i></h2>";
+echo '<h2>', str(STR_CLASS_PAGE_TITLE, 'name', $class['name']), '</h2>';
 
 echo process_inline($class['description']);
 
 
 // Basic class details
 echo "<ul>";
-
-$filename_url = 'file.php?name=' . urlencode($class['filename']);
-echo '<li>File: <a href="', htmlspecialchars($filename_url), '">';
-echo htmlspecialchars($class['filename']), '</a></li>';
+echo '<li>', str(STR_FILE, 'filename', $class['filename']), '</li>';
 
 if ($class['extends'] != null) {
-  echo '<li>Extends: ', get_object_link($class['extends']), '</li>';
+  echo '<li>', str(STR_CLASS_EXTENDS, 'link', get_object_link($class['extends'])), '</li>';
 }
-
-if ($class['abstract'] == 1) echo '<li>This class is abstract</li>';
-if ($class['final'] == 1) echo '<li>This class is final</li>';
 
 // Show implements
 $q = "SELECT name FROM class_implements WHERE classid = {$class['id']}";
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo "<li>Implements: ";
+  echo '<li>', str(STR_CLASS_IMPLEMENTS);
   
   $j = 0;
   while ($row = db_fetch_assoc ($res)) {
@@ -136,10 +136,12 @@ if (db_num_rows ($res) > 0) {
   echo '</li>';
 }
 
-if ($class['sinceid']) {
-  echo '<li>Available since: ', get_since_version($class['sinceid']), '</li>';
-}
+if ($class['abstract'] == 1) echo '<li>', str(STR_CLASS_ABSTRACT), '</li>';
+if ($class['final'] == 1) echo '<li>', str(STR_CLASS_FINAL), '</li>';
 
+if ($class['sinceid']) {
+  echo '<li>', str(STR_AVAIL_SINCE, 'version', get_since_version($class['sinceid'])), '</li>';
+}
 echo "</ul>";
 
 
@@ -181,15 +183,15 @@ switch ($_GET['page']) {
     // Show variables
     if (count($variables) > 0) {
       echo '<a name="variables"></a>';
-      echo "<h3>Variables</h3>";
+      echo '<h3>', str(STR_VARIABLES), '</h3>';
       echo "<table class=\"function-list\">\n";
-      echo "<tr><th>Name</th><th>Description</th></tr>\n";
+      echo '<tr><th>', str(STR_NAME), '</th><th>', str(STR_DESCRIPTION), "</th></tr>\n";
       foreach ($variables as $row) {
         // encode for output
         $row['name'] = htmlspecialchars($row['name']);
         if ($row['description'] == null) $row['description'] = '&nbsp;';
         
-        if ($row['static']) $row['name'] .= ' <small>(static)</small>';
+        if ($row['static']) $row['name'] .= ' ' . str(STR_CLASS_VAR_STATIC);
         
         // display
         echo "<tr>";
@@ -233,7 +235,7 @@ switch ($_GET['page']) {
     // If our class was found - which it should be - find the top ancestor
     // and then draw unordered lists of the class structure
     if ($node != null) {
-      echo "<h3>Class structure</h3>";
+      echo '<h3>', str(STR_CLASS_STRUCTURE), '</h3>';
       
       $ancestors = $node->findAncestors();
       $top = end ($ancestors);
@@ -257,7 +259,7 @@ switch ($_GET['page']) {
     
     // Display any functions which return this class
     if (db_num_rows ($res) > 0) {
-      echo "<h3>As a function return value</h3>";
+      echo '<h3>', str(STR_CLASS_FUNC_RETURN), '</h3>';
       
       echo '<div class="list">';
       while ($row = db_fetch_assoc ($res)) {
@@ -299,7 +301,7 @@ switch ($_GET['page']) {
     
     // Display any functions which use this class as an argument
     if (db_num_rows ($res) > 0) {
-      echo "<h3>As a function argument</h3>";
+      echo '<h3>', str(STR_CLASS_FUNC_ARG), '</h3>';
       
       echo '<div class="list">';
       while ($row = db_fetch_assoc ($res)) {
@@ -333,7 +335,7 @@ switch ($_GET['page']) {
     
     
   case PAGE_CLASS_EXTENDS:
-    echo "<h3>Extending this class</h3>";
+    echo '<h3>', str(STR_CLASS_EXTENDING), '</h3>';
     
     require_once 'php_code_renderer.php';
     $renderer = new PHPCodeRenderer();
@@ -352,7 +354,8 @@ switch ($_GET['page']) {
     
     
   default:
-    echo "<p><i>Invalid page specified.</i></p>";
+    echo '<h3>', str(STR_ERROR_TITLE), '</h3>';
+    echo '<p>', str(STR_CLASS_INVALID_INFO), '</p>';
     break;
 }
 

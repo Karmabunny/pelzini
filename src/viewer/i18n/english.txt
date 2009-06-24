@@ -27,6 +27,7 @@ STR_FILES                           Files
 STR_CONSTANTS                       Constants
 STR_SOURCE_CODE                     Source code
 STR_ENUMERATIONS                    Enumerations
+STR_VARIABLES                       Variables
 
 STR_AUTHORS                         Authors
 STR_TABLES                          Tables used
@@ -117,3 +118,38 @@ STR_FILE_VIEW_SOURCE                View source
 ; Packages
 STR_PKG_PAGE_TITLE                  <span class="unimportant">package</span> <i>{NAME}</i>
 STR_PKG_INVALID                     Invalid package specified.
+
+; Functions
+STR_FUNC_INVALID                    Invalid function specified.
+STR_FUNC_PAGE_TITLE                 <span class="unimportant">function</span> <i>{NAME}</i>()
+STR_FUNC_BROWSER_TITLE              {NAME}() function
+STR_FUNC_CLASS                      Class: <a href="class.php?name={#URLENC|NAME}">{NAME}</a>
+STR_FUNC_USAGE                      Usage
+STR_FUNC_ARGUMENTS                  Arguments
+STR_FUNC_RETURN_VALUE               Return value
+STR_FUNC_STATIC                     Static method
+STR_FUNC_FINAL                      Final method
+
+; Classes
+STR_CLASS_INVALID                   Invalid class specified.
+STR_CLASS_PAGE_TITLE                <span class="unimportant">class</span> <i>{NAME}</i>
+STR_CLASS_BROWSER_TITLE             {NAME} class
+STR_CLASS_EXTENDS                   Extends: {LINK}
+STR_CLASS_IMPLEMENTS                Implements:
+STR_CLASS_ABSTRACT                  This class is abstract
+STR_CLASS_FINAL                     This class is final
+STR_CLASS_PAGE                      Info Page:
+STR_CLASS_PAGE_GENERAL              General
+STR_CLASS_PAGE_USED_BY              Used by
+STR_CLASS_PAGE_EXTENDS              Extends
+STR_CLASS_PAGE_SOURCE               Source search
+STR_CLASS_OPTIONS                   Page options:
+STR_CLASS_INHERITED                 Inherited members
+STR_CLASS_VAR_STATIC                <small>(static)</small>
+STR_CLASS_STRUCTURE                 Class structure
+STR_CLASS_FUNC_RETURN               As a function return value
+STR_CLASS_FUNC_ARG                  As a function argument
+STR_CLASS_EXTENDING                 Extending this class
+STR_CLASS_INVALID_INFO              <i>Invalid info page specified.</i>
+
+

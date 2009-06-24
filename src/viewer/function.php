@@ -25,7 +25,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.1
 * @see ParserFunction
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 require_once 'functions.php';
@@ -35,9 +35,6 @@ require_once 'functions.php';
 $id = (int) $_GET['id'];
 if ($id == 0) {
   $name = trim($_GET['name']);
-  if ($name == '') {
-    fatal ("<p>Invalid function name!</p>");
-  }
   $name = db_escape ($name);
   $where = "functions.name LIKE '{$name}'";
 } else {
@@ -57,42 +54,43 @@ $q->addSinceVersionWhere();
 
 $q = $q->buildQuery();
 $res = db_query ($q);
-$function = db_fetch_assoc ($res);
 
+if (! $function = db_fetch_assoc ($res)) {
+    require_once 'head.php';
+    echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
+    echo '<p>', str(STR_FUNC_INVALID), '</p>';
+    require_once 'foot.php';
+}
 
-$skin['page_name'] = "{$function['name']}() function";
+$skin['page_name'] = str(STR_FUNC_BROWSER_TITLE, 'name', $function['name']);
 require_once 'head.php';
 
 
-echo "<h2><span class=\"unimportant\">function</span> <i>{$function['name']}</i>()</h2>";
+echo '<h2>', str(STR_FUNC_PAGE_TITLE, 'name', $function['name']), '</h2>';
 
 echo process_inline($function['description']);
 
 
 echo "<ul>";
-
-$filename_url = 'file.php?name=' . urlencode($function['filename']);
-echo '<li>File: <a href="', htmlspecialchars($filename_url), '">';
-echo htmlspecialchars($function['filename']), '</a></li>';
+echo '<li>', str(STR_FILE, 'filename', $function['filename']), '</li>';
 
 if ($function['classid']) {
-  echo "<li>Class: <a href=\"class.php?id={$function['classid']}\">{$function['class']}</a>";
+  echo '<li>', str(STR_FUNC_CLASS, 'name', $function['class']);
   
-  if ($function['static']) echo ', Static method';
-  if ($function['final']) echo ', Final method';
+  if ($function['static']) echo ', ', str(STR_FUNC_STATIC);
+  if ($function['final']) echo ', ', str(STR_FUNC_FINAL);
   
   echo '</li>';
 }
 
 if ($function['sinceid']) {
-  echo '<li>Available since: ', get_since_version($function['sinceid']), '</li>';
+  echo '<li>', str(STR_AVAIL_SINCE, 'version', get_since_version($function['sinceid'])), '</li>';
 }
-
 echo "</ul>";
 
 
 // Usage
-echo "<h3>Usage</h3>";
+echo '<h3>', str(STR_FUNC_USAGE), '</h3>';
 show_function_usage ($function['id']);
 
 
@@ -104,7 +102,7 @@ show_tables ($function['id'], LINK_TYPE_FUNCTION);
 $q = "SELECT id, name, type, defaultvalue, description FROM arguments WHERE functionid = {$function['id']}";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo "<h3>Arguments</h3>";
+  echo '<h3>', str(STR_FUNC_ARGUMENTS), '</h3>';
   
   echo "<ol class=\"spaced-list\">";
   while ($row = db_fetch_assoc ($res)) {
@@ -125,7 +123,7 @@ if (db_num_rows($res) > 0) {
 if ($function['returntype'] or $function['returndescription']) {
   $function['returntype'] = htmlspecialchars ($function['returntype']);
   
-  echo "<h3>Return value</h3>";
+  echo '<h3>', str(STR_FUNC_RETURN_VALUE), '</h3>';
   
   echo "<ul><li>";
   if ($function['returntype']) {
