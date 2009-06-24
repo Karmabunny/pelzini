@@ -90,6 +90,14 @@ STR_TAG_TITLE                       Code tagged with <i>{NAME}</i>
 STR_CLASS_TREE_TITLE                Class tree
 STR_CLASS_TREE_DESC                 Get a tree of all of the classes in this project
 
+; Tables list, table detail page
+STR_TABLE_LIST_TITLE                Tables list
+STR_TABLE_LIST_INTRO                These are the known tables used by this project.
+STR_TABLE_LIST_NONE                 No tables are known for this project.
+STR_TABLE_LIST_DESC                 Get a list of all of the tables in this project
+STR_TABLE_PAGE_TITLE                Table {NAME}
+STR_TABLE_TITLE                     Code that uses the table <i>{NAME}</i>
+
 ; Document page
 STR_INVALID_DOCUMENT                Invalid document specified.
 
@@ -106,3 +114,6 @@ STR_FILE_SOURCE_PAGE_TITLE          <span class="unimportant">source of</span> <
 STR_FILE_PAGE_TITLE                 <span class="unimportant">file</span> <i>{NAME}</i>
 STR_FILE_VIEW_SOURCE                View source
 
+; Packages
+STR_PKG_PAGE_TITLE                  <span class="unimportant">package</span> <i>{NAME}</i>
+STR_PKG_INVALID                     Invalid package specified.

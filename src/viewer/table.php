@@ -25,22 +25,24 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.2
 * @see viewer/tables_list.php
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
-require_once 'head.php';
-
+require_once 'functions.php';
 
 $_GET['name'] = trim($_GET['name']);
 if ($_GET['name'] == '') {
+  require_once 'head.php';
   echo "Invalid table specified";
-  exit;
+  require_once 'foot.php';
 }
 
 $name_sql = db_quote ($_GET['name']);
 
+$skin['page_name'] = str(STR_TABLE_PAGE_TITLE, 'name', $_GET['name']);
+require_once 'head.php';
 
-echo "<h2>Code that uses the table <i>{$_GET['name']}</i></h2>";
+echo '<h2>', str(STR_TABLE_TITLE, 'name', $_GET['name']), '</h2>';
 
 
 // Show files
@@ -51,7 +53,7 @@ $q = "SELECT files.id, files.name, item_tables.action, item_tables.description
   ORDER BY files.name";
 $res = db_query ($q);
 if (db_num_rows($res) > 0) {
-  echo "<h3>Files</h3>";
+  echo '<h3>', str(STR_FILES), '</h3>';
   
   $alt = false;
   echo '<div class="list">';
@@ -83,7 +85,7 @@ $q = "SELECT classes.id, classes.name, item_tables.action, item_tables.descripti
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="classes"></a>';
-  echo "<h3>Classes</h3>";
+  echo '<h3>', str(STR_CLASSES), '</h3>';
   
   $alt = false;
   echo '<div class="list">';
@@ -113,7 +115,7 @@ $q = "SELECT functions.id, functions.name, item_tables.action, item_tables.descr
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<a name="functions"></a>';
-  echo "<h3>Functions</h3>";
+  echo '<h3>', str(STR_FUNCTIONS), '</h3>';
   
   $alt = false;
   echo '<div class="list">';

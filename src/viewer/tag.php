@@ -144,5 +144,34 @@ if (db_num_rows($res) > 0) {
 }
 
 
+// Show constants
+$q = "SELECT constants.id, constants.name, constants.fileid
+  FROM constants
+  INNER JOIN item_info_tags ON item_info_tags.linktype = " . LINK_TYPE_CONSTANT . " AND item_info_tags.linkid = constants.id
+  WHERE item_info_tags.name = {$name_sql}
+  ORDER BY constants.name";
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
+  echo '<a name="constants"></a>';
+  echo '<h3>', str(STR_CONSTANTS), '</h3>';
+  
+  $alt = false;
+  echo '<div class="list">';
+  while ($row = db_fetch_assoc ($res)) {
+    $row['name'] = htmlspecialchars($row['name']);
+    
+    $class = 'item';
+    if ($alt) $class .= '-alt';
+    
+    echo "<div class=\"{$class}\">";
+    echo "<p><strong><a href=\"file.php?id={$row['fileid']}\">{$row['name']}</a></strong></p>";
+    echo '</div>';
+    
+    $alt = ! $alt;
+  }
+  echo '</div>';
+}
+
+
 require_once 'foot.php';
 ?>

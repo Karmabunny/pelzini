@@ -25,13 +25,16 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @author Josh Heidenreich
 * @since 0.2
 * @see viewer/table.php
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
+require_once 'functions.php';
+
+$skin['page_name'] = str(STR_TABLE_LIST_TITLE);
 require_once 'head.php';
 
 
-echo "<h2>Tables list</h2>";
+echo '<h2>', str(STR_TABLE_LIST_TITLE), '</h2>';
 
 
 $q = "SELECT name
@@ -41,7 +44,7 @@ $q = "SELECT name
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo "<p>These are the known tables used by this project.</p>";
+  echo '<p>', str(STR_TABLE_LIST_INTRO), '</p>';
   
   echo "<ul>";
   while ($row = db_fetch_assoc ($res)) {
@@ -51,7 +54,7 @@ if (db_num_rows ($res) > 0) {
   
   
 } else {
-  echo "<p>No tables are known for this project.</p>";
+  echo '<p>', str(STR_TABLE_LIST_NONE), '</p>';
 }
 
 

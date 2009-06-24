@@ -27,7 +27,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @see ParserDocuemnt
 * @see viewer/authors_list.php
 * @see viewer/tables_list.php
-* @tag i18n-partial
+* @tag i18n-done
 **/
 
 require_once 'head.php';
@@ -66,8 +66,8 @@ if (db_num_rows ($res) > 0) {
 
 <br>
 
-<p><b><a href="tables_list.php">Tables list</a></b>
-<br>Get a list of all of the tables used by this project</p>
+<p><b><a href="tables_list.php"><?= str(STR_TABLE_LIST_TITLE); ?></a></b>
+<br><?= str(STR_TABLE_LIST_DESC); ?></p>
 
 <br>
 

@@ -24,7 +24,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Viewer
 * @author Josh Heidenreich
 * @since 0.1
-* @tag i18n-needed
+* @tag i18n-done
 **/
 
 require_once 'functions.php';
@@ -33,16 +33,20 @@ require_once 'functions.php';
 $_GET['id'] = (int) $_GET['id'];
 $q = "SELECT id, name FROM packages WHERE id = {$_GET['id']} LIMIT 1";
 $res = db_query($q);
-if (db_num_rows($res) == 0) {
-  echo '<p>Invalid package specified.</p>';
+
+if (! $package = db_fetch_assoc ($res)) {
+  require_once 'head.php';
+  echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
+  echo str(STR_PKG_INVALID);
+  require_once 'foot.php';
 }
-$package = db_fetch_assoc($res);
+
 $package['name'] = htmlspecialchars($package['name']);
 
 $skin['page_name'] = $package['name'];
 require_once 'head.php';
 
-echo "<h2><span class=\"unimportant\">package</span> <i>{$package['name']}</i></h2>";
+echo '<h2>', str(STR_PKG_PAGE_TITLE, 'name', $package['name']), '</h2>';
 
 
 // Show files
@@ -59,7 +63,7 @@ $res = db_query ($q);
 
 if (db_num_rows($res) > 0) {
   echo '<div>';
-  echo '<h3>Files</h3>';
+  echo '<h3>', str(STR_FILES), '</h3>';
   echo '<img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin-top: -40px;">';
   
   $alt = false;
@@ -102,7 +106,7 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<div>';
   echo '<a name="classes"></a>';
-  echo "<h3>Classes</h3>";
+  echo '<h3>', str(STR_CLASSES), '</h3>';
   echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
   
   $alt = false;
@@ -134,7 +138,7 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<div>';
   echo '<a name="interfaces"></a>';
-  echo "<h3>Interfaces</h3>";
+  echo '<h3>', str(STR_INTERFACES), '</h3>';
   echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
   
   $alt = false;
@@ -166,7 +170,7 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<div>';
   echo '<a name="functions"></a>';
-  echo "<h3>Functions</h3>";
+  echo '<h3>', str(STR_FUNCTIONS), '</h3>';
   echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
   
   $alt = false;
@@ -201,7 +205,7 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
   echo '<div>';
   echo '<a name="constants"></a>';
-  echo "<h3>Constants</h3>";
+  echo '<h3>', str(STR_CONSTANTS), '</h3>';
   echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
   
   echo "<table class=\"function-list content\">\n";
