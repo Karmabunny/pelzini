@@ -1,0 +1,68 @@
+;
+; Language: hacker.
+;
+; This is basically here just because it is fun, and for testing until I can get some additional translations
+;
+
+
+; Header
+STR_MAIN_TITLE                      Docz for {PROJECT}
+STR_INTRO_PARAGRAPH                 This is teh code docz for {PROJECT}.
+STR_HOME                            Home!!!
+STR_ALL_PACKAGES                    All pkgz
+STR_VERSION                         vers
+
+; Footer
+STR_POWERED_BY                      Teh docz are here cos of <a href="http://docu.sourceforge.net">Pelzini</a> {VERSION}
+STR_DATE_GENERATED                  Procezzed: {DATE}
+
+; Sidebar, general use
+STR_CLASSES                         Classez
+STR_INTERFACES                      Interfacez
+STR_FUNCTIONS                       Functionz
+STR_FILES                           Filez
+STR_CONSTANTS                       Constantz
+STR_SOURCE_CODE                     Teh source codez
+
+STR_FROM_CLASS                      <small>from teh class {CLASS}</small>
+STR_FROM_INTERFACE                  <small>from teh interface {INTERFACE}</small>
+
+; Search, advanced search
+STR_SEARCH_TITLE                    Search teh docz
+STR_SEARCH_GO_BTN                   Search!!!
+STR_SEARCH_TERM                     Enter the search termz:
+STR_ADV_SEARCH_TITLE                More leet search
+STR_WHAT_SEARCH                     What do u want to searchz?
+STR_YOU_SEARCHED_FOR                "<b>{TERM}</b>" wuz ur search termz.
+STR_CLASSES_RESULT                  Classez ({NUM} result{#PLURAL|NUM||z})
+STR_FUNCTIONS_RESULT                Functionz ({NUM} result{#PLURAL|NUM||z})
+STR_CONSTANTS_RESULT                Constantz ({NUM} result{#PLURAL|NUM||z})
+STR_SOURCE_CODE_RESULT              Teh source codez ({NUM} result{#PLURAL|NUM||z})
+STR_SHOW_HIDE_ALL                   Show/hide allz:
+
+; More info page
+STR_MORE_INFO                       m0r3 nfo
+STR_PROJECT_DOCS                    Project docz
+STR_ADDITIONAL_DOCS                 Additional docz
+
+; Authors list, author detail page
+STR_AUTHOR_LIST_TITLE               Authorz list
+STR_AUTHOR_LIST_INTRO               These are the known authorz of this project.
+STR_AUTHOR_LIST_NONE                No authorz are known for this project.
+STR_AUTHOR_LIST_DESC                Get a list of all of the coderz of this project
+STR_AUTHOR_PAGE_TITLE               The coder {NAME}
+STR_AUTHOR_TITLE                    Codez written by <i>{NAME}</i>
+
+; Tags list, tag detail page
+STR_TAG_LIST_TITLE                  Tagz list
+STR_TAG_LIST_INTRO                  These are the tagz in use by this project.
+STR_TAG_LIST_NONE                   No tagz are in use by this project.
+STR_TAG_LIST_DESC                   Get a list of all of the tagz in this project
+STR_TAG_PAGE_TITLE                  Tag: {NAME}
+STR_TAG_TITLE                       Codez tagged with <i>{NAME}</i>
+
+; Class tree
+STR_CLASS_TREE_TITLE                Clazz tree
+STR_CLASS_TREE_DESC                 Get a tree of all of the classez in this project
+
+

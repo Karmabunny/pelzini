@@ -1,0 +1,93 @@
+;
+; Language: english
+;
+; This is the master language file - it defines which constants are available to the program.
+; If you add or remove any strings, you must run lang_conv.php, which is in the i18n directory.
+; Also note that lang_conv.php requires write access to the i18n directory.
+; Please also make sure that strings.php is committed to the repository.
+;
+
+
+; Header
+STR_MAIN_TITLE                      Documentation for {PROJECT}
+STR_INTRO_PARAGRAPH                 This is the code documentation for {PROJECT}.
+STR_HOME                            Home
+STR_ALL_PACKAGES                    All packages
+STR_VERSION                         Version
+
+; Footer
+STR_POWERED_BY                      Powered by <a href="http://docu.sourceforge.net">Pelzini</a>, version {VERSION}
+STR_DATE_GENERATED                  Generated: {DATE}
+
+; Sidebar
+STR_CLASSES                         Classes
+STR_INTERFACES                      Interfaces
+STR_FUNCTIONS                       Functions
+STR_FILES                           Files
+STR_CONSTANTS                       Constants
+STR_SOURCE_CODE                     Source code
+
+; General use
+STR_FROM_CLASS                      <small>from class {CLASS}</small>
+STR_FROM_INTERFACE                  <small>from interface {INTERFACE}</small>
+STR_AVAIL_SINCE                     Available since: {VERSION}
+STR_FILE                            File: <a href="file.php?name={#URLENC|FILENAME}">{#HTMLENC|FILENAME}</a>
+STR_ERROR_TITLE                     Error
+
+; Column headings in tables
+STR_NAME                            Name
+STR_VALUE                           Value
+STR_DESCRIPTION                     Description
+
+; Search, advanced search
+STR_SEARCH_TITLE                    Search documentation
+STR_SEARCH_GO_BTN                   Search
+STR_SEARCH_TERM                     Search term:
+STR_ADV_SEARCH_TITLE                Advanced search
+STR_WHAT_SEARCH                     What to search:
+STR_YOU_SEARCHED_FOR                You searched for "<b>{TERM}</b>" (not case sensitive).
+STR_YOU_SEARCHED_FOR_CASE           You searched for "<b>{TERM}</b>" (case sensitive).
+STR_CLASSES_RESULT                  Classes ({NUM} result{#PLURAL|NUM||s})
+STR_FUNCTIONS_RESULT                Functions ({NUM} result{#PLURAL|NUM||s})
+STR_CONSTANTS_RESULT                Constants ({NUM} result{#PLURAL|NUM||s})
+STR_SOURCE_CODE_RESULT              Source code ({NUM} result{#PLURAL|NUM||s})
+STR_SHOW_HIDE_ALL                   Show/hide all:
+STR_SEARCH_OPTIONS                  Search options:
+STR_CASE_SENSITIVE                  Case sensitive
+STR_NUM_SOURCE_RESULTS              A total of {LINES} line{#PLURAL|LINE||s} in {FILES} file{#PLURAL|FILES||s} were found
+
+; More info page
+STR_MORE_INFO                       More info
+STR_PROJECT_DOCS                    Project documents
+STR_ADDITIONAL_DOCS                 Additional documents
+
+; Authors list, author detail page
+STR_AUTHOR_LIST_TITLE               Authors list
+STR_AUTHOR_LIST_INTRO               These are the known authors of this project.
+STR_AUTHOR_LIST_NONE                No authors are known for this project.
+STR_AUTHOR_LIST_DESC                Get a list of all of the authors of this project
+STR_AUTHOR_PAGE_TITLE               Author: {NAME}
+STR_AUTHOR_TITLE                    Code written by <i>{NAME}</i>
+
+; Tags list, tag detail page
+STR_TAG_LIST_TITLE                  Tags list
+STR_TAG_LIST_INTRO                  These are the tags in use by this project.
+STR_TAG_LIST_NONE                   No tags are in use by this project.
+STR_TAG_LIST_DESC                   Get a list of all of the tags in this project
+STR_TAG_PAGE_TITLE                  Tag: {NAME}
+STR_TAG_TITLE                       Code tagged with <i>{NAME}</i>
+
+; Class tree
+STR_CLASS_TREE_TITLE                Class tree
+STR_CLASS_TREE_DESC                 Get a tree of all of the classes in this project
+
+; Document page
+STR_INVALID_DOCUMENT                Invalid document specified.
+
+; Enumerations
+STR_ENUM_BROWSER_TITLE              {NAME} enum
+STR_ENUM_PAGE_TITLE                 <span class="unimportant">enum</span> <i>{NAME}</i>
+STR_ENUM_VIRTUAL                    This enumeration is virtual
+STR_ENUM_INVALID                    Invalid enumeration specified.
+
+
