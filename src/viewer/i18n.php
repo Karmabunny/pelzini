@@ -29,7 +29,7 @@ require_once 'i18n/strings.php';
 function loadLanguage ($language) {
     global $strings;
     
-    $file_lines = @file ("i18n/{$language}.txt");
+    $file_lines = @file (dirname(__FILE__) . "/i18n/{$language}.txt");
     if ($file_lines == null) return false;
     
     foreach ($file_lines as $line) {
@@ -47,6 +47,16 @@ function loadLanguage ($language) {
     unset ($file_lines);
     
     return true;
+}
+
+
+/**
+* Returns the original string from the string table, without any parameter replacement
+**/
+function getOriginalString ($string_constant) {
+	global $strings;
+	
+	return $strings[$string_constant];
 }
 
 

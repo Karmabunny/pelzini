@@ -1,8 +1,8 @@
-;
-; Language: hacker.
-;
-; This is basically here just because it is fun, and for testing until I can get some additional translations
-;
+;;
+;; Language: hacker.
+;;
+;; This is basically here just because it is fun, and for testing until I can get some additional translations
+;;
 
 
 ; Header

@@ -73,8 +73,10 @@ if (get_magic_quotes_gpc ()) {
   $_GET = fix_magic_quotes ($_GET);
 }
 
+// Load language. English is always loaded because the other language only replaces the
+// english strings, so if strings are missing, the english ones will be used instead.
 loadLanguage ('english');
-//loadLanguage ('hacker');
+if ($dvgLanguage and $dvgLanguage != 'english') loadLanguage ($dvgLanguage);
 
 
 
