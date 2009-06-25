@@ -1,0 +1,160 @@
+;;
+;; Language: italian.
+;;
+
+
+; Header
+STR_MAIN_TITLE                          Documentation for {PROJECT}                                                             ; needs translating
+STR_INTRO_PARAGRAPH                     This is the code documentation for {PROJECT}.                                           ; needs translating
+STR_HOME                                Home                                                                                    ; needs translating
+STR_ALL_PACKAGES                        All packages                                                                            ; needs translating
+STR_VERSION                             Version                                                                                 ; needs translating
+
+; Footer
+STR_POWERED_BY                          Powered by <a href="http://docu.sourceforge.net">Pelzini</a>, version {VERSION}         ; needs translating
+STR_DATE_GENERATED                      Generated: {DATE}                                                                       ; needs translating
+
+; Sidebar
+STR_CLASSES                             Classes                                                                                 ; needs translating
+STR_INTERFACES                          Interfaces                                                                              ; needs translating
+STR_FUNCTIONS                           Functions                                                                               ; needs translating
+STR_FILES                               Files                                                                                   ; needs translating
+STR_CONSTANTS                           Constants                                                                               ; needs translating
+STR_SOURCE_CODE                         Source code                                                                             ; needs translating
+STR_ENUMERATIONS                        Enumerations                                                                            ; needs translating
+STR_VARIABLES                           Variables                                                                               ; needs translating
+
+STR_AUTHORS                             Authors                                                                                 ; needs translating
+STR_TABLES                              Tables used                                                                             ; needs translating
+STR_SEE_ALSO                            See also                                                                                ; needs translating
+STR_TAGS                                Tags:                                                                                   ; needs translating
+
+; General use
+STR_FROM_CLASS                          <small>from class {CLASS}</small>                                                       ; needs translating
+STR_FROM_INTERFACE                      <small>from interface {INTERFACE}</small>                                               ; needs translating
+STR_ERROR_TITLE                         Error                                                                                   ; needs translating
+
+; Various lines of information
+STR_AVAIL_SINCE                         Available since: {VERSION}                                                              ; needs translating
+STR_FILE                                File: <a href="file.php?name={#URLENC|FILENAME}">{#HTMLENC|FILENAME}</a>                ; needs translating
+STR_PACKAGE                             Package: <a href="package.php?id={ID}">{NAME}</a>                                       ; needs translating
+
+; Column headings in tables
+STR_NAME                                Name                                                                                    ; needs translating
+STR_VALUE                               Value                                                                                   ; needs translating
+STR_DESCRIPTION                         Description                                                                             ; needs translating
+
+; Search, advanced search
+STR_SEARCH_TITLE                        Search documentation                                                                    ; needs translating
+STR_SEARCH_GO_BTN                       Search                                                                                  ; needs translating
+STR_SEARCH_TERM                         Search term:                                                                            ; needs translating
+STR_ADV_SEARCH_TITLE                    Advanced search                                                                         ; needs translating
+STR_WHAT_SEARCH                         What to search:                                                                         ; needs translating
+STR_YOU_SEARCHED_FOR                    You searched for "<b>{TERM}</b>" (not case sensitive).                                  ; needs translating
+STR_YOU_SEARCHED_FOR_CASE               You searched for "<b>{TERM}</b>" (case sensitive).                                      ; needs translating
+STR_CLASSES_RESULT                      Classes ({NUM} result{#PLURAL|NUM||s})                                                  ; needs translating
+STR_FUNCTIONS_RESULT                    Functions ({NUM} result{#PLURAL|NUM||s})                                                ; needs translating
+STR_CONSTANTS_RESULT                    Constants ({NUM} result{#PLURAL|NUM||s})                                                ; needs translating
+STR_SOURCE_CODE_RESULT                  Source code ({NUM} result{#PLURAL|NUM||s})                                              ; needs translating
+STR_SHOW_HIDE_ALL                       Show/hide all:                                                                          ; needs translating
+STR_SEARCH_OPTIONS                      Search options:                                                                         ; needs translating
+STR_CASE_SENSITIVE                      Case sensitive                                                                          ; needs translating
+STR_NUM_SOURCE_RESULTS                  A total of {LINES} line{#PLURAL|LINE||s} in {FILES} file{#PLURAL|FILES||s} were found   ; needs translating
+
+; More info page
+STR_MORE_INFO                           More info                                                                               ; needs translating
+STR_PROJECT_DOCS                        Project documents                                                                       ; needs translating
+STR_ADDITIONAL_DOCS                     Additional documents                                                                    ; needs translating
+
+; Authors list, author detail page
+STR_AUTHOR_LIST_TITLE                   Authors list                                                                            ; needs translating
+STR_AUTHOR_LIST_INTRO                   These are the known authors of this project.                                            ; needs translating
+STR_AUTHOR_LIST_NONE                    No authors are known for this project.                                                  ; needs translating
+STR_AUTHOR_LIST_DESC                    Get a list of all of the authors of this project                                        ; needs translating
+STR_AUTHOR_PAGE_TITLE                   Author: {NAME}                                                                          ; needs translating
+STR_AUTHOR_TITLE                        Code written by <i>{NAME}</i>                                                           ; needs translating
+
+; Tags list, tag detail page
+STR_TAG_LIST_TITLE                      Tags list                                                                               ; needs translating
+STR_TAG_LIST_INTRO                      These are the tags in use by this project.                                              ; needs translating
+STR_TAG_LIST_NONE                       No tags are in use by this project.                                                     ; needs translating
+STR_TAG_LIST_DESC                       Get a list of all of the tags in this project                                           ; needs translating
+STR_TAG_PAGE_TITLE                      Tag: {NAME}                                                                             ; needs translating
+STR_TAG_TITLE                           Code tagged with <i>{NAME}</i>                                                          ; needs translating
+
+; Class tree
+STR_CLASS_TREE_TITLE                    Class tree                                                                              ; needs translating
+STR_CLASS_TREE_DESC                     Get a tree of all of the classes in this project                                        ; needs translating
+
+; Tables list, table detail page
+STR_TABLE_LIST_TITLE                    Tables list                                                                             ; needs translating
+STR_TABLE_LIST_INTRO                    These are the known tables used by this project.                                        ; needs translating
+STR_TABLE_LIST_NONE                     No tables are known for this project.                                                   ; needs translating
+STR_TABLE_LIST_DESC                     Get a list of all of the tables in this project                                         ; needs translating
+STR_TABLE_PAGE_TITLE                    Table {NAME}                                                                            ; needs translating
+STR_TABLE_TITLE                         Code that uses the table <i>{NAME}</i>                                                  ; needs translating
+
+; Document page
+STR_INVALID_DOCUMENT                    Invalid document specified.                                                             ; needs translating
+
+; Enumerations
+STR_ENUM_BROWSER_TITLE                  {NAME} enum                                                                             ; needs translating
+STR_ENUM_PAGE_TITLE                     <span class="unimportant">enum</span> <i>{NAME}</i>                                     ; needs translating
+STR_ENUM_VIRTUAL                        This enumeration is virtual                                                             ; needs translating
+STR_ENUM_INVALID                        Invalid enumeration specified.                                                          ; needs translating
+
+; Files
+STR_FILE_INVALID                        Invalid file specified.                                                                 ; needs translating
+STR_FILE_SOURCE_BROWSER_TITLE           Source of {NAME}                                                                        ; needs translating
+STR_FILE_SOURCE_PAGE_TITLE              <span class="unimportant">source of</span> <i>{NAME}</i>                                ; needs translating
+STR_FILE_PAGE_TITLE                     <span class="unimportant">file</span> <i>{NAME}</i>                                     ; needs translating
+STR_FILE_VIEW_SOURCE                    View source                                                                             ; needs translating
+
+; Packages
+STR_PKG_PAGE_TITLE                      <span class="unimportant">package</span> <i>{NAME}</i>                                  ; needs translating
+STR_PKG_INVALID                         Invalid package specified.                                                              ; needs translating
+
+; Functions
+STR_FUNC_INVALID                        Invalid function specified.                                                             ; needs translating
+STR_FUNC_PAGE_TITLE                     <span class="unimportant">function</span> <i>{NAME}</i>()                               ; needs translating
+STR_FUNC_BROWSER_TITLE                  {NAME}() function                                                                       ; needs translating
+STR_FUNC_CLASS                          Class: <a href="class.php?name={#URLENC|NAME}">{NAME}</a>                               ; needs translating
+STR_FUNC_USAGE                          Usage                                                                                   ; needs translating
+STR_FUNC_ARGUMENTS                      Arguments                                                                               ; needs translating
+STR_FUNC_RETURN_VALUE                   Return value                                                                            ; needs translating
+STR_FUNC_STATIC                         Static method                                                                           ; needs translating
+STR_FUNC_FINAL                          Final method                                                                            ; needs translating
+
+; Classes
+STR_CLASS_INVALID                       Invalid class specified.                                                                ; needs translating
+STR_CLASS_PAGE_TITLE                    <span class="unimportant">class</span> <i>{NAME}</i>                                    ; needs translating
+STR_CLASS_BROWSER_TITLE                 {NAME} class                                                                            ; needs translating
+STR_CLASS_EXTENDS                       Extends: {LINK}                                                                         ; needs translating
+STR_CLASS_IMPLEMENTS                    Implements:                                                                             ; needs translating
+STR_CLASS_ABSTRACT                      This class is abstract                                                                  ; needs translating
+STR_CLASS_FINAL                         This class is final                                                                     ; needs translating
+STR_CLASS_PAGE                          Info Page:                                                                              ; needs translating
+STR_CLASS_PAGE_GENERAL                  General                                                                                 ; needs translating
+STR_CLASS_PAGE_USED_BY                  Used by                                                                                 ; needs translating
+STR_CLASS_PAGE_EXTENDS                  Extends                                                                                 ; needs translating
+STR_CLASS_PAGE_SOURCE                   Source search                                                                           ; needs translating
+STR_CLASS_OPTIONS                       Page options:                                                                           ; needs translating
+STR_CLASS_INHERITED                     Inherited members                                                                       ; needs translating
+STR_CLASS_VAR_STATIC                    <small>(static)</small>                                                                 ; needs translating
+STR_CLASS_STRUCTURE                     Class structure                                                                         ; needs translating
+STR_CLASS_FUNC_RETURN                   As a function return value                                                              ; needs translating
+STR_CLASS_FUNC_ARG                      As a function argument                                                                  ; needs translating
+STR_CLASS_EXTENDING                     Extending this class                                                                    ; needs translating
+STR_CLASS_INVALID_INFO                  <i>Invalid info page specified.</i>                                                     ; needs translating
+
+; Interfaces
+STR_INTERFACE_INVALID                   Invalid interface specified.                                                            ; needs translating
+STR_INTERFACE_BROWSER_TITLE             {NAME} interface                                                                        ; needs translating
+STR_INTERFACE_PAGE_TITLE                <span class="unimportant">interface</span> <i>{NAME}</i>                                ; needs translating
+STR_INTERFACE_IMPLEMENTORS              Implemented by                                                                          ; needs translating
+
+; Code renderers
+STR_RENDER_NEW_CLASS_DESC               New class description goes here                                                         ; needs translating
+STR_RENDER_NEW_CLASS_NAME               NewClassName                                                                            ; needs translating
+STR_RENDER_YOUR_NAME                    Your Name                                                                               ; needs translating
+STR_RENDER_METHOD_COMMENT               Method code goes here                                                                   ; needs translating
