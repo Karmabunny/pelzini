@@ -305,6 +305,10 @@ $viewer .= "\$dvgDatabaseSettings['name'] = '{$_POST['database_name']}';\n";
 $viewer .= "\n";
 $viewer .= "/* This setting is used by SQLite */\n";
 $viewer .= "\$dvgDatabaseSettings['filename'] = '../output/pelzini.sqlite';\n";
+$viewer .= "\n";
+$viewer .= "/* The language to display the viewer in\n";
+$viewer .= "   Available languages are in the i18n directory */\n";
+$viewer .= "\$dvgLanguage = 'english';\n";
 $viewer .= "?>\n";
 
 if (is_writable ('.')) {
