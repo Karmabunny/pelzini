@@ -18,7 +18,7 @@ if (! $res) {
 }
 
 
-header ('Content-type: text/plain');
+header ('Content-type: text/plain; charset=UTF-8');
 
 $lang_lines = file ($_GET['lang'] . '.txt');
 foreach ($lang_lines as $line) {
