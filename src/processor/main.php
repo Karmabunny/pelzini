@@ -225,6 +225,20 @@ foreach ($dpgOutputters as $outputter) {
       break;
       
       
+    case OUTPUTTER_XML:
+      $outputter = new XmlOutputter();
+      $outputter->set_filename($dpgOutputterSettings[OUTPUTTER_XML]['filename']);
+      $result = $outputter->output($parser_model);
+      
+      if ($result) {
+        output_status ("Saved XML file succesfully.");
+        $uses_viewer = true;
+      } else {
+        output_status ("Saving XML file  failed.");
+      }
+      break;
+      
+      
     case OUTPUTTER_DEBUG:
       $outputter = new DebugOutputter();
       $outputter->output($parser_model);

@@ -37,6 +37,7 @@ define ('OUTPUTTER_MYSQL',      1);
 define ('OUTPUTTER_DEBUG',      2);
 define ('OUTPUTTER_PGSQL',      3);
 define ('OUTPUTTER_SQLITE',     4);
+define ('OUTPUTTER_XML',        5);
 
 // The transformers - these alter and mutate the parser model before outptting
 define ('TRANSFORMER_QUALITY_CHECK',    1);
