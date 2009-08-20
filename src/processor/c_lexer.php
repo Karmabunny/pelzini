@@ -68,7 +68,18 @@ class CLexer {
     $length = strlen($source);
     $tokens = array();
     
+    // strip comments
+    $source = preg_replace ('!/\*[^*].*?\*/!s', '', $source);
+    
+    $curr_line = 1;
     while ($offset < $length) {
+      
+      if (preg_match('/\G(\n|\r|\n\r)/', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+        $curr_line++;
+        $offset = $matches[0][1] + strlen($matches[0][0]);
+        //echo "LINE..."; flush();
+        continue;
+      }
       
       // Firstly, look for single character tokens
       // Should this be common for all lexers?
@@ -76,6 +87,7 @@ class CLexer {
         if ($source[$offset] == $char) {
           $tokens[] = new Token($token_type, $char);
           $offset++;
+          //echo "CHAR..."; flush();
           continue 2;
         }
       }
@@ -87,6 +99,7 @@ class CLexer {
       if (preg_match('/\G(#[a-z]+.*?)\n/s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_C_PREPROCESSOR, $matches[0][0]);
         $offset = $matches[0][1] + strlen($matches[0][0]);
+        //echo "PREP..."; flush();
         continue;
       }
       
@@ -94,6 +107,7 @@ class CLexer {
       if (preg_match('/\G\/\*\*(.+?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_DOCBLOCK, $matches[0][0]);
         $offset = $matches[0][1] + strlen($matches[0][0]);
+        //echo "DOCB..."; flush();
         continue;
       }
       
@@ -101,6 +115,7 @@ class CLexer {
       if (preg_match('/\G\/\*(.+?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_COMMENT, $matches[0][0]);
         $offset = $matches[0][1] + strlen($matches[0][0]);
+        //echo "COMM..."; flush();
         continue;
       }
       
@@ -108,6 +123,7 @@ class CLexer {
       if (preg_match('/\G\/\/.*\n/', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_COMMENT, rtrim($matches[0][0]));
         $offset = $matches[0][1] + strlen($matches[0][0]);
+        //echo "DBLS..."; flush();
         continue;
       }
       
@@ -115,6 +131,7 @@ class CLexer {
       if (preg_match('/\G"([^\"]|\.)*"/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_STRING, $matches[0][0]);
         $offset = $matches[0][1] + strlen($matches[0][0]);
+        //echo "STRD..."; flush();
         continue;
       }
       
@@ -122,6 +139,7 @@ class CLexer {
       if (preg_match('/\G\'([^\\\']|\.)*\'/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_STRING, $matches[0][0]);
         $offset = $matches[0][1] + strlen($matches[0][0]);
+        //echo "STRS..."; flush();
         continue;
       }
       
@@ -138,6 +156,7 @@ class CLexer {
           }
           
           $offset = $matches[0][1] + strlen($matches[0][0]);
+          //echo "RESW..."; flush();
           continue;
         }
       }
@@ -147,6 +166,7 @@ class CLexer {
         if (preg_match('/\G' . $value . '/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
           $tokens[] = new Token(TOKEN_RESERVED_VALUE, $value);
           $offset = $matches[0][1] + strlen($matches[0][0]);
+          //echo "RESV..."; flush();
           continue;
         }
       }
@@ -160,6 +180,7 @@ class CLexer {
         if (preg_match($expression, $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
           $tokens[] = new Token(TOKEN_NUMBER, $matches[0][0]);
           $offset = $matches[0][1] + strlen($matches[0][0]);
+          //echo "NUMB..."; flush();
           continue;
         }
       }
@@ -168,11 +189,15 @@ class CLexer {
       if (preg_match('/\G[a-z$_][a-z0-9$_]*/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
         $tokens[] = new Token(TOKEN_IDENTIFIER, $matches[0][0]);
         $offset = $matches[0][1] + strlen($matches[0][0]);
+        //echo "IDEN..."; flush();
         continue;
       }
       
+      //echo "OTHR..."; flush();
       $offset++;
     }
+    
+    //echo "\n"; flush();
     
     return $tokens;
   }

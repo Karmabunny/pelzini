@@ -49,7 +49,6 @@ class CParser {
     global $dpgBaseDirectory;
     
     $this->lexer->resetState();
-    $this->analyser->resetState();
     
     $source = @file_get_contents($dpgBaseDirectory . $filename);
     if ($source == null) return null;
