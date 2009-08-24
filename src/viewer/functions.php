@@ -410,11 +410,21 @@ function process_inline_delink($original_text) {
 
 
 function show_function_usage($function_id) {
-  $q = "SELECT returntype, name FROM functions WHERE id = {$function_id}";
+  $q = "SELECT functions.name, functions.static, functions.returntype, classes.name AS class
+    FROM functions
+    LEFT JOIN classes ON functions.classid = classes.id
+    WHERE functions.id = {$function_id}";
   $res = db_query ($q);
   $function = db_fetch_assoc($res);
   
   echo '<div class="function-usage">';
+  if ($function['class']) {
+    if ($function['static']) {
+      echo "{$function['class']}::";
+    } else {
+      echo "\${$function['class']}->";
+    }
+  }
   if ($function['returntype']) echo $function['returntype'], ' ';
   echo '<b>', $function['name'], '</b> ( ';
 

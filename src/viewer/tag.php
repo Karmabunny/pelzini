@@ -132,7 +132,7 @@ if (db_num_rows($res) > 0) {
     // display the function
     echo "<div class=\"{$class}\">";
     
-    echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
+    echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong> ";
     if ($row['classname']) echo str(STR_FROM_CLASS, 'class', get_object_link($row['classname']));
     if ($row['interfacename']) echo str(STR_FROM_INTERFACE, 'interface', get_object_link($row['interfacename']));
     echo "</p>";
