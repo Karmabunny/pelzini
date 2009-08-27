@@ -94,6 +94,23 @@ class CAnalyser extends Analyser {
       if ($return_type == '') $return_type = 'int';
       $parser_function->return_type = $return_type;
       
+      // Find reserved words before the return type
+      $reserved = $this->findTokenBackwards(array(TOKEN_RESERVED_WORD), array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
+      
+      $this->setPos($this->getTokenPos());
+      while ($reserved != null) {
+        switch ($reserved->getValue()) {
+          case 'static':
+            $parser_function->static = true;
+            break;
+        }
+        
+        $reserved = $this->findTokenBackwards(array(TOKEN_RESERVED_WORD), array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
+        $this->setPos($this->getTokenPos());
+      }
+      
+
+      
       // Look for a docblock before the function
       $docblock = $this->findTokenBackwards(TOKEN_DOCBLOCK, array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
       if ($docblock != null) {

@@ -43,11 +43,11 @@ output_status ('For more information, see <a href="http://docu.sourceforge.net/"
 // Initalise each parser
 output_status ('');
 $parsers = array();
-$parsers['php'] = new PhpParser();
-output_status("Initalised the PHP parser.");
+//$parsers['php'] = new PhpParser();
+//output_status("Initalised the PHP parser.");
 
-$parsers['js'] = new JavascriptParser();
-output_status("Initalised the Javascript parser.");
+//$parsers['js'] = new JavascriptParser();
+//output_status("Initalised the Javascript parser.");
 
 $parsers['c'] = new CParser();
 output_status("Initalised the (expermiental) C parser.");
@@ -71,14 +71,14 @@ foreach ($file_names as $file) {
   $ext = array_pop(explode ('.', $file));
   
   if (isset($parsers[$ext])) {
-    //output_status ("Processing file {$file}");
+    output_status ("Processing file {$file}");
     $result = $parsers[$ext]->parseFile ($file);
     
     if ($result != null) {
       $parser_model[] = $result;
       $success++;
     } else {
-      output_status ("Processing of file {$file} failed!");
+      output_status ("ERROR: Processing of file {$file} failed!");
       $failure++;
     }
   }

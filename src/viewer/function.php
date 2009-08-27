@@ -77,10 +77,13 @@ echo '<li>', str(STR_FILE, 'filename', $function['filename']), '</li>';
 if ($function['classid']) {
   echo '<li>', str(STR_FUNC_CLASS, 'name', $function['class']);
   
-  if ($function['static']) echo ', ', str(STR_FUNC_STATIC);
-  if ($function['final']) echo ', ', str(STR_FUNC_FINAL);
+  if ($function['static']) echo ', ', str(STR_METHOD_STATIC);
+  if ($function['final']) echo ', ', str(STR_METHOD_FINAL);
   
   echo '</li>';
+  
+} else if ($function['static']) {
+  echo '<li>', str(STR_FUNC_STATIC), '</li>';
 }
 
 if ($function['sinceid']) {

@@ -127,8 +127,9 @@ STR_FUNC_CLASS                         Class: <a href="class.php?name={#URLENC|N
 STR_FUNC_USAGE                         Usage
 STR_FUNC_ARGUMENTS                     Arguments
 STR_FUNC_RETURN_VALUE                  Return value
-STR_FUNC_STATIC                        Static method
-STR_FUNC_FINAL                         Final method
+STR_FUNC_STATIC                        Static function
+STR_METHOD_STATIC                      Static method
+STR_METHOD_FINAL                       Final method
 
 ; Classes
 STR_CLASS_INVALID                      Invalid class specified.
