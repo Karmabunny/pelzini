@@ -43,14 +43,14 @@ output_status ('For more information, see <a href="http://docu.sourceforge.net/"
 // Initalise each parser
 output_status ('');
 $parsers = array();
-//$parsers['php'] = new PhpParser();
-//output_status("Initalised the PHP parser.");
+$parsers['php'] = new PhpParser();
+output_status("Initalised the PHP parser.");
 
-//$parsers['js'] = new JavascriptParser();
+$parsers['js'] = new JavascriptParser();
 //output_status("Initalised the Javascript parser.");
 
-$parsers['c'] = new CParser();
-output_status("Initalised the (expermiental) C parser.");
+//$parsers['c'] = new CParser();
+//output_status("Initalised the (expermiental) C parser.");
 
 $parser_model = array();
 
