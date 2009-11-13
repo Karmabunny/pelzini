@@ -90,6 +90,22 @@ class QualityCheckTransformer extends Transformer {
     $tags = $item->getDocblockTags();
     $problems = array();
     
+    // classes and interfaces
+    foreach ($item->classes as $sub) {
+      if ($sub instanceof ParserClass) {
+        $this->check_class($sub);
+        
+      } else if ($sub instanceof ParserInterface) {
+        $this->check_interface($sub);
+      }
+    }
+    
+    // functions
+    foreach ($item->functions as $sub) {
+      $this->check_function($sub);
+    }
+    
+    // the files
     foreach ($this->required_tags as $tag_name) {
       if ($tags[$tag_name] == '') {
         if ($tag_name == '@summary') {
@@ -104,19 +120,6 @@ class QualityCheckTransformer extends Transformer {
     
     if (count($problems)) {
       $this->offending_items['Files'][] = '{@link ' . $item->name . '}: <i>' . implode (', ', $problems) . '</i>';
-    }
-    
-    foreach ($item->classes as $sub) {
-      if ($sub instanceof ParserClass) {
-        $this->check_class($sub);
-        
-      } else if ($sub instanceof ParserInterface) {
-        $this->check_interface($sub);
-      }
-    }
-    
-    foreach ($item->functions as $sub) {
-      $this->check_function($sub);
     }
   }
   
@@ -197,6 +200,12 @@ class QualityCheckTransformer extends Transformer {
     
     if (count($problems)) {
       $this->offending_items['Functions'][] = '{@link ' . $item->name . '}' . $from . ': <i>' . implode (', ', $problems) . '</i>';
+    }
+    
+    foreach ($item->args as $arg) {
+      if ($arg->description == '') {
+      	$this->offending_items['Function arguments'][] = '{@link ' . $item->name . '}' . $from . ': <i>No description for ' . $arg->name . '</i>';
+      }
     }
   }
 }
