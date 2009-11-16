@@ -6,7 +6,7 @@
 
 
 ; Header
-STR_MAIN_TITLE                          Docz for {PROJECT}
+STR_MAIN_TITLE                          {PROJECT}
 STR_INTRO_PARAGRAPH                     This is teh code docz for {PROJECT}.
 STR_HOME                                ĥõmƎ
 STR_ALL_PACKAGES                        All pkgz

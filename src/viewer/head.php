@@ -54,6 +54,7 @@ header('Content-type: text/html; charset=UTF-8');
 
 <div class="header">
   <h1><?= str (STR_MAIN_TITLE, 'project', $project['name']); ?></h1>
+  <p><?= str (STR_INTRO_PARAGRAPH, 'project', $project['name']); ?></p>
 </div>
 
 <div class="navigation">

@@ -9,8 +9,8 @@
 
 
 ; Header
-STR_MAIN_TITLE                         Documentation for {PROJECT}
-STR_INTRO_PARAGRAPH                    This is the code documentation for {PROJECT}.
+STR_MAIN_TITLE                         {PROJECT}
+STR_INTRO_PARAGRAPH                    This is the code documentation for the <i>{PROJECT}</i> project
 STR_HOME                               Home
 STR_ALL_PACKAGES                       All packages
 STR_VERSION                            Version

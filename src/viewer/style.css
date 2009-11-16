@@ -20,7 +20,8 @@ along with docu.  If not, see <http://www.gnu.org/licenses/>.
 
 body {
   font-family: sans-serif;
-  padding: 0.5em;
+  padding: 0px;
+  margin: 0px;
 }
 
 a img {
@@ -31,20 +32,29 @@ div.header {
   background-color: #6e7aff;
   color: white;
   padding: 0.5em;
-  margin: 0.5em;
+  margin: 0px;
+  text-align: right;
 }
 
 div.header h1 {
   margin: 0px;
   padding: 0px;
+  font-size: 24px;
+}
+
+div.header p {
+  margin: 0px;
+  padding: 0px;
+  font-size: 11px;
 }
 
 div.navigation {
   background-color: #eee;
   color: black;
   padding: 0.5em;
-  margin: 0.5em;
-  border: 1px #6e7aff solid;
+  margin: 0px;
+  border-bottom: 1px #6e7aff solid;
+  margin-bottom: 10px;
 }
 
 div.navigation a {
@@ -69,16 +79,16 @@ div.container {
 
 table.footer {
   background-color: #eee;
-  margin: 0.5em;
+  margin: 0px;
   margin-top: 3em;
-  border: 1px #bfc5ff solid;
+  border-top: 1px #bfc5ff solid;
   width: 100%;
   cell-spacing: 0px;
   border-collapse: collapse;
 }
 
 table.footer td {
-  padding: 4px;
+  padding: 6px 10px;
   font-size: 10px;
   height: 15px;
 }
@@ -90,15 +100,18 @@ table.footer img {
 
 table.main {
   width: 100%;
-  margin: 0.5em;
+  margin: 0px;
   border-collapse: collapse;
   cell-spacing: 0px;
 }
 
+
+
+/* sidebar td */
 td.sidebar {
   width: 300px;
   vertical-align: top;
-  padding: 0px;
+  padding: 15px;
 }
 
 div.box-nohead {
@@ -136,14 +149,18 @@ div.box div {
   max-height: 300px;
 }
 
+
+/* main td */
 td.main {
   vertical-align: top;
-  padding: 0em 2em;
+  padding: 15px;
   color: black;
 }
 
 td.main h2 {
-  margin: 15px 0px;
+  margin: 0px;
+  padding: 0px;
+  height: 45px;
 }
 
 td.main h3 {

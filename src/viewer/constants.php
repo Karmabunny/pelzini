@@ -30,7 +30,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 /**
 * The current version of docu
 **/
-define ('DOCU_VERSION', '0.3-pre');
+define ('DOCU_VERSION', '0.3.1-pre');
 
 
 // The link types
