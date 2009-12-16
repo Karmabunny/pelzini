@@ -418,6 +418,9 @@ function show_function_usage($function_id) {
   $function = db_fetch_assoc($res);
   
   echo '<div class="function-usage">';
+  
+  if ($function['returntype']) echo $function['returntype'], ' ';
+  
   if ($function['class']) {
     if ($function['static']) {
       echo "{$function['class']}::";
@@ -425,7 +428,7 @@ function show_function_usage($function_id) {
       echo "\${$function['class']}->";
     }
   }
-  if ($function['returntype']) echo $function['returntype'], ' ';
+  
   echo '<b>', $function['name'], '</b> ( ';
 
   $q = "SELECT name, type, defaultvalue FROM arguments WHERE functionid = {$function_id}";
