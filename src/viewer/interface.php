@@ -62,7 +62,7 @@ require_once 'head.php';
 
 
 // Show basic details
-echo '<h2>', str(STR_FUNC_PAGE_TITLE, 'name', $interface['name']), '</h2>';
+echo '<h2>', str(STR_INTERFACE_PAGE_TITLE, 'name', $interface['name']), '</h2>';
 
 echo process_inline($interface['description']);
 
