@@ -29,7 +29,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once 'functions.php';
 
-$q = "SELECT name, license, dategenerated FROM projects WHERE id = {$dvgProjectID}";
+$q = "SELECT name, license, dategenerated FROM projects";
 $res = db_query($q);
 $project = db_fetch_assoc($res);
 

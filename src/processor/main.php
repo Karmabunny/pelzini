@@ -135,34 +135,11 @@ if (isset($dpgProjectDocumentsDirectory)) {
 // Transform the data model
 output_status ('');
 foreach ($dpgTransformers as $transformer) {
-  switch ($transformer) {
-    case TRANSFORMER_QUALITY_CHECK:
-      $transformer = new QualityCheckTransformer(
-        $dpgTransformerSettings[TRANSFORMER_QUALITY_CHECK]['required_tags']
-      );
-      
-      $result = $transformer->transform($parser_model);
-      
-      if ($result) {
-        output_status ("Generated low quality documentation report succesfully.");
-        $parser_model = $result;
-      } else {
-        output_status ("Generating of low quality documentation report failed.");
-      }
-      break;
-      
-      
-    case TRANSFORMER_VIRTUAL_ENUMS:
-      $transformer = new VirtualEnumerationsTransformer();
-      
-      $result = $transformer->transform($parser_model);
-      
-      if ($result) {
-        output_status ("Generated virtual enums succesfully.");
-        $parser_model = $result;
-      } else {
-        output_status ("Generating of virtual enums failed.");
-      }
+  $result = $transformer->transform($parser_model);
+  
+  if ($result) {
+    output_status ('Processed transformer ' . get_class($transformer) . ' successfully');
+    $parser_model = $result;
   }
 }
 
@@ -170,88 +147,12 @@ foreach ($dpgTransformers as $transformer) {
 // Output the generated tree to the specified outputters
 output_status ('');
 foreach ($dpgOutputters as $outputter) {
-  switch ($outputter) {
-    case OUTPUTTER_MYSQL:
-      $outputter = new MysqlOutputter(
-        $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_username'],
-        $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_password'],
-        $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_server'],
-        $dpgOutputterSettings[OUTPUTTER_MYSQL]['database_name']
-      );
-      
-      $result = $outputter->output($parser_model);
-      
-      if ($result) {
-        output_status ("Saved to MySQL database succesfully.");
-        $uses_viewer = true;
-      } else {
-        output_status ("Saving to MySQL database failed.");
-      }
-      break;
-      
-      
-    case OUTPUTTER_PGSQL:
-      $outputter = new PostgresqlOutputter(
-        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_username'],
-        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_password'],
-        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_server'],
-        $dpgOutputterSettings[OUTPUTTER_PGSQL]['database_name']
-      );
-      
-      $result = $outputter->output($parser_model);
-      
-      if ($result) {
-        output_status ("Saved to PostgreSQL database succesfully.");
-        $uses_viewer = true;
-      } else {
-        output_status ("Saving to PostgreSQL database failed.");
-      }
-      break;
-      
-      
-    case OUTPUTTER_SQLITE:
-      $outputter = new SqliteOutputter(
-        $dpgOutputterSettings[OUTPUTTER_SQLITE]['filename']
-      );
-      
-      $result = $outputter->output($parser_model);
-      
-      if ($result) {
-        output_status ("Saved to SQLite database succesfully.");
-        $uses_viewer = true;
-      } else {
-        output_status ("Saving to SQLite database failed.");
-      }
-      break;
-      
-      
-    case OUTPUTTER_XML:
-      $outputter = new XmlOutputter();
-      $outputter->set_filename($dpgOutputterSettings[OUTPUTTER_XML]['filename']);
-      $result = $outputter->output($parser_model);
-      
-      if ($result) {
-        output_status ("Saved XML file succesfully.");
-        $uses_viewer = true;
-      } else {
-        output_status ("Saving XML file  failed.");
-      }
-      break;
-      
-      
-    case OUTPUTTER_DEBUG:
-      $outputter = new DebugOutputter();
-      $outputter->output($parser_model);
-      break;
-      
-      
+  $outputter->check_layout('database.layout');
+  
+  $result = $outputter->output($parser_model);
+  
+  if ($result) {
+    output_status ('Processed outputter ' . get_class($outputter) . ' successfully');
   }
-}
-
-
-// If any of the outputters use the viewer, output a small message to that effect.
-if ($uses_viewer) {
-  output_status ('');
-  output_status ("<a href=\"../viewer\">View the generated documentation</a>");
 }
 ?>

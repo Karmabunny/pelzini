@@ -332,7 +332,7 @@ abstract class DatabaseOutputter extends Outputter {
   * @table insert documents All of the documents
   **/
   public function output ($files) {
-    global $dpqProjectID, $dpgProjectName, $dpgLicenseText;
+    global $dpgProjectName, $dpgLicenseText;
     
     $res = $this->connect();
     if (! $res) {
@@ -362,7 +362,6 @@ abstract class DatabaseOutputter extends Outputter {
     
     
     $insert_data = array();
-    $insert_data['id'] = $dpqProjectID;
     $insert_data['name'] = $this->sql_safen ($dpgProjectName);
     $insert_data['license'] = $this->sql_safen ($dpgLicenseText);
     $insert_data['dategenerated'] = $this->sql_safen (date('Y-m-d h:i a'));

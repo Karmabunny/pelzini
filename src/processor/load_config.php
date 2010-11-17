@@ -31,24 +31,6 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 $dpgOutputterSettings = array();
 $dpgTransformerSettings = array();
 
-if (file_exists('config.php')) {
-  $dpgOutputters = array();
-  $dpgTransformers = array();
-  
-  require_once 'config.php';
-  $config_found = true;
-}
-
-if (file_exists('config.processor.php')) {
-  $dpgOutputters = array();
-  $dpgTransformers = array();
-  
-  require_once 'config.processor.php';
-  $config_found = true;
-}
-
-
-
 $supported_args = array(
   array('--config',  1, 'set_config', 'Loads a config file.'),
   array('--help',    0, 'show_help', 'Shows this help'),
