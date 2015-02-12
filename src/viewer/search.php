@@ -60,7 +60,9 @@ if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
   $q = "SELECT classes.id, classes.name, classes.description, classes.extends, classes.abstract, files.name as filename, classes.fileid
     FROM classes
     INNER JOIN files ON classes.fileid = files.id
-    WHERE {$this_match_string} ORDER BY classes.name";
+    WHERE {$this_match_string}
+    ORDER BY IF(classes.name = '{$query}', 1, 2), classes.name";
+    
   $res = db_query ($q);
   $num = db_num_rows ($res);
   if ($num != 0) {
