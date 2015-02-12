@@ -57,7 +57,7 @@ if (! $interface = db_fetch_assoc ($res)) {
     require_once 'foot.php';
 }
 
-$skin['page_name'] = str(STR_FUNC_BROWSER_TITLE, 'name', $interface['name']);
+$skin['page_name'] = str(STR_INTERFACE_BROWSER_TITLE, 'name', $interface['name']);
 require_once 'head.php';
 
 
