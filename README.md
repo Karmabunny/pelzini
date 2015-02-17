@@ -3,7 +3,8 @@ It stores all of its documentation in a database, and the documentation is viewe
 so that cool features like search can be created. Search was the main reason for the creation of Pelzini.
 
 
-FEATURES
+Features
+--------
 
 Pelzini currently supports all aspects of PHP, with the documentation being stores in a MySQL database.
 Pelzini has a modular design, so other laoguages and output engines will be supported in the future.
@@ -12,7 +13,8 @@ feature is planned to be massivly upgraded in the future.
 
 
 
-INSTALLATION
+Installation
+------------
 
 1. Extract the archive somewhere accessable by your web server.
 
@@ -30,17 +32,9 @@ INSTALLATION
 4. View the documentation using the viewer directory (e.g. http://www.example.com/docs/viewer)
 
 
-NOTES
+Notes
+-----
 
  * It is possible for the processor directory and the viewer directory to reside in different areas of the filesystem if required
    These two directories can even reside on different computers if nessasary. Compatibility between the viewer and the processor
    is only guarenteed for the same version, but may work for similar versions.
-
-
-MORE INFORMATION
-
-If you would like more information about docu, please visit the Pelzini website:
-  http://docu.sourceforge.net
-  
-Here you can find information, roadmaps, make sugesstions and bug fixes, submit patches, etc.
-
