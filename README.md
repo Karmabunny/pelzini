@@ -6,30 +6,24 @@ so that cool features like search can be created. Search was the main reason for
 Features
 --------
 
-Pelzini currently supports all aspects of PHP, with the documentation being stores in a MySQL database.
+Pelzini currently supports all aspects of PHP, with the documentation being stored in a MySQL database.
 Pelzini has a modular design, so other laoguages and output engines will be supported in the future.
 Pelzini supports code search. You can search for class names, interface names and function names. The search
-feature is planned to be massivly upgraded in the future.
+feature is planned to be upgraded in the future.
 
 
 
 Installation
 ------------
 
-1. Extract the archive somewhere accessable by your web server.
+1. Extract the archive somewhere.
 
-2. Run install/install.php.
-   If you have granted write access to the install directory, your config files will be created,
-   and you will need to copy config.processor.php into the processor directory, and config.viewer.php into the viewer directory
-   
-   If you did not granted write access to the install directory, your config files will be shown to the screen.
-   You will need to copy them into a text editor, and save in the locaitons shown, as the filenames shown.
+2. Set up your web server to be avle to view the "viewer" directory.
 
-3. Run processor/main.php to generate your documentation.
-   Re-run the tool every time your code changes.
-   You can run this tool from the command line
+3. Create a config file for you project. You can use the Pelzini one (pelzini.conf.php) as a guide.
 
-4. View the documentation using the viewer directory (e.g. http://www.example.com/docs/viewer)
+4. Run the code documenter:
+   # php src/processor/main.php --config path/to/your/config.conf.php
 
 
 Notes

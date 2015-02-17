@@ -11,6 +11,9 @@ ini_set('memory_limit', '-1');
 /* This should be the name of your project */
 $dpgProjectName = 'Pelzini';
 
+/* The project ID. Required for multiple docs per database */
+$dpqProjectID = 1;
+
 /* This should be the terms that your documentation is made available under
    It will be shown in the footer of the viewer */
 $dpgLicenseText = 'Documentation is made available under the
@@ -20,15 +23,18 @@ $dpgLicenseText = 'Documentation is made available under the
 $dpgTransformers[] = new QualityCheckTransformer();
 
 /* List the outputters here. Outputters save the parsed files to a database or an output file */
-$dpgOutputters[] = new SqliteOutputter('../../pelzini.sqlite');
+$dpgOutputters[] = new MysqlOutputter('pelzini', 'password', 'localhost', 'pelzini');
+
+/* Multiple output targets can be specified */
+//$dpgOutputters[] = new SqliteOutputter('../../pelzini.sqlite');
 
 /* This is the base directory that the parsing of your application should take place */
-$dpgBaseDirectory = '../../src';
+$dpgBaseDirectory = 'src';
 
 /* These are directories that should be excluded from the processing. */
-//$dpgExcludeDirectories = array('');
+$dpgExcludeDirectories = array();
 
 /* These are the Javadoc tags that should cascade from their parent */
 $dpgCascaseDocblockTags[] = '@author';
 $dpgCascaseDocblockTags[] = '@since';
-?>
+

@@ -28,13 +28,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
 
-chdir(dirname(__FILE__));
+
 
 require_once 'functions.php';
 require_once 'constants.php';
 require_once 'misc_classes.php';
 require_once 'load_config.php';
 
+chdir(dirname(__FILE__));
 
 output_status ('This is the Pelzini processor, Pelzini version ' . DOCU_VERSION);
 output_status ('Pelzini is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
