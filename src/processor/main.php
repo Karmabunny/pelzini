@@ -136,6 +136,8 @@ if (isset($dpgProjectDocumentsDirectory)) {
 // Transform the data model
 output_status ('');
 foreach ($dpgTransformers as $transformer) {
+  output_status ('Running ' . get_class($transformer));
+  
   $result = $transformer->transform($parser_model);
   
   if ($result) {
@@ -149,6 +151,8 @@ foreach ($dpgTransformers as $transformer) {
 output_status ('');
 foreach ($dpgOutputters as $outputter) {
   $outputter->check_layout('database.layout');
+  
+  output_status ('Running ' . get_class($outputter));
   
   $result = $outputter->output($parser_model);
   

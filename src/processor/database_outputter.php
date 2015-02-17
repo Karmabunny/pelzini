@@ -214,7 +214,6 @@ abstract class DatabaseOutputter extends Outputter {
     }
     
     
-    echo '<pre>';
     
     foreach ($dest_tables as $table_name => $dest_table) {
       $curr_table = $curr_tables[$table_name];
@@ -291,7 +290,6 @@ abstract class DatabaseOutputter extends Outputter {
       }
     }
     
-    echo '</pre>';
     
     if ($has_queries) {
       echo '<p>This update needs to make changes. ';
@@ -340,7 +338,7 @@ abstract class DatabaseOutputter extends Outputter {
       return false;
     }
     
-    $this->start_transaction();
+    //$this->start_transaction();
     
     $this->query ("TRUNCATE projects");
     $this->query ("TRUNCATE files");
@@ -479,7 +477,7 @@ abstract class DatabaseOutputter extends Outputter {
       }
     }
     
-    $this->commit_transaction();
+    //$this->commit_transaction();
     
     return true;
   }

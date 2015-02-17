@@ -96,20 +96,13 @@ if (PHP_SAPI == 'cli') {
   }
 }
 
-
-// if no config file was found
-// die with an error
-if (! $config_found) {
+// ensure we have a base dir
+if (!file_exists($dpgBaseDirectory)) {
   header ('Content-type: text/plain');
   echo "ERROR:\n";
-  echo "Unable to find required configuration file 'config.php' or 'config.processor.php', ";
-  echo "and no config file was specified on the command line (using the --config option).\n";
-  echo "Please configure the Pelzini processor. For more information, see:\n";
-  echo "http://docu.sourceforge.net\n\n";
-  echo "The easiest way to configure Pelzini is to run the installer and follow the instructions provided.\n";
+  echo "Base directory '{$dpgBaseDirectory}' not found.\n";
   exit;
 }
-
 
 
 /**
