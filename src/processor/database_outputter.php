@@ -136,7 +136,6 @@ abstract class DatabaseOutputter extends Outputter {
      **/
     private function do_insert($table, $data)
     {
-        echo $table, ' 1', PHP_EOL;
         $q = "INSERT INTO {$table} (";
         $q .= implode(', ', array_keys($data));
         $q .= ") VALUES (";
@@ -152,8 +151,6 @@ abstract class DatabaseOutputter extends Outputter {
     private function do_multiple_insert($table, $data)
     {
         if (count($data) == 0) return;
-
-        echo $table, ' ', count($data), PHP_EOL;
 
         $q = "INSERT INTO {$table} (";
         $q .= implode(',', array_keys($data[0]));
