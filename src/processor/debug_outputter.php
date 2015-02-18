@@ -20,35 +20,39 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
-* This file contains the {@link DebugOutputter} class
-*
-* @package Outputters
-* @author Josh
-* @since 0.1
-**/
+ * This file contains the {@link DebugOutputter} class
+ *
+ * @package Outputters
+ * @author Josh
+ * @since 0.1
+ **/
 
 /**
-* Outputs the tree to the screen
-**/
+ * Outputs the tree to the screen
+ **/
 class DebugOutputter extends Outputter {
-  
-  /**
-  * Outputs the entire tree to the screen
-  **/
-  public function output ($files) {
-    global $dpgProjectName;
-    
-    echo '<style>';
-    echo 'div {padding: 5px; margin: 5px;}';
-    echo '</style>';
-    
-    echo "<h1>{$dpgProjectName}</h1>";
-    foreach ($files as $file) {
-      $file->dump();
+
+    /**
+     * Outputs the entire tree to the screen
+     **/
+    public function output($files)
+    {
+        global $dpgProjectName;
+
+        echo '<style>';
+        echo 'div {padding: 5px; margin: 5px;}';
+        echo '</style>';
+
+        echo "<h1>{$dpgProjectName}</h1>";
+        foreach ($files as $file) {
+            $file->dump();
+        }
+
+        return true;
     }
-    
-    return true;
-  }
+
+
 }
+
 
 ?>

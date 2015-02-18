@@ -19,13 +19,13 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Displays information about a specific package
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.1
-* @tag i18n-done
-**/
+ * Displays information about a specific package
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.1
+ * @tag i18n-done
+ **/
 
 require_once 'functions.php';
 
@@ -35,10 +35,10 @@ $q = "SELECT id, name FROM packages WHERE id = {$_GET['id']} LIMIT 1";
 $res = db_query($q);
 
 if (! $package = db_fetch_assoc ($res)) {
-  require_once 'head.php';
-  echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
-  echo str(STR_PKG_INVALID);
-  require_once 'foot.php';
+    require_once 'head.php';
+    echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
+    echo str(STR_PKG_INVALID);
+    require_once 'foot.php';
 }
 
 $package['name'] = htmlspecialchars($package['name']);
@@ -62,39 +62,39 @@ $q = $q->buildQuery();
 $res = db_query ($q);
 
 if (db_num_rows($res) > 0) {
-  echo '<div>';
-  echo '<h3>', str(STR_FILES), '</h3>';
-  echo '<img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin-top: -40px;">';
-  
-  $alt = false;
-  echo '<div class="list content" style="display: none">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    // output
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo delink_inline($row['description']);
+    echo '<div>';
+    echo '<h3>', str(STR_FILES), '</h3>';
+    echo '<img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin-top: -40px;">';
+
+    $alt = false;
+    echo '<div class="list content" style="display: none">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        // output
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo delink_inline($row['description']);
+        echo '</div>';
+
+        $file_ids[] = $row['id'];
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $file_ids[] = $row['id'];
-    $alt = ! $alt;
-  }
-  echo '</div>';
-  echo '</div>';
-  
-  
+    echo '</div>';
+
+
 } else {
-  echo "<p>There are no files in this package for the version you have selected.</p>";
-  require_once 'foot.php';
-  exit;
+    echo "<p>There are no files in this package for the version you have selected.</p>";
+    require_once 'foot.php';
+    exit;
 }
 
 
-$file_ids = implode (', ', $file_ids);
+$file_ids = implode(', ', $file_ids);
 
 
 // Show classes
@@ -104,28 +104,28 @@ $q = "SELECT id, name, description
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<div>';
-  echo '<a name="classes"></a>';
-  echo '<h3>', str(STR_CLASSES), '</h3>';
-  echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
-  
-  $alt = false;
-  echo '<div class="list content">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo delink_inline($row['description']);
+    echo '<div>';
+    echo '<a name="classes"></a>';
+    echo '<h3>', str(STR_CLASSES), '</h3>';
+    echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
+
+    $alt = false;
+    echo '<div class="list content">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo delink_inline($row['description']);
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
-  echo '</div>';
+    echo '</div>';
 }
 
 
@@ -136,28 +136,28 @@ $q = "SELECT id, name, description
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<div>';
-  echo '<a name="interfaces"></a>';
-  echo '<h3>', str(STR_INTERFACES), '</h3>';
-  echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
-  
-  $alt = false;
-  echo '<div class="list content">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo delink_inline($row['description']);
+    echo '<div>';
+    echo '<a name="interfaces"></a>';
+    echo '<h3>', str(STR_INTERFACES), '</h3>';
+    echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
+
+    $alt = false;
+    echo '<div class="list content">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo delink_inline($row['description']);
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
-  echo '</div>';
+    echo '</div>';
 }
 
 
@@ -168,31 +168,31 @@ $q = "SELECT id, name, description, arguments
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<div>';
-  echo '<a name="functions"></a>';
-  echo '<h3>', str(STR_FUNCTIONS), '</h3>';
-  echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
-  
-  $alt = false;
-  echo '<div class="list content">';
-  while ($row = db_fetch_assoc ($res)) {
-    // encode for output
-    $row['name'] = htmlspecialchars($row['name']);
-    $row['arguments'] = htmlspecialchars($row['arguments']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    // display the function
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo delink_inline($row['description']);
-    echo "</div>";
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
-  echo '</div>';
+    echo '<div>';
+    echo '<a name="functions"></a>';
+    echo '<h3>', str(STR_FUNCTIONS), '</h3>';
+    echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
+
+    $alt = false;
+    echo '<div class="list content">';
+    while ($row = db_fetch_assoc ($res)) {
+        // encode for output
+        $row['name'] = htmlspecialchars($row['name']);
+        $row['arguments'] = htmlspecialchars($row['arguments']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        // display the function
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo delink_inline($row['description']);
+        echo "</div>";
+
+        $alt = ! $alt;
+    }
+    echo '</div>';
+    echo '</div>';
 }
 
 
@@ -203,28 +203,28 @@ $q = "SELECT name, value, description
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<div>';
-  echo '<a name="constants"></a>';
-  echo '<h3>', str(STR_CONSTANTS), '</h3>';
-  echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
-  
-  echo "<table class=\"function-list content\">\n";
-  echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
-  while ($row = db_fetch_assoc ($res)) {
-    // encode for output
-    $row['name'] = htmlspecialchars($row['name']);
-    $row['value'] = htmlspecialchars($row['value']);
-    if ($row['description'] == null) $row['description'] = '&nbsp;';
-    
-    // display the constant
-    echo "<tr>";
-    echo "<td><code>{$row['name']}</code></td>";
-    echo "<td><code>{$row['value']}</code></td>";
-    echo "<td>{$row['description']}</td>";
-    echo "</tr>\n";
-  }
-  echo "</table>\n";
-  echo '</div>';
+    echo '<div>';
+    echo '<a name="constants"></a>';
+    echo '<h3>', str(STR_CONSTANTS), '</h3>';
+    echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
+
+    echo "<table class=\"function-list content\">\n";
+    echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
+    while ($row = db_fetch_assoc ($res)) {
+        // encode for output
+        $row['name'] = htmlspecialchars($row['name']);
+        $row['value'] = htmlspecialchars($row['value']);
+        if ($row['description'] == null) $row['description'] = '&nbsp;';
+
+        // display the constant
+        echo "<tr>";
+        echo "<td><code>{$row['name']}</code></td>";
+        echo "<td><code>{$row['value']}</code></td>";
+        echo "<td>{$row['description']}</td>";
+        echo "</tr>\n";
+    }
+    echo "</table>\n";
+    echo '</div>';
 }
 
 

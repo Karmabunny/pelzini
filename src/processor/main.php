@@ -20,12 +20,12 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
-* This is the main processor engine. It does all of the grunt-work of the processor
-*
-* @package Processor
-* @author Josh
-* @since 0.1
-**/
+ * This is the main processor engine. It does all of the grunt-work of the processor
+ *
+ * @package Processor
+ * @author Josh
+ * @since 0.1
+ **/
 
 
 
@@ -69,20 +69,20 @@ output_status ('Processing files.');
 $success = 0;
 $failure = 0;
 foreach ($file_names as $file) {
-  $ext = array_pop(explode ('.', $file));
-  
-  if (isset($parsers[$ext])) {
-    output_status ("Processing file {$file}");
-    $result = $parsers[$ext]->parseFile ($file);
-    
-    if ($result != null) {
-      $parser_model[] = $result;
-      $success++;
-    } else {
-      output_status ("ERROR: Processing of file {$file} failed!");
-      $failure++;
+    $ext = array_pop(explode('.', $file));
+
+    if (isset($parsers[$ext])) {
+        output_status ("Processing file {$file}");
+        $result = $parsers[$ext]->parseFile ($file);
+
+        if ($result != null) {
+            $parser_model[] = $result;
+            $success++;
+        } else {
+            output_status ("ERROR: Processing of file {$file} failed!");
+            $failure++;
+        }
     }
-  }
 }
 
 
@@ -98,66 +98,66 @@ output_status ("  {$failure} file(s) failed to be parsed");
 // Does processing of Javadoc tags
 // Ths should be hidden away somewhere, but meh
 foreach ($parser_model as $item) {
-  if ($item instanceof ParserFile) {
-    $item->treeWalk ('process_javadoc_tags');
-  }
+    if ($item instanceof ParserFile) {
+        $item->treeWalk ('process_javadoc_tags');
+    }
 }
 
 
 if (isset($dpgProjectDocumentsDirectory)) {
-  // Determine the file names for project documents
-  output_status ('');
-  output_status ("Getting filenames for project documents.");
-  $file_names = get_filenames ($dpgProjectDocumentsDirectory, '');
-  output_status ("Found " . count($file_names) . " files.");
-  
-  
-  // Process each document, and add a ParserDocument
-  output_status ('');
-  output_status ('Processing files.');
-  $success = 0;
-  $failure = 0;
-  foreach ($file_names as $file) {
-    $file_parts = explode ('.', basename ($file));
-    $ext = array_pop($file_parts);
-    if ($ext != 'txt') continue;
-    
-    $content = file_get_contents ($dpgProjectDocumentsDirectory . $file);
-    if ($content == '') continue;
-    
-    $doc = new ParserDocument ();
-    $doc->name = implode ('.', $file_parts);
-    $doc->description = htmlify_text ($content);
-    $parser_model[] = $doc;
-  }
+    // Determine the file names for project documents
+    output_status ('');
+    output_status ("Getting filenames for project documents.");
+    $file_names = get_filenames ($dpgProjectDocumentsDirectory, '');
+    output_status ("Found " . count($file_names) . " files.");
+
+
+    // Process each document, and add a ParserDocument
+    output_status ('');
+    output_status ('Processing files.');
+    $success = 0;
+    $failure = 0;
+    foreach ($file_names as $file) {
+        $file_parts = explode('.', basename($file));
+        $ext = array_pop($file_parts);
+        if ($ext != 'txt') continue;
+
+        $content = file_get_contents($dpgProjectDocumentsDirectory . $file);
+        if ($content == '') continue;
+
+        $doc = new ParserDocument ();
+        $doc->name = implode('.', $file_parts);
+        $doc->description = htmlify_text ($content);
+        $parser_model[] = $doc;
+    }
 }
 
 
 // Transform the data model
 output_status ('');
 foreach ($dpgTransformers as $transformer) {
-  output_status ('Running ' . get_class($transformer));
-  
-  $result = $transformer->transform($parser_model);
-  
-  if ($result) {
-    output_status ('Processed transformer ' . get_class($transformer) . ' successfully');
-    $parser_model = $result;
-  }
+    output_status ('Running ' . get_class($transformer));
+
+    $result = $transformer->transform($parser_model);
+
+    if ($result) {
+        output_status ('Processed transformer ' . get_class($transformer) . ' successfully');
+        $parser_model = $result;
+    }
 }
 
 
 // Output the generated tree to the specified outputters
 output_status ('');
 foreach ($dpgOutputters as $outputter) {
-  $outputter->check_layout('database.layout');
-  
-  output_status ('Running ' . get_class($outputter));
-  
-  $result = $outputter->output($parser_model);
-  
-  if ($result) {
-    output_status ('Processed outputter ' . get_class($outputter) . ' successfully');
-  }
+    $outputter->check_layout('database.layout');
+
+    output_status ('Running ' . get_class($outputter));
+
+    $result = $outputter->output($parser_model);
+
+    if ($result) {
+        output_status ('Processed outputter ' . get_class($outputter) . ' successfully');
+    }
 }
 ?>

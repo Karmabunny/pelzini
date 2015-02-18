@@ -19,13 +19,13 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Shows a list of all authors
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.2
-* @tag i18n-done
-**/
+ * Shows a list of all authors
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.2
+ * @tag i18n-done
+ **/
 
 require_once 'head.php';
 
@@ -38,7 +38,7 @@ usort($top_nodes, 'nodenamesort');
 
 echo "<ul class=\"tree\">\n";
 foreach ($top_nodes as $node) {
-  draw_class_tree($node);
+    draw_class_tree($node);
 }
 echo "</ul>\n";
 
@@ -46,28 +46,33 @@ require_once 'foot.php';
 
 
 /**
-* Draws the tree from this node and below as unordered lists within unordered lists
-**/
-function draw_class_tree($node) {
-  // Draw this item
-  echo '<li>', get_object_link($node['name']);
-  
-  // Draw its children if it has any
-  $children = $node->getChildren();
-  usort($children, 'nodenamesort');
-  
-  if (count($children) > 0) {
-    echo "\n<ul>\n";
-    foreach ($children as $child) {
-      draw_class_tree($child);
+ * Draws the tree from this node and below as unordered lists within unordered lists
+ **/
+function draw_class_tree($node)
+{
+    // Draw this item
+    echo '<li>', get_object_link($node['name']);
+
+    // Draw its children if it has any
+    $children = $node->getChildren();
+    usort($children, 'nodenamesort');
+
+    if (count($children) > 0) {
+        echo "\n<ul>\n";
+        foreach ($children as $child) {
+            draw_class_tree($child);
+        }
+        echo "</ul>\n";
     }
-    echo "</ul>\n";
-  }
-  
-  echo "</li>\n";
+
+    echo "</li>\n";
 }
 
-function nodenamesort($a, $b) {
-  return strcasecmp($a['name'], $b['name']);
+
+function nodenamesort($a, $b)
+{
+    return strcasecmp($a['name'], $b['name']);
 }
+
+
 ?>

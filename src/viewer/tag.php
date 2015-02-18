@@ -19,22 +19,22 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Shows information about a specific tag
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.3
-* @tag i18n-done
-**/
+ * Shows information about a specific tag
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.3
+ * @tag i18n-done
+ **/
 
 require_once 'functions.php';
 
 $_GET['name'] = trim($_GET['name']);
 if ($_GET['name'] == '') {
-  require_once 'head.php';
-  echo "Invalid tag specified";
-  require_once 'foot.php';
-  exit;
+    require_once 'head.php';
+    echo "Invalid tag specified";
+    require_once 'foot.php';
+    exit;
 }
 
 $name_sql = db_quote ($_GET['name']);
@@ -54,25 +54,25 @@ $q = "SELECT files.id, files.name
   ORDER BY files.name";
 $res = db_query ($q);
 if (db_num_rows($res) > 0) {
-  echo '<h3>', str(STR_FILES), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    // output
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+    echo '<h3>', str(STR_FILES), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        // output
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo '</div>';
+
+        $file_ids[] = $row['id'];
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $file_ids[] = $row['id'];
-    $alt = ! $alt;
-  }
-  echo '</div>';
 }
 
 
@@ -84,24 +84,24 @@ $q = "SELECT classes.id, classes.name
   ORDER BY classes.name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="classes"></a>';
-  echo '<h3>', str(STR_CLASSES), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+    echo '<a name="classes"></a>';
+    echo '<h3>', str(STR_CLASSES), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
 }
 
 
@@ -116,31 +116,31 @@ $q = "SELECT functions.id, functions.name, classes.name AS classname,
   ORDER BY interfacename, classname, functions.name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="functions"></a>';
-  echo '<h3>', str(STR_FUNCTIONS), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    // encode for output
-    $row['name'] = htmlspecialchars($row['name']);
-    $row['arguments'] = htmlspecialchars($row['arguments']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    // display the function
-    echo "<div class=\"{$class}\">";
-    
-    echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong> ";
-    if ($row['classname']) echo str(STR_FROM_CLASS, 'class', get_object_link($row['classname']));
-    if ($row['interfacename']) echo str(STR_FROM_INTERFACE, 'interface', get_object_link($row['interfacename']));
-    echo "</p>";
-    echo "</div>";
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
+    echo '<a name="functions"></a>';
+    echo '<h3>', str(STR_FUNCTIONS), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        // encode for output
+        $row['name'] = htmlspecialchars($row['name']);
+        $row['arguments'] = htmlspecialchars($row['arguments']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        // display the function
+        echo "<div class=\"{$class}\">";
+
+        echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong> ";
+        if ($row['classname']) echo str(STR_FROM_CLASS, 'class', get_object_link($row['classname']));
+        if ($row['interfacename']) echo str(STR_FROM_INTERFACE, 'interface', get_object_link($row['interfacename']));
+        echo "</p>";
+        echo "</div>";
+
+        $alt = ! $alt;
+    }
+    echo '</div>';
 }
 
 
@@ -152,24 +152,24 @@ $q = "SELECT constants.id, constants.name, constants.fileid
   ORDER BY constants.name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="constants"></a>';
-  echo '<h3>', str(STR_CONSTANTS), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"file.php?id={$row['fileid']}\">{$row['name']}</a></strong></p>";
+    echo '<a name="constants"></a>';
+    echo '<h3>', str(STR_CONSTANTS), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"file.php?id={$row['fileid']}\">{$row['name']}</a></strong></p>";
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
 }
 
 

@@ -19,14 +19,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Displays a list of all of the tables used
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.3
-* @see viewer/tag.php
-* @tag i18n-done
-**/
+ * Displays a list of all of the tables used
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.3
+ * @see viewer/tag.php
+ * @tag i18n-done
+ **/
 
 
 require_once 'functions.php';
@@ -45,17 +45,17 @@ $q = "SELECT name, COUNT(name) AS num
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo '<p>', str(STR_TAG_LIST_INTRO), '</p>';
-  
-  echo "<ul>";
-  while ($row = db_fetch_assoc ($res)) {
-    echo "<li><a href=\"tag.php?name={$row['name']}\">{$row['name']}</a> ({$row['num']})</li>";
-  }
-  echo "</ul>";
-  
-  
+    echo '<p>', str(STR_TAG_LIST_INTRO), '</p>';
+
+    echo "<ul>";
+    while ($row = db_fetch_assoc ($res)) {
+        echo "<li><a href=\"tag.php?name={$row['name']}\">{$row['name']}</a> ({$row['num']})</li>";
+    }
+    echo "</ul>";
+
+
 } else {
-  echo '<p>', str(STR_TAG_LIST_NONE), '</p>';
+    echo '<p>', str(STR_TAG_LIST_NONE), '</p>';
 }
 
 

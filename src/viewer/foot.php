@@ -19,13 +19,13 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* The viewer footer
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.1
-* @tag i18n-done
-**/
+ * The viewer footer
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.1
+ * @tag i18n-done
+ **/
 
 $generated = strtotime($project['dategenerated']);
 $generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a', $generated);
@@ -43,15 +43,15 @@ $generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a', $generated)
 <table class="footer">
   <tr>
     <td align="left" style="width: 20em;">
-      <?= str (STR_POWERED_BY, 'version', DOCU_VERSION); ?>
+      <?php echo str (STR_POWERED_BY, 'version', DOCU_VERSION); ?>
     </td>
-    
+
     <td align="center">
-      <?= $project['license']; ?>
+      <?php echo $project['license']; ?>
       <br>
-      <?= str (STR_DATE_GENERATED, 'date', $generated); ?>
+      <?php echo str (STR_DATE_GENERATED, 'date', $generated); ?>
     </td>
-    
+
     <td align="right" style="width: 20em;">
       <a href="http://docu.sourceforge.net">
         <img src="images/docs_pelzini.png" width="80" height="15">

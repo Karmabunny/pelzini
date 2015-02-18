@@ -19,12 +19,12 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Selects a version as the 'current version'
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.1
-**/
+ * Selects a version as the 'current version'
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.1
+ **/
 
 require_once 'functions.php';
 
@@ -32,10 +32,10 @@ require_once 'functions.php';
 $_GET['id'] = (int) $_GET['id'];
 
 if ($_GET['id'] == 0) {
-  unset ($_SESSION['current_version']);
-  
+    unset ($_SESSION['current_version']);
+
 } else {
-  $_SESSION['current_version'] = $_GET['id'];
+    $_SESSION['current_version'] = $_GET['id'];
 }
 
 header('Location: ' . $_GET['redirect']);

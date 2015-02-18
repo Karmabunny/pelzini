@@ -19,14 +19,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Shows information about a specific interface
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.1
-* @see ParserInterface
-* @tag i18n-done
-**/
+ * Shows information about a specific interface
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.1
+ * @see ParserInterface
+ * @tag i18n-done
+ **/
 
 require_once 'functions.php';
 
@@ -34,11 +34,11 @@ require_once 'functions.php';
 // Determine what to show
 $id = (int) $_GET['id'];
 if ($id == 0) {
-  $name = trim($_GET['name']);
-  $name = db_escape ($name);
-  $where = "interfaces.name LIKE '{$name}'";
+    $name = trim($_GET['name']);
+    $name = db_escape ($name);
+    $where = "interfaces.name LIKE '{$name}'";
 } else {
-  $where = "interfaces.id = {$id}";
+    $where = "interfaces.id = {$id}";
 }
 
 
@@ -71,7 +71,7 @@ echo '<ul>';
 echo '<li>', str(STR_FILE, 'filename', $interface['filename']), '</li>';
 
 if ($interface['sinceid']) {
-  echo '<li>', str(STR_AVAIL_SINCE, 'version', get_since_version($interface['sinceid'])), '</li>';
+    echo '<li>', str(STR_AVAIL_SINCE, 'version', get_since_version($interface['sinceid'])), '</li>';
 }
 echo '</ul>';
 
@@ -89,12 +89,12 @@ $q = "SELECT classes.id, classes.name
   WHERE class_implements.name = {$name}";
 $res = db_query ($q);
 if (db_num_rows($res) > 0) {
-  echo '<h3>', str(STR_INTERFACE_IMPLEMENTORS), '</h3>';
-  echo "<ul>";
-  while ($row = db_fetch_assoc ($res)) {
-    echo "<li>", get_object_link($row['name']);
-  }
-  echo "</ul>";
+    echo '<h3>', str(STR_INTERFACE_IMPLEMENTORS), '</h3>';
+    echo "<ul>";
+    while ($row = db_fetch_assoc ($res)) {
+        echo "<li>", get_object_link($row['name']);
+    }
+    echo "</ul>";
 }
 
 
@@ -102,22 +102,22 @@ if (db_num_rows($res) > 0) {
 $q = "SELECT id, name, description, arguments FROM functions WHERE interfaceid = {$interface['id']}";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  while ($row = db_fetch_assoc ($res)) {
-    if ($row['description'] == null) {
-      $row['description'] = '<em>This function does not have a description</em>';
+    while ($row = db_fetch_assoc ($res)) {
+        if ($row['description'] == null) {
+            $row['description'] = '<em>This function does not have a description</em>';
+        }
+
+        // display
+        echo "<h3>{$row['visibility']} <a href=\"function.php?id={$row['id']}\">{$row['name']}</a>";
+        if ($row['classname'] != $class['name']) {
+            echo " <small>(from <a href=\"class.php?name={$row['classname']}\">{$row['classname']}</a>)</small>";
+        }
+        echo "</h3>";
+
+        show_function_usage ($row['id']);
+        echo '<br>';
+        echo process_inline($row['description']);
     }
-    
-    // display
-    echo "<h3>{$row['visibility']} <a href=\"function.php?id={$row['id']}\">{$row['name']}</a>";
-    if ($row['classname'] != $class['name']) {
-      echo " <small>(from <a href=\"class.php?name={$row['classname']}\">{$row['classname']}</a>)</small>";
-    }
-    echo "</h3>";
-    
-    show_function_usage ($row['id']);
-    echo '<br>';
-    echo process_inline($row['description']);
-  }
 }
 
 
@@ -127,4 +127,3 @@ show_see_also ($interface['id'], LINK_TYPE_INTERFACE);
 
 require_once 'foot.php';
 ?>
-

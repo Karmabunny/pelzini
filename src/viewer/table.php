@@ -19,22 +19,22 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Displays information about the usage of a specific database table
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.2
-* @see viewer/tables_list.php
-* @tag i18n-done
-**/
+ * Displays information about the usage of a specific database table
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.2
+ * @see viewer/tables_list.php
+ * @tag i18n-done
+ **/
 
 require_once 'functions.php';
 
 $_GET['name'] = trim($_GET['name']);
 if ($_GET['name'] == '') {
-  require_once 'head.php';
-  echo "Invalid table specified";
-  require_once 'foot.php';
+    require_once 'head.php';
+    echo "Invalid table specified";
+    require_once 'foot.php';
 }
 
 $name_sql = db_quote ($_GET['name']);
@@ -53,26 +53,26 @@ $q = "SELECT files.id, files.name, item_tables.action, item_tables.description
   ORDER BY files.name";
 $res = db_query ($q);
 if (db_num_rows($res) > 0) {
-  echo '<h3>', str(STR_FILES), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    // output
-    echo "<div class=\"{$class}\">";
-    echo "<p><i>{$row['action']}</i> <strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo delink_inline($row['description']);
+    echo '<h3>', str(STR_FILES), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        // output
+        echo "<div class=\"{$class}\">";
+        echo "<p><i>{$row['action']}</i> <strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo delink_inline($row['description']);
+        echo '</div>';
+
+        $file_ids[] = $row['id'];
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $file_ids[] = $row['id'];
-    $alt = ! $alt;
-  }
-  echo '</div>';
 }
 
 
@@ -84,25 +84,25 @@ $q = "SELECT classes.id, classes.name, item_tables.action, item_tables.descripti
   ORDER BY classes.name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="classes"></a>';
-  echo '<h3>', str(STR_CLASSES), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    echo "<div class=\"{$class}\">";
-    echo "<p><i>{$row['action']}</i> <strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo delink_inline($row['description']);
+    echo '<a name="classes"></a>';
+    echo '<h3>', str(STR_CLASSES), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        echo "<div class=\"{$class}\">";
+        echo "<p><i>{$row['action']}</i> <strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo delink_inline($row['description']);
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
 }
 
 
@@ -114,28 +114,28 @@ $q = "SELECT functions.id, functions.name, item_tables.action, item_tables.descr
   ORDER BY functions.name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="functions"></a>';
-  echo '<h3>', str(STR_FUNCTIONS), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    // encode for output
-    $row['name'] = htmlspecialchars($row['name']);
-    $row['arguments'] = htmlspecialchars($row['arguments']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    // display the function
-    echo "<div class=\"{$class}\">";
-    echo "<p><i>{$row['action']}</i> <strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong> </p>";
-    echo delink_inline($row['description']);
-    echo "</div>";
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
+    echo '<a name="functions"></a>';
+    echo '<h3>', str(STR_FUNCTIONS), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        // encode for output
+        $row['name'] = htmlspecialchars($row['name']);
+        $row['arguments'] = htmlspecialchars($row['arguments']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        // display the function
+        echo "<div class=\"{$class}\">";
+        echo "<p><i>{$row['action']}</i> <strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong> </p>";
+        echo delink_inline($row['description']);
+        echo "</div>";
+
+        $alt = ! $alt;
+    }
+    echo '</div>';
 }
 
 

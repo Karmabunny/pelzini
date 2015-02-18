@@ -19,14 +19,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Displays a list of all of the tables used
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.2
-* @see viewer/table.php
-* @tag i18n-done
-**/
+ * Displays a list of all of the tables used
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.2
+ * @see viewer/table.php
+ * @tag i18n-done
+ **/
 
 require_once 'functions.php';
 
@@ -44,17 +44,17 @@ $q = "SELECT name
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo '<p>', str(STR_TABLE_LIST_INTRO), '</p>';
-  
-  echo "<ul>";
-  while ($row = db_fetch_assoc ($res)) {
-    echo "<li><a href=\"table.php?name={$row['name']}\">{$row['name']}</a></li>";
-  }
-  echo "</ul>";
-  
-  
+    echo '<p>', str(STR_TABLE_LIST_INTRO), '</p>';
+
+    echo "<ul>";
+    while ($row = db_fetch_assoc ($res)) {
+        echo "<li><a href=\"table.php?name={$row['name']}\">{$row['name']}</a></li>";
+    }
+    echo "</ul>";
+
+
 } else {
-  echo '<p>', str(STR_TABLE_LIST_NONE), '</p>';
+    echo '<p>', str(STR_TABLE_LIST_NONE), '</p>';
 }
 
 

@@ -24,4 +24,3 @@ $dvgDatabaseSettings['filename'] = '../output/pelzini.sqlite';
 /* The language to display the viewer in
    Available languages are in the i18n directory */
 $dvgLanguage = 'english';
-

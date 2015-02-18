@@ -19,17 +19,17 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Links to the main processor and the database sync tool
-*
-* @package Processor
-* @author Josh
-* @since 0.1
-**/
+ * Links to the main processor and the database sync tool
+ *
+ * @package Processor
+ * @author Josh
+ * @since 0.1
+ **/
 ?>
 <html>
 <head>
   <title>Pelzini: processor</title>
-  
+
   <style>
   body {
     font-family: sans-serif;

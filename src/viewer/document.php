@@ -19,14 +19,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Shows a specific document
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.2
-* @see ParserDocument
-* @tag i18n-done
-**/
+ * Shows a specific document
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.2
+ * @see ParserDocument
+ * @tag i18n-done
+ **/
 
 
 require_once 'functions.php';
@@ -37,10 +37,10 @@ $q = "SELECT name, description FROM documents WHERE name LIKE {$name_sql}";
 $res = db_query ($q);
 
 if (! $doc = db_fetch_assoc ($res)) {
-  require_once 'head.php';
-  echo str(STR_INVALID_DOCUMENT);
-  require_once 'foot.php';
-  exit;
+    require_once 'head.php';
+    echo str(STR_INVALID_DOCUMENT);
+    require_once 'foot.php';
+    exit;
 }
 
 $doc['name'] = htmlspecialchars($doc['name']);

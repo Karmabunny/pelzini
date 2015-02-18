@@ -19,12 +19,12 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Selects a package as the 'current package'
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.2
-**/
+ * Selects a package as the 'current package'
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.2
+ **/
 
 require_once 'functions.php';
 
@@ -32,11 +32,11 @@ require_once 'functions.php';
 $_GET['id'] = (int) $_GET['id'];
 
 if ($_GET['id'] == 0) {
-  unset ($_SESSION['current_package']);
-  header('Location: index.php');
-  
+    unset ($_SESSION['current_package']);
+    header('Location: index.php');
+
 } else {
-  $_SESSION['current_package'] = $_GET['id'];
-  header('Location: package.php?id=' . $_GET['id']);
+    $_SESSION['current_package'] = $_GET['id'];
+    header('Location: package.php?id=' . $_GET['id']);
 }
 ?>

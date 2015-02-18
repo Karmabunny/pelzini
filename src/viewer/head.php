@@ -19,13 +19,13 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* The viewer header
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.1
-* @tag i18n-done
-**/
+ * The viewer header
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.1
+ * @tag i18n-done
+ **/
 
 require_once 'functions.php';
 
@@ -42,9 +42,9 @@ header('Content-type: text/html; charset=UTF-8');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-  <title><?= $browser_title; ?></title>
+  <title><?php echo $browser_title; ?></title>
   <link href="style.css" rel="stylesheet" type="text/css">
-  
+
   <script type="text/javascript" src="ajax/ajax.js"></script>
   <script type="text/javascript" src="functions.js"></script>
 
@@ -53,64 +53,64 @@ header('Content-type: text/html; charset=UTF-8');
 <body>
 
 <div class="header">
-  <h1><?= str (STR_MAIN_TITLE, 'project', $project['name']); ?></h1>
-  <p><?= str (STR_INTRO_PARAGRAPH, 'project', $project['name']); ?></p>
+  <h1><?php echo str (STR_MAIN_TITLE, 'project', $project['name']); ?></h1>
+  <p><?php echo str (STR_INTRO_PARAGRAPH, 'project', $project['name']); ?></p>
 </div>
 
 <div class="navigation">
   <span style="float: right">
-    <a href="more_info.php"><?= str(STR_MORE_INFO); ?></a>
-    
+    <a href="more_info.php"><?php echo str(STR_MORE_INFO); ?></a>
+
     <form action="select_version.php" method="get">
-    <input type="hidden" name="redirect" value="<?= $_SERVER['REQUEST_URI']; ?>">
-    <b><?= str(STR_VERSION); ?>:</b>
+    <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
+    <b><?php echo str(STR_VERSION); ?>:</b>
     <select name="id" onchange="this.form.submit();">
       <?php
-      if ($_SESSION['current_version'] == null) {
-        echo "<option value=\"\" selected>All</option>\n";
-      } else {
-        echo "<option value=\"\">All</option>\n";
-      }
-      
-      $q = "SELECT id, name FROM versions ORDER BY id";
-      $res = db_query($q);
-      while ($row = db_fetch_assoc ($res)) {
-        if ($_SESSION['current_version'] == $row['id']) {
-          echo "<option value=\"{$row['id']}\" selected>{$row['name']}</option>\n";
-        } else {
-          echo "<option value=\"{$row['id']}\">{$row['name']}</option>\n";
-        }
-      }
-      ?>
+if ($_SESSION['current_version'] == null) {
+    echo "<option value=\"\" selected>All</option>\n";
+} else {
+    echo "<option value=\"\">All</option>\n";
+}
+
+$q = "SELECT id, name FROM versions ORDER BY id";
+$res = db_query($q);
+while ($row = db_fetch_assoc ($res)) {
+    if ($_SESSION['current_version'] == $row['id']) {
+        echo "<option value=\"{$row['id']}\" selected>{$row['name']}</option>\n";
+    } else {
+        echo "<option value=\"{$row['id']}\">{$row['name']}</option>\n";
+    }
+}
+?>
     </select>
     </form>
   </span>
-  
-  <a href="index.php"><?= str(STR_HOME); ?></a>
-  <a href="select_package.php"><?= str(STR_ALL_PACKAGES); ?></a>
+
+  <a href="index.php"><?php echo str(STR_HOME); ?></a>
+  <a href="select_package.php"><?php echo str(STR_ALL_PACKAGES); ?></a>
   &nbsp;
-  
+
   <?php
-  $q = new SelectQuery();
-  $q->addFields('packages.id, packages.name');
-  $q->setFrom('files');
-  $q->addInnerJoin('packages ON files.packageid = packages.id');
-  $q->setGroupBy('packages.id');
-  $q->setOrderBy('packages.name');
-  $q->addSinceVersionWhere();
-  
-  $q = $q->buildQuery();
-  $res = db_query($q);
-  while ($row = db_fetch_assoc($res)) {
+$q = new SelectQuery();
+$q->addFields('packages.id, packages.name');
+$q->setFrom('files');
+$q->addInnerJoin('packages ON files.packageid = packages.id');
+$q->setGroupBy('packages.id');
+$q->setOrderBy('packages.name');
+$q->addSinceVersionWhere();
+
+$q = $q->buildQuery();
+$res = db_query($q);
+while ($row = db_fetch_assoc($res)) {
     $row['name'] = htmlspecialchars($row['name']);
-    
+
     if ($_SESSION['current_package'] == $row['id']) {
-      echo "<a href=\"select_package.php?id={$row['id']}\" class=\"on\">{$row['name']}</a> ";
+        echo "<a href=\"select_package.php?id={$row['id']}\" class=\"on\">{$row['name']}</a> ";
     } else {
-      echo "<a href=\"select_package.php?id={$row['id']}\">{$row['name']}</a> ";
+        echo "<a href=\"select_package.php?id={$row['id']}\">{$row['name']}</a> ";
     }
-  }
-  ?>
+}
+?>
 </div>
 
 <table class="main">
@@ -119,13 +119,13 @@ header('Content-type: text/html; charset=UTF-8');
   <div class="box-nohead">
     <form action="search.php" method="get">
       <input type="hidden" name="advanced" value="0">
-      <input type="text" name="q" style="width: 200px;" value="<?= htmlspecialchars ($_GET['q']); ?>">
-      <input type="submit" value="<?= str (STR_SEARCH_GO_BTN); ?>">
+      <input type="text" name="q" style="width: 200px;" value="<?php echo htmlspecialchars($_GET['q']); ?>">
+      <input type="submit" value="<?php echo str (STR_SEARCH_GO_BTN); ?>">
     </form>
-    <p style="font-size: smaller; margin-top: 3px;"><a href="advanced_search.php?q=<?= urlencode($_GET['q']); ?>"><?= str (STR_ADV_SEARCH_TITLE); ?></a></p>
+    <p style="font-size: smaller; margin-top: 3px;"><a href="advanced_search.php?q=<?php echo urlencode($_GET['q']); ?>"><?php echo str (STR_ADV_SEARCH_TITLE); ?></a></p>
   </div>
-  
-  
+
+
 <?php
 // Classes list
 $q = "SELECT classes.id, classes.name
@@ -136,17 +136,17 @@ $q .= " ORDER BY classes.name";
 
 $res = db_query ($q);
 if (db_num_rows ($res) > 0) {
-  echo '  <div class="box">';
-  echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
-  echo '    <h2>', str(STR_CLASSES), '</h2>';
-  echo '    <div class="content" style="display: none;">';
-  
-  while ($row = db_fetch_assoc ($res)) {
-    echo "<p><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></p>\n";
-  }
-  
-  echo '    </div>';
-  echo '  </div>';
+    echo '  <div class="box">';
+    echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
+    echo '    <h2>', str(STR_CLASSES), '</h2>';
+    echo '    <div class="content" style="display: none;">';
+
+    while ($row = db_fetch_assoc ($res)) {
+        echo "<p><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></p>\n";
+    }
+
+    echo '    </div>';
+    echo '  </div>';
 }
 
 
@@ -159,17 +159,17 @@ $q .= " ORDER BY interfaces.name";
 
 $res = db_query ($q);
 if (db_num_rows ($res) > 0) {
-  echo '  <div class="box">';
-  echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
-  echo '    <h2>', str(STR_INTERFACES), '</h2>';
-  echo '    <div class="content" style="display: none;">';
-  
-  while ($row = db_fetch_assoc ($res)) {
-    echo "<p><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></p>\n";
-  }
-  
-  echo '    </div>';
-  echo '  </div>';
+    echo '  <div class="box">';
+    echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
+    echo '    <h2>', str(STR_INTERFACES), '</h2>';
+    echo '    <div class="content" style="display: none;">';
+
+    while ($row = db_fetch_assoc ($res)) {
+        echo "<p><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></p>\n";
+    }
+
+    echo '    </div>';
+    echo '  </div>';
 }
 
 
@@ -183,17 +183,17 @@ $q .= " ORDER BY functions.name";
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo '  <div class="box">';
-  echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
-  echo '    <h2>', str(STR_FUNCTIONS), '</h2>';
-  echo '    <div class="content" style="display: none;">';
-  
-  while ($row = db_fetch_assoc ($res)) {
-    echo "<p><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></p>\n";
-  }
-  
-  echo '    </div>';
-  echo '  </div>';
+    echo '  <div class="box">';
+    echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
+    echo '    <h2>', str(STR_FUNCTIONS), '</h2>';
+    echo '    <div class="content" style="display: none;">';
+
+    while ($row = db_fetch_assoc ($res)) {
+        echo "<p><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></p>\n";
+    }
+
+    echo '    </div>';
+    echo '  </div>';
 }
 
 
@@ -205,17 +205,17 @@ $q .= " ORDER BY files.name";
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {
-  echo '  <div class="box">';
-  echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
-  echo '    <h2>', str(STR_FILES), '</h2>';
-  echo '    <div class="content" style="display: none;">';
-  
-  while ($row = db_fetch_assoc ($res)) {
-    echo "<p><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></p>\n";
-  }
-  
-  echo '    </div>';
-  echo '  </div>';
+    echo '  <div class="box">';
+    echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
+    echo '    <h2>', str(STR_FILES), '</h2>';
+    echo '    <div class="content" style="display: none;">';
+
+    while ($row = db_fetch_assoc ($res)) {
+        echo "<p><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></p>\n";
+    }
+
+    echo '    </div>';
+    echo '  </div>';
 }
 ?>
 </td>
@@ -223,6 +223,3 @@ if (db_num_rows ($res) > 0) {
 <td class="main">
 
 <!-- Main content begins here -->
-
-
-

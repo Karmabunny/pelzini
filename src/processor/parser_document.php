@@ -19,36 +19,42 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Contains the {@link ParserDocument} class
-*
-* @package Parser model
-* @author Josh Heidenreich
-* @since 0.2
-**/
+ * Contains the {@link ParserDocument} class
+ *
+ * @package Parser model
+ * @author Josh Heidenreich
+ * @since 0.2
+ **/
 
 /**
-* Represents a function
-**/
+ * Represents a function
+ **/
 class ParserDocument extends ParserItem {
-  public $name;
-  public $description;
-  
-  
-  public function __construct() {
-    parent::__construct();
-  }
-  
-  /**
-  * Debugging use only
-  **/
-  public function dump() {
-    echo '<div style="border: 1px navy solid;">';
-    echo $this->name;
-    echo '<br>' . $this->description;
-    
-    parent::dump();
-    echo '</div>';
-  }
+    public $name;
+    public $description;
+
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+
+    /**
+     * Debugging use only
+     **/
+    public function dump()
+    {
+        echo '<div style="border: 1px navy solid;">';
+        echo $this->name;
+        echo '<br>' . $this->description;
+
+        parent::dump();
+        echo '</div>';
+    }
+
+
 }
+
 
 ?>

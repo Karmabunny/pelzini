@@ -20,40 +20,40 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
-* All of the constats used in docu
-*
-* @since 0.1
-* @author Josh
-* @package Processor
-**/
+ * All of the constats used in docu
+ *
+ * @since 0.1
+ * @author Josh
+ * @package Processor
+ **/
 
 /**
-* The current version of Pelzini.
-**/
-define ('DOCU_VERSION', '0.3.1-pre');
+ * The current version of Pelzini.
+ **/
+define('DOCU_VERSION', '0.3.1-pre');
 
 // The output engines
-define ('OUTPUTTER_MYSQL',      1);
-define ('OUTPUTTER_DEBUG',      2);
-define ('OUTPUTTER_PGSQL',      3);
-define ('OUTPUTTER_SQLITE',     4);
-define ('OUTPUTTER_XML',        5);
+define('OUTPUTTER_MYSQL',      1);
+define('OUTPUTTER_DEBUG',      2);
+define('OUTPUTTER_PGSQL',      3);
+define('OUTPUTTER_SQLITE',     4);
+define('OUTPUTTER_XML',        5);
 
 // The transformers - these alter and mutate the parser model before outptting
-define ('TRANSFORMER_QUALITY_CHECK',    1);
-define ('TRANSFORMER_VIRTUAL_ENUMS',    2);
+define('TRANSFORMER_QUALITY_CHECK',    1);
+define('TRANSFORMER_VIRTUAL_ENUMS',    2);
 
 // The link types
 // These are used when linking from tables such as Authors
 // which can potentinally link to multiple tables
 // NOTE: These link types must match the ones defined in viewer/constants.php
-define ('LINK_TYPE_FILE',         1);
-define ('LINK_TYPE_CLASS',        2);
-define ('LINK_TYPE_INTERFACE',    3);
-define ('LINK_TYPE_CONSTANT',     4);
-define ('LINK_TYPE_FUNCTION',     5);
-define ('LINK_TYPE_VARIABLE',     6);
-define ('LINK_TYPE_ENUMERATION',  7);
+define('LINK_TYPE_FILE',         1);
+define('LINK_TYPE_CLASS',        2);
+define('LINK_TYPE_INTERFACE',    3);
+define('LINK_TYPE_CONSTANT',     4);
+define('LINK_TYPE_FUNCTION',     5);
+define('LINK_TYPE_VARIABLE',     6);
+define('LINK_TYPE_ENUMERATION',  7);
 
 
 // These are all of the valid tokens for all languages
@@ -61,33 +61,33 @@ define ('LINK_TYPE_ENUMERATION',  7);
 // These tokens are grouped by type, with each type begining on a 50-number boundry
 
 // Punctuation
-define ('TOKEN_OPEN_NORMAL_BRACKET',   1);    // A normal bracket, i.e. '('
-define ('TOKEN_OPEN_CURLY_BRACKET',    2);    // A curly bracket, i.e. '{'
-define ('TOKEN_OPEN_SQUARE_BRACKET',   3);    // A square bracket, i.e. '['
-define ('TOKEN_CLOSE_NORMAL_BRACKET',  4);    // A normal bracket, i.e. ')'
-define ('TOKEN_CLOSE_CURLY_BRACKET',   5);    // A curly bracket, i.e. '}'
-define ('TOKEN_CLOSE_SQUARE_BRACKET',  6);    // A square bracket, i.e. ']'
-define ('TOKEN_EQUALS',                7);    // An equals sign, i.e. '='
-define ('TOKEN_PERIOD',                8);    // A period, i.e. '.'
-define ('TOKEN_COMMA',                 9);    // A comma, i.e. ','
-define ('TOKEN_SEMICOLON',             10);   // A semi-colon, i.e. ';'
-define ('TOKEN_ASTERIX',               11);   // An asterix, i.e. '*'
+define('TOKEN_OPEN_NORMAL_BRACKET',   1);    // A normal bracket, i.e. '('
+define('TOKEN_OPEN_CURLY_BRACKET',    2);    // A curly bracket, i.e. '{'
+define('TOKEN_OPEN_SQUARE_BRACKET',   3);    // A square bracket, i.e. '['
+define('TOKEN_CLOSE_NORMAL_BRACKET',  4);    // A normal bracket, i.e. ')'
+define('TOKEN_CLOSE_CURLY_BRACKET',   5);    // A curly bracket, i.e. '}'
+define('TOKEN_CLOSE_SQUARE_BRACKET',  6);    // A square bracket, i.e. ']'
+define('TOKEN_EQUALS',                7);    // An equals sign, i.e. '='
+define('TOKEN_PERIOD',                8);    // A period, i.e. '.'
+define('TOKEN_COMMA',                 9);    // A comma, i.e. ','
+define('TOKEN_SEMICOLON',             10);   // A semi-colon, i.e. ';'
+define('TOKEN_ASTERIX',               11);   // An asterix, i.e. '*'
 
 // Keywords
-define ('TOKEN_FUNCTION',              50);   // A function definition, e.g. 'function'
-define ('TOKEN_CLASS',                 51);   // A class definition, e.g. 'class'
+define('TOKEN_FUNCTION',              50);   // A function definition, e.g. 'function'
+define('TOKEN_CLASS',                 51);   // A class definition, e.g. 'class'
 
 // Comments
-define ('TOKEN_DOCBLOCK',              100);  // A docblock comment, e.g. '/** whee */'
-define ('TOKEN_COMMENT',               101);  // A docblock comment, e.g. '/* whee */' or '// whee'
+define('TOKEN_DOCBLOCK',              100);  // A docblock comment, e.g. '/** whee */'
+define('TOKEN_COMMENT',               101);  // A docblock comment, e.g. '/* whee */' or '// whee'
 
 // Generic items
-define ('TOKEN_IDENTIFIER',            150);  // An identifier, e.g. 'whee'
-define ('TOKEN_STRING',                151);  // A quoted string, e.g. '"hello"'
-define ('TOKEN_RESERVED_WORD',         152);  // An unknown reserved word (i.e. not specified above as a specific constant)
-define ('TOKEN_RESERVED_VALUE',        153);  // A reserved value, e.g. 'null' or 'true'
-define ('TOKEN_NUMBER',                154);  // A number, e.g. '123' or '12.34' or '0x3A'
+define('TOKEN_IDENTIFIER',            150);  // An identifier, e.g. 'whee'
+define('TOKEN_STRING',                151);  // A quoted string, e.g. '"hello"'
+define('TOKEN_RESERVED_WORD',         152);  // An unknown reserved word (i.e. not specified above as a specific constant)
+define('TOKEN_RESERVED_VALUE',        153);  // A reserved value, e.g. 'null' or 'true'
+define('TOKEN_NUMBER',                154);  // A number, e.g. '123' or '12.34' or '0x3A'
 
 // Language-specific
-define ('TOKEN_C_PREPROCESSOR',        200);  // A 'C' preprocessor directive, e.g. #define whee
+define('TOKEN_C_PREPROCESSOR',        200);  // A 'C' preprocessor directive, e.g. #define whee
 ?>

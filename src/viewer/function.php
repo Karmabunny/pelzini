@@ -19,14 +19,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Shows information about a specific function
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.1
-* @see ParserFunction
-* @tag i18n-done
-**/
+ * Shows information about a specific function
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.1
+ * @see ParserFunction
+ * @tag i18n-done
+ **/
 
 require_once 'functions.php';
 
@@ -34,11 +34,11 @@ require_once 'functions.php';
 // Determine what to show
 $id = (int) $_GET['id'];
 if ($id == 0) {
-  $name = trim($_GET['name']);
-  $name = db_escape ($name);
-  $where = "functions.name LIKE '{$name}'";
+    $name = trim($_GET['name']);
+    $name = db_escape ($name);
+    $where = "functions.name LIKE '{$name}'";
 } else {
-  $where = "functions.id = {$id}";
+    $where = "functions.id = {$id}";
 }
 
 
@@ -75,19 +75,19 @@ echo "<ul>";
 echo '<li>', str(STR_FILE, 'filename', $function['filename']), '</li>';
 
 if ($function['classid']) {
-  echo '<li>', str(STR_FUNC_CLASS, 'name', $function['class']);
-  
-  if ($function['static']) echo ', ', str(STR_METHOD_STATIC);
-  if ($function['final']) echo ', ', str(STR_METHOD_FINAL);
-  
-  echo '</li>';
-  
+    echo '<li>', str(STR_FUNC_CLASS, 'name', $function['class']);
+
+    if ($function['static']) echo ', ', str(STR_METHOD_STATIC);
+    if ($function['final']) echo ', ', str(STR_METHOD_FINAL);
+
+    echo '</li>';
+
 } else if ($function['static']) {
-  echo '<li>', str(STR_FUNC_STATIC), '</li>';
+    echo '<li>', str(STR_FUNC_STATIC), '</li>';
 }
 
 if ($function['sinceid']) {
-  echo '<li>', str(STR_AVAIL_SINCE, 'version', get_since_version($function['sinceid'])), '</li>';
+    echo '<li>', str(STR_AVAIL_SINCE, 'version', get_since_version($function['sinceid'])), '</li>';
 }
 echo "</ul>";
 
@@ -105,36 +105,36 @@ show_tables ($function['id'], LINK_TYPE_FUNCTION);
 $q = "SELECT id, name, type, defaultvalue, description FROM arguments WHERE functionid = {$function['id']}";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<h3>', str(STR_FUNC_ARGUMENTS), '</h3>';
-  
-  echo "<ol class=\"spaced-list\">";
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    $row['type'] = htmlspecialchars($row['type']);
-    $row['defaultvalue'] = htmlspecialchars($row['defaultvalue']);
-    
-    echo '<li>', get_object_link ($row['type']), " <strong>{$row['name']}</strong>";
-    if ($row['defaultvalue']) echo " = {$row['defaultvalue']}";
-    echo '<br>', process_inline ($row['description']);
-    echo "</li>";
-  }
-  echo "</ol>\n";
+    echo '<h3>', str(STR_FUNC_ARGUMENTS), '</h3>';
+
+    echo "<ol class=\"spaced-list\">";
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+        $row['type'] = htmlspecialchars($row['type']);
+        $row['defaultvalue'] = htmlspecialchars($row['defaultvalue']);
+
+        echo '<li>', get_object_link ($row['type']), " <strong>{$row['name']}</strong>";
+        if ($row['defaultvalue']) echo " = {$row['defaultvalue']}";
+        echo '<br>', process_inline ($row['description']);
+        echo "</li>";
+    }
+    echo "</ol>\n";
 }
 
 
 // Return value
 if ($function['returntype'] or $function['returndescription']) {
-  $function['returntype'] = htmlspecialchars ($function['returntype']);
-  
-  echo '<h3>', str(STR_FUNC_RETURN_VALUE), '</h3>';
-  
-  echo "<ul><li>";
-  if ($function['returntype']) {
-    echo get_object_link ($function['returntype']), '<br>';
-  }
-  
-  echo process_inline ($function['returndescription']);
-  echo "</li></ul>";
+    $function['returntype'] = htmlspecialchars($function['returntype']);
+
+    echo '<h3>', str(STR_FUNC_RETURN_VALUE), '</h3>';
+
+    echo "<ul><li>";
+    if ($function['returntype']) {
+        echo get_object_link ($function['returntype']), '<br>';
+    }
+
+    echo process_inline ($function['returndescription']);
+    echo "</li></ul>";
 }
 
 
@@ -144,4 +144,3 @@ show_tags ($function['id'], LINK_TYPE_FUNCTION);
 
 require_once 'foot.php';
 ?>
-

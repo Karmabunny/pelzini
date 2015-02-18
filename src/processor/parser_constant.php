@@ -19,47 +19,55 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Contains the {@link ParserConstant} class
-*
-* @package Parser model
-* @author Josh Heidenreich
-* @since 0.1
-**/
+ * Contains the {@link ParserConstant} class
+ *
+ * @package Parser model
+ * @author Josh Heidenreich
+ * @since 0.1
+ **/
 
 /**
-* Represents a constant
-**/
+ * Represents a constant
+ **/
 class ParserConstant extends CodeParserItem {
-  public $name;
-  public $value;
-  public $description;
-  
-  public function __construct() {
-    parent::__construct();
-    
-    $this->description = '';
-  }
-  
-  /**
-  * Applies the contents of a doc-block to this element
-  *
-  * @param $text The content of the DocBlock
-  **/
-  protected function processSpecificDocblockTags($docblock_tags) {
-    $this->description = htmlify_text($docblock_tags['@summary']);
-  }
-  
-  /**
-  * Debugging use only
-  **/
-  public function dump() {
-    echo '<div style="border: 1px orange solid;">';
-    echo $this->name, ' = ', $this->value;
-    echo $this->description;
-    
-    parent::dump();
-    echo '</div>';
-  }
+    public $name;
+    public $value;
+    public $description;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->description = '';
+    }
+
+
+    /**
+     * Applies the contents of a doc-block to this element
+     *
+     * @param $text The content of the DocBlock
+     **/
+    protected function processSpecificDocblockTags($docblock_tags)
+    {
+        $this->description = htmlify_text($docblock_tags['@summary']);
+    }
+
+
+    /**
+     * Debugging use only
+     **/
+    public function dump()
+    {
+        echo '<div style="border: 1px orange solid;">';
+        echo $this->name, ' = ', $this->value;
+        echo $this->description;
+
+        parent::dump();
+        echo '</div>';
+    }
+
+
 }
+
 
 ?>

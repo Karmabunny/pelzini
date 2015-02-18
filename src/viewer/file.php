@@ -19,14 +19,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Shows information about a specific file
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.1
-* @see ParserFile
-* @tag i18n-done
-**/
+ * Shows information about a specific file
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.1
+ * @see ParserFile
+ * @tag i18n-done
+ **/
 
 require_once 'functions.php';
 
@@ -34,11 +34,11 @@ require_once 'functions.php';
 // Determine what to show
 $id = (int) $_GET['id'];
 if ($id == 0) {
-  $name = trim($_GET['name']);
-  $name = db_escape ($name);
-  $where = "files.name LIKE '{$name}'";
+    $name = trim($_GET['name']);
+    $name = db_escape ($name);
+    $where = "files.name LIKE '{$name}'";
 } else {
-  $where = "files.id = {$id}";
+    $where = "files.id = {$id}";
 }
 
 
@@ -69,11 +69,11 @@ require_once 'head.php';
 echo '<h2>', str(STR_FILE_PAGE_TITLE, 'name', $file['name']), '</h2>';
 
 if ($file['packageid'] != null) {
-  echo '<p>', str(STR_PACKAGE, 'id', $file['packageid'], 'name', $file['package']), '</p>';
+    echo '<p>', str(STR_PACKAGE, 'id', $file['packageid'], 'name', $file['package']), '</p>';
 }
 
 if ($file['sinceid'] != null) {
-  echo '<p>', str(STR_AVAIL_SINCE, 'version', get_since_version($file['sinceid'])), '</p>';
+    echo '<p>', str(STR_AVAIL_SINCE, 'version', get_since_version($file['sinceid'])), '</p>';
 }
 
 echo "<p><small><a href=\"file_source.php?id={$file['id']}\">", str(STR_FILE_VIEW_SOURCE), '</a></small></p>';
@@ -92,25 +92,25 @@ $q = "SELECT id, name, description
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="classes"></a>';
-  echo '<h3>', str(STR_CLASSES), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo process_inline($row['description']);
+    echo '<a name="classes"></a>';
+    echo '<h3>', str(STR_CLASSES), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo process_inline($row['description']);
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
 }
 
 
@@ -121,25 +121,25 @@ $q = "SELECT id, name, description
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="interfaces"></a>';
-  echo '<h3>', str(STR_INTERFACES), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo process_inline($row['description']);
+    echo '<a name="interfaces"></a>';
+    echo '<h3>', str(STR_INTERFACES), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo process_inline($row['description']);
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
 }
 
 
@@ -150,28 +150,28 @@ $q = "SELECT id, name, description, arguments
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="functions"></a>';
-  echo '<h3>', str(STR_FUNCTIONS), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    // encode for output
-    $row['name'] = htmlspecialchars($row['name']);
-    $row['arguments'] = htmlspecialchars($row['arguments']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    // display the function
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo process_inline($row['description']);
+    echo '<a name="functions"></a>';
+    echo '<h3>', str(STR_FUNCTIONS), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        // encode for output
+        $row['name'] = htmlspecialchars($row['name']);
+        $row['arguments'] = htmlspecialchars($row['arguments']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        // display the function
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo process_inline($row['description']);
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
 }
 
 
@@ -182,27 +182,27 @@ $q = "SELECT id, name, description
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="functions"></a>';
-  echo '<h3>', str(STR_ENUMERATIONS), '</h3>';
-  
-  $alt = false;
-  echo '<div class="list">';
-  while ($row = db_fetch_assoc ($res)) {
-    // encode for output
-    $row['name'] = htmlspecialchars($row['name']);
-    
-    $class = 'item';
-    if ($alt) $class .= '-alt';
-    
-    // display the function
-    echo "<div class=\"{$class}\">";
-    echo "<p><strong><a href=\"enumeration.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
-    echo process_inline($row['description']);
+    echo '<a name="functions"></a>';
+    echo '<h3>', str(STR_ENUMERATIONS), '</h3>';
+
+    $alt = false;
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc ($res)) {
+        // encode for output
+        $row['name'] = htmlspecialchars($row['name']);
+
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        // display the function
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"enumeration.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo process_inline($row['description']);
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
     echo '</div>';
-    
-    $alt = ! $alt;
-  }
-  echo '</div>';
 }
 
 
@@ -213,25 +213,25 @@ $q = "SELECT name, value, description
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
-  echo '<a name="constants"></a>';
-  echo '<h3>', str(STR_CONSTANTS), '</h3>';
-  
-  echo "<table class=\"function-list\">\n";
-  echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
-  while ($row = db_fetch_assoc ($res)) {
-    // encode for output
-    $row['name'] = htmlspecialchars($row['name']);
-    $row['value'] = htmlspecialchars($row['value']);
-    if ($row['description'] == null) $row['description'] = '&nbsp;';
-    
-    // display the constant
-    echo "<tr>";
-    echo "<td><code>{$row['name']}</code></td>";
-    echo "<td><code>{$row['value']}</code></td>";
-    echo "<td>{$row['description']}</td>";
-    echo "</tr>\n";
-  }
-  echo "</table>\n";
+    echo '<a name="constants"></a>';
+    echo '<h3>', str(STR_CONSTANTS), '</h3>';
+
+    echo "<table class=\"function-list\">\n";
+    echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";
+    while ($row = db_fetch_assoc ($res)) {
+        // encode for output
+        $row['name'] = htmlspecialchars($row['name']);
+        $row['value'] = htmlspecialchars($row['value']);
+        if ($row['description'] == null) $row['description'] = '&nbsp;';
+
+        // display the constant
+        echo "<tr>";
+        echo "<td><code>{$row['name']}</code></td>";
+        echo "<td><code>{$row['value']}</code></td>";
+        echo "<td>{$row['description']}</td>";
+        echo "</tr>\n";
+    }
+    echo "</table>\n";
 }
 
 

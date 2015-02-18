@@ -20,27 +20,29 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
-* Contains the {@link Transformer} class
-*
-* @package Transformers
-* @author Josh
-* @since 0.2
-**/
+ * Contains the {@link Transformer} class
+ *
+ * @package Transformers
+ * @author Josh
+ * @since 0.2
+ **/
 
 /**
-* The top-level class of all transformers.
-* Transformers alter the parser model before it is outputted, for creating reports, etc.
-**/
-abstract class Transformer {
-  
-  /**
-  * Transforms the data model before outputting
-  *
-  * @param array $parser_model The data model to transform
-  * @return array The new data model, or null if there was an error
-  **/
-  abstract public function transform($parser_model);
-  
+ * The top-level class of all transformers.
+ * Transformers alter the parser model before it is outputted, for creating reports, etc.
+ **/
+abstract class Transformer
+{
+
+    /**
+     * Transforms the data model before outputting
+     *
+     * @param array $parser_model The data model to transform
+     * @return array The new data model, or null if there was an error
+     **/
+    abstract public function transform($parser_model);
+
 }
+
 
 ?>

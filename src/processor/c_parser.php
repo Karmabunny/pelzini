@@ -20,56 +20,63 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
-* Contains the {@link CParser} class
-*
-* @package Parsers
-* @author Josh
-* @since 0.2
-**/
+ * Contains the {@link CParser} class
+ *
+ * @package Parsers
+ * @author Josh
+ * @since 0.2
+ **/
 
 /**
-* Does the complete parsing of a C file.
-**/
-class CParser {
-  private $lexer;
-  private $analyser;
-  
-  public function __construct () {
-    $this->lexer = new CLexer();
-    $this->analyser = new CAnalyser();
-  }
-  
-  /**
-  * Parses a file
-  *
-  * @param string $filename The file to parse
-  * @return A ParserFile object, or null if there was an error
-  **/
-  public function parseFile ($filename) {
-    global $dpgBaseDirectory;
-    
-    $this->lexer->resetState();
-    
-    $source = @file_get_contents($dpgBaseDirectory . $filename);
-    if ($source == null) return null;
-    
-    $tokens = $this->lexer->process($source);
-    if ($tokens === null) return null;
-    
-    //echo "<style>i {color: #777;}</style>";
-    //echo '<pre>Tokens for file ', $filename, "\n";
-    //foreach ($tokens as $i => $t) echo "<b>{$i}</b> {$t->getTypeName()} <i>{$t->getValue()}</i>\n";
-    //echo '</pre>';
-    
-    $file = new ParserFile();
-    $file->name = $filename;
-    $file->source = $source;
-    
-    $result = $this->analyser->process($tokens, $file);
-    if ($result === false) return null;
-    
-    return $file;
-  }
+ * Does the complete parsing of a C file.
+ **/
+class CParser
+{
+    private $lexer;
+    private $analyser;
+
+    public function __construct()
+    {
+        $this->lexer = new CLexer();
+        $this->analyser = new CAnalyser();
+    }
+
+
+    /**
+     * Parses a file
+     *
+     * @param string $filename The file to parse
+     * @return A ParserFile object, or null if there was an error
+     **/
+    public function parseFile($filename)
+    {
+        global $dpgBaseDirectory;
+
+        $this->lexer->resetState();
+
+        $source = @file_get_contents($dpgBaseDirectory . $filename);
+        if ($source == null) return null;
+
+        $tokens = $this->lexer->process($source);
+        if ($tokens === null) return null;
+
+        //echo "<style>i {color: #777;}</style>";
+        //echo '<pre>Tokens for file ', $filename, "\n";
+        //foreach ($tokens as $i => $t) echo "<b>{$i}</b> {$t->getTypeName()} <i>{$t->getValue()}</i>\n";
+        //echo '</pre>';
+
+        $file = new ParserFile();
+        $file->name = $filename;
+        $file->source = $source;
+
+        $result = $this->analyser->process($tokens, $file);
+        if ($result === false) return null;
+
+        return $file;
+    }
+
+
 }
+
 
 ?>

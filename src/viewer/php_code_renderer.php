@@ -19,67 +19,70 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Does code rendering for PHP
-*
-* @package Viewer
-* @author Josh Heidenreich
-* @since 0.3
-* @tag i18n-done
-**/
+ * Does code rendering for PHP
+ *
+ * @package Viewer
+ * @author Josh Heidenreich
+ * @since 0.3
+ * @tag i18n-done
+ **/
 
 /**
-* Does code rendering for PHP
-**/
-class PHPCodeRenderer {
-  
-  /**
-  * Returns PHP code which can be used for extending the specified class
-  **/
-  public function drawClassExtends ($class_id) {
-    $q = "SELECT name FROM classes WHERE id = {$class_id}";
-    $res = db_query ($q);
-    if (! $res) return;
-    $class = db_fetch_assoc ($res);
-    
-    $date = date('Y-m-d');
-    
-    $out = '';
-    
-    $out .= "<?php\n";
-    $out .= "/**\n";
-    $out .= "* " . str(STR_RENDER_NEW_CLASS_DESC) . "\n";
-    $out .= "* \n";
-    $out .= "* @author " . str(STR_RENDER_YOUR_NAME) . ", {$date}\n";
-    $out .= "**/\n";
-    $out .= "class " . str(STR_RENDER_NEW_CLASS_NAME) . " extends {$class['name']} {\n";
-    $out .= "    \n";
-    
-    $q = "SELECT name, arguments, visibility, description
+ * Does code rendering for PHP
+ **/
+class PHPCodeRenderer
+{
+
+    /**
+     * Returns PHP code which can be used for extending the specified class
+     **/
+    public function drawClassExtends($class_id)
+    {
+        $q = "SELECT name FROM classes WHERE id = {$class_id}";
+        $res = db_query ($q);
+        if (! $res) return;
+        $class = db_fetch_assoc ($res);
+
+        $date = date('Y-m-d');
+
+        $out = '';
+
+        $out .= "<?php\n";
+        $out .= "/**\n";
+        $out .= "* " . str(STR_RENDER_NEW_CLASS_DESC) . "\n";
+        $out .= "* \n";
+        $out .= "* @author " . str(STR_RENDER_YOUR_NAME) . ", {$date}\n";
+        $out .= "**/\n";
+        $out .= "class " . str(STR_RENDER_NEW_CLASS_NAME) . " extends {$class['name']} {\n";
+        $out .= "    \n";
+
+        $q = "SELECT name, arguments, visibility, description
       FROM functions
       WHERE classid = {$class_id}
         AND final = 0";
-    $res = db_query ($q);
-    while ($row = db_fetch_assoc ($res)) {
-      if ($row['description']) {
-        $row['description'] = strip_tags ($row['description']);
-        $row['description'] = trim ($row['description']);
-        $row['description'] = str_replace ("\n", "\n    * ", $row['description']);
-        
-        $out .= "    /**\n";
-        $out .= "    * {$row['description']}\n";
-        $out .= "    **/\n";
-      }
-      
-      $out .= "    {$row['visibility']} function {$row['name']} ({$row['arguments']}) {\n";
-      $out .= "        // " . str(STR_RENDER_METHOD_COMMENT) . "\n";
-      $out .= "    }\n";
-      $out .= "    \n";
+        $res = db_query ($q);
+        while ($row = db_fetch_assoc ($res)) {
+            if ($row['description']) {
+                $row['description'] = strip_tags($row['description']);
+                $row['description'] = trim($row['description']);
+                $row['description'] = str_replace("\n", "\n    * ", $row['description']);
+
+                $out .= "    /**\n";
+                $out .= "    * {$row['description']}\n";
+                $out .= "    **/\n";
+            }
+
+            $out .= "    {$row['visibility']} function {$row['name']} ({$row['arguments']}) {\n";
+            $out .= "        // " . str(STR_RENDER_METHOD_COMMENT) . "\n";
+            $out .= "    }\n";
+            $out .= "    \n";
+        }
+
+        $out .= "}\n";
+        $out .= "?>\n";
+
+        return $out;
     }
-    
-    $out .= "}\n";
-    $out .= "?>\n";
-    
-    return $out;
-  }
-  
+
+
 }

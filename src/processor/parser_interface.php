@@ -19,64 +19,74 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Contains the {@link ParserInterface} class
-*
-* @package Parser model
-* @author Josh Heidenreich
-* @since 0.1
-**/
+ * Contains the {@link ParserInterface} class
+ *
+ * @package Parser model
+ * @author Josh Heidenreich
+ * @since 0.1
+ **/
 
 /**
-* Represents an interface
-**/
+ * Represents an interface
+ **/
 class ParserInterface extends CodeParserItem {
-  public $name;
-  public $functions;
-  public $extends;
-  public $visibility;
-  public $description;
+    public $name;
+    public $functions;
+    public $extends;
+    public $visibility;
+    public $description;
 
-  public function __construct() {
-    parent::__construct();
-    
-    $this->functions = array ();
-    $this->variables = array ();
-    $this->visibility = 'public';
-  }
-  
-  /**
-  * Processes Javadoc tags that are specific to this PaserItem
-  **/
-  protected function processSpecificDocblockTags($docblock_tags) {
-    $this->description = htmlify_text($docblock_tags['@summary']);
-  }
-  
-  /**
-  * Cascades Docblock tags into the children that do not have any tags, and then
-  * runs processTags() for all of the children items.
-  **/
-  public function treeWalk($function_name, ParserItem $parent_item = null) {
-    call_user_func ($function_name, $this, $parent_item);
-    
-    foreach ($this->functions as $item) {
-      $item->treeWalk($function_name, $this);
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->functions = array ();
+        $this->variables = array ();
+        $this->visibility = 'public';
     }
-  }
-  
-  /**
-  * Debugging use only
-  **/
-  public function dump() {
-    echo '<div style="border: 1px orange solid;">';
-    echo $this->visibility . ' ';
-    echo $this->name;
-    echo '<br>' . $this->description;
-    foreach ($this->variables as $a) $a->dump();
-    foreach ($this->functions as $a) $a->dump();
-    
-    parent::dump();
-    echo '</div>';
-  }
+
+
+    /**
+     * Processes Javadoc tags that are specific to this PaserItem
+     **/
+    protected function processSpecificDocblockTags($docblock_tags)
+    {
+        $this->description = htmlify_text($docblock_tags['@summary']);
+    }
+
+
+    /**
+     * Cascades Docblock tags into the children that do not have any tags, and then
+     * runs processTags() for all of the children items.
+     **/
+    public function treeWalk($function_name, ParserItem $parent_item = null)
+    {
+        call_user_func($function_name, $this, $parent_item);
+
+        foreach ($this->functions as $item) {
+            $item->treeWalk($function_name, $this);
+        }
+    }
+
+
+    /**
+     * Debugging use only
+     **/
+    public function dump()
+    {
+        echo '<div style="border: 1px orange solid;">';
+        echo $this->visibility . ' ';
+        echo $this->name;
+        echo '<br>' . $this->description;
+        foreach ($this->variables as $a) $a->dump();
+        foreach ($this->functions as $a) $a->dump();
+
+        parent::dump();
+        echo '</div>';
+    }
+
+
 }
+
 
 ?>

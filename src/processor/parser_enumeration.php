@@ -19,51 +19,59 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
-* Contains the {@link ParserEnumeration} class
-*
-* @package Parser model
-* @author Josh Heidenreich
-* @since 0.3
-**/
+ * Contains the {@link ParserEnumeration} class
+ *
+ * @package Parser model
+ * @author Josh Heidenreich
+ * @since 0.3
+ **/
 
 /**
-* Represents an enumeration
-**/
+ * Represents an enumeration
+ **/
 class ParserEnumeration extends CodeParserItem {
-  public $name;
-  public $constants;
-  public $description;
-  public $virtual;
-  
-  public function __construct() {
-    parent::__construct();
-    
-    $this->constants = array();
-    $this->description = '';
-    $this->virtual = 0;
-  }
-  
-  /**
-  * Applies the contents of a doc-block to this element
-  *
-  * @param $text The content of the DocBlock
-  **/
-  protected function processSpecificDocblockTags($docblock_tags) {
-    $this->description = htmlify_text($docblock_tags['@summary']);
-  }
-  
-  /**
-  * Debugging use only
-  **/
-  public function dump() {
-    echo '<div style="border: 1px pink solid;">';
-    echo 'Enum: ', $this->name;
-    foreach ($this->constants as $c) $c->dump();
-    echo $this->description;
-    
-    parent::dump();
-    echo '</div>';
-  }
+    public $name;
+    public $constants;
+    public $description;
+    public $virtual;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->constants = array();
+        $this->description = '';
+        $this->virtual = 0;
+    }
+
+
+    /**
+     * Applies the contents of a doc-block to this element
+     *
+     * @param $text The content of the DocBlock
+     **/
+    protected function processSpecificDocblockTags($docblock_tags)
+    {
+        $this->description = htmlify_text($docblock_tags['@summary']);
+    }
+
+
+    /**
+     * Debugging use only
+     **/
+    public function dump()
+    {
+        echo '<div style="border: 1px pink solid;">';
+        echo 'Enum: ', $this->name;
+        foreach ($this->constants as $c) $c->dump();
+        echo $this->description;
+
+        parent::dump();
+        echo '</div>';
+    }
+
+
 }
+
 
 ?>
