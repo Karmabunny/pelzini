@@ -30,11 +30,28 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'functions.php';
 require_once 'search_functions.php';
 
+// class::method -> redirect to function page
+if (preg_match('/^([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)$/', $_GET['q'], $matches)) {
+    $class = db_escape($matches[1]);
+    $method = db_escape($matches[2]);
+    $q = "SELECT functions.id
+          FROM functions
+          INNER JOIN classes ON functions.classid = classes.id
+          WHERE classes.name = '{$class}'
+            AND functions.name = '{$method}'
+          LIMIT 2";
+    $res = db_query($q);
+    $num = db_num_rows($res);
+    if ($num == 1) {
+        $row = db_fetch_assoc($res);
+        redirect('function.php?id=' . $row['id']);
+    }
+}
 
 $skin['page_name'] = str(STR_SEARCH_TITLE);
 require_once 'head.php';
 
-$query = db_escape ($_GET['q']);
+$query = db_escape($_GET['q']);
 $_GET['advanced'] = (int) $_GET['advanced'];
 $results = false;
 
