@@ -86,6 +86,9 @@ class PhpParser
             echo '<pre>';
         }
 
+        $argument = null;
+        $visibility = null;
+        $param_type = null;
         foreach ($tokens as $token) {
             if (is_array($token) and $token[0] == T_WHITESPACE) continue;
 

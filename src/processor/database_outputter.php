@@ -438,7 +438,7 @@ abstract class DatabaseOutputter extends Outputter {
         foreach ($files as $item) {
             if ($item instanceof ParserFile) {
                 // Inserts a file
-                $package = $packages[$item->package];
+                $package = @$packages[$item->package];
                 if ($package == null) $package = $default_id;
                 $package = $this->sql_safen($package);
 
@@ -578,7 +578,7 @@ abstract class DatabaseOutputter extends Outputter {
         }
 
         // insert return value
-        if ($function->return != null) {
+        if (isset($function->return)) {
             $insert_data = array();
             $insert_data['name'] = $this->sql_safen('__RETURN__');
             $insert_data['type'] = $this->sql_safen($function->return->type);

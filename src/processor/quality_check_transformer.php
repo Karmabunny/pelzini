@@ -111,7 +111,7 @@ class QualityCheckTransformer extends Transformer {
 
         // the files
         foreach ($this->required_tags as $tag_name) {
-            if ($tags[$tag_name] == '') {
+            if (!isset($tags[$tag_name]) or $tags[$tag_name] == '') {
                 if ($tag_name == '@summary') {
                     $tag_name = 'summary';
                 } else {
@@ -137,7 +137,7 @@ class QualityCheckTransformer extends Transformer {
         $problems = array();
 
         foreach ($this->required_tags as $tag_name) {
-            if ($tags[$tag_name] == '') {
+            if (!isset($tags[$tag_name]) or $tags[$tag_name] == '') {
                 if ($tag_name == '@summary') {
                     $tag_name = 'summary';
                 } else {
@@ -167,7 +167,7 @@ class QualityCheckTransformer extends Transformer {
         $problems = array();
 
         foreach ($this->required_tags as $tag_name) {
-            if ($tags[$tag_name] == '') {
+            if (!isset($tags[$tag_name]) or $tags[$tag_name] == '') {
                 if ($tag_name == '@summary') {
                     $tag_name = 'summary';
                 } else {
@@ -197,7 +197,7 @@ class QualityCheckTransformer extends Transformer {
         $problems = array();
 
         foreach ($this->required_tags as $tag_name) {
-            if ($tags[$tag_name] == '') {
+            if (!isset($tags[$tag_name]) or $tags[$tag_name] == '') {
                 if ($tag_name == '@summary') {
                     $tag_name = 'summary';
                 } else {

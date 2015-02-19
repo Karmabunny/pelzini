@@ -82,7 +82,7 @@ function parse_doc_comment($comment)
         if ($current != null and $current != '@summary' and $trimline == '') continue;
 
         // process special words
-        if ($trimline[0] == '@') {
+        if ($trimline != '' and $trimline[0] == '@') {
             list ($word, $value) = explode(' ', $trimline, 2);
 
             // tags
