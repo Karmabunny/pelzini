@@ -509,6 +509,9 @@ abstract class DatabaseOutputter extends Outputter {
      **/
     private function save_function($function, $file_id, $class_id = null, $interface_id = null)
     {
+        // Ignore closures
+        if ($function->name == null) return;
+
         // prepare data for inserting
         $insert_data = array();
         $insert_data['static'] = 0;
