@@ -58,10 +58,10 @@ class ParserFile extends CodeParserItem {
      **/
     public function processSpecificDocblockTags($docblock_tags)
     {
-        $this->description = htmlify_text($docblock_tags['@summary']);
+        $this->description = htmlify_text(@$docblock_tags['@summary']);
 
         // set the packages. all packages are forced to have non-space names
-        $packages = $docblock_tags['@package'];
+        $packages = @$docblock_tags['@package'];
         if ($packages != null) {
             $package = array_pop($packages);
             $package = trim($package);

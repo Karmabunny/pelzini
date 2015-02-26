@@ -83,7 +83,7 @@ function parse_doc_comment($comment)
 
         // process special words
         if ($trimline != '' and $trimline[0] == '@') {
-            list ($word, $value) = explode(' ', $trimline, 2);
+            @list($word, $value) = explode(' ', $trimline, 2);
 
             // tags
             if ($current != null) {
@@ -227,7 +227,10 @@ function htmlify_text($text)
 
     // remove invalid HTML tags
     $text = str_replace('&', '&amp;', $text);
-    $text = preg_replace('/<\/?([a-z]+)(?>\s|"[^"]*"|\'[^\']*\'|[^\'">])*>/ie', 'htmlify_check_tag(stripslashes("$0"), stripslashes("$1"))', $text);
+    $replacer = function(array $matches) {
+        return htmlify_check_tag(stripslashes($matches[0]), stripslashes($matches[1]));
+    };
+    $text = preg_replace_callback('/<\/?([a-z]+)(?>\s|"[^"]*"|\'[^\']*\'|[^\'">])*>/i', $replacer, $text);
     $text = preg_replace('/<([^\/a-z])/i', '&lt;$1', $text);
     $text = preg_replace('/([^"\'a-z])>/i', '$1&gt;', $text);
     $text = str_replace('"', '&quot;', $text);

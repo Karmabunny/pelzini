@@ -52,7 +52,7 @@ class ParserVariable extends CodeParserItem {
      **/
     protected function processSpecificDocblockTags($docblock_tags)
     {
-        $this->description = htmlify_text($docblock_tags['@summary']);
+        $this->description = htmlify_text(@$docblock_tags['@summary']);
     }
 
 

@@ -112,7 +112,7 @@ abstract class CodeParserItem extends ParserItem {
 
         foreach ($dpgCascaseDocblockTags as $cascade_tag) {
             if (! in_array($cascade_tag, array_keys($child_tags))) {
-                $child_tags[$cascade_tag] = $this->docblock_tags[$cascade_tag];
+                $child_tags[$cascade_tag] = @$this->docblock_tags[$cascade_tag];
             }
         }
 

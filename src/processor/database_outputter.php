@@ -205,8 +205,10 @@ abstract class DatabaseOutputter extends Outputter {
                 $col['Type'] = $words[1];
 
                 $col['NotNull'] = 0;
-                if ($words[2] == 'notnull') $col['NotNull'] = 1;
-                if ($words[2] == 'null') $col['NotNull'] = 0;
+                if (isset($words[2])) {
+                    if ($words[2] == 'notnull') $col['NotNull'] = 1;
+                    if ($words[2] == 'null') $col['NotNull'] = 0;
+                }
 
                 $dest_tables[$table]['Columns'][$words[0]] = $col;
                 break;
@@ -310,12 +312,6 @@ abstract class DatabaseOutputter extends Outputter {
                 if ($res) echo 'Affected rows: ', $this->affected_rows($res), "\n";
             }
         }
-
-
-        if ($has_queries) {
-            echo '<p>This update needs to make changes. ';
-            echo '<a href="database_layout_sync.php?action=1">Run these queries</a></p>';
-        }
     }
 
 
@@ -395,7 +391,7 @@ abstract class DatabaseOutputter extends Outputter {
         // get all of the unique package names, and create packages
         $packages = array();
         foreach ($files as $file) {
-            if ($file->package != null) {
+            if (!empty($file->package)) {
                 if (! isset($packages[$file->package])) {
                     $insert_data = array();
                     $insert_data['name'] = $this->sql_safen ($file->package);

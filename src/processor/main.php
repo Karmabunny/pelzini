@@ -69,7 +69,8 @@ output_status ('Processing files.');
 $success = 0;
 $failure = 0;
 foreach ($file_names as $file) {
-    $ext = array_pop(explode('.', $file));
+    $parts = explode('.', $file);
+    $ext = array_pop($parts);
 
     if (isset($parsers[$ext])) {
         output_status ("Processing file {$file}");
