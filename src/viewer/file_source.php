@@ -30,6 +30,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 
 require_once 'functions.php';
+require_once 'geshi/geshi.php';
 
 
 // Determine what to show
@@ -64,67 +65,25 @@ require_once 'head.php';
 echo '<h2>', str(STR_FILE_SOURCE_PAGE_TITLE, 'name', $file['name']), '</h2>';
 echo process_inline($file['description']);
 
+// Set up code highlight settings
+$geshi = new GeSHi($file['source'], 'php');
+$geshi->enable_classes();
+$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
+$geshi->set_line_style('background: #f8f8f8;');
 
 // Line highlighting
 if ($_GET['highlight']) {
     $parts = explode('-', $_GET['highlight']);
-
     if (count($parts) == 1) {
-        $highlight_begin = $parts[0];
-        $highlight_end = $parts[0];
-
+        $geshi->highlight_lines_extra($parts);
     } else if (count($parts) == 2) {
-        $highlight_begin = $parts[0];
-        $highlight_end = $parts[1];
+        $geshi->highlight_lines_extra(range($parts[0], $parts[1]));
     }
 }
 
-// Keyword highlighting
-if ($_GET['keyword']) {
-    $keyword_search = htmlspecialchars($_GET['keyword']);
-    $keyword_search = '/(' . preg_quote($keyword_search, '/'). ')/i';
-}
-
-
-// Prepare source for display
-$source = highlight_string($file['source'], true);
-$source = trim($source);
-$source = str_replace(["\n", "\r"], '', $source);
-$source = preg_split('/<br\s*\/?>/', '<br />' . $source);
-unset($source[0]);
-
-$num = count($source);
-$cols = strlen($num);
-
-
-echo "<table><tr>";
-
-echo '<td><pre>';
-foreach ($source as $num => $line) {
-    echo "<a name=\"line{$num}\"></a>", str_pad($num, $cols, ' ', STR_PAD_LEFT) . "\n";
-
-    if ($num == $highlight_begin) {
-        $lines .= '<em class="highlight">';
-    }
-
-    if ($keyword_search) {
-        $line = preg_replace($keyword_search, "<strong class=\"highlight\">\$1</strong>", $line);
-    }
-
-    $lines .= $line;
-
-    if ($num == $highlight_end) {
-        $lines .= '</em>';
-    }
-
-    $lines .= "\n";
-}
-echo '</pre></td>';
-
-echo '<td><pre class="source">', $lines, '</pre></td>';
-
-echo '</tr></table>';
-
+// Output highlighted code
+echo '<style type="text/css">', $geshi->get_stylesheet(), '</style>';
+echo $geshi->parse_code();
 
 require_once 'foot.php';
-?>
+
