@@ -254,6 +254,15 @@ span.highlight {
   color: #C3C;
 }
 
+em.highlight {
+  background-color: #CCC;
+  font-style: normal;
+}
+
+strong.highlight {
+  border-bottom: 1px dotted;
+}
+
 img.showhide {
   float: right;
   cursor: pointer;

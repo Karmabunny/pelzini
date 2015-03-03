@@ -54,6 +54,7 @@ if ($file == null) {
     echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
     echo '<p>', str(STR_FILE_INVALID), '</p>';
     require_once 'foot.php';
+    return;
 }
 
 
@@ -86,9 +87,11 @@ if ($_GET['keyword']) {
 
 
 // Prepare source for display
-$source = trim($file['source']);
-$source = explode("\n", "\n" . $source);
-unset ($source[0]);
+$source = highlight_string($file['source'], true);
+$source = trim($source);
+$source = str_replace(["\n", "\r"], '', $source);
+$source = preg_split('/<br\s*\/?>/', '<br />' . $source);
+unset($source[0]);
 
 $num = count($source);
 $cols = strlen($num);
@@ -101,19 +104,20 @@ foreach ($source as $num => $line) {
     echo "<a name=\"line{$num}\"></a>", str_pad($num, $cols, ' ', STR_PAD_LEFT) . "\n";
 
     if ($num == $highlight_begin) {
-        $lines .= '<span class="highlight">';
+        $lines .= '<em class="highlight">';
     }
 
-    $line = htmlspecialchars($line);
     if ($keyword_search) {
-        $line = preg_replace($keyword_search, "<span class=\"highlight\">\$1</span>", $line);
+        $line = preg_replace($keyword_search, "<strong class=\"highlight\">\$1</strong>", $line);
     }
 
-    $lines .= "{$line}\n";
+    $lines .= $line;
 
     if ($num == $highlight_end) {
-        $lines .= '</span>';
+        $lines .= '</em>';
     }
+
+    $lines .= "\n";
 }
 echo '</pre></td>';
 
