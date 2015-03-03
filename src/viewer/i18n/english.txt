@@ -46,6 +46,7 @@ STR_PACKAGE                            Package: <a href="package.php?id={ID}">{N
 
 ; Column headings in tables
 STR_NAME                               Name
+STR_VISIBILITY                         Visibility
 STR_VALUE                              Value
 STR_DESCRIPTION                        Description
 

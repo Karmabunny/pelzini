@@ -185,17 +185,18 @@ case PAGE_CLASS_GENERAL:
         echo '<a name="variables"></a>';
         echo '<h3>', str(STR_VARIABLES), '</h3>';
         echo "<table class=\"function-list\">\n";
-        echo '<tr><th>', str(STR_NAME), '</th><th>', str(STR_DESCRIPTION), "</th></tr>\n";
+        echo '<tr><th>', str(STR_NAME), '</th><th>', str(STR_VISIBILITY), '</th><th>', str(STR_DESCRIPTION), "</th></tr>\n";
         foreach ($variables as $row) {
             // encode for output
             $row['name'] = htmlspecialchars($row['name']);
             if ($row['description'] == null) $row['description'] = '&nbsp;';
 
-            if ($row['static']) $row['name'] .= ' ' . str(STR_CLASS_VAR_STATIC);
+            if ($row['static']) $row['visibility'] .= ' ' . str(STR_CLASS_VAR_STATIC);
 
             // display
             echo "<tr>";
             echo "<td><code>{$row['name']}</code></td>";
+            echo "<td>{$row['visibility']}</td>";
             echo "<td>{$row['description']}</td>";
             echo "</tr>\n";
         }
