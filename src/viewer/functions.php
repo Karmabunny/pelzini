@@ -79,6 +79,12 @@ loadLanguage ('english');
 if ($dvgLanguage and $dvgLanguage != 'english') loadLanguage ($dvgLanguage);
 
 
+$project_code = db_quote($dvgProjectCode);
+$q = "SELECT id, name, license, dategenerated FROM projects WHERE code = {$project_code}";
+$res = db_query($q);
+$project = db_fetch_assoc($res);
+$project_id = $project['id'];
+
 
 /**
  * Fixes all magically quoted strings in the given array or string

@@ -5,8 +5,8 @@
  * http://docu.sourceforge.net
  */
 
-/* The project ID. Nessasary for multiple docs per database */
-$dvgProjectID = 1;
+/* The project code to show documentation for */
+$dvgProjectCode = 'pelzini-src';
 
 /* The database engine to use in the viewer. Supported values are 'mysql', 'postgresql' and 'sqlite' */
 $dvgDatabaseEngine = 'mysql';

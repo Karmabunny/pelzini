@@ -29,13 +29,10 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once 'functions.php';
 
-$q = "SELECT name, license, dategenerated FROM projects";
-$res = db_query($q);
-$project = db_fetch_assoc($res);
-
 $browser_title = 'Documentation for ' . $project['name'];
-if ($skin['page_name']) $browser_title = $skin['page_name'] . ' - ' . $browser_title;
-
+if ($skin['page_name']) {
+	$browser_title = $skin['page_name'] . ' - ' . $browser_title;
+}
 
 header('Content-type: text/html; charset=UTF-8');
 ?>
@@ -98,6 +95,7 @@ $q->addInnerJoin('packages ON files.packageid = packages.id');
 $q->setGroupBy('packages.id');
 $q->setOrderBy('packages.name');
 $q->addSinceVersionWhere();
+$q->addProjectWhere();
 
 $q = $q->buildQuery();
 $res = db_query($q);
@@ -145,13 +143,16 @@ while ($row = db_fetch_assoc($res)) {
 
 <?php
 // Classes list
-$q = "SELECT classes.id, classes.name
-  FROM classes
-  INNER JOIN files ON classes.fileid = files.id";
-if ($_SESSION['current_package']) $q .= " WHERE files.packageid = {$_SESSION['current_package']}";
-$q .= " ORDER BY classes.name";
+$q = new SelectQuery();
+$q->addFields('classes.id, classes.name');
+$q->setFrom('classes');
+$q->addInnerJoin('files ON classes.fileid = files.id');
+$q->setGroupBy('classes.id');
+$q->setOrderBy('classes.name');
+$q->addProjectWhere();
+$q = $q->buildQuery();
 
-$res = db_query ($q);
+$res = db_query($q);
 if (db_num_rows ($res) > 0) {
     echo '  <div class="box">';
     echo '    <img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin: 3px;">';
@@ -168,11 +169,14 @@ if (db_num_rows ($res) > 0) {
 
 
 // Interfaces list
-$q = "SELECT interfaces.id, interfaces.name
-  FROM interfaces
-  INNER JOIN files ON interfaces.fileid = files.id";
-if ($_SESSION['current_package']) $q .= " WHERE files.packageid = {$_SESSION['current_package']}";
-$q .= " ORDER BY interfaces.name";
+$q = new SelectQuery();
+$q->addFields('interfaces.id, interfaces.name');
+$q->setFrom('interfaces');
+$q->addInnerJoin('files ON interfaces.fileid = files.id');
+$q->setGroupBy('interfaces.id');
+$q->setOrderBy('interfaces.name');
+$q->addProjectWhere();
+$q = $q->buildQuery();
 
 $res = db_query ($q);
 if (db_num_rows ($res) > 0) {
@@ -191,13 +195,14 @@ if (db_num_rows ($res) > 0) {
 
 
 // Functions list
-$q = "SELECT functions.id, functions.name
-  FROM functions
-  INNER JOIN files ON functions.fileid = files.id
-  WHERE functions.classid IS NULL AND functions.interfaceid IS NULL";
-if ($_SESSION['current_package']) $q .= " AND files.packageid = {$_SESSION['current_package']}";
-$q .= " ORDER BY functions.name";
-$res = db_query ($q);
+$q = new SelectQuery();
+$q->addFields('functions.id, functions.name');
+$q->setFrom('functions');
+$q->addInnerJoin('files ON functions.fileid = files.id');
+$q->setGroupBy('functions.id');
+$q->setOrderBy('functions.name');
+$q->addProjectWhere();
+$q = $q->buildQuery();
 
 if (db_num_rows ($res) > 0) {
     echo '  <div class="box">';
@@ -215,11 +220,12 @@ if (db_num_rows ($res) > 0) {
 
 
 // Files list
-$q = "SELECT files.id, files.name
-  FROM files";
-if ($_SESSION['current_package']) $q .= " WHERE files.packageid = {$_SESSION['current_package']}";
-$q .= " ORDER BY files.name";
-$res = db_query ($q);
+$q = new SelectQuery();
+$q->addFields('files.id, files.name');
+$q->setFrom('files');
+$q->setOrderBy('files.name');
+$q->addProjectWhere();
+$q = $q->buildQuery();
 
 if (db_num_rows ($res) > 0) {
     echo '  <div class="box">';

@@ -142,6 +142,15 @@ class SelectQuery
 
 
     /**
+     * Adds the required WHERE clauses for multiple-project support
+     **/
+    public function addProjectWhere()
+    {
+        global $project;
+        $this->addWhere("{$this->from}.projectid = {$project['id']}");
+    }
+
+    /**
      * Adds the required WHERE clauses for checking the since version of this item matches what is required
      **/
     public function addSinceVersionWhere()

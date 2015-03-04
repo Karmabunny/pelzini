@@ -39,6 +39,7 @@ if (preg_match('/^([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)$/', $_GET['q'], $matches)) {
           INNER JOIN classes ON functions.classid = classes.id
           WHERE classes.name = '{$class}'
             AND functions.name = '{$method}'
+            AND functions.projectid = {$project['id']}
           LIMIT 2";
     $res = db_query($q);
     $num = db_num_rows($res);
@@ -78,6 +79,7 @@ if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
     FROM classes
     INNER JOIN files ON classes.fileid = files.id
     WHERE {$this_match_string}
+      AND classes.projectid = {$project['id']}
     ORDER BY IF(classes.name = '{$query}', 1, 2), classes.name";
 
     $res = db_query ($q);
@@ -127,7 +129,9 @@ if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
     FROM functions
     INNER JOIN files ON functions.fileid = files.id
     LEFT JOIN classes ON functions.classid = classes.id
-    WHERE {$this_match_string} ORDER BY functions.name";
+    WHERE {$this_match_string}
+      AND classes.projectid = {$project['id']}
+    ORDER BY functions.name";
     $res = db_query ($q);
     $num = db_num_rows ($res);
     if ($num != 0) {
@@ -170,7 +174,9 @@ if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
     $q = "SELECT constants.name, constants.description, files.name as filename, constants.fileid, constants.value
     FROM constants
     INNER JOIN files ON constants.fileid = files.id
-    WHERE {$this_match_string} ORDER BY constants.name";
+    WHERE {$this_match_string}
+      AND classes.projectid = {$project['id']}
+    ORDER BY constants.name";
     $res = db_query ($q);
     $num = db_num_rows ($res);
     if ($num != 0) {
