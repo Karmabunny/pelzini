@@ -204,6 +204,7 @@ class PhpParser
                         $current_function->applyComment($next_comment);
                         $next_comment = null;
                     }
+                    $param_type = null;
                     break;
 
 
