@@ -96,9 +96,26 @@ if (PHP_SAPI == 'cli') {
     }
 }
 
+if (!isset($dpgProjectName)) {
+    echo "ERROR:\n";
+    echo "Required config option '\$dpgProjectName' not set.\n";
+    exit;
+}
+
+if (!isset($dpgProjectCode)) {
+    echo "ERROR:\n";
+    echo "Required config option '\$dpgProjectCode' not set.\n";
+    exit;
+}
+
+if (@count($dpgOutputters) == 0) {
+    echo "ERROR:\n";
+    echo "Required config option '\$dpgOutputters' not set.\n";
+    exit;
+}
+
 // ensure we have a base dir
 if (!file_exists($dpgBaseDirectory)) {
-    header('Content-type: text/plain');
     echo "ERROR:\n";
     echo "Base directory '{$dpgBaseDirectory}' not found.\n";
     exit;
