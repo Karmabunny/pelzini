@@ -37,6 +37,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  **/
 function search_source($query, $case_sensitive = false)
 {
+    global $project;
 
     // Determine the match string
     // #ITEM# will be replaced in the specific search query
@@ -46,7 +47,9 @@ function search_source($query, $case_sensitive = false)
 
     $q = "SELECT files.id, files.name AS filename, files.source
     FROM files
-    WHERE {$this_match_string} ORDER BY files.name";
+    WHERE {$this_match_string}
+      AND files.projectid = {$project['id']}
+    ORDER BY files.name";
     $res = db_query ($q);
     $num_files = db_num_rows ($res);
 
