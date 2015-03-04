@@ -161,8 +161,10 @@ function get_filenames($base_dir, $directory)
         if (in_array($exclude_dir, $dpgExcludeDirectories)) return null;
     }
 
-    $files = array();
     $handle = opendir($base_dir . $directory);
+    if ($handle === false) return null;
+
+    $files = array();
     while (($file = readdir($handle)) !== false) {
         if ($file[0] == '.') continue;
 
