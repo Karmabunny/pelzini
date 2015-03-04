@@ -63,7 +63,19 @@ function php_documented_function () {
 * @author Monkey Man <monkey.man@example.com>
 * @since r567
 **/
-function php_documented_arguments_function ($arg1, array $arg2) {
+function php_documented_arguments_function ($arg1, $arg2) {
+  return;
+}
+
+/**
+* Contains arguments
+**/
+function php_typehint_only_arguments_function1($arg1, array $arg2) {
+  return;
+}
+
+# Doesn't contain a docblock
+function php_typehint_only_arguments_function2($arg1, array $arg2) {
   return;
 }
 
