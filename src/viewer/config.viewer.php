@@ -5,8 +5,8 @@
  * http://docu.sourceforge.net
  */
 
-/* The project code to show documentation for */
-$dvgProjectCode = 'pelzini-src';
+/* The project code to show documentation for - if not set, a drop-down is offered to the user */
+//$dvgProjectCode = 'pelzini-src';
 
 /* The database engine to use in the viewer. Supported values are 'mysql', 'postgresql' and 'sqlite' */
 $dvgDatabaseEngine = 'mysql';

@@ -58,29 +58,25 @@ header('Content-type: text/html; charset=UTF-8');
   <span style="float: right">
     <a href="more_info.php"><?php echo str(STR_MORE_INFO); ?></a>
 
-    <form action="select_version.php" method="get">
+    <?php if (!isset($dvgProjectCode)): ?>
+    <form action="select_project.php" method="get">
     <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
     <b><?php echo str(STR_VERSION); ?>:</b>
     <select name="id" onchange="this.form.submit();">
       <?php
-if ($_SESSION['current_version'] == null) {
-    echo "<option value=\"\" selected>All</option>\n";
-} else {
-    echo "<option value=\"\">All</option>\n";
-}
-
-$q = "SELECT id, name FROM versions ORDER BY id";
-$res = db_query($q);
-while ($row = db_fetch_assoc ($res)) {
-    if ($_SESSION['current_version'] == $row['id']) {
-        echo "<option value=\"{$row['id']}\" selected>{$row['name']}</option>\n";
-    } else {
-        echo "<option value=\"{$row['id']}\">{$row['name']}</option>\n";
-    }
-}
-?>
+      $q = "SELECT id, name FROM projects WHERE name != '' AND code != '' ORDER BY id";
+      $res = db_query($q);
+      while ($row = db_fetch_assoc ($res)) {
+          if ($_SESSION['current_project'] == $row['id']) {
+              echo "<option value=\"{$row['id']}\" selected>{$row['name']}</option>\n";
+          } else {
+              echo "<option value=\"{$row['id']}\">{$row['name']}</option>\n";
+          }
+      }
+      ?>
     </select>
     </form>
+    <?php endif; ?>
   </span>
 
   <a href="index.php"><?php echo str(STR_HOME); ?></a>

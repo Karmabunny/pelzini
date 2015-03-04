@@ -32,10 +32,10 @@ require_once 'functions.php';
 $_GET['id'] = (int) $_GET['id'];
 
 if ($_GET['id'] == 0) {
-    unset ($_SESSION['current_version']);
+    unset ($_SESSION['current_project']);
 
 } else {
-    $_SESSION['current_version'] = $_GET['id'];
+    $_SESSION['current_project'] = $_GET['id'];
 }
 
 header('Location: ' . $_GET['redirect']);
