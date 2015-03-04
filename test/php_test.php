@@ -63,7 +63,7 @@ function php_documented_function () {
 * @author Monkey Man <monkey.man@example.com>
 * @since r567
 **/
-function php_documented_arguments_function ($arg1, $arg2) {
+function php_documented_arguments_function ($arg1, array $arg2) {
   return;
 }
 
