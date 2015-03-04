@@ -36,7 +36,7 @@ div pre {border: 1px #777 solid;}
 **/
 
 
-require_once '../../processor/functions.php';
+require_once '../../src/processor/functions.php';
 
 $tests = glob('*.txt');
 
