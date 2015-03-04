@@ -78,13 +78,16 @@ if (get_magic_quotes_gpc()) {
 loadLanguage ('english');
 if ($dvgLanguage and $dvgLanguage != 'english') loadLanguage ($dvgLanguage);
 
+// Load project details
+if (isset($dvgProjectCode)) {
+	$project_code = db_quote($dvgProjectCode);
+	$q = "SELECT id, name, license, dategenerated FROM projects WHERE code = {$project_code} LIMIT 1";
+} else {
+	$q = "SELECT id, name, license, dategenerated FROM projects ORDER BY id LIMIT 1";
+}
 
-$project_code = db_quote($dvgProjectCode);
-$q = "SELECT id, name, license, dategenerated FROM projects WHERE code = {$project_code}";
 $res = db_query($q);
 $project = db_fetch_assoc($res);
-$project_id = $project['id'];
-
 
 /**
  * Fixes all magically quoted strings in the given array or string

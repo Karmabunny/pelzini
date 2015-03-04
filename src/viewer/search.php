@@ -130,7 +130,7 @@ if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
     INNER JOIN files ON functions.fileid = files.id
     LEFT JOIN classes ON functions.classid = classes.id
     WHERE {$this_match_string}
-      AND classes.projectid = {$project['id']}
+      AND functions.projectid = {$project['id']}
     ORDER BY functions.name";
     $res = db_query ($q);
     $num = db_num_rows ($res);
@@ -175,7 +175,7 @@ if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
     FROM constants
     INNER JOIN files ON constants.fileid = files.id
     WHERE {$this_match_string}
-      AND classes.projectid = {$project['id']}
+      AND constants.projectid = {$project['id']}
     ORDER BY constants.name";
     $res = db_query ($q);
     $num = db_num_rows ($res);
