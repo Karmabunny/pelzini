@@ -38,7 +38,7 @@ class QualityCheckTransformer extends Transformer {
     private $offending_items;
     private $required_tags;
 
-    public function __construct($required_tags)
+    public function __construct($required_tags = null)
     {
         $this->required_tags = $required_tags;
 
