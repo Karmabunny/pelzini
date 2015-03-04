@@ -71,7 +71,7 @@ class ParserFunction extends CodeParserItem {
         $params = @$this->docblock_tags['@param'];
         if ($params != null) {
             foreach ($params as $param_tag) {
-                @list($type, $name, $desc) = explode(' ', $param_tag, 3);
+                @list($type, $name, $desc) = preg_split('/\s+/', $param_tag, 3);
 
                 // if type was not specified, do some clever stuff
                 if ($type != '' and $type[0] == '$') {
@@ -96,7 +96,7 @@ class ParserFunction extends CodeParserItem {
         if ($return == null) @$return = $this->docblock_tags['@returns'];
         if ($return != null) {
             $return = array_pop($return);
-            @list($this->return_type, $this->return_description) = explode(' ', $return, 2);
+            @list($this->return_type, $this->return_description) = explode('/\s+/', $return, 2);
             $this->return_description = htmlify_text($this->return_description);
         }
     }
