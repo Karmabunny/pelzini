@@ -5,14 +5,11 @@
  * http://docu.sourceforge.net
  */
 
-ini_set('memory_limit', '-1');
-
-
 /* This should be the name of your project */
-$dpgProjectName = 'Pelzini Test';
+$dpgProjectName = 'Pelzini Tests';
 
-/* The project ID. Required for multiple docs per database */
-$dpqProjectID = 1;
+/* A unique code per project, to allow multiple projects per database */
+$dpgProjectCode = 'pelzini-test';
 
 /* This should be the terms that your documentation is made available under
    It will be shown in the footer of the viewer */

@@ -27,8 +27,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  * @since 0.1
  **/
 
-
-
+ini_set('memory_limit', '-1');
 
 require_once 'functions.php';
 require_once 'constants.php';
@@ -53,6 +52,11 @@ output_status("Initalised the PHP parser.");
 
 $parser_model = array();
 
+// Sync output database layout
+output_status ('');
+foreach ($dpgOutputters as $outputter) {
+    $outputter->check_layout(dirname(__FILE__) . '/database.layout');
+}
 
 // Determine the file names
 output_status ('');
@@ -149,8 +153,6 @@ foreach ($dpgTransformers as $transformer) {
 // Output the generated tree to the specified outputters
 output_status ('');
 foreach ($dpgOutputters as $outputter) {
-    $outputter->check_layout(dirname(__FILE__) . '/database.layout');
-
     output_status ('Running ' . get_class($outputter));
 
     $result = $outputter->output($parser_model);

@@ -32,6 +32,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  **/
 abstract class DatabaseOutputter extends Outputter {
     static private $since_versions;
+    protected $extra_insert_data = array();
 
     /**
      * Connects to the database
@@ -136,6 +137,7 @@ abstract class DatabaseOutputter extends Outputter {
      **/
     private function do_insert($table, $data)
     {
+        $data += $this->extra_insert_data;
         $q = "INSERT INTO {$table} (";
         $q .= implode(', ', array_keys($data));
         $q .= ") VALUES (";
@@ -153,15 +155,36 @@ abstract class DatabaseOutputter extends Outputter {
         if (count($data) == 0) return;
 
         $q = "INSERT INTO {$table} (";
-        $q .= implode(',', array_keys($data[0]));
+        $q .= implode(',', array_keys($data[0] + $this->extra_insert_data));
         $q .= ") VALUES ";
 
         $j = 0;
         foreach ($data as $row) {
             if ($j++ > 0) $q .= ',';
-            $q .= '(' . implode(',', $row) . ')';
+            $q .= '(' . implode(',', $row + $this->extra_insert_data) . ')';
         }
 
+        $this->query($q);
+    }
+
+
+    /**
+     * Executes an update query for the data provided.
+     **/
+    private function do_update($table, $data, $where)
+    {
+        $q = "UPDATE {$table} SET ";
+        $j = 0;
+        foreach ($data as $key => $val) {
+            if ($j++) $q .= ',';
+            $q .= $key . ' = ' . $val;
+        }
+        $q .= ' WHERE ';
+        $j = 0;
+        foreach ($where as $key => $val) {
+            if ($j++) $q .= ',';
+            $q .= $key . ' = ' . $val;
+        }
         $this->query($q);
     }
 
@@ -353,7 +376,7 @@ abstract class DatabaseOutputter extends Outputter {
      **/
     public function output($files)
     {
-        global $dpgProjectName, $dpgLicenseText;
+        global $dpgProjectCode, $dpgProjectName, $dpgLicenseText;
 
         $res = $this->connect();
         if (! $res) {
@@ -361,32 +384,48 @@ abstract class DatabaseOutputter extends Outputter {
             return false;
         }
 
-        //$this->start_transaction();
+        // Get existing or create new project
+        $code = $this->sql_safen($dpgProjectCode);
+        $res = $this->query("SELECT id FROM projects WHERE code = {$code}");
+        $row = $this->fetch_assoc($res);
+        if ($row) {
+            $project_id = $row['id'];
+        } else {
+            $insert_data = array();
+            $insert_data['code'] = $this->sql_safen($dpgProjectCode);
+            $this->do_insert('projects', $insert_data);
+            $project_id = $this->insert_id();
+        }
 
-        $this->query ("TRUNCATE projects");
-        $this->query ("TRUNCATE files");
-        $this->query ("TRUNCATE functions");
-        $this->query ("TRUNCATE arguments");
-        $this->query ("TRUNCATE classes");
-        $this->query ("TRUNCATE class_implements");
-        $this->query ("TRUNCATE packages");
-        $this->query ("TRUNCATE interfaces");
-        $this->query ("TRUNCATE variables");
-        $this->query ("TRUNCATE constants");
-        $this->query ("TRUNCATE item_authors");
-        $this->query ("TRUNCATE item_tables");
-        $this->query ("TRUNCATE documents");
-        $this->query ("TRUNCATE versions");
-        $this->query ("TRUNCATE item_see");
-        $this->query ("TRUNCATE enumerations");
-        $this->query ("TRUNCATE item_info_tags");
+        // Update project details
+        $update_data = array();
+        $update_data['name'] = $this->sql_safen($dpgProjectName);
+        $update_data['license'] = $this->sql_safen($dpgLicenseText);
+        $update_data['dategenerated'] = $this->sql_safen(date('Y-m-d h:i a'));
+        $this->do_update('projects', $update_data, array('id' => $project_id));
 
+        // Include project id in all inserts
+        $this->extra_insert_data = array(
+            'projectid' => $project_id,
+        );
 
-        $insert_data = array();
-        $insert_data['name'] = $this->sql_safen ($dpgProjectName);
-        $insert_data['license'] = $this->sql_safen ($dpgLicenseText);
-        $insert_data['dategenerated'] = $this->sql_safen (date('Y-m-d h:i a'));
-        $this->do_insert('projects', $insert_data);
+        // Only delete data from this project
+        $this->query("DELETE FROM files WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM functions WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM arguments WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM classes WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM class_implements WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM packages WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM interfaces WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM variables WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM constants WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM item_authors WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM item_tables WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM documents WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM versions WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM item_see WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM enumerations WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM item_info_tags WHERE projectid = {$project_id}");
 
         // get all of the unique package names, and create packages
         $packages = array();

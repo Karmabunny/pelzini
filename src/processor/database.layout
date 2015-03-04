@@ -1,6 +1,16 @@
+TABLE projects
+PK id
+  id serial notnull
+  code string notnull
+  name string notnull
+  license text
+  dategenerated string
+
+
 TABLE files
 PK id
   id serial notnull
+  projectid largenum notnull
   name string notnull
   description text
   source text
@@ -11,6 +21,7 @@ PK id
 TABLE classes
 PK id
   id serial notnull
+  projectid largenum notnull
   fileid largenum notnull
   name string notnull
   description text
@@ -24,6 +35,7 @@ PK id
 TABLE interfaces
 PK id
   id serial notnull
+  projectid largenum notnull
   fileid largenum notnull
   name string notnull
   description text
@@ -35,6 +47,7 @@ PK id
 TABLE class_implements
 PK id
   id serial notnull
+  projectid largenum notnull
   classid largenum notnull
   name string notnull
   
@@ -42,6 +55,7 @@ PK id
 TABLE functions
 PK id
   id serial notnull
+  projectid largenum notnull
   fileid largenum notnull
   classid largenum
   interfaceid largenum
@@ -60,6 +74,7 @@ PK id
 TABLE arguments
 PK id
   id serial notnull
+  projectid largenum notnull
   functionid largenum notnull
   name string notnull
   type string 
@@ -70,6 +85,7 @@ PK id
 TABLE variables
 PK id
   id serial notnull
+  projectid largenum notnull
   classid largenum
   interfaceid largenum
   name string notnull
@@ -82,6 +98,7 @@ PK id
 TABLE constants
 PK id
   id serial notnull
+  projectid largenum notnull
   fileid largenum notnull
   enumerationid largenum
   name string notnull
@@ -93,6 +110,7 @@ PK id
 TABLE documents
 PK id
   id serial notnull
+  projectid largenum notnull
   name string notnull
   description text
   
@@ -100,6 +118,7 @@ PK id
 TABLE enumerations
 PK id
   id serial notnull
+  projectid largenum notnull
   fileid largenum notnull
   name string notnull
   description text
@@ -107,24 +126,17 @@ PK id
   sinceid largenum
   
   
-  
 TABLE packages
 PK id
   id serial notnull
+  projectid largenum notnull
   name string notnull
-  
-  
-TABLE projects
-PK id
-  id serial notnull
-  name string notnull
-  license text
-  dategenerated string
   
   
 TABLE versions
 PK id
   id serial notnull
+  projectid largenum notnull
   name string notnull
   
   
@@ -132,6 +144,7 @@ PK id
 TABLE item_authors
 PK id
   id serial notnull
+  projectid largenum notnull
   linkid largenum notnull
   linktype smallnum notnull
   name string notnull
@@ -142,6 +155,7 @@ PK id
 TABLE item_tables
 PK id
   id serial notnull
+  projectid largenum notnull
   linkid largenum notnull
   linktype smallnum notnull
   name string notnull
@@ -151,6 +165,7 @@ PK id
 TABLE item_see
 PK id
   id serial notnull
+  projectid largenum notnull
   linkid largenum notnull
   linktype smallnum notnull
   name string notnull
@@ -158,6 +173,7 @@ PK id
 TABLE item_info_tags
 PK id
   id serial notnull
+  projectid largenum notnull
   linkid largenum notnull
   linktype smallnum notnull
   name string notnull
