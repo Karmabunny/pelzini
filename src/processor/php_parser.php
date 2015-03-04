@@ -326,6 +326,13 @@ class PhpParser
                     break;
 
 
+                case T_ARRAY:
+                    if ($current_function != null) {
+                        $param_type = $text;
+                    }
+                    break;
+
+
                 case T_CONSTANT_ENCAPSED_STRING:
                     // removes quotes, etc
                     $name_search = array("\'", '\"', "'", '"');
