@@ -35,8 +35,6 @@ require_once 'constants.php';
 require_once 'misc_classes.php';
 require_once 'load_config.php';
 
-chdir(dirname(__FILE__));
-
 output_status ('This is the Pelzini processor, Pelzini version ' . DOCU_VERSION);
 output_status ('Pelzini is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
 output_status ('For more information, see <a href="http://docu.sourceforge.net/">http://docu.sourceforge.net/</a>');
@@ -151,7 +149,7 @@ foreach ($dpgTransformers as $transformer) {
 // Output the generated tree to the specified outputters
 output_status ('');
 foreach ($dpgOutputters as $outputter) {
-    $outputter->check_layout('database.layout');
+    $outputter->check_layout(dirname(__FILE__) . '/database.layout');
 
     output_status ('Running ' . get_class($outputter));
 
