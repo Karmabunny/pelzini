@@ -18,8 +18,9 @@ Installation
 
 1. Extract the archive somewhere.
 2. Set up your web server to be able to view the "viewer" directory.
-3. Create a config file for your project. You can use the Pelzini one (pelzini.conf.php) as a guide.
-4. Run the code documenter:
+3. Configure the viewr by editing the file `viewer/config.viewer.php`.
+4. Create a config file for your project. You can use the Pelzini one (pelzini.conf.php) as a guide.
+5. Run the code documenter:
 ```shell
 php src/processor/main.php --config path/to/your/config.conf.php
 ```
