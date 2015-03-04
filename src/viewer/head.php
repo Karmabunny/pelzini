@@ -116,13 +116,30 @@ while ($row = db_fetch_assoc($res)) {
 <table class="main">
 <tr>
 <td class="sidebar">
-  <div class="box-nohead">
+  <div class="box">
+    <h2><?php echo str(STR_SEARCH_TITLE); ?></h2>
+    <div div class="content">
     <form action="search.php" method="get">
-      <input type="hidden" name="advanced" value="0">
-      <input type="text" name="q" style="width: 200px;" value="<?php echo htmlspecialchars($_GET['q']); ?>">
-      <input type="submit" value="<?php echo str (STR_SEARCH_GO_BTN); ?>">
+      <input type="hidden" name="advanced" value="1">
+
+      <p>
+        <b><?php echo str(STR_SEARCH_TERM); ?></b>
+        <br><input type="text" name="q" style="width: 200px;" value="<?php echo htmlspecialchars($_GET['q']); ?>">
+      </p>
+
+      <p>
+        <b><?php echo str(STR_WHAT_SEARCH); ?></b>
+        <br><label><input type="checkbox" name="classes" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['classes'] == 'y') echo 'checked'; ?>> <?php echo str(STR_CLASSES); ?></label>
+        <br><label><input type="checkbox" name="functions" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['functions'] == 'y') echo 'checked'; ?>> <?php echo str(STR_FUNCTIONS); ?></label>
+        <br><label><input type="checkbox" name="constants" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['constants'] == 'y') echo 'checked'; ?>> <?php echo str(STR_CONSTANTS); ?></label>
+        <br><label><input type="checkbox" name="source" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['source'] == 'y') echo 'checked'; ?>> <?php echo str(STR_SOURCE_CODE); ?></label>
+      </p>
+
+      <p style="text-align: right;">
+        <input type="submit" value="<?php echo str (STR_SEARCH_GO_BTN); ?>">
+      </p>
     </form>
-    <p style="font-size: smaller; margin-top: 3px;"><a href="advanced_search.php?q=<?php echo urlencode($_GET['q']); ?>"><?php echo str (STR_ADV_SEARCH_TITLE); ?></a></p>
+    </div>
   </div>
 
 

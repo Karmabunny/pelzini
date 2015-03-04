@@ -36,15 +36,6 @@ require_once 'head.php';
 <p><?php echo str (STR_INTRO_PARAGRAPH, 'project', $project['name']); ?></p>
 
 
-<h3><?php echo str (STR_SEARCH_TITLE); ?></h3>
-<form action="search.php" method="get">
-  <input type="hidden" name="advanced" value="0">
-  <input type="text" name="q">
-  <input type="submit" value="<?php echo str (STR_SEARCH_GO_BTN); ?>">
-</form>
-<p><a href="advanced_search.php"><?php echo str (STR_ADV_SEARCH_TITLE); ?></a></p>
-
-
 
 <?php
 require_once 'foot.php';
