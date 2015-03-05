@@ -367,6 +367,7 @@ abstract class DatabaseOutputter extends Outputter {
      * Does the actual outputting of the file objects (and their sub-objects) to the database
      *
      * @param array $files The file objects to save to the database
+     * @param Config $config The project config
      *
      * @table insert projects The main project record
      * @table insert packages All of the packages used by this project
@@ -374,10 +375,8 @@ abstract class DatabaseOutputter extends Outputter {
      * @table insert files All of the files
      * @table insert documents All of the documents
      **/
-    public function output($files)
+    public function output($files, Config $config)
     {
-        global $dpgProjectCode, $dpgProjectName, $dpgLicenseText;
-
         $res = $this->connect();
         if (! $res) {
             echo "<p>Unable to connect to database!";
@@ -385,22 +384,22 @@ abstract class DatabaseOutputter extends Outputter {
         }
 
         // Get existing or create new project
-        $code = $this->sql_safen($dpgProjectCode);
+        $code = $this->sql_safen($config->getProjectCode());
         $res = $this->query("SELECT id FROM projects WHERE code = {$code}");
         $row = $this->fetch_assoc($res);
         if ($row) {
             $project_id = $row['id'];
         } else {
             $insert_data = array();
-            $insert_data['code'] = $this->sql_safen($dpgProjectCode);
+            $insert_data['code'] = $this->sql_safen($config->getProjectCode());
             $this->do_insert('projects', $insert_data);
             $project_id = $this->insert_id();
         }
 
         // Update project details
         $update_data = array();
-        $update_data['name'] = $this->sql_safen($dpgProjectName);
-        $update_data['license'] = $this->sql_safen($dpgLicenseText);
+        $update_data['name'] = $this->sql_safen($config->getProjectName());
+        $update_data['license'] = $this->sql_safen($config->getLicenseText());
         $update_data['dategenerated'] = $this->sql_safen(date('Y-m-d h:i a'));
         $this->do_update('projects', $update_data, array('id' => $project_id));
 

@@ -5,33 +5,32 @@
  * http://docu.sourceforge.net
  */
 
-/* This should be the name of your project */
+/* Required - This should be the name of your project */
 $dpgProjectName = 'Pelzini';
 
-/* A unique code per project, to allow multiple projects per database */
+/* Required - A unique code per project, to allow multiple projects per database */
 $dpgProjectCode = 'pelzini-src';
 
-/* This should be the terms that your documentation is made available under
+/* Required - This should be the terms that your documentation is made available under
    It will be shown in the footer of the viewer */
 $dpgLicenseText = 'Documentation is made available under the
 <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License 1.2</a>.';
 
-/* List the transformers here. Transformers alter the parsed files before outputting */
+/* Optional - List the transformers here. Transformers alter the parsed files before outputting */
 $dpgTransformers[] = new QualityCheckTransformer();
 
-/* List the outputters here. Outputters save the parsed files to a database or an output file */
+/* Required - List the outputters here. Outputters save the parsed files to a database or an output file */
 $dpgOutputters[] = new MysqlOutputter('pelzini', 'password', 'localhost', 'pelzini');
 
 /* Multiple output targets can be specified */
 //$dpgOutputters[] = new SqliteOutputter('../../pelzini.sqlite');
 
-/* This is the base directory that the parsing of your application should take place */
+/* Required - This is the base directory that the parsing of your application should take place */
 $dpgBaseDirectory = 'src';
 
-/* These are directories that should be excluded from the processing. */
+/* Optional - These are directories that should be excluded from the processing. */
 $dpgExcludeDirectories = array();
 
-/* These are the Javadoc tags that should cascade from their parent */
-$dpgCascaseDocblockTags[] = '@author';
-$dpgCascaseDocblockTags[] = '@since';
+/* Optional - This is the directory which contains plain-text documents */
+$dpgDocsDirectory = 'documentation';
 

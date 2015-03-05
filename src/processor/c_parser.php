@@ -50,11 +50,9 @@ class CParser
      **/
     public function parseFile($filename)
     {
-        global $dpgBaseDirectory;
-
         $this->lexer->resetState();
 
-        $source = @file_get_contents($dpgBaseDirectory . $filename);
+        $source = @file_get_contents($filename);
         if ($source == null) return null;
 
         $tokens = $this->lexer->process($source);

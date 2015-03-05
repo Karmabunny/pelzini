@@ -61,7 +61,7 @@ class XmlOutputter extends MetadataOutputter {
      * @param array $parser_items The ParserItem(s) to save
      * @return boolean True on success, false on failure
      **/
-    public function output($parser_items)
+    public function output($parser_items, Config $config)
     {
         $this->dom = new DOMDocument('1.0', 'UTF-8');
         $this->dom->formatOutput = true;

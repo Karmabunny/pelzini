@@ -40,15 +40,13 @@ class PhpParser
      **/
     function parseFile($filename)
     {
-        global $dpgBaseDirectory;
-
         // You can enable the following if you want to debug the parser
         // If you enable the line after it (the 'strpos' line) instead,
         // it will only debug files containing 'test' (e.g. 'php_test.php')
         $debug = false;
         // if (strpos ($filename, 'test') !== false) $debug = true;
 
-        $source = @file_get_contents($dpgBaseDirectory . $filename);
+        $source = @file_get_contents($filename);
         if ($source == null) return null;
 
         $tokens = @token_get_all($source);

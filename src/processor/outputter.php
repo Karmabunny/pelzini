@@ -37,9 +37,10 @@ abstract class Outputter
      * Does the actual outputting of the file objects (and their sub-objects)
      *
      * @param array $parser_items The ParserItem(s) to save
+     * @param Config $config The project config
      * @return boolean True on success, false on failure
      **/
-    abstract function output($parser_items);
+    abstract function output($parser_items, Config $config);
 
 }
 

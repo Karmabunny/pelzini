@@ -105,12 +105,11 @@ abstract class CodeParserItem extends ParserItem {
      **/
     public function cascadeTags($child)
     {
-        global $dpgCascaseDocblockTags;
-        if (! isset ($dpgCascaseDocblockTags)) return;
+        $cascaseDocblockTags = array('@author', '@since');
 
         $child_tags = $child->getDocblockTags();
 
-        foreach ($dpgCascaseDocblockTags as $cascade_tag) {
+        foreach ($cascaseDocblockTags as $cascade_tag) {
             if (! in_array($cascade_tag, array_keys($child_tags))) {
                 $child_tags[$cascade_tag] = @$this->docblock_tags[$cascade_tag];
             }

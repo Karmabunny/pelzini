@@ -35,15 +35,13 @@ class DebugOutputter extends Outputter {
     /**
      * Outputs the entire tree to the screen
      **/
-    public function output($files)
+    public function output($files, Config $config)
     {
-        global $dpgProjectName;
-
         echo '<style>';
         echo 'div {padding: 5px; margin: 5px;}';
         echo '</style>';
 
-        echo "<h1>{$dpgProjectName}</h1>";
+        echo "<h1>{$config->getProjectName()}</h1>";
         foreach ($files as $file) {
             $file->dump();
         }
