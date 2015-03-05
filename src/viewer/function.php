@@ -102,7 +102,7 @@ show_tables ($function['id'], LINK_TYPE_FUNCTION);
 
 
 // Show Arguments
-$q = "SELECT id, name, type, defaultvalue, description FROM arguments WHERE functionid = {$function['id']}";
+$q = "SELECT id, name, type, defaultvalue, description FROM arguments WHERE functionid = {$function['id']} ORDER BY id";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
     echo '<h3>', str(STR_FUNC_ARGUMENTS), '</h3>';

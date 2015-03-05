@@ -457,7 +457,7 @@ function show_function_usage($function_id)
 
     echo '<b>', $function['name'], '</b> ( ';
 
-    $q = "SELECT name, type, defaultvalue FROM arguments WHERE functionid = {$function_id}";
+    $q = "SELECT name, type, defaultvalue FROM arguments WHERE functionid = {$function_id} ORDER BY id";
     $res = db_query($q);
     $j = 0;
     while ($row = db_fetch_assoc ($res)) {
