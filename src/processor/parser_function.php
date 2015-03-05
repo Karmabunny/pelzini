@@ -96,7 +96,7 @@ class ParserFunction extends CodeParserItem {
         if ($return == null) @$return = $this->docblock_tags['@returns'];
         if ($return != null) {
             $return = array_pop($return);
-            @list($this->return_type, $this->return_description) = explode('/\s+/', $return, 2);
+            @list($this->return_type, $this->return_description) = preg_split('/\s+/', $return, 2);
             $this->return_description = htmlify_text($this->return_description);
         }
     }
