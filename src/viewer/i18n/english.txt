@@ -16,7 +16,7 @@ STR_ALL_PACKAGES                       All packages
 STR_VERSION                            Version
 
 ; Footer
-STR_POWERED_BY                         Powered by <a href="http://docu.sourceforge.net">Pelzini</a>, version {VERSION}
+STR_POWERED_BY                         Powered by <a href="https://github.com/Karmabunny/pelzini">Pelzini</a>, version {VERSION}
 STR_DATE_GENERATED                     Generated: {DATE}
 
 ; Sidebar
