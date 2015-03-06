@@ -30,6 +30,8 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'functions.php';
 require_once 'search_functions.php';
 
+$_GET['q'] = @trim($_GET['q']);
+
 // class::method -> redirect to function page
 if (preg_match('/^([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)$/', $_GET['q'], $matches)) {
     $class = db_escape($matches[1]);
@@ -51,6 +53,12 @@ if (preg_match('/^([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)$/', $_GET['q'], $matches)) {
 
 $skin['page_name'] = str(STR_SEARCH_TITLE);
 require_once 'head.php';
+
+if ($_GET['q'] == '') {
+	echo '<p>You must specify a search term.</p>';
+	require_once 'foot.php';
+	exit;
+}
 
 $query = db_escape($_GET['q']);
 $_GET['advanced'] = (int) $_GET['advanced'];
