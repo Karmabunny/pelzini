@@ -61,7 +61,7 @@ header('Content-type: text/html; charset=UTF-8');
     <?php if (!isset($dvgProjectCode)): ?>
     <form action="select_project.php" method="get">
     <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
-    <b><?php echo str(STR_VERSION); ?>:</b>
+    <b><?php echo str(STR_PROJECT); ?>:</b>
     <select name="id" onchange="this.form.submit();">
       <?php
       $q = "SELECT id, name FROM projects WHERE name != '' AND code != '' ORDER BY id";

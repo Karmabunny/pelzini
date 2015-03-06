@@ -14,6 +14,7 @@ STR_INTRO_PARAGRAPH                    This is the code documentation for the <i
 STR_HOME                               Home
 STR_ALL_PACKAGES                       All packages
 STR_VERSION                            Version
+STR_PROJECT                            Project
 
 ; Footer
 STR_POWERED_BY                         Powered by <a href="https://github.com/Karmabunny/pelzini">Pelzini</a>, version {VERSION}
