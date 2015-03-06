@@ -38,7 +38,7 @@ class PhpParser
     /**
      * Parses a specific file
      **/
-    function parseFile($filename)
+    function parseFile($base_dir, $filename)
     {
         // You can enable the following if you want to debug the parser
         // If you enable the line after it (the 'strpos' line) instead,
@@ -46,7 +46,7 @@ class PhpParser
         $debug = false;
         // if (strpos ($filename, 'test') !== false) $debug = true;
 
-        $source = @file_get_contents($filename);
+        $source = @file_get_contents($base_dir . $filename);
         if ($source == null) return null;
 
         $tokens = @token_get_all($source);

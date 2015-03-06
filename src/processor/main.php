@@ -83,7 +83,7 @@ foreach ($_SERVER['argv'] as $idx => $argument) {
 
         if (isset($parsers[$ext])) {
             output_status ("Processing file {$file}");
-            $result = $parsers[$ext]->parseFile($config->getBaseDirectory() . $file);
+            $result = $parsers[$ext]->parseFile($config->getBaseDirectory(), $file);
 
             if ($result != null) {
                 $parser_model[] = $result;

@@ -48,11 +48,11 @@ class CParser
      * @param string $filename The file to parse
      * @return A ParserFile object, or null if there was an error
      **/
-    public function parseFile($filename)
+    public function parseFile($base_dir, $filename)
     {
         $this->lexer->resetState();
 
-        $source = @file_get_contents($filename);
+        $source = @file_get_contents($base_dir . $filename);
         if ($source == null) return null;
 
         $tokens = $this->lexer->process($source);
