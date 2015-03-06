@@ -56,7 +56,7 @@ if ($id == 0) {
 
 // Get the details of this class
 $q = "SELECT classes.id, classes.name, classes.description, classes.extends, files.name as filename,
-  classes.final, classes.abstract, classes.sinceid, classes.packageid
+  classes.final, classes.abstract, classes.sinceid, classes.projectid
   FROM classes
   INNER JOIN files ON classes.fileid = files.id
   WHERE {$where}
