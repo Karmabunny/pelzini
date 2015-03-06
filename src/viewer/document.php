@@ -33,7 +33,7 @@ require_once 'functions.php';
 
 $_GET['name'] = trim($_GET['name']);
 $name_sql = db_quote($_GET['name']);
-$q = "SELECT name, description FROM documents WHERE name LIKE {$name_sql}";
+$q = "SELECT name, description FROM documents WHERE name LIKE {$name_sql} AND projectid = {$project['id']}";
 $res = db_query ($q);
 
 if (! $doc = db_fetch_assoc ($res)) {
