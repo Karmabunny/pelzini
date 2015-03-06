@@ -56,7 +56,7 @@ if ($id == 0) {
 
 // Get the details of this class
 $q = "SELECT classes.id, classes.name, classes.description, classes.extends, files.name as filename,
-  classes.final, classes.abstract, classes.sinceid
+  classes.final, classes.abstract, classes.sinceid, classes.packageid
   FROM classes
   INNER JOIN files ON classes.fileid = files.id
   WHERE {$where}
@@ -229,9 +229,9 @@ case PAGE_CLASS_GENERAL:
 case PAGE_CLASS_USED_BY:
     // Loads the classes tree
     // and finds this class within it
-    $root = create_classes_tree ();
+    $root = create_classes_tree();
     $matcher = new FieldTreeNodeMatcher('name', $class['name']);
-    $node = $root->findNode ($matcher);
+    $node = $root->findNode($matcher);
 
     // If our class was found - which it should be - find the top ancestor
     // and then draw unordered lists of the class structure
@@ -255,7 +255,9 @@ case PAGE_CLASS_USED_BY:
       FROM functions
       INNER JOIN files ON functions.fileid = files.id
       LEFT JOIN classes ON functions.classid = classes.id
-      WHERE functions.returntype = {$sql_class_name} ORDER BY functions.name";
+      WHERE functions.returntype = {$sql_class_name}
+        AND functions.packageid = {$class['packageid']}
+      ORDER BY functions.name";
     $res = db_query ($q);
 
     // Display any functions which return this class
@@ -297,7 +299,9 @@ case PAGE_CLASS_USED_BY:
       INNER JOIN arguments ON arguments.functionid = functions.id
       INNER JOIN files ON functions.fileid = files.id
       LEFT JOIN classes ON functions.classid = classes.id
-      WHERE arguments.type = {$sql_class_name} ORDER BY functions.name";
+      WHERE arguments.type = {$sql_class_name}
+        AND functions.packageid = {$class['packageid']}
+      ORDER BY functions.name";
     $res = db_query ($q);
 
     // Display any functions which use this class as an argument
