@@ -39,6 +39,7 @@ echo '<h2>', str(STR_TABLE_LIST_TITLE), '</h2>';
 
 $q = "SELECT name
   FROM item_tables
+  WHERE projectid = {$project['id']}
   GROUP BY name
   ORDER BY name";
 $res = db_query ($q);

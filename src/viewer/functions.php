@@ -130,10 +130,11 @@ function fix_magic_quotes(&$item)
  **/
 function get_object_link($name)
 {
+    global $project;
 
     // check classes
     $sql_name = db_escape($name);
-    $q = "SELECT id FROM classes WHERE name = '{$sql_name}'";
+    $q = "SELECT id FROM classes WHERE name = '{$sql_name}' AND projectid = {$project['id']}";
     $res = db_query($q);
 
     if (db_num_rows($res) != 0) {
@@ -144,7 +145,7 @@ function get_object_link($name)
 
     // check interfaces
     $sql_name = db_escape($name);
-    $q = "SELECT id FROM interfaces WHERE name = '{$sql_name}'";
+    $q = "SELECT id FROM interfaces WHERE name = '{$sql_name}' AND projectid = {$project['id']}";
     $res = db_query($q);
 
     if (db_num_rows($res) != 0) {
@@ -155,7 +156,7 @@ function get_object_link($name)
 
     // check functions
     $sql_name = db_escape($name);
-    $q = "SELECT id FROM functions WHERE name = '{$sql_name}' AND classid IS NULL AND interfaceid IS NULL";
+    $q = "SELECT id FROM functions WHERE name = '{$sql_name}' AND classid IS NULL AND interfaceid IS NULL AND projectid = {$project['id']}";
     $res = db_query($q);
 
     if (db_num_rows($res) != 0) {
@@ -173,7 +174,9 @@ function get_object_link($name)
  **/
 function show_authors($link_id, $link_type)
 {
-    $q = "SELECT name, email, description FROM item_authors WHERE linkid = {$link_id} AND linktype = {$link_type}";
+    global $project;
+
+    $q = "SELECT name, email, description FROM item_authors WHERE linkid = {$link_id} AND linktype = {$link_type} AND projectid = {$project['id']}";
     $res = db_query($q);
 
     if (db_num_rows($res) > 0) {
@@ -206,7 +209,9 @@ function show_authors($link_id, $link_type)
  **/
 function show_tables($link_id, $link_type)
 {
-    $q = "SELECT name, action, description FROM item_tables WHERE linkid = {$link_id} AND linktype = {$link_type}";
+    global $project;
+
+    $q = "SELECT name, action, description FROM item_tables WHERE linkid = {$link_id} AND linktype = {$link_type} AND projectid = {$project['id']}";
     $res = db_query($q);
 
     if (db_num_rows($res) > 0) {
@@ -235,7 +240,9 @@ function show_tables($link_id, $link_type)
  **/
 function show_see_also($link_id, $link_type)
 {
-    $q = "SELECT name FROM item_see WHERE linkid = {$link_id} AND linktype = {$link_type}";
+    global $project;
+
+    $q = "SELECT name FROM item_see WHERE linkid = {$link_id} AND linktype = {$link_type} AND projectid = {$project['id']}";
     $res = db_query($q);
 
     if (db_num_rows($res) > 0) {
@@ -255,7 +262,9 @@ function show_see_also($link_id, $link_type)
  **/
 function show_tags($link_id, $link_type)
 {
-    $q = "SELECT name FROM item_info_tags WHERE linkid = {$link_id} AND linktype = {$link_type}";
+    global $project;
+
+    $q = "SELECT name FROM item_info_tags WHERE linkid = {$link_id} AND linktype = {$link_type} AND projectid = {$project['id']}";
     $res = db_query($q);
 
     if (db_num_rows($res) > 0) {
@@ -277,9 +286,11 @@ function show_tags($link_id, $link_type)
  **/
 function get_since_version($version_id)
 {
+    global $project;
+
     $version_id = (int) $version_id;
 
-    $q = "SELECT name FROM versions WHERE id = {$version_id}";
+    $q = "SELECT name FROM versions WHERE id = {$version_id} AND projectid = {$project['id']}";
     $res = db_query($q);
     $row = db_fetch_assoc($res);
 
@@ -310,6 +321,8 @@ function process_inline($text)
  **/
 function process_inline_link($original_text)
 {
+    global $project;
+
     list ($text, $link_text) = explode(' ', $original_text, 2);
     if ($link_text == '') $link_text = $text;
 
@@ -325,7 +338,7 @@ function process_inline_link($original_text)
         list ($class, $member) = explode('::', $text, 2);
 
         $class_sql = db_quote($class);
-        $q = "SELECT id, name FROM classes WHERE name LIKE {$class_sql}";
+        $q = "SELECT id, name FROM classes WHERE name LIKE {$class_sql} AND projectid = {$project['id']}";
         $res = db_query($q);
         if ($row = db_fetch_assoc($res)) {
             $class_id = $row['id'];
@@ -354,7 +367,7 @@ function process_inline_link($original_text)
     }
 
     // Look for classes
-    $q = "SELECT id, name FROM classes WHERE name LIKE {$text_sql}";
+    $q = "SELECT id, name FROM classes WHERE name LIKE {$text_sql} AND projectid = {$project['id']}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
         return "<a href=\"class.php?id={$row['id']}\">{$link_text}</a>";
@@ -364,14 +377,14 @@ function process_inline_link($original_text)
     $file = $text;
     if ($file[0] != '/') $file = '/' . $file;
     $file_sql = db_quote($file);
-    $q = "SELECT id, name FROM files WHERE name LIKE {$file_sql}";
+    $q = "SELECT id, name FROM files WHERE name LIKE {$file_sql} AND projectid = {$project['id']}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
         return "<a href=\"file.php?id={$row['id']}\">{$link_text}</a>";
     }
 
     // Look for constants
-    $q = "SELECT id, name, fileid FROM constants WHERE name LIKE {$text_sql}";
+    $q = "SELECT id, name, fileid FROM constants WHERE name LIKE {$text_sql} AND projectid = {$project['id']}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
         return "<a href=\"file.php?id={$row['fileid']}#constants\">{$link_text}</a>";
@@ -383,7 +396,7 @@ function process_inline_link($original_text)
     }
 
     // Look for functions
-    $q = "SELECT id, name FROM functions WHERE name LIKE {$text_sql} AND classid IS NULL AND interfaceid IS NULL";
+    $q = "SELECT id, name FROM functions WHERE name LIKE {$text_sql} AND classid IS NULL AND interfaceid IS NULL AND projectid = {$project['id']}";
     if ($class_id) $q .= " AND classid = {$class_id}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {

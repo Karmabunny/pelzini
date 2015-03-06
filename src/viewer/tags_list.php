@@ -40,6 +40,7 @@ echo '<h2>', str(STR_TAG_LIST_TITLE), '</h2>';
 
 $q = "SELECT name, COUNT(name) AS num
   FROM item_info_tags
+  WHERE projectid = {$project['id']}
   GROUP BY name
   ORDER BY name";
 $res = db_query ($q);

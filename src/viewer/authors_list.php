@@ -35,6 +35,7 @@ echo '<h2>', str(STR_AUTHOR_LIST_TITLE), '</h2>';
 
 $q = "SELECT name
   FROM item_authors
+  WHERE projectid = {$project['id']}
   GROUP BY name
   ORDER BY name";
 $res = db_query ($q);

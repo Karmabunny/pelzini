@@ -36,7 +36,7 @@ require_once 'head.php';
 echo '<h2>', str(STR_MORE_INFO), '</h2>';
 
 
-$q = "SELECT name FROM documents ORDER BY name";
+$q = "SELECT name FROM documents WHERE projectid = {$project['id']} ORDER BY name";
 $res = db_query ($q);
 
 if (db_num_rows ($res) > 0) {

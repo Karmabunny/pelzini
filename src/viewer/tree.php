@@ -294,7 +294,9 @@ class FieldTreeNodeMatcher implements TreeNodeMatcher {
  **/
 function create_classes_tree()
 {
-    $q = "SELECT id, name, extends FROM classes";
+    global $project;
+
+    $q = "SELECT id, name, extends FROM classes WHERE projectid = {$project['id']}";
     $res = db_query ($q);
 
     $root = RootTreeNode::createFromDatabase ($res, 'name', 'extends');
