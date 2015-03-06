@@ -256,7 +256,7 @@ case PAGE_CLASS_USED_BY:
       INNER JOIN files ON functions.fileid = files.id
       LEFT JOIN classes ON functions.classid = classes.id
       WHERE functions.returntype = {$sql_class_name}
-        AND functions.packageid = {$class['packageid']}
+        AND functions.projectid = {$class['projectid']}
       ORDER BY functions.name";
     $res = db_query ($q);
 
@@ -300,7 +300,7 @@ case PAGE_CLASS_USED_BY:
       INNER JOIN files ON functions.fileid = files.id
       LEFT JOIN classes ON functions.classid = classes.id
       WHERE arguments.type = {$sql_class_name}
-        AND functions.packageid = {$class['packageid']}
+        AND functions.projectid = {$class['projectid']}
       ORDER BY functions.name";
     $res = db_query ($q);
 
