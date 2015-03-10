@@ -28,68 +28,12 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
 
-chdir(dirname(__FILE__));
-
 require_once 'constants.php';
 require_once 'tree.php';
 require_once 'select_query.php';
 require_once 'i18n.php';
+require_once 'init.php';
 
-
-// Load configs
-if (file_exists('config.php')) {
-    require_once 'config.php';
-    $config_found = true;
-}
-
-if (file_exists('config.viewer.php')) {
-    require_once 'config.viewer.php';
-    $config_found = true;
-}
-
-// Throw an error if no config
-if (! $config_found) {
-    header('Content-type: text/plain');
-    echo "ERROR:\n";
-    echo "Unable to find required configuration file 'config.php' or 'config.viewer.php'.\n";
-    echo "Please configure the Pelzini viewer. For more information, see:\n";
-    echo "http://docu.sourceforge.net\n\n";
-    echo "The easiest way to configure Pelzini is to run the installer and follow the instructions provided.";
-    exit;
-}
-
-// Defaults if config options are ommited
-if ($dvgDatabaseEngine == null) $dvgDatabaseEngine = 'mysql';
-
-
-// Load the database
-require_once "database_{$dvgDatabaseEngine}.php";
-db_connect();
-
-session_start();
-
-if (get_magic_quotes_gpc()) {
-    $_POST = fix_magic_quotes ($_POST);
-    $_GET = fix_magic_quotes ($_GET);
-}
-
-// Load language. English is always loaded because the other language only replaces the
-// english strings, so if strings are missing, the english ones will be used instead.
-loadLanguage ('english');
-if ($dvgLanguage and $dvgLanguage != 'english') loadLanguage ($dvgLanguage);
-
-// Load project details
-if (isset($dvgProjectCode)) {
-    $project_code = db_quote($dvgProjectCode);
-    $q = "SELECT id, name, license, dategenerated FROM projects WHERE code = {$project_code} LIMIT 1";
-} else if (isset($_SESSION['current_project'])) {
-    $q = "SELECT id, name, license, dategenerated FROM projects WHERE id = {$_SESSION['current_project']} LIMIT 1";
-} else {
-    $q = "SELECT id, name, license, dategenerated FROM projects WHERE name != '' AND code != '' ORDER BY id LIMIT 1";
-}
-
-$res = db_query($q);
-$project = db_fetch_assoc($res);
 
 /**
  * Fixes all magically quoted strings in the given array or string
