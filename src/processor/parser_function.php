@@ -81,19 +81,19 @@ class ParserFunction extends CodeParserItem {
                 if (isset($args[$parts[0]])) {
                     // name type desc
                     $arg = $args[$parts[0]];
-                    $arg->type = $parts[1];
+                    if (!$arg->type) $arg->type = $parts[1];
                     unset($parts[0], $parts[1]);
                     
                 } else if (isset($arg_types[$parts[1]])) {
                     // type name desc
                     $arg = $args[$parts[1]];
-                    $arg->type = $parts[0];
+                    if (!$arg->type) $arg->type = $parts[0];
                     unset($parts[0], $parts[1]);
                     
                 } else {
                     // type desc
                     $arg = $this->args[$idx];
-                    $arg->type = $parts[0];
+                    if (!$arg->type) $arg->type = $parts[0];
                     unset($parts[0]);
                 }
                 
