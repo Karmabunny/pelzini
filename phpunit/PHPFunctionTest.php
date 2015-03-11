@@ -29,12 +29,185 @@ class PHPFunctionTest extends PHPUnit_Framework_TestCase {
         return $this->parser->parseFile('', 'data://text/plain;base64,' . base64_encode($code));
     }
 
+
+    /**
+    * Just confirm it generally works
+    **/
     public function testBasicParse() {
-        $file = $this->parse('<?php function aaa() {}');
+        $file = $this->parse('
+            <?php
+            function aaa() {}
+        ');
         $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(0, $file->functions[0]->args);
         $this->assertCount(0, $file->classes);
         $this->assertCount(0, $file->constants);
         $this->assertCount(0, $file->enumerations);
+    }
+
+
+    /**
+    * Arguments
+    **/
+    public function testArgument() {
+        $file = $this->parse('
+            <?php
+            function aaa($aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+    }
+
+
+    /**
+    * Typehinted arguments - array
+    **/
+    public function testArgumentTypehintArray() {
+        $file = $this->parse('
+            <?php
+            function aaa(array $aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals('array', $file->functions[0]->args[0]->type);
+    }
+
+
+    /**
+    * Typehinted arguments - inbuilt classes
+    **/
+    public function testArgumentTypehintInbuiltClass() {
+        $file = $this->parse('
+            <?php
+            function aaa(DOMDocument $aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals('DOMDocument', $file->functions[0]->args[0]->type);
+    }
+
+
+    /**
+    * Typehinted arguments - user classes
+    **/
+    public function testArgumentTypehintUserClass() {
+        $file = $this->parse('
+            <?php
+            class user{}
+            function aaa(user $aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals('user', $file->functions[0]->args[0]->type);
+    }
+
+
+    /**
+    * Argument - name type desc
+    **/
+    public function testArgumentDescForward() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @param $aa user Test desc
+            **/
+            function aaa(user $aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals('user', $file->functions[0]->args[0]->type);
+        $this->assertEquals('Test desc', trim(strip_tags($file->functions[0]->args[0]->description)));
+    }
+
+
+    /**
+    * Argument - type name desc
+    **/
+    public function testArgumentDescReverse() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @param user $aa Test desc
+            **/
+            function aaa(user $aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals('user', $file->functions[0]->args[0]->type);
+        $this->assertEquals('Test desc', trim(strip_tags($file->functions[0]->args[0]->description)));
+    }
+
+
+    /**
+    * No typehint but still a type in the tag - name type desc
+    **/
+    public function testArgumentNoTypehintForward() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @param $aa user Test desc
+            **/
+            function aaa($aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals('user', $file->functions[0]->args[0]->type);
+        $this->assertEquals('Test desc', trim(strip_tags($file->functions[0]->args[0]->description)));
+    }
+
+
+    /**
+    * No typehint but still a type in the tag - type name desc
+    **/
+    public function testArgumentNoTypehintReverse() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @param user $aa Test desc
+            **/
+            function aaa($aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals('user', $file->functions[0]->args[0]->type);
+        $this->assertEquals('Test desc', trim(strip_tags($file->functions[0]->args[0]->description)));
+    }
+
+
+    /**
+    * Type only in tag
+    **/
+    public function testArgumentTypeOnlyTag() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @param user Test desc
+            **/
+            function aaa($aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals('user', $file->functions[0]->args[0]->type);
+        $this->assertEquals('Test desc', trim(strip_tags($file->functions[0]->args[0]->description)));
     }
 }
 

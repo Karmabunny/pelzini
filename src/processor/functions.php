@@ -39,6 +39,9 @@ function processor_autoload($class)
 
 spl_autoload_register('processor_autoload');
 
+require_once 'constants.php';
+require_once 'misc_classes.php';
+
 
 /**
  * Parses a DocBlock comment tag
