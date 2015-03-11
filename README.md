@@ -25,6 +25,14 @@ Installation
 php src/processor/main.php --config path/to/your/config.conf.php
 ```
 
+Running tests
+-------------
+
+You can run tests using PHPUnit:
+```shell
+phpunit phpunit/*.php
+```
+
 Notes
 -----
 
