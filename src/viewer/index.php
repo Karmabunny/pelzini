@@ -94,7 +94,9 @@ if ($method == '') {
 
 include_once 'controllers/' . $controller . '.php';
 
+/**
+* TODO: The controllers should actually be classes
+**/
 //$inst = new $controller;
-
 //call_user_func_args(array($inst, $method), $args);
 
