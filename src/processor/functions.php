@@ -30,12 +30,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Automatically loads the classes that are needed
  **/
-function __autoload($class)
+function processor_autoload($class)
 {
     $filename = preg_replace('/([A-Z])/', '_$1', $class);
     $filename = substr($filename, 1) . '.php';
     require_once strtolower($filename);
 }
+
+spl_autoload_register('processor_autoload');
 
 
 /**

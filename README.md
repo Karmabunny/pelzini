@@ -30,7 +30,7 @@ Running tests
 
 You can run tests using PHPUnit:
 ```shell
-phpunit phpunit/*.php
+phpunit
 ```
 
 Notes

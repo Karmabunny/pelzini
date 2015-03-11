@@ -1,7 +1,8 @@
 This directory contains a PHPUnit test suite.
 
-You can run tests using the command:
+You can run tests using the commands:
 ```shell
-phpunit *
+cd ..       # return to top directory
+phpunit
 ```
 

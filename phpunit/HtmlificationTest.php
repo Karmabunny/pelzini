@@ -26,8 +26,6 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 * @package Test suite
 **/
 
-require_once dirname(__FILE__) . '/../src/processor/functions.php';
-
 class HtmlificationTest extends PHPUnit_Framework_TestCase {
 
     public function files() {
