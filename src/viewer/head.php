@@ -77,7 +77,6 @@ header('Content-type: text/html; charset=UTF-8');
   </span>
 
   <a href="index"><?php echo str(STR_HOME); ?></a>
-  <a href="select_package"><?php echo str(STR_ALL_PACKAGES); ?></a>
   &nbsp;
 
   <?php
@@ -94,12 +93,7 @@ $q = $q->buildQuery();
 $res = db_query($q);
 while ($row = db_fetch_assoc($res)) {
     $row['name'] = htmlspecialchars($row['name']);
-
-    if ($_SESSION['current_package'] == $row['id']) {
-        echo "<a href=\"select_package?id={$row['id']}\" class=\"on\">{$row['name']}</a> ";
-    } else {
-        echo "<a href=\"select_package?id={$row['id']}\">{$row['name']}</a> ";
-    }
+    echo "<a href=\"package?id={$row['id']}\">{$row['name']}</a> ";
 }
 ?>
 </div>
