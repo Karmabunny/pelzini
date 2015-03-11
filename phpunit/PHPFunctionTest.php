@@ -26,7 +26,9 @@ class PHPFunctionTest extends PHPUnit_Framework_TestCase {
     }
 
     private function parse($code) {
-        return $this->parser->parseFile('', 'data://text/plain;base64,' . base64_encode($code));
+        $file = $this->parser->parseFile('', 'data://text/plain;base64,' . base64_encode($code));
+        $file->treeWalk('process_javadoc_tags');
+        return $file;
     }
 
 
@@ -209,5 +211,42 @@ class PHPFunctionTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('user', $file->functions[0]->args[0]->type);
         $this->assertEquals('Test desc', trim(strip_tags($file->functions[0]->args[0]->description)));
     }
+
+
+    /**
+    * Return type only
+    **/
+    public function testReturnType() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @return user
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertEquals('user', $file->functions[0]->return_type);
+        $this->assertEquals('', trim(strip_tags($file->functions[0]->return_description)));
+    }
+
+
+    /**
+    * Retrun type and description
+    **/
+    public function testReturnTypeDesc() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @return user A new user
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertEquals('user', $file->functions[0]->return_type);
+        $this->assertEquals('A new user', trim(strip_tags($file->functions[0]->return_description)));
+    }
+
 }
 
