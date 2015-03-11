@@ -42,8 +42,8 @@ STR_ERROR_TITLE                        Error
 
 ; Various lines of information
 STR_AVAIL_SINCE                        Available since: {VERSION}
-STR_FILE                               File: <a href="file.php?name={#URLENC|FILENAME}">{#HTMLENC|FILENAME}</a>
-STR_PACKAGE                            Package: <a href="package.php?id={ID}">{NAME}</a>
+STR_FILE                               File: <a href="file?name={#URLENC|FILENAME}">{#HTMLENC|FILENAME}</a>
+STR_PACKAGE                            Package: <a href="package?id={ID}">{NAME}</a>
 
 ; Column headings in tables
 STR_NAME                               Name
@@ -125,7 +125,7 @@ STR_PKG_INVALID                        Invalid package specified.
 STR_FUNC_INVALID                       Invalid function specified.
 STR_FUNC_PAGE_TITLE                    <span class="unimportant">function</span> <i>{NAME}</i>()
 STR_FUNC_BROWSER_TITLE                 {NAME}() function
-STR_FUNC_CLASS                         Class: <a href="class.php?name={#URLENC|NAME}">{NAME}</a>
+STR_FUNC_CLASS                         Class: <a href="class?name={#URLENC|NAME}">{NAME}</a>
 STR_FUNC_USAGE                         Usage
 STR_FUNC_ARGUMENTS                     Arguments
 STR_FUNC_RETURN_VALUE                  Return value

@@ -27,8 +27,6 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  * @tag i18n-done
  **/
 
-require_once 'functions.php';
-
 $_GET['name'] = trim($_GET['name']);
 if ($_GET['name'] == '') {
     require_once 'head.php';
@@ -68,7 +66,7 @@ if (db_num_rows($res) > 0) {
 
         // output
         echo "<div class=\"{$class}\">";
-        echo "<p><i>{$row['action']}</i> <strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><i>{$row['action']}</i> <strong><a href=\"file?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo process_inline($row['description']);
         echo '</div>';
 
@@ -99,7 +97,7 @@ if (db_num_rows($res) > 0) {
         if ($alt) $class .= '-alt';
 
         echo "<div class=\"{$class}\">";
-        echo "<p><i>{$row['action']}</i> <strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><i>{$row['action']}</i> <strong><a href=\"class?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo process_inline($row['description']);
         echo '</div>';
 
@@ -136,7 +134,7 @@ if (db_num_rows($res) > 0) {
         // display the function
         echo "<div class=\"{$class}\">";
 
-        echo "<p><i>{$row['action']}</i> <strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong> ";
+        echo "<p><i>{$row['action']}</i> <strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong> ";
         if ($row['classname']) echo str(STR_FROM_CLASS, 'class', get_object_link($row['classname']));
         if ($row['interfacename']) echo str(STR_FROM_INTERFACE, 'interface', get_object_link($row['interfacename']));
         echo "</p>";

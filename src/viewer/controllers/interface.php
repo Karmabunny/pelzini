@@ -108,9 +108,9 @@ if (db_num_rows($res) > 0) {
         }
 
         // display
-        echo "<h3>{$row['visibility']} <a href=\"function.php?id={$row['id']}\">{$row['name']}</a>";
+        echo "<h3>{$row['visibility']} <a href=\"function?id={$row['id']}\">{$row['name']}</a>";
         if ($row['classname'] != $class['name']) {
-            echo " <small>(from <a href=\"class.php?name={$row['classname']}\">{$row['classname']}</a>)</small>";
+            echo " <small>(from <a href=\"class?name={$row['classname']}\">{$row['classname']}</a>)</small>";
         }
         echo "</h3>";
 

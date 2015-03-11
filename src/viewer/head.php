@@ -27,8 +27,6 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  * @tag i18n-done
  **/
 
-require_once 'functions.php';
-
 $browser_title = 'Documentation for ' . $project['name'];
 if ($skin['page_name']) {
 	$browser_title = $skin['page_name'] . ' - ' . $browser_title;
@@ -56,10 +54,10 @@ header('Content-type: text/html; charset=UTF-8');
 
 <div class="navigation">
   <span style="float: right">
-    <a href="more_info.php"><?php echo str(STR_MORE_INFO); ?></a>
+    <a href="more_info"><?php echo str(STR_MORE_INFO); ?></a>
 
     <?php if (!isset($dvgProjectCode)): ?>
-    <form action="select_project.php" method="get">
+    <form action="select_project" method="get">
     <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
     <b><?php echo str(STR_PROJECT); ?>:</b>
     <select name="id" onchange="this.form.submit();">
@@ -79,8 +77,8 @@ header('Content-type: text/html; charset=UTF-8');
     <?php endif; ?>
   </span>
 
-  <a href="index.php"><?php echo str(STR_HOME); ?></a>
-  <a href="select_package.php"><?php echo str(STR_ALL_PACKAGES); ?></a>
+  <a href="index"><?php echo str(STR_HOME); ?></a>
+  <a href="select_package"><?php echo str(STR_ALL_PACKAGES); ?></a>
   &nbsp;
 
   <?php
@@ -99,9 +97,9 @@ while ($row = db_fetch_assoc($res)) {
     $row['name'] = htmlspecialchars($row['name']);
 
     if ($_SESSION['current_package'] == $row['id']) {
-        echo "<a href=\"select_package.php?id={$row['id']}\" class=\"on\">{$row['name']}</a> ";
+        echo "<a href=\"select_package?id={$row['id']}\" class=\"on\">{$row['name']}</a> ";
     } else {
-        echo "<a href=\"select_package.php?id={$row['id']}\">{$row['name']}</a> ";
+        echo "<a href=\"select_package?id={$row['id']}\">{$row['name']}</a> ";
     }
 }
 ?>
@@ -113,7 +111,7 @@ while ($row = db_fetch_assoc($res)) {
   <div class="box">
     <h2><?php echo str(STR_SEARCH_TITLE); ?></h2>
     <div div class="content">
-    <form action="search.php" method="get">
+    <form action="search" method="get">
       <input type="hidden" name="advanced" value="1">
 
       <p>

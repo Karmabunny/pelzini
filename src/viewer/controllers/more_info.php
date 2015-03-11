@@ -47,7 +47,7 @@ if (db_num_rows ($res) > 0) {
         $url = htmlspecialchars(urlencode($row['name']));
         $html = htmlspecialchars($row['name']);
 
-        echo "<li><a href=\"document.php?name={$url}\">{$html}</a></li>\n";;
+        echo "<li><a href=\"document?name={$url}\">{$html}</a></li>\n";;
     }
 
     echo "</ul>\n";
@@ -56,22 +56,22 @@ if (db_num_rows ($res) > 0) {
 
 
 <h3><?php echo str(STR_ADDITIONAL_DOCS); ?></h3>
-<p><b><a href="class_tree.php"><?php echo str(STR_CLASS_TREE_TITLE); ?></a></b>
+<p><b><a href="class_tree"><?php echo str(STR_CLASS_TREE_TITLE); ?></a></b>
 <br><?php echo str(STR_CLASS_TREE_DESC); ?></p>
 
 <br>
 
-<p><b><a href="authors_list.php"><?php echo str(STR_AUTHOR_LIST_TITLE); ?></a></b>
+<p><b><a href="authors_list"><?php echo str(STR_AUTHOR_LIST_TITLE); ?></a></b>
 <br><?php echo str(STR_AUTHOR_LIST_DESC); ?></p>
 
 <br>
 
-<p><b><a href="tables_list.php"><?php echo str(STR_TABLE_LIST_TITLE); ?></a></b>
+<p><b><a href="tables_list"><?php echo str(STR_TABLE_LIST_TITLE); ?></a></b>
 <br><?php echo str(STR_TABLE_LIST_DESC); ?></p>
 
 <br>
 
-<p><b><a href="tags_list.php"><?php echo str(STR_TAG_LIST_TITLE); ?></a></b>
+<p><b><a href="tags_list"><?php echo str(STR_TAG_LIST_TITLE); ?></a></b>
 <br><?php echo str(STR_TAG_LIST_DESC); ?></p>
 
 <?php

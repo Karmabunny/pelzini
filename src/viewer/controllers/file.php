@@ -76,7 +76,7 @@ if ($file['sinceid'] != null) {
     echo '<p>', str(STR_AVAIL_SINCE, 'version', get_since_version($file['sinceid'])), '</p>';
 }
 
-echo "<p><small><a href=\"file_source.php?id={$file['id']}\">", str(STR_FILE_VIEW_SOURCE), '</a></small></p>';
+echo "<p><small><a href=\"file_source?id={$file['id']}\">", str(STR_FILE_VIEW_SOURCE), '</a></small></p>';
 
 echo '<br>', process_inline($file['description']);
 
@@ -104,7 +104,7 @@ if (db_num_rows($res) > 0) {
         if ($alt) $class .= '-alt';
 
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong><a href=\"class?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo process_inline($row['description']);
         echo '</div>';
 
@@ -133,7 +133,7 @@ if (db_num_rows($res) > 0) {
         if ($alt) $class .= '-alt';
 
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong><a href=\"interface?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo process_inline($row['description']);
         echo '</div>';
 
@@ -165,7 +165,7 @@ if (db_num_rows($res) > 0) {
 
         // display the function
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo process_inline($row['description']);
         echo '</div>';
 
@@ -196,7 +196,7 @@ if (db_num_rows($res) > 0) {
 
         // display the function
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"enumeration.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong><a href=\"enumeration?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo process_inline($row['description']);
         echo '</div>';
 

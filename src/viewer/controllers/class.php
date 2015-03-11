@@ -86,9 +86,9 @@ echo "<div class=\"viewer_options\">";
 echo '<p><b>', str(STR_CLASS_PAGE), '</b></p>';
 foreach ($pages as $num => $page) {
     if ($_GET['page'] == $num) {
-        echo "<p class=\"on\"><a href=\"class.php?id={$class['id']}&page={$num}\">{$page}</a></p>";
+        echo "<p class=\"on\"><a href=\"class?id={$class['id']}&page={$num}\">{$page}</a></p>";
     } else {
-        echo "<p><a href=\"class.php?id={$class['id']}&page={$num}\">{$page}</a></p>";
+        echo "<p><a href=\"class?id={$class['id']}&page={$num}\">{$page}</a></p>";
     }
 }
 echo "</div>";
@@ -98,9 +98,9 @@ if ($_GET['page'] == 0) {
     echo "<div class=\"viewer_options\">";
     echo '<p><b>', str(STR_CLASS_OPTIONS), '</b></p>';
     if ($_GET['complete'] == 1) {
-        echo "<p class=\"on\"><a href=\"class.php?id={$class['id']}\">", str(STR_CLASS_INHERITED), "</a></p>";
+        echo "<p class=\"on\"><a href=\"class?id={$class['id']}\">", str(STR_CLASS_INHERITED), "</a></p>";
     } else {
-        echo "<p><a href=\"class.php?id={$class['id']}&complete=1\">", str(STR_CLASS_INHERITED), "</a></p>";
+        echo "<p><a href=\"class?id={$class['id']}&complete=1\">", str(STR_CLASS_INHERITED), "</a></p>";
     }
     echo "</div>";
 }
@@ -212,9 +212,9 @@ case PAGE_CLASS_GENERAL:
             }
 
             // display
-            echo "<h3>{$row['visibility']} <a href=\"function.php?id={$row['id']}\">{$row['name']}</a>";
+            echo "<h3>{$row['visibility']} <a href=\"function?id={$row['id']}\">{$row['name']}</a>";
             if ($row['classname'] != $class['name']) {
-                echo " <small>(from <a href=\"class.php?name={$row['classname']}\">{$row['classname']}</a>)</small>";
+                echo " <small>(from <a href=\"class?name={$row['classname']}\">{$row['classname']}</a>)</small>";
             }
             echo "</h3>";
 
@@ -274,16 +274,16 @@ case PAGE_CLASS_USED_BY:
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
+            echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['class'] != null) {
                 $row['class'] = htmlspecialchars($row['class']);
-                echo " <small>from class <a href=\"class.php?id={$row['classid']}\">{$row['class']}</a></small>";
+                echo " <small>from class <a href=\"class?id={$row['classid']}\">{$row['class']}</a></small>";
             }
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+            echo "<br><small>From <a href=\"file?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
             echo "</div>";
 
             $alt = ! $alt;
@@ -318,17 +318,17 @@ case PAGE_CLASS_USED_BY:
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
+            echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['class'] != null) {
                 $row['class'] = htmlspecialchars($row['class']);
-                echo " <small>from class <a href=\"class.php?id={$row['classid']}\">{$row['class']}</a></small>";
+                echo " <small>from class <a href=\"class?id={$row['classid']}\">{$row['class']}</a></small>";
             }
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
             echo "<br><small>Argument name: {$row['argname']}</small>";
-            echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small>";
+            echo "<br><small>From <a href=\"file?id={$row['fileid']}\">{$row['filename']}</a></small>";
             echo "</div>";
             echo "</div>";
 

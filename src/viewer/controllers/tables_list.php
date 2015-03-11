@@ -49,7 +49,7 @@ if (db_num_rows ($res) > 0) {
 
     echo "<ul>";
     while ($row = db_fetch_assoc ($res)) {
-        echo "<li><a href=\"table.php?name={$row['name']}\">{$row['name']}</a></li>";
+        echo "<li><a href=\"table?name={$row['name']}\">{$row['name']}</a></li>";
     }
     echo "</ul>";
 

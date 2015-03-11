@@ -47,7 +47,7 @@ if (preg_match('/^([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)$/', $_GET['q'], $matches)) {
     $num = db_num_rows($res);
     if ($num == 1) {
         $row = db_fetch_assoc($res);
-        redirect('function.php?id=' . $row['id']);
+        redirect('function?id=' . $row['id']);
     }
 }
 
@@ -107,11 +107,11 @@ if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong>";
+            echo "<p><strong><a href=\"class?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['extends'] != null) {
                 $row['extends'] = htmlspecialchars($row['extends']);
-                echo " <small>extends <a href=\"class.php?name={$row['extends']}\">{$row['extends']}</a></small>";
+                echo " <small>extends <a href=\"class?name={$row['extends']}\">{$row['extends']}</a></small>";
             }
 
             if ($row['abstract'] == 1) {
@@ -120,7 +120,7 @@ if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+            echo "<br><small>From <a href=\"file?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
             echo "</div>";
 
             $alt = ! $alt;
@@ -157,16 +157,16 @@ if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong>";
+            echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['class'] != null) {
                 $row['class'] = htmlspecialchars($row['class']);
-                echo " <small>from class <a href=\"class.php?id={$row['classid']}\">{$row['class']}</a></small>";
+                echo " <small>from class <a href=\"class?id={$row['classid']}\">{$row['class']}</a></small>";
             }
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+            echo "<br><small>From <a href=\"file?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
             echo "</div>";
 
             $alt = ! $alt;
@@ -203,12 +203,12 @@ if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong><a href=\"file.php?id={$row['fileid']}\">{$row['name']}</a></strong>";
+            echo "<p><strong><a href=\"file?id={$row['fileid']}\">{$row['name']}</a></strong>";
             echo " = <strong>{$row['value']}</strong>";
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From <a href=\"file.php?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+            echo "<br><small>From <a href=\"file?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
             echo "</div>";
 
             $alt = ! $alt;

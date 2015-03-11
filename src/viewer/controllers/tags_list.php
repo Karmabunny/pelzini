@@ -50,7 +50,7 @@ if (db_num_rows ($res) > 0) {
 
     echo "<ul>";
     while ($row = db_fetch_assoc ($res)) {
-        echo "<li><a href=\"tag.php?name={$row['name']}\">{$row['name']}</a> ({$row['num']})</li>";
+        echo "<li><a href=\"tag?name={$row['name']}\">{$row['name']}</a> ({$row['num']})</li>";
     }
     echo "</ul>";
 

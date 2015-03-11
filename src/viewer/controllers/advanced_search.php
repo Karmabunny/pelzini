@@ -35,7 +35,7 @@ require_once 'head.php';
 <h2><?php echo str(STR_ADV_SEARCH_TITLE); ?></h2>
 <p>&nbsp;</p>
 
-<form action="search.php" method="get">
+<form action="search" method="get">
   <input type="hidden" name="advanced" value="1">
 
   <p>

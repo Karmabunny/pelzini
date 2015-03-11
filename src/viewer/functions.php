@@ -76,7 +76,7 @@ function get_object_link($name)
 
     if (db_num_rows($res) != 0) {
         $row = db_fetch_assoc($res);
-        $ret = "<a href=\"class.php?id={$row['id']}\">{$name}</a>";
+        $ret = "<a href=\"class?id={$row['id']}\">{$name}</a>";
         return $ret;
     }
 
@@ -87,7 +87,7 @@ function get_object_link($name)
 
     if (db_num_rows($res) != 0) {
         $row = db_fetch_assoc($res);
-        $ret = "<a href=\"interface.php?id={$row['id']}\">{$name}</a>";
+        $ret = "<a href=\"interface?id={$row['id']}\">{$name}</a>";
         return $ret;
     }
 
@@ -98,7 +98,7 @@ function get_object_link($name)
 
     if (db_num_rows($res) != 0) {
         $row = db_fetch_assoc($res);
-        $ret = "<a href=\"function.php?id={$row['id']}\">{$name}</a>";
+        $ret = "<a href=\"function?id={$row['id']}\">{$name}</a>";
         return $ret;
     }
 
@@ -124,7 +124,7 @@ function show_authors($link_id, $link_type)
             $row['name'] = htmlspecialchars($row['name']);
             $row['email'] = htmlspecialchars($row['email']);
 
-            echo "<li><a href=\"author.php?name={$row['name']}\">{$row['name']}</a>";
+            echo "<li><a href=\"author?name={$row['name']}\">{$row['name']}</a>";
 
             if ($row['email']) {
                 echo "<br><a href=\"mailto:{$row['email']}\">{$row['email']}</a>";
@@ -159,7 +159,7 @@ function show_tables($link_id, $link_type)
             $name_url = urlencode($row['name']);
             $row['name'] = htmlspecialchars($row['name']);
 
-            echo "<li><i>{$row['action']}</i> <a href=\"table.php?name={$name_url}\">{$row['name']}</a>";
+            echo "<li><i>{$row['action']}</i> <a href=\"table?name={$name_url}\">{$row['name']}</a>";
 
             if ($row['description']) {
                 echo "<br><small>{$row['description']}</small>";
@@ -210,7 +210,7 @@ function show_tags($link_id, $link_type)
         while ($row = db_fetch_assoc ($res)) {
             $row['name'] = htmlspecialchars($row['name']);
 
-            echo " &nbsp; <a href=\"tag.php?name={$row['name']}\">{$row['name']}</a>";
+            echo " &nbsp; <a href=\"tag?name={$row['name']}\">{$row['name']}</a>";
         }
     }
 }
@@ -289,14 +289,14 @@ function process_inline_link($original_text)
             $q = "SELECT id, name FROM functions WHERE name LIKE {$text_sql} AND classid = {$class_id}";
             $res = db_query($q);
             if ($row = db_fetch_assoc($res)) {
-                return "<a href=\"function.php?id={$row['id']}\">{$link_text}</a>";
+                return "<a href=\"function?id={$row['id']}\">{$link_text}</a>";
             }
 
             // member variables
             $q = "SELECT id, name FROM variables WHERE name LIKE {$text_sql} AND classid = {$class_id}";
             $res = db_query($q);
             if ($row = db_fetch_assoc($res)) {
-                return "<a href=\"class.php?id={$class_id}#variables\">{$link_text}</a>";
+                return "<a href=\"class?id={$class_id}#variables\">{$link_text}</a>";
             }
 
             return $link_text;
@@ -307,7 +307,7 @@ function process_inline_link($original_text)
     $q = "SELECT id, name FROM classes WHERE name LIKE {$text_sql} AND projectid = {$project['id']}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
-        return "<a href=\"class.php?id={$row['id']}\">{$link_text}</a>";
+        return "<a href=\"class?id={$row['id']}\">{$link_text}</a>";
     }
 
     // Look for files
@@ -317,14 +317,14 @@ function process_inline_link($original_text)
     $q = "SELECT id, name FROM files WHERE name LIKE {$file_sql} AND projectid = {$project['id']}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
-        return "<a href=\"file.php?id={$row['id']}\">{$link_text}</a>";
+        return "<a href=\"file?id={$row['id']}\">{$link_text}</a>";
     }
 
     // Look for constants
     $q = "SELECT id, name, fileid FROM constants WHERE name LIKE {$text_sql} AND projectid = {$project['id']}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
-        return "<a href=\"file.php?id={$row['fileid']}#constants\">{$link_text}</a>";
+        return "<a href=\"file?id={$row['fileid']}#constants\">{$link_text}</a>";
     }
 
     if (substr($text, -2) == '()') {
@@ -337,7 +337,7 @@ function process_inline_link($original_text)
     if ($class_id) $q .= " AND classid = {$class_id}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
-        return "<a href=\"function.php?id={$row['id']}\">{$link_text}</a>";
+        return "<a href=\"function?id={$row['id']}\">{$link_text}</a>";
     }
 
     // Look for documents
@@ -347,7 +347,7 @@ function process_inline_link($original_text)
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
         $row['name'] = urlencode($row['name']);
-        return "<a href=\"document.php?name={$row['name']}\">{$original_text}</a>";
+        return "<a href=\"document?name={$row['name']}\">{$original_text}</a>";
     }
 
     return $original_text;

@@ -76,7 +76,7 @@ if (db_num_rows($res) > 0) {
 
         // output
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"file.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong><a href=\"file?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo delink_inline($row['description']);
         echo '</div>';
 
@@ -118,7 +118,7 @@ if (db_num_rows($res) > 0) {
         if ($alt) $class .= '-alt';
 
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"class.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong><a href=\"class?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo delink_inline($row['description']);
         echo '</div>';
 
@@ -150,7 +150,7 @@ if (db_num_rows($res) > 0) {
         if ($alt) $class .= '-alt';
 
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"interface.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong><a href=\"interface?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo delink_inline($row['description']);
         echo '</div>';
 
@@ -185,7 +185,7 @@ if (db_num_rows($res) > 0) {
 
         // display the function
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"function.php?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong></p>";
         echo delink_inline($row['description']);
         echo "</div>";
 
