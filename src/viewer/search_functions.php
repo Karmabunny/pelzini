@@ -71,7 +71,7 @@ function search_source($query, $case_sensitive = false)
             if ($alt) $class .= '-alt';
 
             echo "<div class=\"{$class}\">";
-            echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+            echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
             echo "<p>";
             echo "<strong><a href=\"file?id={$row['id']}\">{$row['filename']}</a></strong> &nbsp; ";
             echo "<small><a href=\"file_source?id={$row['id']}&keyword={$url_keyword}\">Highlighted file source</a></small>";

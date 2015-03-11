@@ -54,7 +54,7 @@ $generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a', $generated)
 
     <td align="right" style="width: 20em;">
       <a href="https://github.com/Karmabunny/pelzini">
-        <img src="images/docs_pelzini.png" width="80" height="15">
+        <img src="assets/docs_pelzini.png" width="80" height="15">
       </a>
     </td>
   </tr>

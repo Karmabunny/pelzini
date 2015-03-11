@@ -38,12 +38,11 @@ header('Content-type: text/html; charset=UTF-8');
 <html>
 <head>
   <title><?php echo $browser_title; ?></title>
-  <link href="style.css" rel="stylesheet" type="text/css">
+  <link href="assets/style.css" rel="stylesheet" type="text/css">
 
-  <script type="text/javascript" src="ajax/ajax.js"></script>
-  <script type="text/javascript" src="functions.js"></script>
+  <script type="text/javascript" src="assets/functions.js"></script>
 
-  <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
+  <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico">
 </head>
 <body>
 
