@@ -1,0 +1,12 @@
+# Turn on URL rewriting
+RewriteEngine On
+
+# If you are having trouble with the friendly urls, try this:
+# RewriteBase /your/web/dir/
+
+# Allow any files or directories that exist to be displayed directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite all other URLs to index.php
+RewriteRule .* index.php?_uri=$0 [QSA,PT,L]

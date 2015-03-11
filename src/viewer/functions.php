@@ -28,13 +28,6 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
 
-require_once 'constants.php';
-require_once 'tree.php';
-require_once 'select_query.php';
-require_once 'i18n.php';
-require_once 'init.php';
-
-
 /**
  * Fixes all magically quoted strings in the given array or string
  *
