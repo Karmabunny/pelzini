@@ -68,6 +68,24 @@ function php_documented_arguments_function ($arg1, $arg2) {
 }
 
 /**
+* The param tags don't have names
+* @param string This one is a string
+* @param int This one is an int
+**/
+function php_noname_arguments_function($arg1, $arg2) {
+  return;
+}
+
+/**
+* The param tags don't have names
+* @param $arg1 string This one is a string
+* @param $arg2 int This one is an int
+**/
+function php_reverse_order_arguments_function($arg1, $arg2) {
+  return;
+}
+
+/**
 * Contains arguments
 **/
 function php_typehint_only_arguments_function1($arg1, array $arg2) {

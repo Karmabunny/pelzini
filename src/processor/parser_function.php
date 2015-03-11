@@ -45,7 +45,7 @@ class ParserFunction extends CodeParserItem {
     {
         parent::__construct();
 
-        $this->args = array ();
+        $this->args = array();
         $this->visibility = 'public';
         $this->static = false;
         $this->final = false;
@@ -67,27 +67,37 @@ class ParserFunction extends CodeParserItem {
      **/
     public function post_load()
     {
+        $args = array();
+        foreach ($this->args as $arg) {
+            $args[$arg->name] = $arg;
+        }
+
         // Do arguments
         $params = @$this->docblock_tags['@param'];
         if ($params != null) {
-            foreach ($params as $param_tag) {
-                @list($type, $name, $desc) = preg_split('/\s+/', $param_tag, 3);
+            foreach ($params as $idx => $param_tag) {
+                $parts = preg_split('/\s+/', $param_tag, 3);
 
-                // if type was not specified, do some clever stuff
-                if ($type != '' and $type[0] == '$') {
-                    $desc = $name . ' ' . $desc;
-                    $name = $type;
-                    $type = null;
+                if (isset($args[$parts[0]])) {
+                    // name type desc
+                    $arg = $args[$parts[0]];
+                    $arg->type = $parts[1];
+                    unset($parts[0], $parts[1]);
+                    
+                } else if (isset($arg_types[$parts[1]])) {
+                    // type name desc
+                    $arg = $args[$parts[1]];
+                    $arg->type = $parts[0];
+                    unset($parts[0], $parts[1]);
+                    
+                } else {
+                    // type desc
+                    $arg = $this->args[$idx];
+                    $arg->type = $parts[0];
+                    unset($parts[0]);
                 }
-
-                // set the details for the param, if one is found that is
-                foreach ($this->args as $arg) {
-                    if ($arg->name == $name) {
-                        if ($arg->type == null) $arg->type = $type;
-                        $arg->description = htmlify_text($desc);
-                        break;
-                    }
-                }
+                
+                $arg->description = htmlify_text(implode(' ', $parts));
             }
         }
 
