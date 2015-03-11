@@ -29,3 +29,7 @@ Notes
 -----
 
  * It is possible for the processor directory and the viewer directory to reside in different areas of the filesystem if required. These two directories can even reside on different computers if nessasary. Compatibility between the viewer and the processor is only guarenteed for the same version, but may work for similar versions.
+ 
+The name
+--------
+Pelzini is loosely named after one of the sub-species of the [Dorcas gazelle](http://en.wikipedia.org/wiki/Dorcas_gazelle).
