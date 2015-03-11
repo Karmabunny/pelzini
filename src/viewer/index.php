@@ -49,7 +49,8 @@ if ($dvgDatabaseEngine == null or !file_exists("database_{$dvgDatabaseEngine}.ph
 
 // Load the database
 require_once "database_{$dvgDatabaseEngine}.php";
-db_connect();
+db_connect($dvgDatabaseSettings);
+unset($dvgDatabaseEngine, $dvgDatabaseSettings);
 
 session_start();
 
@@ -62,8 +63,9 @@ if (get_magic_quotes_gpc()) {
 // english strings, so if strings are missing, the english ones will be used instead.
 loadLanguage('english');
 if ($dvgLanguage and $dvgLanguage != 'english') {
-	loadLanguage($dvgLanguage);
+    loadLanguage($dvgLanguage);
 }
+unset($dvgLanguage);
 
 // Load project details
 if (isset($dvgProjectCode)) {
@@ -77,6 +79,8 @@ if (isset($dvgProjectCode)) {
 
 $res = db_query($q);
 $project = db_fetch_assoc($res);
+unset($q, $res);
+
 
 $parts = explode('/', trim($_GET['_uri'], ' /'));
 $controller = array_shift($parts);
@@ -93,6 +97,7 @@ if ($method == '') {
 }
 
 include_once 'controllers/' . $controller . '.php';
+
 
 /**
 * TODO: The controllers should actually be classes

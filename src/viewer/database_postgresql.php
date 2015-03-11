@@ -29,15 +29,15 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Connects to the PostgreSQL database
  **/
-function db_connect()
+function db_connect($settings)
 {
-    global $db_connection, $dvgDatabaseSettings;
+    global $db_connection, $settings;
 
     $connect = '';
-    if (isset($dvgDatabaseSettings['server'])) $connect .= "host='{$dvgDatabaseSettings['server']}' ";
-    if (isset($dvgDatabaseSettings['username'])) $connect .= "user='{$dvgDatabaseSettings['username']}' ";
-    if (isset($dvgDatabaseSettings['password'])) $connect .= "password='{$dvgDatabaseSettings['password']}' ";
-    if (isset($dvgDatabaseSettings['name'])) $connect .= "dbname='{$dvgDatabaseSettings['name']}' ";
+    if (isset($settings['server'])) $connect .= "host='{$settings['server']}' ";
+    if (isset($settings['username'])) $connect .= "user='{$settings['username']}' ";
+    if (isset($settings['password'])) $connect .= "password='{$settings['password']}' ";
+    if (isset($settings['name'])) $connect .= "dbname='{$settings['name']}' ";
 
     $db_connection = pg_connect($connect);
 }

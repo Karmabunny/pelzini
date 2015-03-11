@@ -29,17 +29,17 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Connects to the MySQL database
  **/
-function db_connect()
+function db_connect($settings)
 {
-    global $db_connection, $dvgDatabaseSettings;
+    global $db_connection;
 
     $db_connection = mysql_connect(
-        $dvgDatabaseSettings['server'],
-        $dvgDatabaseSettings['username'],
-        $dvgDatabaseSettings['password']
+        $settings['server'],
+        $settings['username'],
+        $settings['password']
     );
 
-    mysql_select_db($dvgDatabaseSettings['name'], $db_connection);
+    mysql_select_db($settings['name'], $db_connection);
 }
 
 
