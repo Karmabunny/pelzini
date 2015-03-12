@@ -427,6 +427,18 @@ function show_function_usage($function_id)
 }
 
 
+/**
+* Return a link to a given file
+*
+* @param string $filename The file to return a link for
+* @return string HTML of a complete A link to the file
+**/
+function get_file_link($filename)
+{
+    return '<a href="file?name=' . urlencode($filename) . '">' . htmlspecialchars($filename) . '</a>';
+}
+
+
 function redirect($url)
 {
 	header('Location: ' . $url);

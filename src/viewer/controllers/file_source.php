@@ -33,19 +33,9 @@ require_once 'functions.php';
 require_once 'geshi/geshi.php';
 
 
-// Determine what to show
-$id = (int) $_GET['id'];
-if ($id == 0) {
-    $name = trim($_GET['name']);
-    $name = db_escape ($name);
-    $where = "name LIKE '{$name}'";
-} else {
-    $where = "id = {$id}";
-}
-
-
 // Get the details of this file
-$q = "SELECT name, description, source FROM files WHERE {$where} LIMIT 1";
+$sql_name = db_quote($_GET['name']);
+$q = "SELECT name, description, source FROM files WHERE name = {$sql_name} LIMIT 1";
 $res = db_query ($q);
 $file = db_fetch_assoc ($res);
 

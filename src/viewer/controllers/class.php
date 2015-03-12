@@ -267,7 +267,6 @@ case PAGE_CLASS_USED_BY:
         echo '<div class="list">';
         while ($row = db_fetch_assoc ($res)) {
             $row['name'] = htmlspecialchars($row['name']);
-            $row['filename'] = htmlspecialchars($row['filename']);
 
             $class = 'item';
             if ($alt) $class .= '-alt';
@@ -283,7 +282,7 @@ case PAGE_CLASS_USED_BY:
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From <a href=\"file?id={$row['fileid']}\">{$row['filename']}</a></small></div>";
+            echo "<br><small>From ", get_file_link($row['filename']), "</small></div>";
             echo "</div>";
 
             $alt = ! $alt;
@@ -311,7 +310,6 @@ case PAGE_CLASS_USED_BY:
         echo '<div class="list">';
         while ($row = db_fetch_assoc ($res)) {
             $row['name'] = htmlspecialchars($row['name']);
-            $row['filename'] = htmlspecialchars($row['filename']);
 
             $class = 'item';
             if ($alt) $class .= '-alt';
@@ -328,7 +326,7 @@ case PAGE_CLASS_USED_BY:
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
             echo "<br><small>Argument name: {$row['argname']}</small>";
-            echo "<br><small>From <a href=\"file?id={$row['fileid']}\">{$row['filename']}</a></small>";
+            echo "<br><small>From ", get_file_link($row['filename']), "</small>";
             echo "</div>";
             echo "</div>";
 

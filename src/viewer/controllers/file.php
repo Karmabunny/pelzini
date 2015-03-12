@@ -32,22 +32,13 @@ require_once 'functions.php';
 
 
 // Determine what to show
-$id = (int) $_GET['id'];
-if ($id == 0) {
-    $name = trim($_GET['name']);
-    $name = db_escape ($name);
-    $where = "files.name LIKE '{$name}'";
-} else {
-    $where = "files.id = {$id}";
-}
-
-
+$sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
 $q->addFields('files.id, files.name, files.description, files.packageid, packages.name as package, files.sinceid');
 $q->setFrom('files');
 $q->addInnerJoin('packages ON files.packageid = packages.id');
-$q->addWhere($where);
-$q->addSinceVersionWhere();
+$q->addWhere("files.name = {$sql_name}");
+$q->addProjectWhere();
 
 $q = $q->buildQuery();
 $res = db_query ($q);
@@ -76,7 +67,7 @@ if ($file['sinceid'] != null) {
     echo '<p>', str(STR_AVAIL_SINCE, 'version', get_since_version($file['sinceid'])), '</p>';
 }
 
-echo "<p><small><a href=\"file_source?id={$file['id']}\">", str(STR_FILE_VIEW_SOURCE), '</a></small></p>';
+echo "<p><small><a href=\"file_source?name=", urlencode($file['name']), "\">", str(STR_FILE_VIEW_SOURCE), '</a></small></p>';
 
 echo '<br>', process_inline($file['description']);
 

@@ -69,14 +69,12 @@ if (db_num_rows($res) > 0) {
     $alt = false;
     echo '<div class="list content" style="display: none">';
     while ($row = db_fetch_assoc ($res)) {
-        $row['name'] = htmlspecialchars($row['name']);
-
         $class = 'item';
         if ($alt) $class .= '-alt';
 
         // output
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"file?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong>", get_file_link($row['name']), "</strong></p>";
         echo delink_inline($row['description']);
         echo '</div>';
 
