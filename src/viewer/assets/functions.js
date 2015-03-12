@@ -54,14 +54,14 @@ function hide_content(event) {
   nodes = elem.parentNode.getElementsByTagName('img');
   for (i = 0; i < nodes.length; i++) {
     if (nodes[i].className.indexOf('showhide') != -1) {
-      nodes[i].src = 'images/icon_add.png';
+      nodes[i].src = 'assets/icon_add.png';
       nodes[i].title = 'Show this result';
       nodes[i].onclick = show_content;
     }
   }
   
   // Changes the button the a +
-  elem.src = 'images/icon_add.png';
+  elem.src = 'assets/icon_add.png';
   elem.title = 'Show this result';
   elem.onclick = show_content;
 }
@@ -95,14 +95,14 @@ function show_content(event) {
   nodes = elem.parentNode.getElementsByTagName('img');
   for (i = 0; i < nodes.length; i++) {
     if (nodes[i].className.indexOf('showhide') != -1) {
-      nodes[i].src = 'images/icon_remove.png';
+      nodes[i].src = 'assets/icon_remove.png';
       nodes[i].title = 'Hide this result';
       nodes[i].onclick = hide_content;
     }
   }
   
   // Changes the button the a +
-  elem.src = 'images/icon_remove.png';
+  elem.src = 'assets/icon_remove.png';
   elem.title = 'Hide this result';
   elem.onclick = hide_content;
 }

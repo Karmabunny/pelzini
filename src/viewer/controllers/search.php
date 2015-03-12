@@ -71,7 +71,7 @@ $match_string = "#ITEM# LIKE '%{$query}%'";
 if ($_GET['case_sensitive']) $match_string = "BINARY #ITEM# LIKE '%{$query}%'";
 
 
-echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
 echo "<span style=\"float: right;\">", str(STR_SHOW_HIDE_ALL), " &nbsp;</span>";
 
 echo '<h2>', str(STR_SEARCH_TITLE), '</h2>';
@@ -105,7 +105,7 @@ if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
             if ($alt) $class .= '-alt';
 
             echo "<div class=\"{$class}\">";
-            echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+            echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
             echo "<p><strong><a href=\"class?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['extends'] != null) {
@@ -154,7 +154,7 @@ if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
             if ($alt) $class .= '-alt';
 
             echo "<div class=\"{$class}\">";
-            echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+            echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
             echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['class'] != null) {
@@ -199,7 +199,7 @@ if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
             if ($alt) $class .= '-alt';
 
             echo "<div class=\"{$class}\">";
-            echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+            echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
             echo "<p><strong>{$row['name']}</strong>";
             echo " = <strong>{$row['value']}</strong>";
 

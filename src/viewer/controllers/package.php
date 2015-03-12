@@ -64,7 +64,7 @@ $res = db_query ($q);
 if (db_num_rows($res) > 0) {
     echo '<div>';
     echo '<h3>', str(STR_FILES), '</h3>';
-    echo '<img src="images/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin-top: -40px;">';
+    echo '<img src="assets/icon_add.png" alt="" title="Show this result" onclick="show_content(event)" class="showhide" style="margin-top: -40px;">';
 
     $alt = false;
     echo '<div class="list content" style="display: none">';
@@ -105,7 +105,7 @@ if (db_num_rows($res) > 0) {
     echo '<div>';
     echo '<a name="classes"></a>';
     echo '<h3>', str(STR_CLASSES), '</h3>';
-    echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
+    echo '<img src="assets/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
 
     $alt = false;
     echo '<div class="list content">';
@@ -137,7 +137,7 @@ if (db_num_rows($res) > 0) {
     echo '<div>';
     echo '<a name="interfaces"></a>';
     echo '<h3>', str(STR_INTERFACES), '</h3>';
-    echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
+    echo '<img src="assets/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
 
     $alt = false;
     echo '<div class="list content">';
@@ -169,7 +169,7 @@ if (db_num_rows($res) > 0) {
     echo '<div>';
     echo '<a name="functions"></a>';
     echo '<h3>', str(STR_FUNCTIONS), '</h3>';
-    echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
+    echo '<img src="assets/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
 
     $alt = false;
     echo '<div class="list content">';
@@ -204,7 +204,7 @@ if (db_num_rows($res) > 0) {
     echo '<div>';
     echo '<a name="constants"></a>';
     echo '<h3>', str(STR_CONSTANTS), '</h3>';
-    echo '<img src="images/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
+    echo '<img src="assets/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
 
     echo "<table class=\"function-list content\">\n";
     echo "<tr><th>Name</th><th>Value</th><th>Description</th></tr>\n";

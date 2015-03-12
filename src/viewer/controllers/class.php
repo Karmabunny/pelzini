@@ -272,7 +272,7 @@ case PAGE_CLASS_USED_BY:
             if ($alt) $class .= '-alt';
 
             echo "<div class=\"{$class}\">";
-            echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+            echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
             echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['class'] != null) {
@@ -315,7 +315,7 @@ case PAGE_CLASS_USED_BY:
             if ($alt) $class .= '-alt';
 
             echo "<div class=\"{$class}\">";
-            echo "<img src=\"images/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+            echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
             echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['class'] != null) {
