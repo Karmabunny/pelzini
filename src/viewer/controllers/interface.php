@@ -31,23 +31,15 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'functions.php';
 
 
-// Determine what to show
-$id = (int) $_GET['id'];
-if ($id == 0) {
-    $name = trim($_GET['name']);
-    $name = db_escape ($name);
-    $where = "interfaces.name LIKE '{$name}'";
-} else {
-    $where = "interfaces.id = {$id}";
-}
-
-
-// Get the details of this class
+// Get the details of this interface
+$sql_name = db_quote($_GET['name']);
 $q = "SELECT interfaces.id, interfaces.name, interfaces.description, files.name AS filename,
   interfaces.sinceid
   FROM interfaces
   INNER JOIN files ON interfaces.fileid = files.id
-  WHERE {$where} LIMIT 1";
+  WHERE interfaces.name = {$sql_name}
+    AND interfaces.projectid = {$project['id']}
+  LIMIT 1";
 $res = db_query ($q);
 
 if (! $interface = db_fetch_assoc ($res)) {

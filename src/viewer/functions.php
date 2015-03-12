@@ -68,36 +68,27 @@ function fix_magic_quotes(&$item)
 function get_object_link($name)
 {
     global $project;
+    $sql_name = db_escape($name);
 
     // check classes
-    $sql_name = db_escape($name);
     $q = "SELECT id FROM classes WHERE name = '{$sql_name}' AND projectid = {$project['id']}";
     $res = db_query($q);
-
     if (db_num_rows($res) != 0) {
         return get_class_link($name);
     }
 
     // check interfaces
-    $sql_name = db_escape($name);
     $q = "SELECT id FROM interfaces WHERE name = '{$sql_name}' AND projectid = {$project['id']}";
     $res = db_query($q);
-
     if (db_num_rows($res) != 0) {
-        $row = db_fetch_assoc($res);
-        $ret = "<a href=\"interface?id={$row['id']}\">{$name}</a>";
-        return $ret;
+        return get_interface_link($name);
     }
 
     // check functions
-    $sql_name = db_escape($name);
     $q = "SELECT id FROM functions WHERE name = '{$sql_name}' AND classid IS NULL AND interfaceid IS NULL AND projectid = {$project['id']}";
     $res = db_query($q);
-
     if (db_num_rows($res) != 0) {
-        $row = db_fetch_assoc($res);
-        $ret = "<a href=\"function?id={$row['id']}\">{$name}</a>";
-        return $ret;
+        return '<a href="function?name=' . urlencode($name) . '">' . htmlspecialchars($name) . '</a>';
     }
 
     return $name;
@@ -447,6 +438,19 @@ function get_file_link($filename)
 function get_class_link($class, $link_text = null)
 {
     return '<a href="class?name=' . urlencode($class) . '">' . htmlspecialchars($link_text ?: $class) . '</a>';
+}
+
+
+/**
+* Return a link to a given interface
+*
+* @param string $class The name of the interface to return a link for
+* @param string $link_text Text to show on the link; defaults to the interface name
+* @return string HTML of a complete A link to the interface
+**/
+function get_interface_link($class, $link_text = null)
+{
+    return '<a href="interface?name=' . urlencode($class) . '">' . htmlspecialchars($link_text ?: $class) . '</a>';
 }
 
 
