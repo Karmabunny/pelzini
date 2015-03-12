@@ -120,17 +120,17 @@ if (db_num_rows($res) > 0) {
     $alt = false;
     echo '<div class="list">';
     while ($row = db_fetch_assoc ($res)) {
-        // encode for output
-        $row['name'] = htmlspecialchars($row['name']);
-        $row['arguments'] = htmlspecialchars($row['arguments']);
-
         $class = 'item';
         if ($alt) $class .= '-alt';
 
         // display the function
         echo "<div class=\"{$class}\">";
 
-        echo "<p><i>{$row['action']}</i> <strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong> ";
+        $classname = null;
+        if ($row['classname']) $classname = $row['classname'];
+        if ($row['interfacename']) $classname = $row['interfacename'];
+
+        echo "<p><i>{$row['action']}</i> <strong>", get_function_link($classname, $row['name']), "</strong> ";
         if ($row['classname']) echo str(STR_FROM_CLASS, 'class', get_object_link($row['classname']));
         if ($row['interfacename']) echo str(STR_FROM_INTERFACE, 'interface', get_object_link($row['interfacename']));
         echo "</p>";

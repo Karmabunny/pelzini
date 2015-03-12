@@ -268,6 +268,7 @@ function process_inline_link($original_text)
         $res = db_query($q);
         if ($row = db_fetch_assoc($res)) {
             $class_id = $row['id'];
+            $class_name = $row['name'];
 
             if (substr($member, -2) == '()') {
                 $member = trim(substr($member, 0, -2));
@@ -278,7 +279,7 @@ function process_inline_link($original_text)
             $q = "SELECT id, name FROM functions WHERE name LIKE {$text_sql} AND classid = {$class_id}";
             $res = db_query($q);
             if ($row = db_fetch_assoc($res)) {
-                return "<a href=\"function?id={$row['id']}\">{$link_text}</a>";
+                return get_function_link($class_name, $row['name'], $link_text);
             }
 
             // member variables
@@ -326,7 +327,7 @@ function process_inline_link($original_text)
     if ($class_id) $q .= " AND classid = {$class_id}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
-        return "<a href=\"function?id={$row['id']}\">{$link_text}</a>";
+        return get_function_link(null, $row['name'], $link_text);
     }
 
     // Look for documents
@@ -444,13 +445,34 @@ function get_class_link($class, $link_text = null)
 /**
 * Return a link to a given interface
 *
-* @param string $class The name of the interface to return a link for
-* @param string $link_text Text to show on the link; defaults to the interface name
+* @param string $interface The name of the interface to return a link for
 * @return string HTML of a complete A link to the interface
 **/
-function get_interface_link($class, $link_text = null)
+function get_interface_link($interface)
 {
-    return '<a href="interface?name=' . urlencode($class) . '">' . htmlspecialchars($link_text ?: $class) . '</a>';
+    return '<a href="interface?name=' . urlencode($interface) . '">' . htmlspecialchars($interface) . '</a>';
+}
+
+
+/**
+* Return a link to a given function
+*
+* @param string $class The name of the class or interface a function is a member of. Use NULL for non-class functions
+* @param string $function The name of the function to return a link for
+* @param string $link_text Text to show on the link; defaults to the function name
+* @return string HTML of a complete A link to the function
+**/
+function get_function_link($class, $function, $link_text = null)
+{
+    $out = '';
+    if ($class) {
+        $out .= '<a href="function?name=' . urlencode($function) . '&memberof=' . urlencode($class) . '">';
+    } else {
+        $out .= '<a href="function?name=' . urlencode($function) . '">';
+    }
+    $out .= htmlspecialchars($link_text ?: $function);
+    $out .= '</a>';
+    return $out;
 }
 
 

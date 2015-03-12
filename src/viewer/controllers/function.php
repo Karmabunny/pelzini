@@ -31,17 +31,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'functions.php';
 
 
-// Determine what to show
-$id = (int) $_GET['id'];
-if ($id == 0) {
-    $name = trim($_GET['name']);
-    $name = db_escape ($name);
-    $where = "functions.name LIKE '{$name}'";
-} else {
-    $where = "functions.id = {$id}";
-}
-
-
+$sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
 $q->addFields('functions.id, functions.name, functions.description, files.name AS filename, functions.classid,
   classes.name AS class, functions.static, functions.final, functions.sinceid,
@@ -49,8 +39,14 @@ $q->addFields('functions.id, functions.name, functions.description, files.name A
 $q->setFrom('functions');
 $q->addInnerJoin('files ON functions.fileid = files.id');
 $q->addLeftJoin('classes ON functions.classid = classes.id');
-$q->addWhere($where);
-$q->addSinceVersionWhere();
+$q->addLeftJoin('interfaces ON functions.interfaceid = interfaces.id');
+$q->addWhere("functions.name = {$sql_name}");
+$q->addProjectWhere();
+
+if (isset($_GET['memberof'])) {
+    $sql_name = db_quote($_GET['memberof']);
+    $q->addWhere("(classes.name = {$sql_name} OR interfaces.name = {$sql_name})");
+}
 
 $q = $q->buildQuery();
 $res = db_query ($q);

@@ -100,10 +100,7 @@ if (db_num_rows($res) > 0) {
         }
 
         // display
-        echo "<h3>{$row['visibility']} <a href=\"function?id={$row['id']}\">{$row['name']}</a>";
-        if ($row['classname'] != $class['name']) {
-            echo " <small>(from <a href=\"class?name={$row['classname']}\">{$row['classname']}</a>)</small>";
-        }
+        echo "<h3>{$row['visibility']} ", get_function_link($interface['name'], $row['name']);
         echo "</h3>";
 
         show_function_usage ($row['id']);

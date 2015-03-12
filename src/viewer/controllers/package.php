@@ -170,16 +170,12 @@ if (db_num_rows($res) > 0) {
     $alt = false;
     echo '<div class="list content">';
     while ($row = db_fetch_assoc ($res)) {
-        // encode for output
-        $row['name'] = htmlspecialchars($row['name']);
-        $row['arguments'] = htmlspecialchars($row['arguments']);
-
         $class = 'item';
         if ($alt) $class .= '-alt';
 
         // display the function
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong>", get_function_link(null, $row['name']), "</strong></p>";
         echo delink_inline($row['description']);
         echo "</div>";
 

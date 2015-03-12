@@ -201,13 +201,13 @@ case PAGE_CLASS_GENERAL:
             }
 
             // display
-            echo "<h3>{$row['visibility']} <a href=\"function?id={$row['id']}\">{$row['name']}</a>";
+            echo "<h3>{$row['visibility']} ", get_function_link($row['classname'], $row['name']);
             if ($row['classname'] != $class['name']) {
                 echo " <small>(from ", get_class_link($row['classname']), ")</small>";
             }
             echo "</h3>";
 
-            show_function_usage ($row['id']);
+            show_function_usage($row['id']);
             echo '<br>';
             echo process_inline($row['description']);
         }
@@ -255,14 +255,12 @@ case PAGE_CLASS_USED_BY:
 
         echo '<div class="list">';
         while ($row = db_fetch_assoc ($res)) {
-            $row['name'] = htmlspecialchars($row['name']);
-
             $class = 'item';
             if ($alt) $class .= '-alt';
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
+            echo "<p><strong>", get_function_link($row['class'], $row['name']), "</strong>";
 
             if ($row['class'] != null) {
                 echo " <small>from class ", get_class_link($row['class']), "</small>";
@@ -297,14 +295,12 @@ case PAGE_CLASS_USED_BY:
 
         echo '<div class="list">';
         while ($row = db_fetch_assoc ($res)) {
-            $row['name'] = htmlspecialchars($row['name']);
-
             $class = 'item';
             if ($alt) $class .= '-alt';
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
+            echo "<p><strong>", get_function_link($row['class'], $row['name']), "</strong>";
 
             if ($row['class'] != null) {
                 echo " <small>from class ", get_class_link($row['class']), "</small>";
