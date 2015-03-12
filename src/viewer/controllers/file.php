@@ -175,15 +175,12 @@ if (db_num_rows($res) > 0) {
     $alt = false;
     echo '<div class="list">';
     while ($row = db_fetch_assoc ($res)) {
-        // encode for output
-        $row['name'] = htmlspecialchars($row['name']);
-
         $class = 'item';
         if ($alt) $class .= '-alt';
 
         // display the function
         echo "<div class=\"{$class}\">";
-        echo "<p><strong><a href=\"enumeration?id={$row['id']}\">{$row['name']}</a></strong></p>";
+        echo "<p><strong><a href=\"enumeration?name=", urlencode($row['name']), "\">", htmlspecialchars($row['name']), "</a></strong></p>";
         echo process_inline($row['description']);
         echo '</div>';
 

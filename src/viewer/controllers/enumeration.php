@@ -32,22 +32,13 @@ require_once 'functions.php';
 
 
 // Determine what to show
-$id = (int) $_GET['id'];
-if ($id == 0) {
-    $name = trim($_GET['name']);
-    $name = db_escape ($name);
-    $where = "enumerations.name LIKE '{$name}'";
-} else {
-    $where = "enumerations.id = {$id}";
-}
-
-
+$sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
 $q->addFields('enumerations.id, enumerations.name, enumerations.description, enumerations.virtual, files.name AS filename, enumerations.sinceid');
 $q->setFrom('enumerations');
 $q->addInnerJoin('files ON enumerations.fileid = files.id');
-$q->addWhere($where);
-$q->addSinceVersionWhere();
+$q->addWhere("enumerations.name = {$sql_name}");
+$q->addProjectWhere();
 
 $q = $q->buildQuery();
 $res = db_query ($q);
