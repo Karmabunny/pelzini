@@ -38,5 +38,5 @@ if ($_GET['id'] == 0) {
     $_SESSION['current_project'] = $_GET['id'];
 }
 
-header('Location: ' . $_GET['redirect']);
+header('Location: index');
 ?>
