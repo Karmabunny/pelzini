@@ -99,18 +99,15 @@ if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
         $alt = false;
         echo '<div class="list">';
         while ($row = db_fetch_assoc ($res)) {
-            $row['name'] = htmlspecialchars($row['name']);
-
             $class = 'item';
             if ($alt) $class .= '-alt';
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong><a href=\"class?id={$row['id']}\">{$row['name']}</a></strong>";
+            echo "<p><strong>", get_class_link($row['name']), "</strong>";
 
             if ($row['extends'] != null) {
-                $row['extends'] = htmlspecialchars($row['extends']);
-                echo " <small>extends <a href=\"class?name={$row['extends']}\">{$row['extends']}</a></small>";
+                echo " <small>extends ", get_class_link($row['extends']), "</small>";
             }
 
             if ($row['abstract'] == 1) {
@@ -158,8 +155,7 @@ if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
             echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['class'] != null) {
-                $row['class'] = htmlspecialchars($row['class']);
-                echo " <small>from class <a href=\"class?id={$row['classid']}\">{$row['class']}</a></small>";
+                echo " <small>from class ", get_class_link($row['class']), "</small>";
             }
 
             echo "<div class=\"content\">";

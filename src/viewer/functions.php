@@ -75,9 +75,7 @@ function get_object_link($name)
     $res = db_query($q);
 
     if (db_num_rows($res) != 0) {
-        $row = db_fetch_assoc($res);
-        $ret = "<a href=\"class?id={$row['id']}\">{$name}</a>";
-        return $ret;
+        return get_class_link($name);
     }
 
     // check interfaces
@@ -296,7 +294,7 @@ function process_inline_link($original_text)
             $q = "SELECT id, name FROM variables WHERE name LIKE {$text_sql} AND classid = {$class_id}";
             $res = db_query($q);
             if ($row = db_fetch_assoc($res)) {
-                return "<a href=\"class?id={$class_id}#variables\">{$link_text}</a>";
+                return get_class_link($class, $link_text);
             }
 
             return $link_text;
@@ -307,7 +305,7 @@ function process_inline_link($original_text)
     $q = "SELECT id, name FROM classes WHERE name LIKE {$text_sql} AND projectid = {$project['id']}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
-        return "<a href=\"class?id={$row['id']}\">{$link_text}</a>";
+        return get_class_link($row['name'], $link_text);
     }
 
     // Look for files
@@ -436,6 +434,19 @@ function show_function_usage($function_id)
 function get_file_link($filename)
 {
     return '<a href="file?name=' . urlencode($filename) . '">' . htmlspecialchars($filename) . '</a>';
+}
+
+
+/**
+* Return a link to a given class
+*
+* @param string $class The name of the class to return a link for
+* @param string $link_text Text to show on the link; defaults to the class name
+* @return string HTML of a complete A link to the class
+**/
+function get_class_link($class, $link_text = null)
+{
+    return '<a href="class?name=' . urlencode($class) . '">' . htmlspecialchars($link_text ?: $class) . '</a>';
 }
 
 

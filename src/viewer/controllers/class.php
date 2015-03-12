@@ -37,29 +37,17 @@ define('PAGE_CLASS_EXTENDS',  2);
 define('PAGE_CLASS_SOURCE',   3);
 
 
-$id = (int) $_GET['id'];
 $_GET['page'] = (int) $_GET['page'];
 
 
-// Determine what to show
-if ($id == 0) {
-    $name = trim($_GET['name']);
-    if ($name == '') {
-        fatal ("<p>Invalid class name!</p>");
-    }
-    $name = db_escape ($name);
-    $where = "classes.name LIKE '{$name}'";
-} else {
-    $where = "classes.id = {$id}";
-}
-
-
 // Get the details of this class
+$sql_name = db_quote($_GET['name']);
 $q = "SELECT classes.id, classes.name, classes.description, classes.extends, files.name as filename,
   classes.final, classes.abstract, classes.sinceid, classes.projectid
   FROM classes
   INNER JOIN files ON classes.fileid = files.id
-  WHERE {$where}
+  WHERE classes.name = {$sql_name}
+    AND classes.projectid = {$project['id']}
   LIMIT 1";
 $res = db_query ($q);
 
@@ -82,13 +70,14 @@ $pages = array(
     str(STR_CLASS_PAGE_SOURCE)
 );
 
+$url_name = urlencode($class['name']);
 echo "<div class=\"viewer_options\">";
 echo '<p><b>', str(STR_CLASS_PAGE), '</b></p>';
 foreach ($pages as $num => $page) {
     if ($_GET['page'] == $num) {
-        echo "<p class=\"on\"><a href=\"class?id={$class['id']}&page={$num}\">{$page}</a></p>";
+        echo "<p class=\"on\"><a href=\"class?name={$url_name}&page={$num}\">{$page}</a></p>";
     } else {
-        echo "<p><a href=\"class?id={$class['id']}&page={$num}\">{$page}</a></p>";
+        echo "<p><a href=\"class?name={$url_name}&page={$num}\">{$page}</a></p>";
     }
 }
 echo "</div>";
@@ -98,9 +87,9 @@ if ($_GET['page'] == 0) {
     echo "<div class=\"viewer_options\">";
     echo '<p><b>', str(STR_CLASS_OPTIONS), '</b></p>';
     if ($_GET['complete'] == 1) {
-        echo "<p class=\"on\"><a href=\"class?id={$class['id']}\">", str(STR_CLASS_INHERITED), "</a></p>";
+        echo "<p class=\"on\"><a href=\"class?name={$url_name}\">", str(STR_CLASS_INHERITED), "</a></p>";
     } else {
-        echo "<p><a href=\"class?id={$class['id']}&complete=1\">", str(STR_CLASS_INHERITED), "</a></p>";
+        echo "<p><a href=\"class?name={$url_name}&complete=1\">", str(STR_CLASS_INHERITED), "</a></p>";
     }
     echo "</div>";
 }
@@ -214,7 +203,7 @@ case PAGE_CLASS_GENERAL:
             // display
             echo "<h3>{$row['visibility']} <a href=\"function?id={$row['id']}\">{$row['name']}</a>";
             if ($row['classname'] != $class['name']) {
-                echo " <small>(from <a href=\"class?name={$row['classname']}\">{$row['classname']}</a>)</small>";
+                echo " <small>(from ", get_class_link($row['classname']), ")</small>";
             }
             echo "</h3>";
 
@@ -276,8 +265,7 @@ case PAGE_CLASS_USED_BY:
             echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['class'] != null) {
-                $row['class'] = htmlspecialchars($row['class']);
-                echo " <small>from class <a href=\"class?id={$row['classid']}\">{$row['class']}</a></small>";
+                echo " <small>from class ", get_class_link($row['class']), "</small>";
             }
 
             echo "<div class=\"content\">";
@@ -319,8 +307,7 @@ case PAGE_CLASS_USED_BY:
             echo "<p><strong><a href=\"function?id={$row['id']}\">{$row['name']}</a></strong>";
 
             if ($row['class'] != null) {
-                $row['class'] = htmlspecialchars($row['class']);
-                echo " <small>from class <a href=\"class?id={$row['classid']}\">{$row['class']}</a></small>";
+                echo " <small>from class ", get_class_link($row['class']), "</small>";
             }
 
             echo "<div class=\"content\">";

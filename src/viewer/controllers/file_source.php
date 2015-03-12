@@ -35,7 +35,7 @@ require_once 'geshi/geshi.php';
 
 // Get the details of this file
 $sql_name = db_quote($_GET['name']);
-$q = "SELECT name, description, source FROM files WHERE name = {$sql_name} LIMIT 1";
+$q = "SELECT name, description, source FROM files WHERE name = {$sql_name} AND projectid = {$project['id']} LIMIT 1";
 $res = db_query ($q);
 $file = db_fetch_assoc ($res);
 
