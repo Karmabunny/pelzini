@@ -30,8 +30,8 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'functions.php';
 
 
-$_GET['id'] = (int) $_GET['id'];
-$q = "SELECT id, name FROM packages WHERE id = {$_GET['id']} LIMIT 1";
+$sql_name = db_quote($_GET['name']);
+$q = "SELECT id, name FROM packages WHERE name = {$sql_name} AND projectid = {$project['id']} LIMIT 1";
 $res = db_query($q);
 
 if (! $package = db_fetch_assoc ($res)) {

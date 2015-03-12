@@ -92,8 +92,7 @@ $q->addProjectWhere();
 $q = $q->buildQuery();
 $res = db_query($q);
 while ($row = db_fetch_assoc($res)) {
-    $row['name'] = htmlspecialchars($row['name']);
-    echo "<a href=\"package?id={$row['id']}\">{$row['name']}</a> ";
+    echo '<a href="package?name=', urlencode($row['name']), '">', htmlspecialchars($row['name']), '</a> ';
 }
 ?>
 </div>
