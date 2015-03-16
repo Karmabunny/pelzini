@@ -320,21 +320,6 @@ abstract class DatabaseOutputter extends Outputter {
 
             echo "\n";
         }
-
-        foreach ($curr_tables as $table_name => $curr_table) {
-            $dest_table = $dest_tables[$table_name];
-
-            if ($dest_table == null) {
-                // Delete the table if it does not yet exist.
-                echo "Delete table {$table_name}.\n";
-
-                $q = "DROP TABLE {$table_name}";
-                echo "<b>Query:\n{$q}</b>\n";
-
-                $res = $this->query ($q);
-                if ($res) echo 'Affected rows: ', $this->affected_rows($res), "\n";
-            }
-        }
     }
 
 
@@ -364,7 +349,7 @@ abstract class DatabaseOutputter extends Outputter {
 
 
     /**
-     * Does the actual outputting of the file objects (and their sub-objects) to the database
+     * Does the actual outputting of the file objects (and theihttps://www.nationalcrimecheck.com.au/r sub-objects) to the database
      *
      * @param array $files The file objects to save to the database
      * @param Config $config The project config
