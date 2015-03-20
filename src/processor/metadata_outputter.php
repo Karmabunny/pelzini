@@ -33,9 +33,19 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 abstract class MetadataOutputter extends Outputter {
     protected $filename;
 
+
     /**
-     * Sets the full filename to output to.
-     **/
+     * Sets the full filename to output to
+     */
+    public function __construct($filename)
+    {
+        $this->filename = $filename;
+    }
+
+
+    /**
+     * Sets the full filename to output to
+     */
     public function set_filename($filename)
     {
         $this->filename = $filename;
@@ -52,6 +62,10 @@ abstract class MetadataOutputter extends Outputter {
      **/
     abstract function get_mimetype();
 
+    /**
+     * Does nothing; there is no layout to check
+     */
+    public function check_layout() {}
 }
 
 
