@@ -248,5 +248,34 @@ class PHPFunctionTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('A new user', trim(strip_tags($file->functions[0]->return_description)));
     }
 
+
+    /**
+    * A real-life code sample which wasn't working
+    **/
+    public function testReal1() {
+        $file = $this->parse('
+            <?php
+            class Database {
+            /**
+            * Runs a query into the driver and returns the result.
+            *
+            * @param string SQL query to execute
+            * @return Database_Result
+            */
+            public function query($sql = \'\')
+            {}
+            }
+        ');
+        $this->assertCount(1, $file->classes);
+        $this->assertCount(1, $file->classes[0]->functions);
+        $func = $file->classes[0]->functions[0];
+        $this->assertEquals('query', $func->name);
+        $this->assertEquals('Database_Result', $func->return_type);
+        $this->assertEquals('Runs a query into the driver and returns the result.', trim(strip_tags($func->description)));
+        $this->assertCount(1, $func->args);
+        $this->assertEquals('$sql', $func->args[0]->name);
+        $this->assertEquals('string', $func->args[0]->type);
+        $this->assertEquals('SQL query to execute', trim(strip_tags($func->args[0]->description)));
+    }
 }
 
