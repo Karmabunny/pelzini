@@ -33,7 +33,7 @@ function db_connect($settings)
 {
     global $db_connection;
 
-    $db_connection = mysql_connect(
+    $db_connection = @mysql_connect(
         $settings['server'],
         $settings['username'],
         $settings['password']
