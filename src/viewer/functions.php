@@ -232,8 +232,9 @@ function get_since_version($version_id)
  **/
 function process_inline($text)
 {
-    $text = preg_replace('/{@link ([^}]*?)}/ie', 'process_inline_link(\'$1\')', $text);
-    $text = preg_replace('/{@see ([^}]*?)}/ie', 'process_inline_link(\'$1\')', $text);
+    $callback = 'process_inline_link';
+    $text = preg_replace_callback('/{@link ([^}]*?)}/i', $callback, $text);
+    $text = preg_replace_callback('/{@see ([^}]*?)}/i', $callback, $text);
     return $text;
 }
 
@@ -242,14 +243,16 @@ function process_inline($text)
  * Replaces the content of a @link or @see tag with its actual link.
  * The content is defines as the part after @link or @see, up to the closing curly bracket
  *
- * @param string $original_text The original content
+ * @param array $matches Matches produced by a preg_* function
  * @return string HTML for the link to the item, or plain text if no link could be found
  **/
-function process_inline_link($original_text)
+function process_inline_link(array $matches)
 {
     global $project;
 
-    list ($text, $link_text) = explode(' ', $original_text, 2);
+    $original_text = $matches[1];
+
+    @list($text, $link_text) = explode(' ', $original_text, 2);
     if ($link_text == '') $link_text = $text;
 
     $text = trim($text);
@@ -353,8 +356,9 @@ function process_inline_link($original_text)
  **/
 function delink_inline($text)
 {
-    $text = preg_replace('/{@link ([^}]*?)}/ie', 'process_inline_delink(\'$1\')', $text);
-    $text = preg_replace('/{@see ([^}]*?)}/ie', 'process_inline_delink(\'$1\')', $text);
+    $callback = 'process_inline_delink';
+    $text = preg_replace_callback('/{@link ([^}]*?)}/i', $callback, $text);
+    $text = preg_replace_callback('/{@see ([^}]*?)}/i', $callback, $text);
     return $text;
 }
 
@@ -363,14 +367,15 @@ function delink_inline($text)
  * Replaces the content of a @link or @see tag with the plain text version of the link
  * The content is defines as the part after @link or @see, up to the closing curly bracket
  *
- * @param string $original_text The original content
+ * @param array $matches Matches produced by a preg_* function
  * @return string The plain text version of a link
  **/
-function process_inline_delink($original_text)
+function process_inline_delink(array $matches)
 {
+    $original_text = $matches[1];
     $link = explode(' ', $original_text, 2);
 
-    return $link[1] ? $link[1] : $link[0];
+    return isset($link[1]) ? $link[1] : $link[0];
 }
 
 
