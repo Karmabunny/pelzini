@@ -260,5 +260,23 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('string', $func->args[0]->type);
         $this->assertEquals('SQL query to execute', trim(strip_tags($func->args[0]->description)));
     }
+
+
+    /**
+    * Return type only
+    **/
+    public function testUnicodeDescription() {
+        $file = $this->parse('
+            <?php
+            /**
+            * ÞèêéÜåäÇÉ½¼ これは何だろう
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertEquals('ÞèêéÜåäÇÉ½¼ これは何だろう', trim(strip_tags($file->functions[0]->description)));
+    }
+
 }
 
