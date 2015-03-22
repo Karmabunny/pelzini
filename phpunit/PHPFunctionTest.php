@@ -6,23 +6,13 @@ This file is part of Pelzini, released under GPL3; see LICENSE file for more inf
 For full authorship information, refer to the Git log at https://github.com/Karmabunny/pelzini
 */
 
+require_once 'PHPUnit_ParserTestCase.php';
+
 
 /**
 * Test PHP function parsing
 **/
-class PHPFunctionTest extends PHPUnit_Framework_TestCase {
-    private $parser;
-
-    protected function setUp() {
-        $this->parser = new PhpParser();
-    }
-
-    private function parse($code) {
-        $file = $this->parser->parseFile('', 'data://text/plain;base64,' . base64_encode($code));
-        $file->treeWalk('process_javadoc_tags');
-        return $file;
-    }
-
+class PHPFunctionTest extends PHPUnit_ParserTestCase {
 
     /**
     * Just confirm it generally works
