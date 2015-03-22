@@ -213,7 +213,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
 
 // source
 if (@$_GET['advanced'] == 0 or @$_GET['source'] == 'y') {
-    $results =& search_source ($_GET['q'], $_GET['case_sensitive']);
+    $results =& search_source (@$_GET['q'], @$_GET['case_sensitive']);
 }
 
 
