@@ -62,7 +62,7 @@ $geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
 $geshi->set_line_style('background: #f8f8f8;');
 
 // Line highlighting
-if ($_GET['highlight']) {
+if (!empty($_GET['highlight'])) {
     $parts = explode('-', $_GET['highlight']);
     if (count($parts) == 1) {
         $geshi->highlight_lines_extra($parts);
