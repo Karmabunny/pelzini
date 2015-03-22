@@ -108,7 +108,7 @@ while ($row = db_fetch_assoc($res)) {
 
       <p>
         <b><?php echo str(STR_SEARCH_TERM); ?></b>
-        <br><input type="text" name="q" style="width: 200px;" value="<?php echo htmlspecialchars($_GET['q']); ?>">
+        <br><input type="text" name="q" style="width: 200px;" value="<?php echo htmlspecialchars(@$_GET['q']); ?>">
       </p>
 
       <p>

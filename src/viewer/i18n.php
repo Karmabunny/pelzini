@@ -116,6 +116,7 @@ function str($string_constant)
     if ($num_args % 2 == 0) return "!! ERROR INCORECT ARGS !!";
 
     $index = 1;
+    $name = '';
     for ($index = 1; $index < func_num_args(); $index++) {
         $arg = func_get_arg($index);
 

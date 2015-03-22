@@ -68,7 +68,9 @@ $results = false;
 // #ITEM# will be replaced in the specific search query
 // for for classes, #ITEM# will become classes.name
 $match_string = "#ITEM# LIKE '%{$query}%'";
-if ($_GET['case_sensitive']) $match_string = "BINARY #ITEM# LIKE '%{$query}%'";
+if (!empty($_GET['case_sensitive'])){
+	$match_string = "BINARY #ITEM# LIKE '%{$query}%'";
+}
 
 
 echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
@@ -76,12 +78,12 @@ echo "<span style=\"float: right;\">", str(STR_SHOW_HIDE_ALL), " &nbsp;</span>";
 
 echo '<h2>', str(STR_SEARCH_TITLE), '</h2>';
 echo '<p>', str(
-    $_GET['case_sensitive'] ? STR_YOU_SEARCHED_FOR_CASE : STR_YOU_SEARCHED_FOR,
+    !empty($_GET['case_sensitive']) ? STR_YOU_SEARCHED_FOR_CASE : STR_YOU_SEARCHED_FOR,
     'term', htmlspecialchars($_GET['q'])
 ), '</p>';
 
 // classes
-if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
+if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
     $this_match_string = str_replace('#ITEM#', 'classes.name', $match_string);
     $q = "SELECT classes.id, classes.name, classes.description, classes.extends, classes.abstract, files.name as filename, classes.fileid
     FROM classes
@@ -127,7 +129,7 @@ if ($_GET['advanced'] == 0 or $_GET['classes'] == 'y') {
 
 
 // functions
-if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
+if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
     $this_match_string = str_replace('#ITEM#', 'functions.name', $match_string);
     $q = "SELECT functions.id, functions.name, functions.description, functions.classid, files.name as filename, functions.fileid, classes.name as class
     FROM functions
@@ -169,7 +171,7 @@ if ($_GET['advanced'] == 0 or $_GET['functions'] == 'y') {
 
 
 // constants
-if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
+if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
     $this_match_string = str_replace('#ITEM#', 'constants.name', $match_string);
     $q = "SELECT constants.name, constants.description, files.name as filename, constants.fileid, constants.value
     FROM constants
@@ -210,7 +212,7 @@ if ($_GET['advanced'] == 0 or $_GET['constants'] == 'y') {
 
 
 // source
-if ($_GET['advanced'] == 0 or $_GET['source'] == 'y') {
+if (@$_GET['advanced'] == 0 or @$_GET['source'] == 'y') {
     $results =& search_source ($_GET['q'], $_GET['case_sensitive']);
 }
 

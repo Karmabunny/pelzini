@@ -37,7 +37,7 @@ define('PAGE_CLASS_EXTENDS',  2);
 define('PAGE_CLASS_SOURCE',   3);
 
 
-$_GET['page'] = (int) $_GET['page'];
+$_GET['page'] = (int) @$_GET['page'];
 
 
 // Get the details of this class
@@ -86,7 +86,7 @@ echo "</div>";
 if ($_GET['page'] == 0) {
     echo "<div class=\"viewer_options\">";
     echo '<p><b>', str(STR_CLASS_OPTIONS), '</b></p>';
-    if ($_GET['complete'] == 1) {
+    if (@$_GET['complete'] == 1) {
         echo "<p class=\"on\"><a href=\"class?name={$url_name}\">", str(STR_CLASS_INHERITED), "</a></p>";
     } else {
         echo "<p><a href=\"class?name={$url_name}&complete=1\">", str(STR_CLASS_INHERITED), "</a></p>";
@@ -143,7 +143,7 @@ case PAGE_CLASS_GENERAL:
     $name = $class['name'];
     $class_names = array();
 
-    if ($_GET['complete'] == 1) {
+    if (@$_GET['complete'] == 1) {
         do {
             $class_names[] = $name;
 
@@ -176,6 +176,8 @@ case PAGE_CLASS_GENERAL:
         echo "<table class=\"function-list\">\n";
         echo '<tr><th>', str(STR_NAME), '</th><th>', str(STR_VISIBILITY), '</th><th>', str(STR_DESCRIPTION), "</th></tr>\n";
         foreach ($variables as $row) {
+        	if (!isset($row['visibility'])) $row['visibility'] = '';
+        	
             // encode for output
             $row['name'] = htmlspecialchars($row['name']);
             if ($row['description'] == null) $row['description'] = '&nbsp;';
