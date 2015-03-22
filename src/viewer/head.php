@@ -28,7 +28,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
 $browser_title = 'Documentation for ' . $project['name'];
-if ($skin['page_name']) {
+if (!empty($skin['page_name'])) {
 	$browser_title = $skin['page_name'] . ' - ' . $browser_title;
 }
 

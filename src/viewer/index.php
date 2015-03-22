@@ -82,7 +82,7 @@ $project = db_fetch_assoc($res);
 unset($q, $res);
 
 
-$parts = explode('/', trim($_GET['_uri'], ' /'));
+$parts = explode('/', trim(@$_GET['_uri'], ' /'));
 $controller = array_shift($parts);
 $method = array_shift($parts);
 
