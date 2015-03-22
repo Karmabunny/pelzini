@@ -124,6 +124,35 @@ class XmlOutputter extends MetadataOutputter {
         if ($item->final) $node->setAttribute('final', 'final');
 
         $this->create_description_node($node, $item->description);
+
+        // arguments
+        foreach ($item->args as $child) {
+            $this->process_argument($node, $child);
+        }
+
+        // return value
+        $return_node = $this->dom->createElement('return');
+        $return_node->setAttribute('type', $item->return_type);
+        $return_node->appendChild($this->dom->createTextNode(
+            trim(strip_tags($item->return_description))
+        ));
+        $node->appendChild($return_node);
+    }
+
+
+    /**
+     * Processes a function argument
+     **/
+    private function process_argument($parent_node, $item)
+    {
+        $node = $this->dom->createElement('argument');
+        $parent_node->appendChild($node);
+
+        $node->setAttribute('name', $item->name);
+        $node->setAttribute('type', $item->type);
+        $node->appendChild($this->dom->createTextNode(
+            trim(strip_tags($item->description))
+        ));
     }
 
 
@@ -170,8 +199,5 @@ class XmlOutputter extends MetadataOutputter {
         $node->appendChild ($desc);
     }
 
-
 }
 
-
-?>
