@@ -47,7 +47,7 @@ if (preg_match('/^([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)$/', $_GET['q'], $matches)) {
     $num = db_num_rows($res);
     if ($num == 1) {
         $row = db_fetch_assoc($res);
-        redirect('function?name=' . urlencode($matches[2]) . '&memberof=' . urlencode($matches[1]));
+        redirect('function?name=' . urlencode($matches[2]) . '&memberof=' . urlencode($matches[1]) . '&q=' . urlencode($_GET['q']));
     }
 }
 
