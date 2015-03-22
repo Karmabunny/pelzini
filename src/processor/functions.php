@@ -88,7 +88,7 @@ function parse_doc_comment($comment)
 
         // process special words
         if ($trimline != '' and $trimline[0] == '@') {
-            @list($word, $value) = explode(' ', $trimline, 2);
+            @list($word, $value) = preg_split('/\s+/', $trimline, 2);
 
             // tags
             if ($current != null) {

@@ -250,18 +250,19 @@ class PHPFunctionTest extends PHPUnit_Framework_TestCase {
 
 
     /**
-    * A real-life code sample which wasn't working
+    * Extra spaces around the terms
+    * Taken from a real-life example which wasn't working
     **/
-    public function testReal1() {
+    public function testWithSpaces() {
         $file = $this->parse('
             <?php
             class Database {
             /**
-            * Runs a query into the driver and returns the result.
-            *
-            * @param string SQL query to execute
-            * @return Database_Result
-            */
+             * Runs a query into the driver and returns the result.
+             *
+             * @param   string   SQL query to execute
+             * @return  Database_Result
+             */
             public function query($sql = \'\')
             {}
             }
