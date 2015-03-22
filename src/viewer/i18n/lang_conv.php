@@ -19,7 +19,7 @@ foreach ($file_lines as $line) {
     
     echo "Writing constant {$parts[0]}\n";
     $index++;
-    fwrite ($output, "define ({$parts[0]}, {$index});\n");
+    fwrite ($output, "define('{$parts[0]}', {$index});\n");
 }
 fwrite ($output, "?>\n");
 
