@@ -11,10 +11,19 @@ For full authorship information, refer to the Git log at https://github.com/Karm
 * Test dump() methods which are on various classes
 **/
 class PHPUnit_ParserTestCase extends PHPUnit_Framework_TestCase {
+    protected $lang = 'php';
     private $parser;
 
     protected function setUp() {
-        $this->parser = new PhpParser();
+        if ($this->lang == 'js') {
+            $this->parser = new JavascriptParser();
+        } else if ($this->lang == 'c') {
+            $this->parser = new CParser();
+        } else if ($this->lang == 'php') {
+            $this->parser = new PhpParser();
+        } else {
+            throw new Exception('Invalid language');
+        }
     }
 
     protected function parse($code) {

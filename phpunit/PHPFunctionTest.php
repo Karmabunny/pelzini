@@ -278,5 +278,22 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('ÞèêéÜåäÇÉ½¼ これは何だろう', trim(strip_tags($file->functions[0]->description)));
     }
 
+
+    /**
+    * Code which contains braces
+    **/
+    public function testCodeWithBraces() {
+        $file = $this->parse('
+            <?php
+            function aaa() {
+                while (true) {
+                    for ($i = 0; $i < 100; $i++) {}
+                }
+            }
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+    }
+
 }
 
