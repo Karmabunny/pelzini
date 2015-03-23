@@ -166,7 +166,7 @@ class PhpParser
 
             } else {
                 // token array
-                list($id, $text) = $token;
+                list($id, $text, $linenum) = $token;
 
                 switch ($id) {
                 case T_CURLY_OPEN:
@@ -186,6 +186,7 @@ class PhpParser
 
                 case T_FUNCTION:
                     $current_function = new ParserFunction();
+                    $current_function->linenum = $linenum;
                     if ($abstract) {
                         $current_function->abstract = true;
                         $abstract = false;
@@ -208,6 +209,7 @@ class PhpParser
 
                 case T_CLASS:
                     $current_class = new ParserClass();
+                    $current_class->linenum = $linenum;
                     if ($abstract) {
                         $current_class->abstract = true;
                         $abstract = false;
@@ -224,6 +226,7 @@ class PhpParser
 
                 case T_INTERFACE:
                     $current_class = new ParserInterface();
+                    $current_class->linenum = $linenum;
                     if ($next_comment) {
                         $current_class->applyComment($next_comment);
                         $next_comment = null;
@@ -236,6 +239,7 @@ class PhpParser
                 case T_VARIABLE:
                     if ($current_function != null) {
                         $argument = new ParserArgument();
+                        $argument->linenum = $linenum;
                         $argument->name = $text;
                         if ($param_type != null) {
                             $argument->type = $param_type;
@@ -245,6 +249,7 @@ class PhpParser
 
                     } else if (($inside_class != null) && ($inside_function == null)) {
                         $variable = new ParserVariable();
+                        $variable->linenum = $linenum;
                         $variable->name = $text;
                         $variable->visibility = $visibility ?: 'private';
                         $visibility = null;
@@ -315,7 +320,7 @@ class PhpParser
 
                     } else if (strcasecmp($text, 'define') == 0) {
                         $current_constant = new ParserConstant();
-
+                        $current_constant->linenum = $linenum;
                         if ($next_comment) {
                             $current_constant->applyComment($next_comment);
                             $next_comment = null;

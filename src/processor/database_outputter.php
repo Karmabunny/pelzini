@@ -538,6 +538,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['name'] = $this->sql_safen($function->name);
         $insert_data['description'] = $this->sql_safen($function->description);
         $insert_data['fileid'] = $file_id;
+        $insert_data['linenum'] = $this->sql_safen($function->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($function->since));
 
         // Class-specific details
@@ -630,6 +631,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['extends'] = $this->sql_safen($class->extends);
         $insert_data['visibility'] = $this->sql_safen($class->visibility);
         $insert_data['fileid'] = $file_id;
+        $insert_data['linenum'] = $this->sql_safen($class->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($class->since));
 
         if ($class->abstract) $insert_data['abstract'] = 1;
@@ -681,6 +683,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['extends'] = $this->sql_safen($interface->extends);
         $insert_data['visibility'] = $this->sql_safen($interface->visibility);
         $insert_data['fileid'] = $file_id;
+        $insert_data['linenum'] = $this->sql_safen($interface->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($interface->since));
 
 
@@ -753,6 +756,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['value'] = $this->sql_safen($constant->value);
         $insert_data['description'] = $this->sql_safen($constant->description);
         $insert_data['fileid'] = $this->sql_safen($file_id);
+        $insert_data['linenum'] = $this->sql_safen($constant->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($constant->since));
 
         if ($enumeration_id != null) {
@@ -782,6 +786,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['name'] = $this->sql_safen($enumeration->name);
         $insert_data['description'] = $this->sql_safen($enumeration->description);
         $insert_data['fileid'] = $this->sql_safen($file_id);
+        $insert_data['linenum'] = $this->sql_safen($enumeration->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($constant->since));
         $insert_data['virtual'] = $this->sql_safen($enumeration->virtual);
 

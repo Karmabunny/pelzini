@@ -40,6 +40,7 @@ abstract class CodeParserItem extends ParserItem {
     public $tables;
     public $see;
     public $info_tags;
+    public $linenum = 0;
 
     protected $docblock_tags;
 

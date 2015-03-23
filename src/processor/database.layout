@@ -23,6 +23,7 @@ PK id
   id serial notnull
   projectid largenum notnull
   fileid largenum notnull
+  linenum largenum notnull
   name string notnull
   description text
   abstract smallnum notnull
@@ -37,6 +38,7 @@ PK id
   id serial notnull
   projectid largenum notnull
   fileid largenum notnull
+  linenum largenum notnull
   name string notnull
   description text
   extends string 
@@ -57,6 +59,7 @@ PK id
   id serial notnull
   projectid largenum notnull
   fileid largenum notnull
+  linenum largenum notnull
   classid largenum
   interfaceid largenum
   name string notnull
@@ -100,6 +103,7 @@ PK id
   id serial notnull
   projectid largenum notnull
   fileid largenum notnull
+  linenum largenum notnull
   enumerationid largenum
   name string notnull
   value string notnull
@@ -120,6 +124,7 @@ PK id
   id serial notnull
   projectid largenum notnull
   fileid largenum notnull
+  linenum largenum notnull
   name string notnull
   description text
   virtual smallnum notnull
