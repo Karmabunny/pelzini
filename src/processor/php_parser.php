@@ -246,7 +246,7 @@ class PhpParser
                     } else if (($inside_class != null) && ($inside_function == null)) {
                         $variable = new ParserVariable();
                         $variable->name = $text;
-                        $variable->visibility = $visibility;
+                        $variable->visibility = $visibility ?: 'private';
                         $visibility = null;
                         if ($static) {
                             $variable->static = true;
