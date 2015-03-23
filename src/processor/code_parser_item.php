@@ -229,6 +229,7 @@ abstract class CodeParserItem extends ParserItem {
     protected function dump()
     {
         echo '<br>Authors: '; foreach ($this->authors as $a) $a->dump();
+        echo '<br>Tables: '; foreach ($this->tables as $a) $a->dump();
         echo '<br>Since: ', $this->since;
 
         //parent::dump();
