@@ -58,6 +58,8 @@ echo process_inline($file['description']);
 // Set up code highlight settings
 $geshi = new GeSHi($file['source'], 'php');
 $geshi->enable_classes();
+$geshi->set_overall_id('src-lines');
+$geshi->enable_ids();
 $geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
 $geshi->set_line_style('background: #f8f8f8;');
 

@@ -33,7 +33,8 @@ require_once 'functions.php';
 
 $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
-$q->addFields('functions.id, functions.name, functions.description, files.name AS filename, functions.classid,
+$q->addFields('functions.id, functions.name, functions.description,
+  files.name AS filename, functions.linenum, functions.classid,
   classes.name AS class, functions.static, functions.final, functions.sinceid,
   functions.returntype, functions.returndescription');
 $q->setFrom('functions');
@@ -61,14 +62,18 @@ if (! $function = db_fetch_assoc ($res)) {
 $skin['page_name'] = str(STR_FUNC_BROWSER_TITLE, 'name', $function['name']);
 require_once 'head.php';
 
-
 echo '<h2>', str(STR_FUNC_PAGE_TITLE, 'name', $function['name']), '</h2>';
 
 echo process_inline($function['description']);
 
 
 echo "<ul>";
-echo '<li>', str(STR_FILE, 'filename', $function['filename']), '</li>';
+$line = $function['linenum'];
+$start = '';
+if ($line > 5) {
+	$start = '#src-lines-' . ($line - 5);
+}
+echo '<li>File: <a href="file?name=', urlencode($function['filename']), '">', htmlspecialchars($function['filename']), '</a>, line <a href="file_source?name=', urlencode($function['filename']), "&amp;highlight={$line}{$start}\">{$line}</a></li>";
 
 if ($function['classid']) {
     echo '<li>', str(STR_FUNC_CLASS, 'name', $function['class']);
