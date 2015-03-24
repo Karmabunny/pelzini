@@ -4,4 +4,14 @@
 			<directory>phpunit/</directory>
 		</testsuite>
 	</testsuites>
+	
+	<!-- Files to inclide in code coverage -->
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">src/processor</directory>
+			<exclude>
+				<file>src/processor/main.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
 </phpunit>
