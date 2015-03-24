@@ -52,7 +52,7 @@ class VirtualEnumerationsTransformer extends Transformer {
      * @param array $parser_model The data model to transform
      * @return array The new data model, or null if there was an error
      **/
-    public function transform($parser_model)
+    public function transform(&$parser_model)
     {
         foreach ($parser_model as $item) {
             if ($item instanceof ParserFile) {
