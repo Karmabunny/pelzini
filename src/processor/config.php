@@ -31,14 +31,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  * Stores the processor configuration
  **/
 class Config {
-    private $project_name;
-    private $project_code;
-    private $license_text;
-    private $transformers = array();
-    private $outputters = array();
-    private $base_directory;
-    private $exclude_directories = array();
-    private $docs_directory;
+    protected $project_name;
+    protected $project_code;
+    protected $license_text;
+    protected $transformers = array();
+    protected $outputters = array();
+    protected $base_directory;
+    protected $exclude_directories = array();
+    protected $docs_directory;
 
 
     /**
