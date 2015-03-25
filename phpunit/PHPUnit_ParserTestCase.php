@@ -33,38 +33,46 @@ class PHPUnit_ParserTestCase extends PHPUnit_Framework_TestCase {
     }
 
     protected function completeModel() {
-        $lang = $this->lang;
         $parser_model = array();
 
-        $this->lang = 'php';
         $parser_model[] = $this->parse('
             <?php
+            /** A function
+            * @param $aa An arg
+            * @return string it is fun
+            **/
             function aaa (array $aa) {}
         ');
         $parser_model[] = $this->parse('
             <?php
+            /** A constant **/
             define("AAA", "aaa")
         ');
         $parser_model[] = $this->parse('
             <?php
-            class aaa { private $aa; function bbb() {} }
+            /** Does something
+            * @since v1 */
+            class aaa extends bbb implements ccc {
+                /** @tag aa */
+                private $aa;
+                
+                /** no params
+                * @table select pages get pages
+                */
+                function bbb() {}
+            }
         ');
         $parser_model[] = $this->parse('
             <?php
-            interface bbb { function ccc(); }
+            /** Interesting */
+            
+            /** An interface */
+            interface bbb {
+                /** A function
+                @author Josh */
+                function ccc();
+            }
         ');
-
-        $this->lang = 'js';
-        $parser_model[] = $this->parse('
-            function aaa (bb) {}
-        ');
-
-        $this->lang = 'c';
-        $parser_model[] = $this->parse('
-            void aaa (int bb) {}
-        ');
-
-        $this->lang = $lang;
 
         $doc = new ParserDocument();
         $doc->name = 'Test';

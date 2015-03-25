@@ -13,24 +13,58 @@ require_once 'Mock_Config.php';
 class SQLiteOutputterTest extends PHPUnit_ParserTestCase {
     const TEMP = '/tmp/pelzini-unit-test-result';
 
+    public function setUp() {
+        parent::setUp();
+        @unlink(self::TEMP);
+    }
+
+    public function tearDown() {
+        parent::tearDown();
+        @unlink(self::TEMP);
+    }
+
+
+    /**
+    * Just output some content
+    **/
     public function testSQLiteOutputter() {
         $parser_model = $this->completeModel();
-
         $config = new Mock_Config();
-        $outputter = new SqliteOutputter(self::TEMP);
 
+        $outputter = new SqliteOutputter(self::TEMP);
         ob_start();
         $outputter->check_layout(__DIR__ . '/../src/processor/database.layout');
         ob_end_clean();
-
         $outputter->output($parser_model, $config);
+
         $this->assertTrue(file_exists(self::TEMP));
 
         // TODO: Check XML matches what we expect
     }
 
-    public function tearDown() {
-        @unlink(self::TEMP);
+
+    /**
+    * Do an update (i.e. the same ProjectCode)
+    **/
+    public function testUpdating() {
+        $parser_model = $this->completeModel();
+        $config = new Mock_Config();
+
+        // First run
+        $outputter = new SqliteOutputter(self::TEMP);
+        ob_start();
+        $outputter->check_layout(__DIR__ . '/../src/processor/database.layout');
+        ob_end_clean();
+        $outputter->output($parser_model, $config);
+        $this->assertTrue(file_exists(self::TEMP));
+
+        // Second run
+        $outputter = new SqliteOutputter(self::TEMP);
+        ob_start();
+        $outputter->check_layout(__DIR__ . '/../src/processor/database.layout');
+        ob_end_clean();
+        $outputter->output($parser_model, $config);
+        $this->assertTrue(file_exists(self::TEMP));
     }
 
 }
