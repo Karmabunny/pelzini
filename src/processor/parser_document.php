@@ -48,8 +48,6 @@ class ParserDocument extends ParserItem {
         echo '<div style="border: 1px navy solid;">';
         echo $this->name;
         echo '<br>' . $this->description;
-
-        parent::dump();
         echo '</div>';
     }
 
