@@ -31,5 +31,47 @@ class PHPUnit_ParserTestCase extends PHPUnit_Framework_TestCase {
         $file->treeWalk('process_javadoc_tags');
         return $file;
     }
+
+    protected function completeModel() {
+        $lang = $this->lang;
+        $parser_model = array();
+
+        $this->lang = 'php';
+        $parser_model[] = $this->parse('
+            <?php
+            function aaa (array $aa) {}
+        ');
+        $parser_model[] = $this->parse('
+            <?php
+            define("AAA", "aaa")
+        ');
+        $parser_model[] = $this->parse('
+            <?php
+            class aaa { private $aa; function bbb() {} }
+        ');
+        $parser_model[] = $this->parse('
+            <?php
+            interface bbb { function ccc(); }
+        ');
+
+        $this->lang = 'js';
+        $parser_model[] = $this->parse('
+            function aaa (bb) {}
+        ');
+
+        $this->lang = 'c';
+        $parser_model[] = $this->parse('
+            void aaa (int bb) {}
+        ');
+
+        $this->lang = $lang;
+
+        $doc = new ParserDocument();
+        $doc->name = 'Test';
+        $doc->description = '<p>Test</p>';
+        $parser_model[] = $doc;
+
+        return $parser_model;
+    }
 }
 
