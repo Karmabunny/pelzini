@@ -373,20 +373,24 @@ abstract class DatabaseOutputter extends Outputter {
         $res = $this->query("SELECT id FROM projects WHERE code = {$code}");
         $row = $this->fetch_assoc($res);
         if ($row) {
+            // Update project details
             $project_id = $row['id'];
+            $update_data = array();
+            $update_data['name'] = $this->sql_safen($config->getProjectName());
+            $update_data['license'] = $this->sql_safen($config->getLicenseText());
+            $update_data['dategenerated'] = $this->sql_safen(date('Y-m-d h:i a'));
+            $this->do_update('projects', $update_data, array('id' => $project_id));
+
         } else {
+            // Insert new project
             $insert_data = array();
+            $insert_data['name'] = $this->sql_safen($config->getProjectName());
             $insert_data['code'] = $this->sql_safen($config->getProjectCode());
+            $insert_data['license'] = $this->sql_safen($config->getLicenseText());
+            $insert_data['dategenerated'] = $this->sql_safen(date('Y-m-d h:i a'));
             $this->do_insert('projects', $insert_data);
             $project_id = $this->insert_id();
         }
-
-        // Update project details
-        $update_data = array();
-        $update_data['name'] = $this->sql_safen($config->getProjectName());
-        $update_data['license'] = $this->sql_safen($config->getLicenseText());
-        $update_data['dategenerated'] = $this->sql_safen(date('Y-m-d h:i a'));
-        $this->do_update('projects', $update_data, array('id' => $project_id));
 
         // Include project id in all inserts
         $this->extra_insert_data = array(
@@ -535,6 +539,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data = array();
         $insert_data['static'] = 0;
         $insert_data['final'] = 0;
+        $insert_data['abstract'] = 0;
         $insert_data['name'] = $this->sql_safen($function->name);
         $insert_data['description'] = $this->sql_safen($function->description);
         $insert_data['fileid'] = $file_id;
