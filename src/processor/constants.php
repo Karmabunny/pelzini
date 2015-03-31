@@ -76,6 +76,7 @@ define('TOKEN_ASTERIX',               11);   // An asterix, i.e. '*'
 // Keywords
 define('TOKEN_FUNCTION',              50);   // A function definition, e.g. 'function'
 define('TOKEN_CLASS',                 51);   // A class definition, e.g. 'class'
+define('TOKEN_CONST',                 52);   // Constants stuff, e.g. 'const'
 
 // Comments
 define('TOKEN_DOCBLOCK',              100);  // A docblock comment, e.g. '/** whee */'

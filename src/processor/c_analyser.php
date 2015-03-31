@@ -84,17 +84,22 @@ class CAnalyser extends Analyser {
 
             // Find the return type
             $return_type = '';
-            $return = $this->findTokenBackwards(array(TOKEN_IDENTIFIER, TOKEN_ASTERIX), array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
+            $return = $this->findTokenBackwards(array(TOKEN_IDENTIFIER, TOKEN_ASTERIX, TOKEN_CONST), array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
             $this->setPos($this->getTokenPos());
             while ($return != null) {
                 $return_type = $return->getValue() . ' ' . $return_type;
 
-                $return = $this->findTokenBackwards(array(TOKEN_IDENTIFIER, TOKEN_ASTERIX), array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
+                $return = $this->findTokenBackwards(array(TOKEN_IDENTIFIER, TOKEN_ASTERIX, TOKEN_CONST), array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
                 $this->setPos($this->getTokenPos());
             }
 
             // Set the function return value to the value found
-            if ($return_type == '') $return_type = 'int';
+            if ($return_type == '') {
+                $return_type = 'int';
+            } else {
+                $return_type = trim($return_type);
+                $return_type = str_replace(' *', '*', $return_type);
+            }
             $parser_function->return_type = $return_type;
 
             // Find reserved words before the return type
@@ -127,7 +132,8 @@ class CAnalyser extends Analyser {
                 TOKEN_CLOSE_NORMAL_BRACKET,
                 TOKEN_IDENTIFIER,
                 TOKEN_COMMA,
-                TOKEN_ASTERIX
+                TOKEN_ASTERIX,
+                TOKEN_CONST,
             );
             $token = $function_open_bracket;
             $this->setPos($open_bracket_pos);
@@ -144,7 +150,8 @@ class CAnalyser extends Analyser {
 
                 case TOKEN_IDENTIFIER:
                 case TOKEN_ASTERIX:
-                    $arg_tokens[] = ' ' . $token->getValue();
+                case TOKEN_CONST:
+                    $arg_tokens[] = $token->getValue();
                     break;
 
                 case TOKEN_COMMA:
@@ -155,7 +162,8 @@ class CAnalyser extends Analyser {
                     if (count($arg_tokens) == 0) {
                         $arg->type = 'int';
                     } else {
-                        $arg->type = implode('', $arg_tokens);
+                        $arg->type = trim(implode(' ', $arg_tokens));
+                        $arg->type = str_replace(' *', '*', $arg->type);
                     }
 
                     $arg_tokens = array();
@@ -177,7 +185,8 @@ class CAnalyser extends Analyser {
                 if (count($arg_tokens) == 0) {
                     $arg->type = 'int';
                 } else {
-                    $arg->type = implode('', $arg_tokens);
+                    $arg->type = trim(implode(' ', $arg_tokens));
+                    $arg->type = str_replace(' *', '*', $arg->type);
                 }
             }
 

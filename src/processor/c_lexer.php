@@ -48,11 +48,15 @@ class CLexer
     );
 
     private $reserved_words = array(
-        'auto', 'break', 'case', 'const', 'continue', 'default', 'do', 'else', 'enum', 'extern',
+        'auto', 'break', 'case', 'continue', 'default', 'do', 'else', 'enum', 'extern',
         'for', 'goto', 'if', 'inline', 'register', 'restrict', 'return', 'sizeof', 'static',
         'struct', 'switch', 'typedef', 'union', 'volatile', 'while'
     );
 
+    private $token_words = array(
+        'const' => TOKEN_CONST,
+    );
+    
     private $reserved_values = array('NULL');
 
 
@@ -150,15 +154,7 @@ class CLexer
             // Search for reserved words. This list includes the future reserved words
             foreach ($this->reserved_words as $word) {
                 if (preg_match('/\G' . $word . '/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
-
-                    // Some reserved words get a specific token - basiclly anything that is understood by the analyser
-                    // everything else just gets the generic 'reserved word' token.
-                    switch ($word) {
-                    default:
-                        $tokens[] = new Token(TOKEN_RESERVED_WORD, $word);
-                        break;
-                    }
-
+                    $tokens[] = new Token(TOKEN_RESERVED_WORD, $word);
                     $offset = $matches[0][1] + strlen($matches[0][0]);
                     //echo "RESW..."; flush();
                     continue;
@@ -171,6 +167,16 @@ class CLexer
                     $tokens[] = new Token(TOKEN_RESERVED_VALUE, $value);
                     $offset = $matches[0][1] + strlen($matches[0][0]);
                     //echo "RESV..."; flush();
+                    continue;
+                }
+            }
+
+            // Search for token words - reserved words with meaning
+            foreach ($this->token_words as $word => $token_type) {
+                if (preg_match('/\G' . $word . '/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+                    $tokens[] = new Token($token_type, $word);
+                    $offset = $matches[0][1] + strlen($matches[0][0]);
+                    //echo "TOKW..."; flush();
                     continue;
                 }
             }
