@@ -5,6 +5,11 @@ Pelzini is a code documentation tool. It is planned to support many different pr
 It stores all of its documentation in a database, and the documentation is viewed dynamically. This is
 so that cool features like search can be created. Search was the main reason for the creation of Pelzini.
 
+Demo
+----
+
+You can see the (self-documenting) demo at http://pelzini-demo.karmabunny.com.au/viewer/
+
 Features
 --------
 
@@ -32,6 +37,14 @@ You can run tests using PHPUnit:
 ```shell
 phpunit
 ```
+
+Current build status on Travis CI:
+
+[![Build Status](https://travis-ci.org/Karmabunny/pelzini.svg?branch=master)](https://travis-ci.org/Karmabunny/pelzini)
+
+We've also got a tool which generates code coverage reports:
+
+http://pelzini-demo.karmabunny.com.au/coverage/index.html
 
 Notes
 -----
