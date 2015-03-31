@@ -33,7 +33,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 function processor_autoload($class)
 {
     $filename = preg_replace('/([A-Z])/', '_$1', $class);
-    $filename = __DIR__ . '/' . strtolower($filename, 1)) . '.php';
+    $filename = __DIR__ . '/' . strtolower(substr($filename, 1)) . '.php';
     if (file_exists($filename)) require_once $filename;
 }
 
