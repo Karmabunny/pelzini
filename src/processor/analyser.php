@@ -127,7 +127,9 @@ abstract class Analyser
         if (! is_array($token_types)) $token_types = array($token_types);
         if (! is_array($stop_list)) $stop_list = array($stop_list);
 
-        $pos = $this->pos + 1;
+        $pos = $this->pos;
+        if ($pos != 0) $pos++;
+
         while (true) {
             $tok = $this->tokens[$pos];
 
