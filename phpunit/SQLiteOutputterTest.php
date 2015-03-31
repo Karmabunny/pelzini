@@ -14,6 +14,9 @@ class SQLiteOutputterTest extends PHPUnit_ParserTestCase {
     const TEMP = '/tmp/pelzini-unit-test-result';
 
     public function setUp() {
+        if (!function_exists('sqlite_open')) {
+            $this->markTestSkipped('SQLite not available');
+        }
         parent::setUp();
         @unlink(self::TEMP);
     }
