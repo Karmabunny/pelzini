@@ -92,7 +92,8 @@ class ParserFunction extends CodeParserItem {
                     
                 } else {
                     // type desc
-                    $arg = $this->args[$idx];
+                    $arg = @$this->args[$idx];
+                    if (!$arg) continue;
                     if (!$arg->type) $arg->type = $parts[0];
                     unset($parts[0]);
                 }
