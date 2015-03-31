@@ -262,7 +262,7 @@ abstract class DatabaseOutputter extends Outputter {
 
 
         foreach ($dest_tables as $table_name => $dest_table) {
-            $curr_table = $curr_tables[$table_name];
+            $curr_table = @$curr_tables[$table_name];
 
             if ($curr_table === null) {
                 // Create the table if it does not yet exist.

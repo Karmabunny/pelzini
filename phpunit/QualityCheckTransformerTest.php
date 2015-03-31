@@ -27,7 +27,7 @@ class QualityCheckTransformerTest extends PHPUnit_ParserTestCase {
     public function testPerfect()
     {
         $parser_model = array($this->parse('<?php /** perfect */'));
-        $xform = new QualityCheckTransformer($required_tags);
+        $xform = new QualityCheckTransformer();
         $xform->transform($parser_model);
         $this->assertCount(1, $parser_model);
     }
