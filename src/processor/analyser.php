@@ -131,9 +131,10 @@ abstract class Analyser
         if ($pos != 0) $pos++;
 
         while (true) {
+            if (empty($this->tokens[$pos])) break;
+            
             $tok = $this->tokens[$pos];
-
-            if (! $tok or in_array($tok->getType(), $stop_list)) {
+            if (in_array($tok->getType(), $stop_list)) {
                 break;
             }
 
@@ -165,9 +166,10 @@ abstract class Analyser
 
         $pos = $this->pos - 1;
         while (true) {
+            if (empty($this->tokens[$pos])) break;
+            
             $tok = $this->tokens[$pos];
-
-            if (! $tok or in_array($tok->getType(), $stop_list)) {
+            if (in_array($tok->getType(), $stop_list)) {
                 break;
             }
 

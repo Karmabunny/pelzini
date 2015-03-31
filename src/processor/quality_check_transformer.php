@@ -38,11 +38,18 @@ class QualityCheckTransformer extends Transformer {
     private $offending_items;
     private $required_tags;
 
-    public function __construct($required_tags = null)
+
+    /**
+    * Set up the quality check transformer
+    *
+    * @param array $required_tags Docblock tags which will be reported if missing
+    **/
+    public function __construct(array $required_tags = null)
     {
         $this->required_tags = $required_tags;
-
-        if (@count($this->required_tags) == 0) $this->required_tags = array('@summary');
+        if (empty($this->required_tags)) {
+            $this->required_tags = array('@summary');
+        }
     }
 
 

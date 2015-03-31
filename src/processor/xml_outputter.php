@@ -165,8 +165,8 @@ class XmlOutputter extends MetadataOutputter {
         $parent_node->appendChild($node);
 
         $node->setAttribute('name', $item->name);
-        if ($item->abstract) $node->setAttribute('abstract', 'abstract');
-        if ($item->final) $node->setAttribute('final', 'final');
+        if (isset($item->abstract) and $item->abstract) $node->setAttribute('abstract', 'abstract');
+        if (isset($item->final) and $item->final) $node->setAttribute('final', 'final');
 
         $this->create_description_node($node, $item->description);
 
