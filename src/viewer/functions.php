@@ -411,11 +411,11 @@ function show_function_usage($function_id)
         $row['type'] = htmlspecialchars($row['type']);
         if ($row['type'] == '') $row['type'] = 'mixed';
 
-        if ($row['defaultvalue']) echo '[';
+        if ($row['defaultvalue'] !== null) echo '[';
         if ($j++ > 0) echo ', ';
 
         echo " {$row['type']} {$row['name']} ";
-        if ($row['defaultvalue']) $num_close++;
+        if ($row['defaultvalue'] !== null) $num_close++;
     }
     echo str_repeat(']', $num_close);
     echo ' );';

@@ -112,10 +112,13 @@ if (db_num_rows($res) > 0) {
     while ($row = db_fetch_assoc ($res)) {
         $row['name'] = htmlspecialchars($row['name']);
         $row['type'] = htmlspecialchars($row['type']);
-        $row['defaultvalue'] = htmlspecialchars($row['defaultvalue']);
 
         echo '<li>', get_object_link ($row['type']), " <strong>{$row['name']}</strong>";
-        if ($row['defaultvalue']) echo " = {$row['defaultvalue']}";
+        if ($row['defaultvalue'] !== null) {
+            if ($row['defaultvalue'] == '') $row['defaultvalue'] = "''";
+            $row['defaultvalue'] = htmlspecialchars($row['defaultvalue']);
+            echo " = {$row['defaultvalue']}";
+        }
         echo '<br>', process_inline ($row['description']);
         echo "</li>";
     }
