@@ -12,6 +12,9 @@ require_once 'PHPUnit_ParserTestCase.php';
 class XMLOutputterTest extends PHPUnit_ParserTestCase {
     const TEMP = '/tmp/pelzini-unit-test-result';
 
+    /**
+    * @medium
+    **/
     public function testXMLOutputter() {
         $parser_model = $this->completeModel();
 

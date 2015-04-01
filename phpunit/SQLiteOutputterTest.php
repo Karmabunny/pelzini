@@ -6,43 +6,49 @@ This file is part of Pelzini, released under GPL3; see LICENSE file for more inf
 For full authorship information, refer to the Git log at https://github.com/Karmabunny/pelzini
 */
 
-require_once 'PHPUnit_ParserTestCase.php';
-require_once 'Mock_Config.php';
+require_once 'DatabaseTestCase.php';
 
 
-class SQLiteOutputterTest extends PHPUnit_ParserTestCase {
+class SQLiteOutputterTest extends DatabaseTestCase {
     const TEMP = '/tmp/pelzini-unit-test-result';
+    private $db;
 
     public function setUp() {
-        if (!function_exists('sqlite_open')) {
-            $this->markTestSkipped('SQLite not available');
-        }
         parent::setUp();
         @unlink(self::TEMP);
     }
 
     public function tearDown() {
         parent::tearDown();
+        if ($this->db) sqlite_close($this->db);
         @unlink(self::TEMP);
     }
 
 
     /**
-    * Just output some content
+    * @return DatabaseOutputter
     **/
-    public function testSQLiteOutputter() {
-        $parser_model = $this->completeModel();
-        $config = new Mock_Config();
-
-        $outputter = new SqliteOutputter(self::TEMP);
-        ob_start();
-        $outputter->check_layout(__DIR__ . '/../src/processor/database.layout');
-        ob_end_clean();
-        $outputter->output($parser_model, $config);
-
-        $this->assertTrue(file_exists(self::TEMP));
-
-        // TODO: Check XML matches what we expect
+    protected function getOutputter() {
+        if (!function_exists('sqlite_open')) {
+            $this->markTestSkipped('SQLite not available');
+        }
+        return new SqliteOutputter(self::TEMP);
     }
 
+    /**
+    * Connect to the db
+    **/
+    protected function connect()
+    {
+        $this->db = @sqlite_open(self::TEMP);
+    }
+
+    /**
+    * Complain if a given table does not exist
+    **/
+    protected function assertTableExists($name)
+    {
+        sqlite_query('SELECT 1 FROM ' . sqlite_escape_string($name), $this->db);
+    }
 }
+
