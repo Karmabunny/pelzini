@@ -27,6 +27,7 @@ class PHPUnit_ParserTestCase extends PHPUnit_Framework_TestCase {
     }
 
     protected function parse($code) {
+        $code = trim($code);
         $file = $this->parser->parseFile('', 'data://text/plain;base64,' . base64_encode($code));
         $file->treeWalk('process_javadoc_tags');
         return $file;
