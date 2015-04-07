@@ -135,7 +135,7 @@ abstract class DatabaseOutputter extends Outputter {
     /**
      * Executes an insert query for the data provided.
      **/
-    private function do_insert($table, $data)
+    protected function do_insert($table, $data)
     {
         $data += $this->extra_insert_data;
         $q = "INSERT INTO {$table} (";
@@ -150,7 +150,7 @@ abstract class DatabaseOutputter extends Outputter {
     /**
      * Executes an insert query for the data provided.
      **/
-    private function do_multiple_insert($table, $data)
+    protected function do_multiple_insert($table, $data)
     {
         if (count($data) == 0) return;
 
@@ -171,7 +171,7 @@ abstract class DatabaseOutputter extends Outputter {
     /**
      * Executes an update query for the data provided.
      **/
-    private function do_update($table, $data, $where)
+    protected function do_update($table, $data, $where)
     {
         $q = "UPDATE {$table} SET ";
         $j = 0;

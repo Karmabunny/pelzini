@@ -134,6 +134,17 @@ class SqliteOutputter extends DatabaseOutputter {
 
 
     /**
+     * SQLite doesn't support multiple insert, so run each insert as a separate query
+     **/
+    protected function do_multiple_insert($table, $data)
+    {
+        foreach ($data as $row) {
+            $this->do_insert($table, $row);
+        }
+    }
+
+
+    /**
      * Returns an array of the tables in this database
      **/
     protected function get_table_list()
@@ -178,6 +189,34 @@ class SqliteOutputter extends DatabaseOutputter {
         }
     }
 
+
+    /**
+     * Updates the database layout to match the layout file
+     * NOTE: currently only supports column and table adding and updating, not removal.
+     *
+     * @param string $layout_filename The name of the layout file to match
+     **/
+    public function check_layout($layout_filename)
+    {
+        // Unfortunately, SQLite is a bit light-on when it comes to getting information
+        // back about tables and columns
+        // Thus, instead of doing a re-sync, we'll just try to wipe the db instead.
+
+        if ($this->db) sqlite_close($this->db);
+
+        $fp = @fopen($this->filename, 'wb');
+        if ($fp) {
+            ftruncate($fp, 0);
+            fclose($fp);
+        }
+
+        $this->db = @sqlite_open($this->filename);
+        if ($this->db == false) {
+            throw new Exception('Failed to reconnect to db');
+        }
+
+        parent::check_layout($layout_filename);
+    }
 
     /**
      * Should return a multi-dimentional array of the column details
