@@ -416,6 +416,7 @@ abstract class DatabaseOutputter extends Outputter {
         $this->query("DELETE FROM item_info_tags WHERE projectid = {$project_id}");
 
         // get all of the unique package names, and create packages
+        $needs_default_package = false;
         $packages = array();
         foreach ($files as $file) {
             if (!empty($file->package)) {
