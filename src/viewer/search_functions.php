@@ -73,8 +73,8 @@ function search_source($query, $case_sensitive = false)
             echo "<div class=\"{$class}\">";
             echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
             echo "<p>";
-            echo "<strong><a href=\"file?id={$row['id']}\">{$row['filename']}</a></strong> &nbsp; ";
-            echo "<small><a href=\"file_source?id={$row['id']}&keyword={$url_keyword}\">Highlighted file source</a></small>";
+            echo "<strong><a href=\"file?name={$row['filename']}\">{$row['filename']}</a></strong> &nbsp; ";
+            echo "<small><a href=\"file_source?name={$row['filename']}&keyword={$url_keyword}\">Highlighted file source</a></small>";
             echo "</p>\n";
 
             // Finds the lines, and highlights the term
@@ -86,8 +86,8 @@ function search_source($query, $case_sensitive = false)
                     $line = htmlspecialchars($line);
                     $line = preg_replace($regex_search, "<span class=\"highlight\">\$1</span>", $line);
 
-                    $source_url = "file_source?id={$row['id']}&highlight={$num}";
-                    if ($num > 5) $source_url .= '#line' . ($num - 5);
+                    $source_url = "file_source?name={$row['filename']}&highlight={$num}";
+                    if ($num > 5) $source_url .= '#src-lines-' . ($num - 5);
 
                     $num_lines++;
 
