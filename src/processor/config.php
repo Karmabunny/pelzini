@@ -63,6 +63,13 @@ class Config {
             return false;
         }
 
+        // Don't allow chars which will mess up the friendly urls.
+        if (preg_match('/[^-_A-Za-z0-9]/', $dpgProjectCode)) {
+            echo "ERROR:\nInvalid characters for '\$dpgProjectCode' specified.\n";
+            echo "Valid characters are A-Z, a-z, 0-9, dash and underscore.\n";
+            return false;
+        }
+
         if (@count($dpgOutputters) == 0) {
             echo "ERROR:\nRequired config option '\$dpgOutputters' not set.\n";
             return false;
