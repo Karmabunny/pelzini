@@ -56,7 +56,6 @@ $q = new SelectQuery();
 $q->addFields('files.id, files.name, files.description');
 $q->setFrom('files');
 $q->addWhere("files.packageid = {$package['id']}");
-$q->addSinceVersionWhere();
 
 $q = $q->buildQuery();
 $res = db_query ($q);

@@ -150,18 +150,5 @@ class SelectQuery
         $this->addWhere("{$this->from}.projectid = {$project['id']}");
     }
 
-    /**
-     * Adds the required WHERE clauses for checking the since version of this item matches what is required
-     **/
-    public function addSinceVersionWhere()
-    {
-        if (empty($_SESSION['current_version'])) return;
-
-        $this->addWhere("({$this->from}.sinceid >= {$_SESSION['current_version']} OR {$this->from}.sinceid IS NULL)");
-    }
-
-
 }
 
-
-?>

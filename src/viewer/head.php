@@ -86,7 +86,6 @@ $q->setFrom('files');
 $q->addInnerJoin('packages ON files.packageid = packages.id');
 $q->setGroupBy('packages.id');
 $q->setOrderBy('packages.name');
-$q->addSinceVersionWhere();
 $q->addProjectWhere();
 
 $q = $q->buildQuery();
