@@ -55,7 +55,6 @@ header('Content-type: text/html; charset=UTF-8');
   <span style="float: right">
     <a href="more_info"><?php echo str(STR_MORE_INFO); ?></a>
 
-    <?php if (!isset($dvgProjectCode)): ?>
     <form action="select_project" method="get">
     <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
     <b><?php echo str(STR_PROJECT); ?>:</b>
@@ -73,7 +72,6 @@ header('Content-type: text/html; charset=UTF-8');
       ?>
     </select>
     </form>
-    <?php endif; ?>
   </span>
 
   <a href="index"><?php echo str(STR_HOME); ?></a>

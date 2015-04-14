@@ -68,10 +68,7 @@ if ($dvgLanguage and $dvgLanguage != 'english') {
 unset($dvgLanguage);
 
 // Load project details
-if (isset($dvgProjectCode)) {
-    $project_code = db_quote($dvgProjectCode);
-    $q = "SELECT id, name, license, dategenerated FROM projects WHERE code = {$project_code} LIMIT 1";
-} else if (isset($_SESSION['current_project'])) {
+if (isset($_SESSION['current_project'])) {
     $q = "SELECT id, name, license, dategenerated FROM projects WHERE id = {$_SESSION['current_project']} LIMIT 1";
 } else {
     $q = "SELECT id, name, license, dategenerated FROM projects WHERE name != '' AND code != '' ORDER BY id LIMIT 1";
