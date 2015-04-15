@@ -52,8 +52,6 @@ require_once "database_{$dvgDatabaseEngine}.php";
 db_connect($dvgDatabaseSettings);
 unset($dvgDatabaseEngine, $dvgDatabaseSettings);
 
-session_start();
-
 if (get_magic_quotes_gpc()) {
     $_POST = fix_magic_quotes($_POST);
     $_GET = fix_magic_quotes($_GET);
