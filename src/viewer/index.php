@@ -65,11 +65,13 @@ if ($dvgLanguage and $dvgLanguage != 'english') {
 }
 unset($dvgLanguage);
 
+// Split URL into parts
 $parts = explode('/', trim(@$_GET['_uri'], ' /'));
+$parts = array_filter($parts);
 
 // Load the project from the first URL segment
 if (count($parts) != 0) {
-	$code = db_quote($parts[0]);
+    $code = db_quote($parts[0]);
     $q = "SELECT id, name, license, dategenerated, code FROM projects WHERE code = {$code} ORDER BY id LIMIT 1";
     $res = db_query($q);
     if (db_num_rows($res) > 0) {
@@ -79,26 +81,25 @@ if (count($parts) != 0) {
     unset($q, $res);
 }
 
-// It it's not, redirect to the first project found
+// If no project is found in the first URL segment, ask the user
 if (!isset($project)) {
-    $q = "SELECT code FROM projects WHERE name != '' AND code != '' LIMIT 1";
-    $res = db_query($q);
-    $project = db_fetch_assoc($res);
-    redirect($project['code'] . '/index');
-}
+    $controller = 'choose_project';
+    $method = 'index';
 
-// Grab controller from URL
-$controller = array_shift($parts);
-$controller = preg_replace('/[^_a-zA-Z0-9]/', '', $controller);
-if ($controller == '') {
-	$controller = 'index';
-}
+} else {
+    // Grab controller from URL
+    $controller = array_shift($parts);
+    $controller = preg_replace('/[^_a-zA-Z0-9]/', '', $controller);
+    if ($controller == '') {
+        $controller = 'index';
+    }
 
-// And also the method
-$method = array_shift($parts);
-$method = preg_replace('/[^_a-zA-Z0-9]/', '', $method);
-if ($method == '') {
-	$method = 'index';
+    // And also the method
+    $method = array_shift($parts);
+    $method = preg_replace('/[^_a-zA-Z0-9]/', '', $method);
+    if ($method == '') {
+        $method = 'index';
+    }
 }
 
 // Determine base path

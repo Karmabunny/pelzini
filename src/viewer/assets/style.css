@@ -76,6 +76,22 @@ div.container {
   padding: 0px;
 }
 
+div.project-selector {
+  width: 500px;
+  margin: 20px auto;
+}
+
+div.project-selector a {
+  display: block;
+  padding: 10px 15px;
+  margin: 3px 0;
+  background: #eee;
+}
+
+div.project-selector a:hover {
+  background: #ddd;
+}
+
 
 table.footer {
   background-color: #eee;
