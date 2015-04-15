@@ -67,31 +67,44 @@ if ($dvgLanguage and $dvgLanguage != 'english') {
 }
 unset($dvgLanguage);
 
-// Load project details
-if (isset($_SESSION['current_project'])) {
-    $q = "SELECT id, name, license, dategenerated FROM projects WHERE id = {$_SESSION['current_project']} LIMIT 1";
-} else {
-    $q = "SELECT id, name, license, dategenerated FROM projects WHERE name != '' AND code != '' ORDER BY id LIMIT 1";
+$parts = explode('/', trim(@$_GET['_uri'], ' /'));
+
+// Load the project from the first URL segment
+if (count($parts) != 0) {
+	$code = db_quote($parts[0]);
+    $q = "SELECT id, name, license, dategenerated, code FROM projects WHERE code = {$code} ORDER BY id LIMIT 1";
+    $res = db_query($q);
+    if (db_num_rows($res) > 0) {
+        $project = db_fetch_assoc($res);
+        array_shift($parts);
+    }
+    unset($q, $res);
 }
 
-$res = db_query($q);
-$project = db_fetch_assoc($res);
-unset($q, $res);
+// It it's not, redirect to the first project found
+if (!isset($project)) {
+    $q = "SELECT code FROM projects WHERE name != '' AND code != '' LIMIT 1";
+    $res = db_query($q);
+    $project = db_fetch_assoc($res);
+    redirect($project['code'] . '/index');
+}
 
-
-$parts = explode('/', trim(@$_GET['_uri'], ' /'));
+// Grab controller from URL
 $controller = array_shift($parts);
-$method = array_shift($parts);
-
 $controller = preg_replace('/[^_a-zA-Z0-9]/', '', $controller);
-$method = preg_replace('/[^_a-zA-Z0-9]/', '', $method);
-
 if ($controller == '') {
 	$controller = 'index';
 }
+
+// And also the method
+$method = array_shift($parts);
+$method = preg_replace('/[^_a-zA-Z0-9]/', '', $method);
 if ($method == '') {
 	$method = 'index';
 }
+
+// Determine base path
+$base_path = dirname($_SERVER['SCRIPT_NAME']) . '/' . $project['code'] . '/';
 
 include_once 'controllers/' . $controller . '.php';
 

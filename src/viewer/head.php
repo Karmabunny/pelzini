@@ -37,12 +37,13 @@ header('Content-type: text/html; charset=UTF-8');
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-  <title><?php echo $browser_title; ?></title>
-  <link href="assets/style.css" rel="stylesheet" type="text/css">
+    <title><?php echo $browser_title; ?></title>
 
-  <script type="text/javascript" src="assets/functions.js"></script>
+    <base href="<?php echo htmlspecialchars($base_path); ?>">
 
-  <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico">
+    <link href="../assets/style.css" rel="stylesheet" type="text/css">
+    <script src="../assets/functions.js" type="text/javascript"></script>
+    <link href="../assets/favicon.ico" rel="icon" type="image/vnd.microsoft.icon" >
 </head>
 <body>
 
@@ -55,18 +56,18 @@ header('Content-type: text/html; charset=UTF-8');
   <span style="float: right">
     <a href="more_info"><?php echo str(STR_MORE_INFO); ?></a>
 
-    <form action="select_project" method="get">
+    <form action="select_project" method="post">
     <input type="hidden" name="redirect" value="<?php echo $_SERVER['REQUEST_URI']; ?>">
     <b><?php echo str(STR_PROJECT); ?>:</b>
-    <select name="id" onchange="this.form.submit();">
+    <select name="code" onchange="this.form.submit();">
       <?php
-      $q = "SELECT id, name FROM projects WHERE name != '' AND code != '' ORDER BY id";
+      $q = "SELECT id, code, name FROM projects WHERE name != '' AND code != '' ORDER BY name";
       $res = db_query($q);
       while ($row = db_fetch_assoc ($res)) {
-          if ($_SESSION['current_project'] == $row['id']) {
-              echo "<option value=\"{$row['id']}\" selected>{$row['name']}</option>\n";
+          if ($project['id'] == $row['id']) {
+              echo "<option value=\"{$row['code']}\" selected>{$row['name']}</option>\n";
           } else {
-              echo "<option value=\"{$row['id']}\">{$row['name']}</option>\n";
+              echo "<option value=\"{$row['code']}\">{$row['name']}</option>\n";
           }
       }
       ?>

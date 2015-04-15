@@ -29,14 +29,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 require_once 'functions.php';
 
 
-$_GET['id'] = (int) $_GET['id'];
+$url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . '/' . $_POST['code'];
 
-if ($_GET['id'] == 0) {
-    unset ($_SESSION['current_project']);
+header('Location: ' . $url);
 
-} else {
-    $_SESSION['current_project'] = $_GET['id'];
-}
-
-header('Location: index');
-?>
