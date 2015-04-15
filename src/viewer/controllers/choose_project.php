@@ -18,15 +18,19 @@ You should have received a copy of the GNU General Public License
 along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/**
- * Selects a version as the 'current version'
- *
- * @package Viewer
- * @author Josh Heidenreich
- * @since 0.1
- **/
+$q = "SELECT id, code, name FROM projects WHERE name != '' AND code != '' ORDER BY name";
+$res = db_query($q);
 
-$show_navigation = false;
+if (db_num_rows($res) == 0) {
+    die('No projects found in database');
+
+} else if (db_num_rows($res) == 1) {
+    // Only one? Redirect
+    $row = db_fetch_assoc($res);
+    header('Location: ' . dirname($_SERVER['SCRIPT_NAME']) . '/' . $row['code'] . '/');
+    exit;
+}
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -47,9 +51,7 @@ $show_navigation = false;
 
 <div class="project-selector">
     <?php
-    $q = "SELECT id, code, name FROM projects WHERE name != '' AND code != '' ORDER BY name";
-    $res = db_query($q);
-    while ($row = db_fetch_assoc ($res)) {
+    while ($row = db_fetch_assoc($res)) {
         echo "<a href=\"{$row['code']}\">{$row['name']}</option>\n";
     }
     ?>
