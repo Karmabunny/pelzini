@@ -147,7 +147,7 @@ case PAGE_CLASS_GENERAL:
         do {
             $class_names[] = $name;
 
-            $result = load_class($name);
+            $result = load_class($project['id'], $name);
             if ($result == null) break;
 
             list ($funcs, $vars, $parent) = $result;
@@ -159,7 +159,7 @@ case PAGE_CLASS_GENERAL:
         } while ($name != null);
 
     } else {
-        list ($functions, $variables) = load_class($name);
+        list($functions, $variables) = load_class($project['id'], $name);
     }
 
     ksort($functions);
@@ -355,16 +355,21 @@ require_once 'foot.php';
 
 
 /**
- * Returns an array of
+ * @param int $project_id
+ * @param string $name
+ * @return array
  * [0] => functions
  * [1] => variables
- * [2] => parent class
+ * [2] => name of parent class
  **/
-function load_class($name)
+function load_class($project_id, $name)
 {
+    $project_id = (int) $project_id;
+
     // determine parent class
     $name = db_escape ($name);
-    $q = "SELECT id, extends FROM classes WHERE name LIKE '{$name}'";
+    $q = "SELECT id, extends FROM classes
+        WHERE projectid = {$project_id} AND name LIKE '{$name}'";
     $res = db_query($q);
     if (db_num_rows ($res) == 0) {
         return null;
