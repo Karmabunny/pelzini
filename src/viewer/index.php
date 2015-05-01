@@ -100,10 +100,10 @@ if (!isset($project)) {
     if ($method == '') {
         $method = 'index';
     }
+    
+    // Determine base path
+    $base_path = dirname($_SERVER['SCRIPT_NAME']) . '/' . $project['code'] . '/';
 }
-
-// Determine base path
-$base_path = dirname($_SERVER['SCRIPT_NAME']) . '/' . $project['code'] . '/';
 
 include_once 'controllers/' . $controller . '.php';
 
