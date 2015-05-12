@@ -175,9 +175,9 @@ class Token
 	/**
 	 * Increment the "current" line number. New tokens have a line number set to this figure.
 	 **/
-	public static function setIncrLineNum()
+	public static function setIncrLineNum($incr = 1)
 	{
-		self::$curr_linenum++;
+		self::$curr_linenum += $incr;
 	}
 	
 	
