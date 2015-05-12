@@ -75,7 +75,15 @@ class JavascriptLexer
         $length = strlen($source);
         $tokens = array();
 
+		Token::setCurrLineNum(1);
         while ($offset < $length) {
+
+			if (preg_match('/\G(\n|\r|\n\r)/', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
+                Token::setIncrLineNum();
+                $offset = $matches[0][1] + strlen($matches[0][0]);
+                //echo "LINE..."; flush();
+                continue;
+            }
 
             // Firstly, look for single character tokens
             // Should this be common for all lexers?

@@ -78,6 +78,7 @@ class JavascriptAnalyser extends Analyser {
             $name = $this->findTokenForwards(TOKEN_IDENTIFIER);
             if ($name == null) return false;
             $parser_function->name = $name->getValue();
+            $parser_function->linenum = $name->getLineNum();
 
             // Look for a docblock
             $docblock = $this->findTokenBackwards(TOKEN_DOCBLOCK, array(TOKEN_CLOSE_CURLY_BRACKET));
