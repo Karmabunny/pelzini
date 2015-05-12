@@ -131,9 +131,13 @@ class Token
 {
     private $type;
     private $value;
+	private $linenum;
 
+	static $curr_linenum = 1;
+	
     public function __construct($type, $value = null)
     {
+    	$this->linenum = self::$curr_linenum;
         $this->type = $type;
         $this->value = $value;
     }
@@ -154,6 +158,35 @@ class Token
     public function getValue()
     {
         return $this->value;
+    }
+
+
+	/**
+	 * Set the "current" line number. New tokens have a line number set to this figure.
+	 *
+	 * @param int $line
+	 **/
+	public static function setCurrLineNum($line)
+	{
+		self::$curr_linenum = $line;
+	}
+
+
+	/**
+	 * Increment the "current" line number. New tokens have a line number set to this figure.
+	 **/
+	public static function setIncrLineNum()
+	{
+		self::$curr_linenum++;
+	}
+	
+	
+	/**
+     * Gets the line number this toekn
+     **/
+    public function getLineNum()
+    {
+        return $this->linenum;
     }
 
 
