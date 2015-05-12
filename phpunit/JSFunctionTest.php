@@ -28,6 +28,7 @@ class JSFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertCount(1, $file->functions);
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertCount(0, $file->functions[0]->args);
+        $this->assertEquals(1, $file->functions[0]->linenum);
         $this->assertCount(0, $file->classes);
         $this->assertCount(0, $file->constants);
         $this->assertCount(0, $file->enumerations);
@@ -46,6 +47,7 @@ class JSFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertCount(1, $file->functions);
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertEquals('Does something', trim(strip_tags($file->functions[0]->description)));
+        $this->assertEquals(2, $file->functions[0]->linenum);
     }
 
 }
