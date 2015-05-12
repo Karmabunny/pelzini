@@ -49,6 +49,38 @@ class JSFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('Does something', trim(strip_tags($file->functions[0]->description)));
         $this->assertEquals(2, $file->functions[0]->linenum);
     }
+    
+    
+    /**
+    * Line number calcs seem out of whack, investigating.
+    **/
+    public function testFunctionLineNum() {
+        $file = $this->parse('
+			/*
+			* aa
+			* bb
+			*/
+			
+			// one line comment
+			
+			/**
+			* a
+			**/
+            function aaa() {
+            	var aa = "this is
+            		a multiline
+            		string";
+                return 0;
+            }
+            
+            function bbb() {
+            	return 0;
+            }
+        ');
+        $this->assertCount(2, $file->functions);
+        $this->assertEquals(11, $file->functions[0]->linenum);
+        $this->assertEquals(18, $file->functions[1]->linenum);
+    }
 
 }
 
