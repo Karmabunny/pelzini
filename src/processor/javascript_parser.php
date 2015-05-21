@@ -56,6 +56,15 @@ class JavascriptParser
         $source = @file_get_contents($base_dir . $filename);
         if ($source == null) return null;
 
+		// Simple "minified" detection
+		// These don't have useful comments, and sometimes crash the parser as well
+		$num_lines = substr_count($source, "\n") + 1;
+		$num_chars = strlen($source);
+		$avg_line_length = $num_chars / $num_lines;
+		if ($avg_line_length > 200) {
+			return null;
+		}
+		
         $tokens = $this->lexer->process($source);
         if ($tokens === null) return null;
 
