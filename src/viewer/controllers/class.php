@@ -170,14 +170,13 @@ case PAGE_CLASS_GENERAL:
     // Determine a list of variables and functions
     $functions = array();
     $variables = array();
-    $name = $class['name'];
-    $class_names = array();
 
     if (@$_GET['complete'] == 1) {
+    	$name = $class['name'];
+    	$filename = $class['filename'];
+    	
         do {
-            $class_names[] = $name;
-
-            $result = load_class($project['id'], $name);
+            $result = load_class($project['id'], $name, $filename);
             if ($result == null) break;
 
             list ($funcs, $vars, $parent) = $result;
@@ -186,10 +185,11 @@ case PAGE_CLASS_GENERAL:
             $variables = array_merge($vars, $variables);
 
             $name = $parent;
+            $filename = null;
         } while ($name != null);
 
     } else {
-        list($functions, $variables) = load_class($project['id'], $name);
+        list($functions, $variables) = load_class($project['id'], $class['name'], $class['filename']);
     }
 
     ksort($functions);
@@ -387,21 +387,31 @@ require_once 'foot.php';
 /**
  * @param int $project_id
  * @param string $name
+ * @param string $filename
  * @return array
  * [0] => functions
  * [1] => variables
  * [2] => name of parent class
  **/
-function load_class($project_id, $name)
+function load_class($project_id, $name, $filename = null)
 {
     $project_id = (int) $project_id;
 
     // determine parent class
-    $name = db_escape ($name);
-    $q = "SELECT id, extends FROM classes
-        WHERE projectid = {$project_id} AND name LIKE '{$name}'";
+    $name_sql = db_escape($name);
+    $q = "SELECT classes.id, classes.extends
+    	FROM classes
+    	INNER JOIN files ON classes.fileid = files.id
+        WHERE classes.projectid = {$project_id}
+          AND classes.name LIKE '{$name_sql}'";
+    
+    if ($filename) {
+    	$name_sql = db_escape($filename);
+    	$q .= " AND files.name = '{$name_sql}'";
+    }
+    
     $res = db_query($q);
-    if (db_num_rows ($res) == 0) {
+    if (db_num_rows($res) != 1) {
         return null;
     }
 
