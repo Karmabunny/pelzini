@@ -62,8 +62,8 @@ header('Content-type: text/html; charset=UTF-8');
     <select name="code" onchange="this.form.submit();">
       <?php
       $q = "SELECT id, code, name FROM projects WHERE name != '' AND code != '' ORDER BY name";
-      $res = db_query($q);
-      while ($row = db_fetch_assoc ($res)) {
+      $_res = db_query($q);
+      while ($row = db_fetch_assoc($_res)) {
           if ($project['id'] == $row['id']) {
               echo "<option value=\"{$row['code']}\" selected>{$row['name']}</option>\n";
           } else {
@@ -88,8 +88,8 @@ $q->setOrderBy('packages.name');
 $q->addProjectWhere();
 
 $q = $q->buildQuery();
-$res = db_query($q);
-while ($row = db_fetch_assoc($res)) {
+$_res = db_query($q);
+while ($row = db_fetch_assoc($_res)) {
     echo '<a href="package?name=', urlencode($row['name']), '">', htmlspecialchars($row['name']), '</a> ';
 }
 ?>
