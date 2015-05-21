@@ -40,23 +40,53 @@ define('PAGE_CLASS_SOURCE',   3);
 $_GET['page'] = (int) @$_GET['page'];
 
 
-// Get the details of this class
 $sql_name = db_quote($_GET['name']);
-$q = "SELECT classes.id, classes.name, classes.description, classes.extends, files.name as filename,
-  classes.final, classes.abstract, classes.sinceid, classes.projectid
-  FROM classes
-  INNER JOIN files ON classes.fileid = files.id
-  WHERE classes.name = {$sql_name}
-    AND classes.projectid = {$project['id']}
-  LIMIT 1";
-$res = db_query ($q);
+$q = new SelectQuery();
+$q->addFields('classes.id, classes.name, classes.description, classes.extends, files.name as filename,
+  classes.final, classes.abstract, classes.sinceid, classes.projectid');
+$q->setFrom('classes');
+$q->addInnerJoin('files ON classes.fileid = files.id');
+$q->addWhere("classes.name = {$sql_name}");
+$q->addProjectWhere();
 
-if (! $class = db_fetch_assoc ($res)) {
+if (isset($_GET['file'])) {
+    $sql_name = db_quote($_GET['file']);
+    $q->addWhere("files.name = {$sql_name}");
+}
+
+$q = $q->buildQuery();
+$res = db_query($q);
+
+if (db_num_rows($res) == 0) {
     require_once 'head.php';
     echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
     echo '<p>', str(STR_CLASS_INVALID), '</p>';
     require_once 'foot.php';
+
+} else if (db_num_rows($res) > 1) {
+	require_once 'head.php';
+    echo '<h2>', str(STR_MULTIPLE_TITLE, 'NUM', db_num_rows($res), 'TYPE', strtolower(str(STR_CLASSES))), '</h2>';
+    
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc($res)) {
+    	$name_parts = array();
+    	$name_parts[] = str(STR_IN_FILE, 'VAL', $row['filename']);
+    	
+    	$url = 'class?name=' . htmlspecialchars($_GET['name']) . '&file=' . urlencode($row['filename']);
+    	
+    	echo '<div class="item">';
+		echo '<p><strong><a href="', htmlspecialchars($url), '">', htmlspecialchars($row['name']), '</a></strong></p>';
+		echo '<pre>', ucfirst(implode(', ', $name_parts)), '</pre>';
+		echo '</div>';
+    }
+    echo '</div>';
+    
+    require_once 'foot.php';
+    
+} else {
+	$class = db_fetch_assoc($res);
 }
+
 
 $skin['page_name'] = str(STR_CLASS_BROWSER_TITLE, 'name', $class['name']);
 require_once 'head.php';

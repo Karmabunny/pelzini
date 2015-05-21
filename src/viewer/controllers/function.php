@@ -35,7 +35,7 @@ $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
 $q->addFields('functions.id, functions.name, functions.description,
   files.name AS filename, functions.linenum, functions.classid,
-  classes.name AS class, functions.static, functions.final, functions.sinceid,
+  classes.name AS class, interfaces.name AS interface, functions.static, functions.final, functions.sinceid,
   functions.returntype, functions.returndescription');
 $q->setFrom('functions');
 $q->addInnerJoin('files ON functions.fileid = files.id');
@@ -49,14 +49,50 @@ if (isset($_GET['memberof'])) {
     $q->addWhere("(classes.name = {$sql_name} OR interfaces.name = {$sql_name})");
 }
 
+if (isset($_GET['file'])) {
+    $sql_name = db_quote($_GET['file']);
+    $q->addWhere("files.name = {$sql_name}");
+}
+
 $q = $q->buildQuery();
 $res = db_query ($q);
 
-if (! $function = db_fetch_assoc ($res)) {
+if (db_num_rows($res) == 0) {
     require_once 'head.php';
     echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
     echo '<p>', str(STR_FUNC_INVALID), '</p>';
     require_once 'foot.php';
+    
+} else if (db_num_rows($res) > 1) {
+	require_once 'head.php';
+    echo '<h2>', str(STR_MULTIPLE_TITLE, 'NUM', db_num_rows($res), 'TYPE', strtolower(str(STR_FUNCTIONS))), '</h2>';
+    
+    echo '<div class="list">';
+    while ($row = db_fetch_assoc($res)) {
+    	$name_parts = array();
+    	$name_parts[] = str(STR_IN_FILE, 'VAL', $row['filename']);
+    	
+    	$url = 'function?name=' . htmlspecialchars($_GET['name']) . '&file=' . urlencode($row['filename']);
+    	
+    	if ($row['class']) {
+    		$url .= '&memberof=' . urlencode($row['class']);
+    		$name_parts[] = str(STR_IN_CLASS, 'VAL', $row['class']);
+    	} else if ($row['interface']) {
+    		$url .= '&memberof=' . urlencode($row['interface']);
+    		$name_parts[] = str(STR_IN_INTERFACE, 'VAL', $row['class']);
+    	}
+    	
+    	echo '<div class="item">';
+		echo '<p><strong><a href="', htmlspecialchars($url), '">', htmlspecialchars($row['name']), '</a></strong></p>';
+		echo '<pre>', ucfirst(implode(', ', $name_parts)), '</pre>';
+		echo '</div>';
+    }
+    echo '</div>';
+    
+    require_once 'foot.php';
+    
+} else {
+	$function = db_fetch_assoc($res);
 }
 
 $skin['page_name'] = str(STR_FUNC_BROWSER_TITLE, 'name', $function['name']);
