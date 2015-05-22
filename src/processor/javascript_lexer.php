@@ -74,6 +74,7 @@ class JavascriptLexer
         $offset = 0;
         $length = strlen($source);
         $tokens = array();
+        $junk = array();
 
 		Token::setCurrLineNum(1);
         while ($offset < $length) {
@@ -102,7 +103,7 @@ class JavascriptLexer
             if (preg_match('/\G\/\*\*(.+?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
                 $tokens[] = new Token(TOKEN_DOCBLOCK, $matches[0][0]);
                 $offset = $matches[0][1] + strlen($matches[0][0]);
-                Token::setIncrLineNum(preg_match_all('/\n|\r|\n\r/', $matches[0][0]));
+                Token::setIncrLineNum(preg_match_all('/\n|\r|\n\r/', $matches[0][0], $junk));
                 continue;
             }
 
@@ -110,7 +111,7 @@ class JavascriptLexer
             if (preg_match('/\G\/\*(.+?)\*\//s', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
                 $tokens[] = new Token(TOKEN_COMMENT, $matches[0][0]);
                 $offset = $matches[0][1] + strlen($matches[0][0]);
-                Token::setIncrLineNum(preg_match_all('/\n|\r|\n\r/', $matches[0][0]));
+                Token::setIncrLineNum(preg_match_all('/\n|\r|\n\r/', $matches[0][0], $junk));
                 continue;
             }
 
@@ -126,7 +127,7 @@ class JavascriptLexer
             if (preg_match('/\G"([^\"]|\.)*"/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
                 $tokens[] = new Token(TOKEN_STRING, $matches[0][0]);
                 $offset = $matches[0][1] + strlen($matches[0][0]);
-                Token::setIncrLineNum(preg_match_all('/\n|\r|\n\r/', $matches[0][0]));
+                Token::setIncrLineNum(preg_match_all('/\n|\r|\n\r/', $matches[0][0], $junk));
                 continue;
             }
 
@@ -134,7 +135,7 @@ class JavascriptLexer
             if (preg_match('/\G\'([^\\\']|\.)*\'/i', $source, $matches, PREG_OFFSET_CAPTURE, $offset)) {
                 $tokens[] = new Token(TOKEN_STRING, $matches[0][0]);
                 $offset = $matches[0][1] + strlen($matches[0][0]);
-                Token::setIncrLineNum(preg_match_all('/\n|\r|\n\r/', $matches[0][0]));
+                Token::setIncrLineNum(preg_match_all('/\n|\r|\n\r/', $matches[0][0], $junk));
                 continue;
             }
 
