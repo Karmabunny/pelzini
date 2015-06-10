@@ -170,7 +170,7 @@ class MysqlOutputter extends DatabaseOutputter {
         switch ($internal_type_name) {
         case 'serial': return 'SERIAL';
         case 'smallnum': return 'SMALLINT UNSIGNED';
-        case 'largenum': return 'INT UNSIGNED';
+        case 'largenum': return 'BIGINT UNSIGNED';
         case 'string': return 'VARCHAR(255)';
         case 'text': return 'MEDIUMTEXT';
         default:
@@ -212,17 +212,17 @@ class MysqlOutputter extends DatabaseOutputter {
             switch ($row['Type']) {
             case 'smallint unsigned': $row['Type'] = 'smallnum'; break;
             case 'smallint': $row['Type'] = 'smallnum'; break;
+            case 'bigint unsigned':
+                $row['Type'] = 'largenum';
+                if ($row['NotNull'] and stripos('auto_increment', $row['Extra']) !== false) {
+                    $row['Type'] = 'serial';
+                }
+                break;
+            case 'bigint': $row['Type'] = 'largenum'; break;
             case 'int unsigned': $row['Type'] = 'largenum'; break;
             case 'int': $row['Type'] = 'largenum'; break;
             case 'varchar': $row['Type'] = 'string'; break;
             case 'mediumtext': $row['Type'] = 'text'; break;
-            }
-
-            // SERIAL takes a touch more thinking
-            if (strcasecmp('bigint unsigned', $row['Type']) == 0
-                and $row['NotNull']
-                and stripos('auto_increment', $row['Extra']) !== false) {
-                $row['Type'] = 'serial';
             }
 
             unset ($row['Extra'], $row['Default']);
