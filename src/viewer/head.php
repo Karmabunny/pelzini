@@ -117,6 +117,11 @@ while ($row = db_fetch_assoc($_res)) {
         <br><label><input type="checkbox" name="source" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['source'] == 'y') echo 'checked'; ?>> <?php echo str(STR_SOURCE_CODE); ?></label>
       </p>
 
+      <p>
+        <b><?php echo str(STR_SEARCH_PATH); ?></b>
+        <br><input type="text" name="path" style="width: 200px;" value="<?php echo htmlspecialchars(@$_GET['path']); ?>">
+      </p>
+
       <p style="text-align: right;">
         <input type="submit" value="<?php echo str (STR_SEARCH_GO_BTN); ?>">
       </p>

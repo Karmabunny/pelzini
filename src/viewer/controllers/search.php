@@ -31,6 +31,7 @@ require_once 'functions.php';
 require_once 'search_functions.php';
 
 $_GET['q'] = @trim($_GET['q']);
+$_GET['path'] = @trim($_GET['path']);
 
 // class::method -> redirect to function page
 if (preg_match('/^([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)$/', $_GET['q'], $matches)) {
@@ -54,7 +55,7 @@ if (preg_match('/^([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)$/', $_GET['q'], $matches)) {
 $skin['page_name'] = str(STR_SEARCH_TITLE);
 require_once 'head.php';
 
-if ($_GET['q'] == '') {
+if ($_GET['q'] == '' and $_GET['path'] == '') {
 	echo '<p>You must specify a search term.</p>';
 	require_once 'foot.php';
 	exit;
@@ -70,6 +71,12 @@ $results = false;
 $match_string = "#ITEM# LIKE '%{$query}%'";
 if (!empty($_GET['case_sensitive'])){
 	$match_string = "BINARY #ITEM# LIKE '%{$query}%'";
+}
+
+$extra_where = '1';
+if (!empty($_GET['path'])) {
+    $path = db_escape($_GET['path']);
+    $extra_where = "files.name LIKE '%{$path}%'";
 }
 
 
@@ -90,6 +97,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
     INNER JOIN files ON classes.fileid = files.id
     WHERE {$this_match_string}
       AND classes.projectid = {$project['id']}
+      AND {$extra_where}
     ORDER BY IF(classes.name = '{$query}', 1, 2), classes.name";
 
     $res = db_query ($q);
@@ -137,6 +145,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
     LEFT JOIN classes ON functions.classid = classes.id
     WHERE {$this_match_string}
       AND functions.projectid = {$project['id']}
+      AND {$extra_where}
     ORDER BY functions.name";
     $res = db_query ($q);
     $num = db_num_rows ($res);
@@ -178,6 +187,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
     INNER JOIN files ON constants.fileid = files.id
     WHERE {$this_match_string}
       AND constants.projectid = {$project['id']}
+      AND {$extra_where}
     ORDER BY constants.name";
     $res = db_query ($q);
     $num = db_num_rows ($res);
@@ -213,7 +223,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
 
 // source
 if (@$_GET['advanced'] == 0 or @$_GET['source'] == 'y') {
-    $results = search_source(@$_GET['q'], @$_GET['case_sensitive']);
+    $results = search_source(@$_GET['q'], @$_GET['case_sensitive'], @$_GET['path']);
 }
 
 

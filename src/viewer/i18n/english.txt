@@ -55,6 +55,7 @@ STR_DESCRIPTION                        Description
 STR_SEARCH_TITLE                       Search documentation
 STR_SEARCH_GO_BTN                      Search
 STR_SEARCH_TERM                        Search term:
+STR_SEARCH_PATH                        Path or filename:
 STR_ADV_SEARCH_TITLE                   Advanced search
 STR_WHAT_SEARCH                        What to search:
 STR_YOU_SEARCHED_FOR                   You searched for "<b>{TERM}</b>" (not case sensitive).

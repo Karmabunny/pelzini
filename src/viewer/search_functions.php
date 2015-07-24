@@ -35,7 +35,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @return boolean True if some results were found, false if nothing was found
  **/
-function search_source($query, $case_sensitive = false)
+function search_source($query, $case_sensitive = false, $path_contains = null)
 {
     global $project;
 
@@ -45,10 +45,14 @@ function search_source($query, $case_sensitive = false)
     $this_match_string = "files.source LIKE '%" . db_escape($query) . "%'";
     if ($case_sensitive) $this_match_string = "BINARY files.source LIKE '%" . db_escape($query) . "%'";
 
+    $extra_where = '1';
+    if (!empty($path_contains)) $extra_where = "files.name LIKE '%" . db_escape($path_contains) . "%'";
+
     $q = "SELECT files.id, files.name AS filename, files.source
     FROM files
     WHERE {$this_match_string}
       AND files.projectid = {$project['id']}
+      AND {$extra_where}
     ORDER BY files.name";
     $res = db_query ($q);
     $num_files = db_num_rows ($res);
