@@ -65,12 +65,19 @@ $geshi->set_line_style('background: #f8f8f8;');
 
 // Line highlighting
 if (!empty($_GET['highlight'])) {
-    $parts = explode('-', $_GET['highlight']);
-    if (count($parts) == 1) {
-        $geshi->highlight_lines_extra($parts);
-    } else if (count($parts) == 2) {
-        $geshi->highlight_lines_extra(range($parts[0], $parts[1]));
+    $line_numbers = array();
+
+    $parts = explode(',', $_GET['highlight']);
+    foreach ($parts as $line) {
+        $line = explode('-', $line);
+        if (count($line) == 1) {
+            $line_numbers[] = $line[0];
+        } else if (count($line) == 2) {
+            $line_numbers[] = array_merge($line_numbers, range($line[0], $line[1]));
+        }
     }
+
+    $geshi->highlight_lines_extra($line_numbers);
 }
 
 // Output highlighted code
