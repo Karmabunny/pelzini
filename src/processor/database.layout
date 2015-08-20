@@ -15,6 +15,7 @@ PK id
   description text
   source text
   packageid largenum
+  namespace string
   sinceid largenum
   
   

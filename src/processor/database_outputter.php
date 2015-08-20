@@ -473,6 +473,10 @@ abstract class DatabaseOutputter extends Outputter {
                 $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($item->since));
                 $insert_data['packageid'] = $package;
 
+                if ($item->namespace) {
+                    $insert_data['namespace'] = $this->sql_safen(implode('\\', $item->namespace));
+                }
+
                 $this->do_insert('files', $insert_data);
                 $file_id = $this->insert_id ();
 
