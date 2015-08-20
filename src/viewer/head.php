@@ -76,23 +76,6 @@ header('Content-type: text/html; charset=UTF-8');
   </span>
 
   <a href="index"><?php echo str(STR_HOME); ?></a>
-  &nbsp;
-
-  <?php
-$q = new SelectQuery();
-$q->addFields('packages.id, packages.name');
-$q->setFrom('files');
-$q->addInnerJoin('packages ON files.packageid = packages.id');
-$q->setGroupBy('packages.id');
-$q->setOrderBy('packages.name');
-$q->addProjectWhere();
-
-$q = $q->buildQuery();
-$_res = db_query($q);
-while ($row = db_fetch_assoc($_res)) {
-    echo '<a href="package?name=', urlencode($row['name']), '">', htmlspecialchars($row['name']), '</a> ';
-}
-?>
 </div>
 
 <table class="main">

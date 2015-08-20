@@ -38,9 +38,7 @@ class PHPCodeRenderer
      **/
     public function drawClassExtends($class_id)
     {
-        global $package;
-
-        $q = "SELECT name FROM classes WHERE id = {$class_id} AND packageid = {$package['id']}";
+        $q = "SELECT name FROM classes WHERE id = {$class_id}";
         $res = db_query ($q);
         if (! $res) return;
         $class = db_fetch_assoc ($res);
