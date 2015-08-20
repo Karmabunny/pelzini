@@ -32,6 +32,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 class ParserFile extends CodeParserItem {
     public $name;
     public $description;
+    public $namespace;
     public $package;
     public $functions;
     public $classes;
@@ -47,6 +48,7 @@ class ParserFile extends CodeParserItem {
         $this->classes = array();
         $this->constants = array();
         $this->enumerations = array();
+        $this->namespace = null;
         $this->package = null;
     }
 
