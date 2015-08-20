@@ -466,31 +466,34 @@ abstract class DatabaseOutputter extends Outputter {
                 if ($package == null) $package = $default_id;
                 $package = $this->sql_safen($package);
 
+                if ($item->namespace) {
+                    $file_namespace = implode('\\', $item->namespace);
+                } else {
+                    $file_namespace = null;
+                }
+
                 $insert_data = array();
                 $insert_data['name'] = $this->sql_safen($item->name);
                 $insert_data['description'] = $this->sql_safen($item->description);
                 $insert_data['source'] = $this->sql_safen($item->source);
                 $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($item->since));
                 $insert_data['packageid'] = $package;
-
-                if ($item->namespace) {
-                    $insert_data['namespace'] = $this->sql_safen(implode('\\', $item->namespace));
-                }
+                $insert_data['namespace'] = $this->sql_safen($file_namespace);
 
                 $this->do_insert('files', $insert_data);
                 $file_id = $this->insert_id ();
 
                 // this files functions
                 foreach ($item->functions as $function) {
-                    $this->save_function ($function, $file_id);
+                    $this->save_function($function, $file_id, null, null, $file_namespace);
                 }
 
                 // this files classes
                 foreach ($item->classes as $class) {
                     if ($class instanceof ParserClass) {
-                        $this->save_class ($class, $file_id);
+                        $this->save_class($class, $file_id, $file_namespace);
                     } else if ($class instanceof ParserInterface) {
-                        $this->save_interface ($class, $file_id);
+                        $this->save_interface($class, $file_id, $file_namespace);
                     }
                 }
 
@@ -535,7 +538,7 @@ abstract class DatabaseOutputter extends Outputter {
      * @table insert functions Adds the function details
      * @table insert arguments Adds the arguments for this function
      **/
-    private function save_function($function, $file_id, $class_id = null, $interface_id = null)
+    private function save_function($function, $file_id, $class_id, $interface_id, $file_namespace)
     {
         // Ignore closures
         if ($function->name == null) return;
@@ -550,6 +553,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['fileid'] = $file_id;
         $insert_data['linenum'] = $this->sql_safen($function->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($function->since));
+        $insert_data['namespace'] = $this->sql_safen($file_namespace);
 
         // Class-specific details
         if ($class_id != null) {
@@ -630,7 +634,7 @@ abstract class DatabaseOutputter extends Outputter {
      * @table insert classes Adds the class information for this class
      * @table insert class_implements Adds the interfaces that this class extends
      **/
-    private function save_class($class, $file_id)
+    private function save_class($class, $file_id, $file_namespace)
     {
         // prepare the data for inserting
         $insert_data = array();
@@ -643,6 +647,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['fileid'] = $file_id;
         $insert_data['linenum'] = $this->sql_safen($class->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($class->since));
+        $insert_data['namespace'] = $this->sql_safen($file_namespace);
 
         if ($class->abstract) $insert_data['abstract'] = 1;
         if ($class->final) $insert_data['final'] = 1;
@@ -663,7 +668,7 @@ abstract class DatabaseOutputter extends Outputter {
 
         // process functions
         foreach ($class->functions as $function) {
-            $this->save_function($function, $file_id, $class_id);
+            $this->save_function($function, $file_id, $class_id, null, $file_namespace);
         }
 
         // process variables
@@ -684,7 +689,7 @@ abstract class DatabaseOutputter extends Outputter {
      *
      * @table insert interfaces
      **/
-    private function save_interface($interface, $file_id)
+    private function save_interface($interface, $file_id, $file_namespace)
     {
         // prepare the data for inserting
         $insert_data = array();
@@ -695,7 +700,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['fileid'] = $file_id;
         $insert_data['linenum'] = $this->sql_safen($interface->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($interface->since));
-
+        $insert_data['namespace'] = $this->sql_safen($file_namespace);
 
         // Build and process query from prepared data
         $this->do_insert('interfaces', $insert_data);
@@ -704,7 +709,7 @@ abstract class DatabaseOutputter extends Outputter {
 
         // process functions
         foreach ($interface->functions as $function) {
-            $this->save_function ($function, $file_id, null, $interface_id);
+            $this->save_function ($function, $file_id, null, $interface_id, $file_namespace);
         }
 
         // insert common items

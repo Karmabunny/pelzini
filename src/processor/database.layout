@@ -26,6 +26,7 @@ PK id
   fileid largenum notnull
   linenum largenum notnull
   name string notnull
+  namespace string
   description text
   abstract smallnum notnull
   extends string
@@ -41,8 +42,9 @@ PK id
   fileid largenum notnull
   linenum largenum notnull
   name string notnull
+  namespace string
   description text
-  extends string 
+  extends string
   visibility string notnull
   sinceid largenum
   
@@ -64,6 +66,7 @@ PK id
   classid largenum
   interfaceid largenum
   name string notnull
+  namespace string
   description text
   arguments string notnull
   visibility string
@@ -81,7 +84,7 @@ PK id
   projectid largenum notnull
   functionid largenum notnull
   name string notnull
-  type string 
+  type string
   defaultvalue string
   description text
   
@@ -93,7 +96,7 @@ PK id
   classid largenum
   interfaceid largenum
   name string notnull
-  type string 
+  type string
   description text
   static smallnum notnull
   sinceid largenum
