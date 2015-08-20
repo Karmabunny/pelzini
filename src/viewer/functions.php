@@ -289,7 +289,7 @@ function process_inline_link(array $matches)
             $q = "SELECT id, name FROM variables WHERE name LIKE {$text_sql} AND classid = {$class_id}";
             $res = db_query($q);
             if ($row = db_fetch_assoc($res)) {
-                return get_class_link($class, $link_text);
+                return get_class_link($class, null, $link_text);
             }
 
             return $link_text;
@@ -300,7 +300,7 @@ function process_inline_link(array $matches)
     $q = "SELECT id, name FROM classes WHERE name LIKE {$text_sql} AND projectid = {$project['id']}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
-        return get_class_link($row['name'], $link_text);
+        return get_class_link($row['name'], null, $link_text);
     }
 
     // Look for files
@@ -442,9 +442,11 @@ function get_file_link($filename)
 * @param string $link_text Text to show on the link; defaults to the class name
 * @return string HTML of a complete A link to the class
 **/
-function get_class_link($class, $link_text = null)
+function get_class_link($class, $filename = null, $link_text = null)
 {
-    return '<a href="class?name=' . urlencode($class) . '">' . htmlspecialchars($link_text ?: $class) . '</a>';
+    $url = 'class?name=' . urlencode($class);
+    if ($filename) $url .= '&file=' . urlencode($filename);
+    return '<a href="' . htmlspecialchars($url) . '">' . htmlspecialchars($link_text ?: $class) . '</a>';
 }
 
 

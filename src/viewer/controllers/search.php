@@ -114,7 +114,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong>", get_class_link($row['name']), "</strong>";
+            echo "<p><strong>", get_class_link($row['name'], $row['filename']), "</strong>";
 
             if ($row['extends'] != null) {
                 echo " <small>extends ", get_class_link($row['extends']), "</small>";
