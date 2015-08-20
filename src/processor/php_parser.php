@@ -65,6 +65,7 @@ class PhpParser
         $inside_class = null;
         $current_constant = null;
         $next = null;
+        $namespace = 0;
         $brace_count = 0;
         $abstract = false;
         $static = false;
@@ -139,7 +140,9 @@ class PhpParser
 
                     // function in an interface
                 } else if ($token == ';') {
-                    if ($current_function != null) {
+                	if ($namespace == 1) {
+                		$namespace = 2;
+                	} else if ($current_function != null) {
                         if ($visibility != null) {
                             $current_function->visibility = $visibility;
                             $visibility = null;
@@ -273,10 +276,16 @@ class PhpParser
                     if ($next != null) {
                         if ($next == T_EXTENDS) {
                             $current_class->extends = $text;
-                            $next = null;
                         } else if ($next == T_IMPLEMENTS) {
                             $current_class->implements[] = $text;
+                            break;
+                        } else if ($next == T_NAMESPACE and $namespace == 0) {
+                            $current_file->namespace = array($text);
+                            $namespace = 1;
+                        } else if ($next == T_NS_SEPARATOR and $namespace == 1) {
+                        	$current_file->namespace[] = $text;
                         }
+                        $next = null;
 
                     } else if (strcasecmp($text, 'null') == 0) {
                         if ($current_constant) {
@@ -390,6 +399,8 @@ class PhpParser
                     // the next token after one of these does the grunt work
                 case T_EXTENDS:
                 case T_IMPLEMENTS:
+                case T_NAMESPACE:
+                case T_NS_SEPARATOR:
                     $next = $id;
                     break;
 
