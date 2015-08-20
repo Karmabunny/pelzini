@@ -33,7 +33,7 @@ require_once 'functions.php';
 
 // Get the details of this interface
 $sql_name = db_quote($_GET['name']);
-$q = "SELECT interfaces.id, interfaces.name, interfaces.description, files.name AS filename,
+$q = "SELECT interfaces.id, interfaces.name, interfaces.namespace, interfaces.description, files.name AS filename,
   interfaces.sinceid
   FROM interfaces
   INNER JOIN files ON interfaces.fileid = files.id
@@ -61,6 +61,10 @@ echo process_inline($interface['description']);
 
 echo '<ul>';
 echo '<li>', str(STR_FILE, 'filename', $interface['filename']), '</li>';
+
+if ($interface['namespace'] != null) {
+    echo '<li>', str(STR_NAMESPACE, 'name', $interface['namespace']), '</li>';
+}
 
 if ($interface['sinceid']) {
     echo '<li>', str(STR_AVAIL_SINCE, 'version', get_since_version($interface['sinceid'])), '</li>';

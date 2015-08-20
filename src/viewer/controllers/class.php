@@ -42,7 +42,7 @@ $_GET['page'] = (int) @$_GET['page'];
 
 $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
-$q->addFields('classes.id, classes.name, classes.description, classes.extends, files.name as filename,
+$q->addFields('classes.id, classes.name, classes.namespace, classes.description, classes.extends, files.name as filename,
   classes.final, classes.abstract, classes.sinceid, classes.projectid');
 $q->setFrom('classes');
 $q->addInnerJoin('files ON classes.fileid = files.id');
@@ -135,6 +135,10 @@ echo process_inline($class['description']);
 // Basic class details
 echo "<ul>";
 echo '<li>', str(STR_FILE, 'filename', $class['filename']), '</li>';
+
+if ($class['namespace'] != null) {
+    echo '<li>', str(STR_NAMESPACE, 'name', $class['namespace']), '</li>';
+}
 
 if ($class['extends'] != null) {
     echo '<li>', str(STR_CLASS_EXTENDS, 'link', get_object_link($class['extends'])), '</li>';

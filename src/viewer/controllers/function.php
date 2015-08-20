@@ -33,7 +33,7 @@ require_once 'functions.php';
 
 $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
-$q->addFields('functions.id, functions.name, functions.description,
+$q->addFields('functions.id, functions.name, functions.namespace, functions.description,
   files.name AS filename, functions.linenum, functions.classid,
   classes.name AS class, interfaces.name AS interface, functions.static, functions.final, functions.sinceid,
   functions.returntype, functions.returndescription');
@@ -110,6 +110,10 @@ if ($line > 5) {
 	$start = '#src-lines-' . ($line - 5);
 }
 echo '<li>File: <a href="file?name=', urlencode($function['filename']), '">', htmlspecialchars($function['filename']), '</a>, line <a href="file_source?name=', urlencode($function['filename']), "&amp;highlight={$line}{$start}\">{$line}</a></li>";
+
+if ($function['namespace'] != null) {
+    echo '<li>', str(STR_NAMESPACE, 'name', $function['namespace']), '</li>';
+}
 
 if ($function['classid']) {
     echo '<li>', str(STR_FUNC_CLASS, 'name', $function['class']);
