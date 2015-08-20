@@ -34,7 +34,7 @@ require_once 'functions.php';
 // Determine what to show
 $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
-$q->addFields('files.id, files.name, files.description, files.packageid, packages.name as package, files.sinceid');
+$q->addFields('files.id, files.name, files.description, files.packageid, files.namespace, packages.name as package, files.sinceid');
 $q->setFrom('files');
 $q->addInnerJoin('packages ON files.packageid = packages.id');
 $q->addWhere("files.name = {$sql_name}");
@@ -61,6 +61,10 @@ echo '<h2>', str(STR_FILE_PAGE_TITLE, 'name', $file['name']), '</h2>';
 
 if ($file['packageid'] != null) {
     echo '<p>', str(STR_PACKAGE, 'id', $file['packageid'], 'name', $file['package']), '</p>';
+}
+
+if ($file['namespace'] != null) {
+    echo '<p>', str(STR_NAMESPACE, 'name', $file['namespace']), '</p>';
 }
 
 if ($file['sinceid'] != null) {

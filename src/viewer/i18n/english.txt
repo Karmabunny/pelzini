@@ -44,6 +44,7 @@ STR_ERROR_TITLE                        Error
 STR_AVAIL_SINCE                        Available since: {VERSION}
 STR_FILE                               File: <a href="file?name={#URLENC|FILENAME}">{#HTMLENC|FILENAME}</a>
 STR_PACKAGE                            Package: <a href="package?id={ID}">{NAME}</a>
+STR_NAMESPACE                          Namespace: {NAME}
 
 ; Column headings in tables
 STR_NAME                               Name
