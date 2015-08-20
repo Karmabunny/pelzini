@@ -76,6 +76,21 @@ header('Content-type: text/html; charset=UTF-8');
   </span>
 
   <a href="index"><?php echo str(STR_HOME); ?></a>
+  &nbsp;
+
+  <?php
+$q = new SelectQuery();
+$q->addFields('id, name');
+$q->setFrom('namespaces');
+$q->setOrderBy('name');
+$q->addProjectWhere();
+
+$q = $q->buildQuery();
+$_res = db_query($q);
+while ($row = db_fetch_assoc($_res)) {
+    echo '<a href="namespace?name=', urlencode($row['name']), '">', htmlspecialchars($row['name']), '</a> ';
+}
+?>
 </div>
 
 <table class="main">
