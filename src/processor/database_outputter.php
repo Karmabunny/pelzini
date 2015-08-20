@@ -398,6 +398,7 @@ abstract class DatabaseOutputter extends Outputter {
         );
 
         // Only delete data from this project
+        $this->query("DELETE FROM namespaces WHERE projectid = {$project_id}");
         $this->query("DELETE FROM files WHERE projectid = {$project_id}");
         $this->query("DELETE FROM functions WHERE projectid = {$project_id}");
         $this->query("DELETE FROM arguments WHERE projectid = {$project_id}");
@@ -413,6 +414,19 @@ abstract class DatabaseOutputter extends Outputter {
         $this->query("DELETE FROM item_see WHERE projectid = {$project_id}");
         $this->query("DELETE FROM enumerations WHERE projectid = {$project_id}");
         $this->query("DELETE FROM item_info_tags WHERE projectid = {$project_id}");
+
+        $namespaces = array();
+        foreach ($files as $file) {
+            if (empty($file->namespace)) continue;
+
+            $full_namespace = implode('\\', $file->namespace);
+            if (isset($namespaces[$full_namespace])) continue;
+
+            $insert_data = array();
+            $insert_data['name'] = $this->sql_safen($full_namespace);
+            $this->do_insert('namespaces', $insert_data);
+            $namespaces[$full_namespace] = $this->insert_id();
+        }
 
         // Determine the versions that are available
         self::$since_versions = array();
