@@ -139,7 +139,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
 // functions
 if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
     $this_match_string = str_replace('#ITEM#', 'functions.name', $match_string);
-    $q = "SELECT functions.id, functions.name, functions.description, functions.classid, files.name as filename, functions.fileid, classes.name as class
+    $q = "SELECT functions.id, functions.name, functions.description, functions.classid, functions.linenum, files.name as filename, functions.fileid, classes.name as class
     FROM functions
     INNER JOIN files ON functions.fileid = files.id
     LEFT JOIN classes ON functions.classid = classes.id
@@ -169,7 +169,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From ", get_file_link($row['filename']), "</small></div>";
+            echo "<br><small>From ", get_source_link($row['filename'], $row['linenum']), "</small></div>";
             echo "</div>";
 
             $alt = ! $alt;

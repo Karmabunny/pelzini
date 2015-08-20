@@ -436,6 +436,31 @@ function get_file_link($filename)
 
 
 /**
+* Return a link to the source view for a file
+*
+* @param string $filename The file to return a link for
+* @param int $linenum Line number to highlight
+* @return string HTML of a complete A link to the file
+**/
+function get_source_link($filename, $linenum = null)
+{
+    $source_url = 'file_source?name=' . urlencode($filename);
+    $out = '<a href="' . htmlspecialchars($source_url) . '">' . htmlspecialchars($filename) . '</a>';
+
+    if ($linenum) {
+        $source_url .= '&highlight=' . $linenum;
+        if ($linenum > 5) {
+            $source_url .= '#src-lines-' . ($linenum - 5);
+        }
+        $out .= ' line ';
+        $out .= '<a href="' . htmlspecialchars($source_url) . '">' . $linenum . '</a>';
+    }
+
+    return $out;
+}
+
+
+/**
 * Return a link to a given class
 *
 * @param string $class The name of the class to return a link for
