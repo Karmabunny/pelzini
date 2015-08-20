@@ -403,7 +403,6 @@ abstract class DatabaseOutputter extends Outputter {
         $this->query("DELETE FROM arguments WHERE projectid = {$project_id}");
         $this->query("DELETE FROM classes WHERE projectid = {$project_id}");
         $this->query("DELETE FROM class_implements WHERE projectid = {$project_id}");
-        $this->query("DELETE FROM packages WHERE projectid = {$project_id}");
         $this->query("DELETE FROM interfaces WHERE projectid = {$project_id}");
         $this->query("DELETE FROM variables WHERE projectid = {$project_id}");
         $this->query("DELETE FROM constants WHERE projectid = {$project_id}");
@@ -414,30 +413,6 @@ abstract class DatabaseOutputter extends Outputter {
         $this->query("DELETE FROM item_see WHERE projectid = {$project_id}");
         $this->query("DELETE FROM enumerations WHERE projectid = {$project_id}");
         $this->query("DELETE FROM item_info_tags WHERE projectid = {$project_id}");
-
-        // get all of the unique package names, and create packages
-        $needs_default_package = false;
-        $packages = array();
-        foreach ($files as $file) {
-            if (!empty($file->package)) {
-                if (! isset($packages[$file->package])) {
-                    $insert_data = array();
-                    $insert_data['name'] = $this->sql_safen ($file->package);
-                    $this->do_insert('packages', $insert_data);
-                    $packages[$file->package] = $this->insert_id();
-                }
-
-            } else {
-                $needs_default_package = true;
-            }
-        }
-
-        if ($needs_default_package) {
-            $insert_data = array();
-            $insert_data['name'] = $this->sql_safen ('Default');
-            $this->do_insert('packages', $insert_data);
-            $default_id = $this->insert_id();
-        }
 
         // Determine the versions that are available
         self::$since_versions = array();
@@ -461,11 +436,6 @@ abstract class DatabaseOutputter extends Outputter {
         // go through all the files
         foreach ($files as $item) {
             if ($item instanceof ParserFile) {
-                // Inserts a file
-                $package = @$packages[$item->package];
-                if ($package == null) $package = $default_id;
-                $package = $this->sql_safen($package);
-
                 if ($item->namespace) {
                     $file_namespace = implode('\\', $item->namespace);
                 } else {
@@ -477,7 +447,6 @@ abstract class DatabaseOutputter extends Outputter {
                 $insert_data['description'] = $this->sql_safen($item->description);
                 $insert_data['source'] = $this->sql_safen($item->source);
                 $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($item->since));
-                $insert_data['packageid'] = $package;
                 $insert_data['namespace'] = $this->sql_safen($file_namespace);
 
                 $this->do_insert('files', $insert_data);

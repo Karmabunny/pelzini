@@ -94,7 +94,6 @@ class XmlOutputter extends MetadataOutputter {
         $this->root->appendChild($node);
 
         $node->setAttribute('name', $item->name);
-        $node->setAttribute('package', $item->package);
 
         $this->create_description_node($node, $item->description);
 
@@ -200,4 +199,3 @@ class XmlOutputter extends MetadataOutputter {
     }
 
 }
-

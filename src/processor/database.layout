@@ -14,7 +14,6 @@ PK id
   name string notnull
   description text
   source text
-  packageid largenum
   namespace string
   sinceid largenum
   
@@ -133,13 +132,6 @@ PK id
   description text
   virtual smallnum notnull
   sinceid largenum
-  
-  
-TABLE packages
-PK id
-  id serial notnull
-  projectid largenum notnull
-  name string notnull
   
   
 TABLE versions
