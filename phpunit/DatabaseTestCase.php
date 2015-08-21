@@ -83,7 +83,6 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertTableExists('constants');
         $this->assertTableExists('documents');
         $this->assertTableExists('enumerations');
-        $this->assertTableExists('packages');
         $this->assertTableExists('versions');
         $this->assertTableExists('item_authors');
         $this->assertTableExists('item_tables');
@@ -112,7 +111,6 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertTableExists('constants');
         $this->assertTableExists('documents');
         $this->assertTableExists('enumerations');
-        $this->assertTableExists('packages');
         $this->assertTableExists('versions');
         $this->assertTableExists('item_authors');
         $this->assertTableExists('item_tables');
