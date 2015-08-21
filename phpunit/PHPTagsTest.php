@@ -90,21 +90,5 @@ class PHPTagsTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('bbb', $file->functions[0]->info_tags[0]);
     }
 
-
-    public function testPackage() {
-        $file = $this->parse('
-            <?php
-            /**
-            * @package bbb
-            **/
-            
-            /** test */
-            function aaa() {}
-        ');
-        $this->assertEquals('bbb', $file->package);
-        $this->assertCount(1, $file->functions);
-        $this->assertEquals('aaa', $file->functions[0]->name);
-    }
-
 }
 
