@@ -40,7 +40,6 @@ function processor_autoload($class)
 spl_autoload_register('processor_autoload');
 
 require_once __DIR__ . '/constants.php';
-require_once __DIR__ . '/misc_classes.php';
 
 
 /**

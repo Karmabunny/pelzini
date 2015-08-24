@@ -31,7 +31,6 @@ ini_set('memory_limit', '-1');
 
 require_once 'functions.php';
 require_once 'constants.php';
-require_once 'misc_classes.php';
 
 output_status ('This is the Pelzini processor, Pelzini version ' . DOCU_VERSION);
 output_status ('Pelzini is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
@@ -162,4 +161,3 @@ foreach ($_SERVER['argv'] as $idx => $argument) {
         }
     }
 }
-
