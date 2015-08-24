@@ -95,6 +95,15 @@ PK id
   description text
   
   
+TABLE throws
+PK id
+  id serial notnull
+  projectid largenum notnull
+  functionid largenum notnull
+  exception string notnull
+  description text
+  
+  
 TABLE variables
 PK id
   id serial notnull

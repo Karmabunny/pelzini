@@ -608,6 +608,17 @@ abstract class DatabaseOutputter extends Outputter {
         }
 
         $this->do_multiple_insert('arguments', $args);
+
+        // insert throws
+        $throws = array();
+        foreach ($function->throws as $arg) {
+            $insert_data = array();
+            $insert_data['exception'] = $this->sql_safen($arg->exception);
+            $insert_data['description'] = $this->sql_safen($arg->description);
+            $insert_data['functionid'] = $this->sql_safen($function_id);
+            $throws[] = $insert_data;
+        }
+        $this->do_multiple_insert('throws', $throws);
     }
 
 
