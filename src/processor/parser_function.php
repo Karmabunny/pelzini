@@ -137,6 +137,17 @@ class ParserFunction extends CodeParserItem {
                 }
             }
         }
+
+        // If there is only one return tag, and the type ends in ?
+        // Nuke the ? and create a new return tag called "null"
+        if (count($this->returns) == 1) {
+            if (substr($this->returns[0]->type, -1) == '?') {
+                $this->returns[0]->type = substr($this->returns[0]->type, 0, -1);
+                $null_return = new ParserReturn();
+                $null_return->type = 'null';
+                $this->returns[] = $null_return;
+            }
+        }
     }
 
 

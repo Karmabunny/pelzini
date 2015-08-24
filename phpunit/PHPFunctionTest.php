@@ -386,8 +386,25 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('null', $file->functions[0]->returns[2]->type);
         $this->assertEquals('On error', trim(strip_tags($file->functions[0]->returns[2]->description)));
     }
-    
-    
+
+    public function testReturnTypeOptional() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @return user? A user
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(2, $file->functions[0]->returns);
+        $this->assertEquals('user', $file->functions[0]->returns[0]->type);
+        $this->assertEquals('A user', trim(strip_tags($file->functions[0]->returns[0]->description)));
+        $this->assertEquals('null', $file->functions[0]->returns[1]->type);
+        $this->assertEquals('', trim(strip_tags($file->functions[0]->returns[1]->description)));
+    }
+
+
     /**
     * Extra spaces around the terms
     * Taken from a real-life example which wasn't working
