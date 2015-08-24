@@ -32,6 +32,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 class ParserFunction extends CodeParserItem {
     public $name;
     public $args;
+    public $throws;
     public $visibility;
     public $abstract;
     public $description;
@@ -46,6 +47,7 @@ class ParserFunction extends CodeParserItem {
         parent::__construct();
 
         $this->args = array();
+        $this->throws = array();
         $this->visibility = 'public';
         $this->static = false;
         $this->final = false;
@@ -100,6 +102,25 @@ class ParserFunction extends CodeParserItem {
                 
                 $arg->description = htmlify_text(implode(' ', $parts));
             }
+        }
+
+        // Combine @throw and @throws docblock tags
+        $throws = array();
+        if (isset($this->docblock_tags['@throw'])) {
+            $throws = $this->docblock_tags['@throw'];
+        }
+        if (isset($this->docblock_tags['@throws'])) {
+            $throws = array_merge($throws, $this->docblock_tags['@throws']);
+        }
+
+        // Process throws
+        foreach ($throws as $throws_tag) {
+            if ($throws_tag == '') $throws_tag = 'Exception';
+            $parts = preg_split('/\s+/', $throws_tag, 2);
+            $throw = new ParserThrow();
+            $throw->exception = $parts[0];
+            $throw->description = @$parts[1];
+            $this->throws[] = $throw;
         }
 
         // Do return value

@@ -149,6 +149,7 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertCount(1, $file->functions);
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertCount(1, $file->functions[0]->args);
+        $this->assertCount(0, $file->functions[0]->throws);
         $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
         $this->assertEquals('user', $file->functions[0]->args[0]->type);
         $this->assertEquals('Test desc', trim(strip_tags($file->functions[0]->args[0]->description)));
@@ -169,6 +170,7 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertCount(1, $file->functions);
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertCount(1, $file->functions[0]->args);
+        $this->assertCount(0, $file->functions[0]->throws);
         $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
         $this->assertEquals('user', $file->functions[0]->args[0]->type);
         $this->assertEquals('Test desc', trim(strip_tags($file->functions[0]->args[0]->description)));
@@ -189,9 +191,89 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertCount(1, $file->functions);
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertCount(1, $file->functions[0]->args);
+        $this->assertCount(0, $file->functions[0]->throws);
         $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
         $this->assertEquals('user', $file->functions[0]->args[0]->type);
         $this->assertEquals('Test desc', trim(strip_tags($file->functions[0]->args[0]->description)));
+    }
+
+
+    public function testThrow() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @throw Exception Just for fun
+            **/
+            function aaa($aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->throws);
+        $this->assertEquals('Exception', $file->functions[0]->throws[0]->exception);
+        $this->assertEquals('Just for fun', $file->functions[0]->throws[0]->description);
+    }
+
+    public function testThrows() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @throws Exception Just for fun
+            **/
+            function aaa($aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->throws);
+        $this->assertEquals('Exception', $file->functions[0]->throws[0]->exception);
+        $this->assertEquals('Just for fun', $file->functions[0]->throws[0]->description);
+    }
+
+    public function testThrowThrows() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @throw Exception Just for fun
+            * @throws DatabaseException When something is broken
+            **/
+            function aaa($aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(2, $file->functions[0]->throws);
+        $this->assertEquals('Exception', $file->functions[0]->throws[0]->exception);
+        $this->assertEquals('Just for fun', $file->functions[0]->throws[0]->description);
+        $this->assertEquals('DatabaseException', $file->functions[0]->throws[1]->exception);
+        $this->assertEquals('When something is broken', $file->functions[0]->throws[1]->description);
+    }
+
+    public function testThrowNoDesc() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @throws Exception
+            **/
+            function aaa($aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->throws);
+        $this->assertEquals('Exception', $file->functions[0]->throws[0]->exception);
+        $this->assertEquals('', $file->functions[0]->throws[0]->description);
+    }
+
+    public function testThrowEmptyImplied() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @throws
+            **/
+            function aaa($aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->throws);
+        $this->assertEquals('Exception', $file->functions[0]->throws[0]->exception);
+        $this->assertEquals('', $file->functions[0]->throws[0]->description);
     }
 
 
@@ -296,4 +378,3 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
     }
 
 }
-
