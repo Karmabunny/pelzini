@@ -273,6 +273,7 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertEquals(0, $row['final']);
 
         $this->assertNumRecords(2, 'arguments');
+		$this->assertNumRecords(0, 'returns');
 
         $row = $this->getRecord('arguments', array('name' => '$bbb'));
         $this->assertEquals(1, $row['projectid']);
@@ -289,11 +290,6 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertEquals('int', $row['type']);
         $this->assertEquals('NULL', $row['defaultvalue']);
         $this->assertEquals('Test desc', trim(strip_tags($row['description'])));
-
-        $this->assertNumRecords(1, 'returns');
-        $row = $this->getRecord('returns');
-        $this->assertEquals('', $row['type']);
-        $this->assertEquals('', trim(strip_tags($row['description'])));
     }
 
 }
