@@ -381,16 +381,22 @@ function process_inline_delink(array $matches)
 
 function show_function_usage($function_id)
 {
-    $q = "SELECT functions.name, functions.static, functions.returntype, classes.name AS class
+    $q = "SELECT functions.name, functions.static, GROUP_CONCAT(returns.type SEPARATOR '|') AS returntypes,
+      classes.name AS class
     FROM functions
     LEFT JOIN classes ON functions.classid = classes.id
+    LEFT JOIN returns ON returns.functionid = functions.id
     WHERE functions.id = {$function_id}";
     $res = db_query ($q);
     $function = db_fetch_assoc($res);
 
     echo '<div class="function-usage">';
 
-    if ($function['returntype']) echo $function['returntype'], ' ';
+    if ($function['returntypes']) {
+        echo htmlspecialchars($function['returntypes']), ' ';
+    } else {
+        echo 'unknown ';
+    }
 
     if ($function['class']) {
         if ($function['static']) {
@@ -514,4 +520,3 @@ function redirect($url)
     header('Location: ' . $url);
     exit(0);
 }
-

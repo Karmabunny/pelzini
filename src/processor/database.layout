@@ -76,8 +76,6 @@ PK id
   description text
   arguments string notnull
   visibility string
-  returntype string
-  returndescription text
   static smallnum notnull
   final smallnum notnull
   abstract smallnum notnull
@@ -101,6 +99,15 @@ PK id
   projectid largenum notnull
   functionid largenum notnull
   exception string notnull
+  description text
+
+
+TABLE returns
+PK id
+  id serial notnull
+  projectid largenum notnull
+  functionid largenum notnull
+  type string notnull
   description text
   
   

@@ -151,6 +151,14 @@ function php_badly_documented_function ($arg1, $arg2 = 100, php_documented_super
 }
 
 /**
+* @return string Sometimes
+* @return int Other times
+**/
+function php_multiple_returns_function() {
+  return;
+}
+
+/**
 * Parent class is not defined in this code
 * @author josh <josh@example.com> did some work
 * @author bob <bob@example.com> did some more work

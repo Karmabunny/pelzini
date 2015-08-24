@@ -549,12 +549,6 @@ abstract class DatabaseOutputter extends Outputter {
             $insert_data['visibility'] = $this->sql_safen($function->visibility);
         }
 
-        // Return value
-        if (count($function->returns)) {
-            $insert_data['returntype'] = $this->sql_safen($function->returns[0]->type);
-            $insert_data['returndescription'] = $this->sql_safen($function->returns[0]->description);
-        }
-
         if ($function->static) $insert_data['static'] = 1;
         if ($function->final) $insert_data['final'] = 1;
 
@@ -596,17 +590,6 @@ abstract class DatabaseOutputter extends Outputter {
             $insert_data['functionid'] = $this->sql_safen($function_id);
             $args[] = $insert_data;
         }
-
-        // insert return value
-        if (isset($function->return)) {
-            $insert_data = array();
-            $insert_data['name'] = $this->sql_safen('__RETURN__');
-            $insert_data['type'] = $this->sql_safen($function->return->type);
-            $insert_data['description'] = $this->sql_safen($function->return->description);
-            $insert_data['functionid'] = $this->sql_safen($function_id);
-            $args[] = $insert_data;
-        }
-
         $this->do_multiple_insert('arguments', $args);
 
         // insert throws
@@ -619,6 +602,17 @@ abstract class DatabaseOutputter extends Outputter {
             $throws[] = $insert_data;
         }
         $this->do_multiple_insert('throws', $throws);
+
+        // insert return values
+        $returns = array();
+        foreach ($function->returns as $ret) {
+            $insert_data = array();
+            $insert_data['type'] = $this->sql_safen($ret->type);
+            $insert_data['description'] = $this->sql_safen($ret->description);
+            $insert_data['functionid'] = $this->sql_safen($function_id);
+            $returns[] = $insert_data;
+        }
+        $this->do_multiple_insert('returns', $returns);
     }
 
 

@@ -35,8 +35,7 @@ $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
 $q->addFields('functions.id, functions.name, functions.namespace, functions.description,
   files.name AS filename, functions.linenum, functions.classid,
-  classes.name AS class, interfaces.name AS interface, functions.static, functions.final, functions.sinceid,
-  functions.returntype, functions.returndescription');
+  classes.name AS class, interfaces.name AS interface, functions.static, functions.final, functions.sinceid');
 $q->setFrom('functions');
 $q->addInnerJoin('files ON functions.fileid = files.id');
 $q->addLeftJoin('classes ON functions.classid = classes.id');
@@ -184,19 +183,21 @@ if (db_num_rows($res) > 0) {
 }
 
 
-// Return value
-if ($function['returntype'] or $function['returndescription']) {
-    $function['returntype'] = htmlspecialchars($function['returntype']);
-
+// Show return types
+$q = "SELECT type, description FROM returns WHERE functionid = {$function['id']} ORDER BY id";
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
     echo '<h3>', str(STR_FUNC_RETURN_VALUE), '</h3>';
 
-    echo "<ul><li>";
-    if ($function['returntype']) {
-        echo get_object_link ($function['returntype']), '<br>';
-    }
+    echo "<ol class=\"spaced-list\">";
+    while ($row = db_fetch_assoc ($res)) {
+        $row['type'] = htmlspecialchars($row['type']);
 
-    echo process_inline ($function['returndescription']);
-    echo "</li></ul>";
+        echo '<li>', get_object_link($row['type']);
+        echo '<br>', process_inline ($row['description']);
+        echo "</li>";
+    }
+    echo "</ol>\n";
 }
 
 

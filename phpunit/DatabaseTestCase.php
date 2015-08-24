@@ -79,6 +79,7 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertTableExists('class_implements');
         $this->assertTableExists('functions');
         $this->assertTableExists('arguments');
+        $this->assertTableExists('returns');
         $this->assertTableExists('variables');
         $this->assertTableExists('constants');
         $this->assertTableExists('documents');
@@ -107,6 +108,7 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertTableExists('class_implements');
         $this->assertTableExists('functions');
         $this->assertTableExists('arguments');
+        $this->assertTableExists('returns');
         $this->assertTableExists('variables');
         $this->assertTableExists('constants');
         $this->assertTableExists('documents');
@@ -188,8 +190,6 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertEquals('aaa', $row['name']);
         $this->assertEquals('', $row['description']);
         $this->assertEquals('', $row['visibility']);
-        $this->assertEquals(null, $row['returntype']);
-        $this->assertEquals('', $row['returndescription']);
         $this->assertEquals(0, $row['static']);
         $this->assertEquals(0, $row['abstract']);
         $this->assertEquals(0, $row['final']);
@@ -227,11 +227,14 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertEquals('aaa', $row['name']);
         $this->assertEquals('Does something', trim(strip_tags($row['description'])));
         $this->assertEquals('', $row['visibility']);
-        $this->assertEquals('string', $row['returntype']);
-        $this->assertEquals('Something else', trim(strip_tags($row['returndescription'])));
         $this->assertEquals(0, $row['static']);
         $this->assertEquals(0, $row['abstract']);
         $this->assertEquals(0, $row['final']);
+
+        $this->assertNumRecords(1, 'returns');
+        $row = $this->getRecord('returns');
+        $this->assertEquals('string', $row['type']);
+        $this->assertEquals('Something else', trim(strip_tags($row['description'])));
 
         $this->assertNumRecords(0, 'arguments');
     }
@@ -265,8 +268,6 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertEquals('aaa', $row['name']);
         $this->assertEquals('', trim(strip_tags($row['description'])));
         $this->assertEquals('', $row['visibility']);
-        $this->assertEquals('', $row['returntype']);
-        $this->assertEquals('', trim(strip_tags($row['returndescription'])));
         $this->assertEquals(0, $row['static']);
         $this->assertEquals(0, $row['abstract']);
         $this->assertEquals(0, $row['final']);
@@ -288,6 +289,11 @@ abstract class DatabaseTestCase extends PHPUnit_ParserTestCase {
         $this->assertEquals('int', $row['type']);
         $this->assertEquals('NULL', $row['defaultvalue']);
         $this->assertEquals('Test desc', trim(strip_tags($row['description'])));
+
+        $this->assertNumRecords(1, 'returns');
+        $row = $this->getRecord('returns');
+        $this->assertEquals('', $row['type']);
+        $this->assertEquals('', trim(strip_tags($row['description'])));
     }
 
 }

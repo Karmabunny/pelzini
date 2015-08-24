@@ -279,8 +279,9 @@ case PAGE_CLASS_USED_BY:
           files.name as filename, functions.fileid, classes.name as class
       FROM functions
       INNER JOIN files ON functions.fileid = files.id
+      INNER JOIN returns ON returns.functionid = functions.id
       LEFT JOIN classes ON functions.classid = classes.id
-      WHERE functions.returntype = {$sql_class_name}
+      WHERE returns.type = {$sql_class_name}
         AND functions.projectid = {$class['projectid']}
       ORDER BY functions.name";
     $res = db_query ($q);
