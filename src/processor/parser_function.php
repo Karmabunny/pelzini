@@ -128,10 +128,13 @@ class ParserFunction extends CodeParserItem {
             $this->returns = array();
             foreach ($this->docblock_tags['@return'] as $return_tag) {
                 $parts = preg_split('/\s+/', $return_tag, 2);
-                $return = new ParserReturn();
-                $return->type = $parts[0];
-                $return->description = htmlify_text(@$parts[1]);
-                $this->returns[] = $return;
+                $types = explode('|', $parts[0]);
+                foreach ($types as $t) {
+                    $return = new ParserReturn();
+                    $return->type = trim($t);
+                    $return->description = htmlify_text(@$parts[1]);
+                    $this->returns[] = $return;
+                }
             }
         }
     }

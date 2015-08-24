@@ -314,7 +314,6 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('A new user', trim(strip_tags($file->functions[0]->returns[0]->description)));
     }
 
-
     public function testReturnTypeMultiple() {
         $file = $this->parse('
             <?php
@@ -332,7 +331,6 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('group', $file->functions[0]->returns[1]->type);
         $this->assertEquals('A group', trim(strip_tags($file->functions[0]->returns[1]->description)));
     }
-
 
     public function testReturnTypeMultipleNoDesc() {
         $file = $this->parse('
@@ -352,7 +350,44 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('', trim(strip_tags($file->functions[0]->returns[1]->description)));
     }
 
+    public function testReturnTypeMultipleOneTag() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @return user|group A user or group
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(2, $file->functions[0]->returns);
+        $this->assertEquals('user', $file->functions[0]->returns[0]->type);
+        $this->assertEquals('A user or group', trim(strip_tags($file->functions[0]->returns[0]->description)));
+        $this->assertEquals('group', $file->functions[0]->returns[1]->type);
+        $this->assertEquals('A user or group', trim(strip_tags($file->functions[0]->returns[1]->description)));
+    }
 
+    public function testReturnTypeMultipleTwoTags() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @return user|group A user or group
+            * @return null On error
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(3, $file->functions[0]->returns);
+        $this->assertEquals('user', $file->functions[0]->returns[0]->type);
+        $this->assertEquals('A user or group', trim(strip_tags($file->functions[0]->returns[0]->description)));
+        $this->assertEquals('group', $file->functions[0]->returns[1]->type);
+        $this->assertEquals('A user or group', trim(strip_tags($file->functions[0]->returns[1]->description)));
+        $this->assertEquals('null', $file->functions[0]->returns[2]->type);
+        $this->assertEquals('On error', trim(strip_tags($file->functions[0]->returns[2]->description)));
+    }
+    
+    
     /**
     * Extra spaces around the terms
     * Taken from a real-life example which wasn't working
