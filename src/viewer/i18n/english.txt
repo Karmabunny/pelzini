@@ -130,6 +130,7 @@ STR_FUNC_BROWSER_TITLE                 {NAME}() function
 STR_FUNC_CLASS                         Class: <a href="class?name={#URLENC|NAME}">{NAME}</a>
 STR_FUNC_USAGE                         Usage
 STR_FUNC_ARGUMENTS                     Arguments
+STR_FUNC_THROWS                        Exceptions thrown
 STR_FUNC_RETURN_VALUE                  Return value
 STR_FUNC_STATIC                        Static function
 STR_METHOD_STATIC                      Static method
@@ -174,4 +175,3 @@ STR_MULTIPLE_TITLE                     {NUM} {TYPE} found
 STR_IN_FILE                            in file {VAL}
 STR_IN_CLASS                           in class {VAL}
 STR_IN_INTERFACE                       in interface {VAL}
-

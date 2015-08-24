@@ -166,6 +166,24 @@ if (db_num_rows($res) > 0) {
 }
 
 
+// Show throws
+$q = "SELECT exception, description FROM throws WHERE functionid = {$function['id']} ORDER BY id";
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
+    echo '<h3>', str(STR_FUNC_THROWS), '</h3>';
+
+    echo "<ol class=\"spaced-list\">";
+    while ($row = db_fetch_assoc ($res)) {
+        $row['exception'] = htmlspecialchars($row['exception']);
+
+        echo '<li>', get_object_link($row['exception']);
+        echo '<br>', process_inline ($row['description']);
+        echo "</li>";
+    }
+    echo "</ol>\n";
+}
+
+
 // Return value
 if ($function['returntype'] or $function['returndescription']) {
     $function['returntype'] = htmlspecialchars($function['returntype']);
