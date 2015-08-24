@@ -163,7 +163,10 @@ class ParserFunction extends CodeParserItem {
         if ($this->static) echo '<br>static';
         if ($this->final) echo '<br>static';
         echo '<br>' . $this->description;
+
         foreach ($this->args as $a) $a->dump();
+        foreach ($this->throws as $t) $t->dump();
+        foreach ($this->returns as $r) $r->dump();
 
         parent::dump();
         echo '</div>';
