@@ -100,7 +100,8 @@ class CAnalyser extends Analyser {
                 $return_type = trim($return_type);
                 $return_type = str_replace(' *', '*', $return_type);
             }
-            $parser_function->return_type = $return_type;
+            $parser_function->returns[0] = new ParserReturn();
+            $parser_function->returns[0]->type = $return_type;
 
             // Find reserved words before the return type
             $reserved = $this->findTokenBackwards(array(TOKEN_RESERVED_WORD), array(TOKEN_CLOSE_CURLY_BRACKET, TOKEN_SEMICOLON));
@@ -210,4 +211,3 @@ class CAnalyser extends Analyser {
 
 
 }
-

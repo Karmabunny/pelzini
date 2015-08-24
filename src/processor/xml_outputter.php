@@ -124,18 +124,13 @@ class XmlOutputter extends MetadataOutputter {
 
         $this->create_description_node($node, $item->description);
 
-        // arguments
         foreach ($item->args as $child) {
             $this->process_argument($node, $child);
         }
 
-        // return value
-        $return_node = $this->dom->createElement('return');
-        $return_node->setAttribute('type', $item->return_type);
-        $return_node->appendChild($this->dom->createTextNode(
-            trim(strip_tags($item->return_description))
-        ));
-        $node->appendChild($return_node);
+        foreach ($item->returns as $child) {
+            $this->process_return($node, $child);
+        }
     }
 
 
@@ -148,6 +143,21 @@ class XmlOutputter extends MetadataOutputter {
         $parent_node->appendChild($node);
 
         $node->setAttribute('name', $item->name);
+        $node->setAttribute('type', $item->type);
+        $node->appendChild($this->dom->createTextNode(
+            trim(strip_tags($item->description))
+        ));
+    }
+
+
+    /**
+     * Processes a function argument
+     **/
+    private function process_return($parent_node, $item)
+    {
+        $node = $this->dom->createElement('return');
+        $parent_node->appendChild($node);
+
         $node->setAttribute('type', $item->type);
         $node->appendChild($this->dom->createTextNode(
             trim(strip_tags($item->description))

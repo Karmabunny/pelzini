@@ -290,8 +290,9 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         ');
         $this->assertCount(1, $file->functions);
         $this->assertEquals('aaa', $file->functions[0]->name);
-        $this->assertEquals('user', $file->functions[0]->return_type);
-        $this->assertEquals('', trim(strip_tags($file->functions[0]->return_description)));
+        $this->assertCount(1, $file->functions[0]->returns);
+        $this->assertEquals('user', $file->functions[0]->returns[0]->type);
+        $this->assertEquals('', trim(strip_tags($file->functions[0]->returns[0]->description)));
     }
 
 
@@ -308,8 +309,47 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         ');
         $this->assertCount(1, $file->functions);
         $this->assertEquals('aaa', $file->functions[0]->name);
-        $this->assertEquals('user', $file->functions[0]->return_type);
-        $this->assertEquals('A new user', trim(strip_tags($file->functions[0]->return_description)));
+        $this->assertCount(1, $file->functions[0]->returns);
+        $this->assertEquals('user', $file->functions[0]->returns[0]->type);
+        $this->assertEquals('A new user', trim(strip_tags($file->functions[0]->returns[0]->description)));
+    }
+
+
+    public function testReturnTypeMultiple() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @return user A user
+            * @return group A group
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(2, $file->functions[0]->returns);
+        $this->assertEquals('user', $file->functions[0]->returns[0]->type);
+        $this->assertEquals('A user', trim(strip_tags($file->functions[0]->returns[0]->description)));
+        $this->assertEquals('group', $file->functions[0]->returns[1]->type);
+        $this->assertEquals('A group', trim(strip_tags($file->functions[0]->returns[1]->description)));
+    }
+
+
+    public function testReturnTypeMultipleNoDesc() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @return user
+            * @return group
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(2, $file->functions[0]->returns);
+        $this->assertEquals('user', $file->functions[0]->returns[0]->type);
+        $this->assertEquals('', trim(strip_tags($file->functions[0]->returns[0]->description)));
+        $this->assertEquals('group', $file->functions[0]->returns[1]->type);
+        $this->assertEquals('', trim(strip_tags($file->functions[0]->returns[1]->description)));
     }
 
 
@@ -335,7 +375,7 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertCount(1, $file->classes[0]->functions);
         $func = $file->classes[0]->functions[0];
         $this->assertEquals('query', $func->name);
-        $this->assertEquals('Database_Result', $func->return_type);
+        $this->assertEquals('Database_Result', $func->returns[0]->type);
         $this->assertEquals('Runs a query into the driver and returns the result.', trim(strip_tags($func->description)));
         $this->assertCount(1, $func->args);
         $this->assertEquals('$sql', $func->args[0]->name);

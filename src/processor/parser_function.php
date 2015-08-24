@@ -36,8 +36,7 @@ class ParserFunction extends CodeParserItem {
     public $visibility;
     public $abstract;
     public $description;
-    public $return_type;
-    public $return_description;
+    public $returns;
     public $static;
     public $final;
 
@@ -48,6 +47,7 @@ class ParserFunction extends CodeParserItem {
 
         $this->args = array();
         $this->throws = array();
+        $this->returns = array();
         $this->visibility = 'public';
         $this->static = false;
         $this->final = false;
@@ -124,12 +124,15 @@ class ParserFunction extends CodeParserItem {
         }
 
         // Do return value
-        $return = @$this->docblock_tags['@return'];
-        if ($return == null) @$return = $this->docblock_tags['@returns'];
-        if ($return != null) {
-            $return = array_pop($return);
-            @list($this->return_type, $this->return_description) = preg_split('/\s+/', $return, 2);
-            $this->return_description = htmlify_text($this->return_description);
+        if (isset($this->docblock_tags['@return'])) {
+            $this->returns = array();
+            foreach ($this->docblock_tags['@return'] as $return_tag) {
+                $parts = preg_split('/\s+/', $return_tag, 2);
+                $return = new ParserReturn();
+                $return->type = $parts[0];
+                $return->description = htmlify_text(@$parts[1]);
+                $this->returns[] = $return;
+            }
         }
     }
 

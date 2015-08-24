@@ -550,9 +550,9 @@ abstract class DatabaseOutputter extends Outputter {
         }
 
         // Return value
-        if ($function->return_type != null) {
-            $insert_data['returntype'] = $this->sql_safen($function->return_type);
-            $insert_data['returndescription'] = $this->sql_safen($function->return_description);
+        if (count($function->returns)) {
+            $insert_data['returntype'] = $this->sql_safen($function->returns[0]->type);
+            $insert_data['returndescription'] = $this->sql_safen($function->returns[0]->description);
         }
 
         if ($function->static) $insert_data['static'] = 1;

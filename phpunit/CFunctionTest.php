@@ -45,7 +45,7 @@ class CFunctionTest extends PHPUnit_ParserTestCase {
         ');
         $this->assertCount(1, $file->functions);
         $this->assertEquals('aaa', $file->functions[0]->name);
-        $this->assertEquals('const char**', $file->functions[0]->return_type);
+        $this->assertEquals('const char**', $file->functions[0]->returns[0]->type);
         $this->assertCount(5, $file->functions[0]->args);
 
         $args = $file->functions[0]->args;
@@ -72,7 +72,7 @@ class CFunctionTest extends PHPUnit_ParserTestCase {
         ');
         $this->assertCount(1, $file->functions);
         $this->assertEquals('aaa', $file->functions[0]->name);
-        $this->assertEquals('int', $file->functions[0]->return_type);
+        $this->assertEquals('int', $file->functions[0]->returns[0]->type);
         $this->assertCount(1, $file->functions[0]->args);
 
         $args = $file->functions[0]->args;
@@ -81,4 +81,3 @@ class CFunctionTest extends PHPUnit_ParserTestCase {
     }
 
 }
-
