@@ -119,7 +119,7 @@ class ParserFunction extends CodeParserItem {
             $parts = preg_split('/\s+/', $throws_tag, 2);
             $throw = new ParserThrow();
             $throw->exception = $parts[0];
-            $throw->description = @$parts[1];
+            $throw->description = htmlify_text(@$parts[1]);
             $this->throws[] = $throw;
         }
 

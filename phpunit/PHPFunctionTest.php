@@ -210,7 +210,7 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertCount(1, $file->functions[0]->throws);
         $this->assertEquals('Exception', $file->functions[0]->throws[0]->exception);
-        $this->assertEquals('Just for fun', $file->functions[0]->throws[0]->description);
+        $this->assertEquals('Just for fun', trim(strip_tags($file->functions[0]->throws[0]->description)));
     }
 
     public function testThrows() {
@@ -225,7 +225,7 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertCount(1, $file->functions[0]->throws);
         $this->assertEquals('Exception', $file->functions[0]->throws[0]->exception);
-        $this->assertEquals('Just for fun', $file->functions[0]->throws[0]->description);
+        $this->assertEquals('Just for fun', trim(strip_tags($file->functions[0]->throws[0]->description)));
     }
 
     public function testThrowThrows() {
@@ -241,9 +241,9 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertCount(2, $file->functions[0]->throws);
         $this->assertEquals('Exception', $file->functions[0]->throws[0]->exception);
-        $this->assertEquals('Just for fun', $file->functions[0]->throws[0]->description);
+        $this->assertEquals('Just for fun', trim(strip_tags($file->functions[0]->throws[0]->description)));
         $this->assertEquals('DatabaseException', $file->functions[0]->throws[1]->exception);
-        $this->assertEquals('When something is broken', $file->functions[0]->throws[1]->description);
+        $this->assertEquals('When something is broken', trim(strip_tags($file->functions[0]->throws[1]->description)));
     }
 
     public function testThrowNoDesc() {
