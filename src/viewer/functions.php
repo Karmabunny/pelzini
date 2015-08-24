@@ -327,7 +327,6 @@ function process_inline_link(array $matches)
 
     // Look for functions
     $q = "SELECT id, name FROM functions WHERE name LIKE {$text_sql} AND classid IS NULL AND interfaceid IS NULL AND projectid = {$project['id']}";
-    if ($class_id) $q .= " AND classid = {$class_id}";
     $res = db_query($q);
     if ($row = db_fetch_assoc($res)) {
         return get_function_link(null, $row['name'], $link_text);
