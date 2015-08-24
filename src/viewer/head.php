@@ -41,6 +41,8 @@ header('Content-type: text/html; charset=UTF-8');
 
     <base href="<?php echo htmlspecialchars($base_path); ?>">
 
+    <link rel="search" type="application/opensearchdescription+xml" href="opensearch" title="<?php echo htmlspecialchars($project['name']); ?>" />
+
     <link href="../assets/style.css" rel="stylesheet" type="text/css">
     <script src="../assets/functions.js" type="text/javascript"></script>
     <link href="../assets/favicon.ico" rel="icon" type="image/vnd.microsoft.icon" >
