@@ -40,6 +40,7 @@ class PHPUnit_ParserTestCase extends PHPUnit_Framework_TestCase {
             <?php
             /** A function
             * @param $aa An arg
+            * @throw Exception sometimes
             * @return string it is fun
             **/
             function aaa (array $aa) {}
