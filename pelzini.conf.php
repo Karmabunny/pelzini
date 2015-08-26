@@ -19,6 +19,9 @@ $dpgLicenseText = 'Documentation is made available under the
 /* Optional - List the transformers here. Transformers alter the parsed files before outputting */
 $dpgTransformers[] = new QualityCheckTransformer();
 
+/* If you're not using namespaces, you can fake them using directories */
+$dpgTransformers[] = new FakeNamespaceDirsTransformer();
+
 /* Required - List the outputters here. Outputters save the parsed files to a database or an output file */
 $dpgOutputters[] = new MysqlOutputter('pelzini', 'password', 'localhost', 'pelzini');
 
@@ -29,7 +32,10 @@ $dpgOutputters[] = new MysqlOutputter('pelzini', 'password', 'localhost', 'pelzi
 $dpgBaseDirectory = 'src';
 
 /* Optional - These are directories that should be excluded from the processing. */
-$dpgExcludeDirectories = array();
+$dpgExcludeDirectories = array(
+	'viewer/i18n',
+	'viewer/geshi',
+);
 
 /* Optional - This is the directory which contains plain-text documents */
 $dpgDocsDirectory = 'documentation';
