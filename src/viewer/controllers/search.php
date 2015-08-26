@@ -68,10 +68,7 @@ $results = false;
 // Determine the match string
 // #ITEM# will be replaced in the specific search query
 // for for classes, #ITEM# will become classes.name
-$match_string = "#ITEM# LIKE '%{$query}%'";
-if (!empty($_GET['case_sensitive'])){
-	$match_string = "BINARY #ITEM# LIKE '%{$query}%'";
-}
+$match_string = "#ITEM# '";
 
 $extra_where = '1';
 if (!empty($_GET['path'])) {
@@ -84,21 +81,22 @@ echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" on
 echo "<span style=\"float: right;\">", str(STR_SHOW_HIDE_ALL), " &nbsp;</span>";
 
 echo '<h2>', str(STR_SEARCH_TITLE), '</h2>';
-echo '<p>', str(
-    !empty($_GET['case_sensitive']) ? STR_YOU_SEARCHED_FOR_CASE : STR_YOU_SEARCHED_FOR,
-    'term', htmlspecialchars($_GET['q'])
-), '</p>';
+echo '<p>', str(STR_YOU_SEARCHED_FOR, 'term', htmlspecialchars($_GET['q'])), '</p>';
 
 // classes
 if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
-    $this_match_string = str_replace('#ITEM#', 'classes.name', $match_string);
-    $q = "SELECT classes.id, classes.name, classes.description, classes.extends, classes.abstract, files.name as filename, classes.fileid
+    $q = "SELECT classes.id, classes.name, classes.description, classes.extends, classes.abstract,
+        files.name as filename, classes.fileid,
+            IF(BINARY classes.name = '{$query}', 1, 0) +
+            IF(classes.name LIKE '{$query}', 1, 0) +
+            IF(classes.name LIKE '{$query}%', 1, 0) +
+        0 AS relevancy
     FROM classes
     INNER JOIN files ON classes.fileid = files.id
-    WHERE {$this_match_string}
+    WHERE classes.name LIKE '%{$query}%'
       AND classes.projectid = {$project['id']}
       AND {$extra_where}
-    ORDER BY IF(classes.name = '{$query}', 1, 2), classes.name";
+    ORDER BY relevancy DESC, classes.name";
 
     $res = db_query ($q);
     $num = db_num_rows ($res);
@@ -138,15 +136,19 @@ if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
 
 // functions
 if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
-    $this_match_string = str_replace('#ITEM#', 'functions.name', $match_string);
-    $q = "SELECT functions.id, functions.name, functions.description, functions.classid, functions.linenum, files.name as filename, functions.fileid, classes.name as class
+    $q = "SELECT functions.id, functions.name, functions.description, functions.classid, functions.linenum,
+        files.name as filename, functions.fileid, classes.name as class,
+            IF(BINARY functions.name = '{$query}', 1, 0) +
+            IF(functions.name LIKE '{$query}', 1, 0) +
+            IF(functions.name LIKE '{$query}%', 1, 0) +
+        0 AS relevancy
     FROM functions
     INNER JOIN files ON functions.fileid = files.id
     LEFT JOIN classes ON functions.classid = classes.id
-    WHERE {$this_match_string}
+    WHERE functions.name LIKE '%{$query}%'
       AND functions.projectid = {$project['id']}
       AND {$extra_where}
-    ORDER BY functions.name";
+    ORDER BY relevancy DESC, functions.name";
     $res = db_query ($q);
     $num = db_num_rows ($res);
     if ($num != 0) {
@@ -181,14 +183,17 @@ if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
 
 // constants
 if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
-    $this_match_string = str_replace('#ITEM#', 'constants.name', $match_string);
-    $q = "SELECT constants.name, constants.description, files.name as filename, constants.fileid, constants.value
+    $q = "SELECT constants.name, constants.description, files.name as filename, constants.fileid, constants.value,
+            IF(BINARY constants.name = '{$query}', 1, 0) +
+            IF(constants.name LIKE '{$query}', 1, 0) +
+            IF(constants.name LIKE '{$query}%', 1, 0) +
+        0 AS relevancy
     FROM constants
     INNER JOIN files ON constants.fileid = files.id
-    WHERE {$this_match_string}
+    WHERE constants.name LIKE '%{$query}%'
       AND constants.projectid = {$project['id']}
       AND {$extra_where}
-    ORDER BY constants.name";
+    ORDER BY relevancy DESC, constants.name";
     $res = db_query ($q);
     $num = db_num_rows ($res);
     if ($num != 0) {
@@ -223,7 +228,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
 
 // source
 if (@$_GET['advanced'] == 0 or @$_GET['source'] == 'y') {
-    $results = search_source(@$_GET['q'], @$_GET['case_sensitive'], @$_GET['path']);
+    $results = search_source(@$_GET['q'], false, @$_GET['path']);
 }
 
 
