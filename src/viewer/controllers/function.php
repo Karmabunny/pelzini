@@ -33,13 +33,14 @@ require_once 'functions.php';
 
 $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
-$q->addFields('functions.id, functions.name, functions.namespace, functions.description,
+$q->addFields('functions.id, functions.name, namespaces.name AS namespace, functions.description,
   files.name AS filename, functions.linenum, functions.classid,
   classes.name AS class, interfaces.name AS interface, functions.static, functions.final, functions.sinceid');
 $q->setFrom('functions');
 $q->addInnerJoin('files ON functions.fileid = files.id');
 $q->addLeftJoin('classes ON functions.classid = classes.id');
 $q->addLeftJoin('interfaces ON functions.interfaceid = interfaces.id');
+$q->addLeftJoin('namespaces ON functions.namespaceid = namespaces.id');
 $q->addWhere("functions.name = {$sql_name}");
 $q->addProjectWhere();
 
@@ -63,35 +64,35 @@ if (db_num_rows($res) == 0) {
     require_once 'foot.php';
     
 } else if (db_num_rows($res) > 1) {
-	require_once 'head.php';
+    require_once 'head.php';
     echo '<h2>', str(STR_MULTIPLE_TITLE, 'NUM', db_num_rows($res), 'TYPE', strtolower(str(STR_FUNCTIONS))), '</h2>';
     
     echo '<div class="list">';
     while ($row = db_fetch_assoc($res)) {
-    	$name_parts = array();
-    	$name_parts[] = str(STR_IN_FILE, 'VAL', $row['filename']);
-    	
-    	$url = 'function?name=' . htmlspecialchars($_GET['name']) . '&file=' . urlencode($row['filename']);
-    	
-    	if ($row['class']) {
-    		$url .= '&memberof=' . urlencode($row['class']);
-    		$name_parts[] = str(STR_IN_CLASS, 'VAL', $row['class']);
-    	} else if ($row['interface']) {
-    		$url .= '&memberof=' . urlencode($row['interface']);
-    		$name_parts[] = str(STR_IN_INTERFACE, 'VAL', $row['class']);
-    	}
-    	
-    	echo '<div class="item">';
-		echo '<p><strong><a href="', htmlspecialchars($url), '">', htmlspecialchars($row['name']), '</a></strong></p>';
-		echo '<pre>', ucfirst(implode(', ', $name_parts)), '</pre>';
-		echo '</div>';
+        $name_parts = array();
+        $name_parts[] = str(STR_IN_FILE, 'VAL', $row['filename']);
+        
+        $url = 'function?name=' . htmlspecialchars($_GET['name']) . '&file=' . urlencode($row['filename']);
+        
+        if ($row['class']) {
+            $url .= '&memberof=' . urlencode($row['class']);
+            $name_parts[] = str(STR_IN_CLASS, 'VAL', $row['class']);
+        } else if ($row['interface']) {
+            $url .= '&memberof=' . urlencode($row['interface']);
+            $name_parts[] = str(STR_IN_INTERFACE, 'VAL', $row['class']);
+        }
+        
+        echo '<div class="item">';
+        echo '<p><strong><a href="', htmlspecialchars($url), '">', htmlspecialchars($row['name']), '</a></strong></p>';
+        echo '<pre>', ucfirst(implode(', ', $name_parts)), '</pre>';
+        echo '</div>';
     }
     echo '</div>';
     
     require_once 'foot.php';
     
 } else {
-	$function = db_fetch_assoc($res);
+    $function = db_fetch_assoc($res);
 }
 
 $skin['page_name'] = str(STR_FUNC_BROWSER_TITLE, 'name', $function['name']);
@@ -106,12 +107,12 @@ echo "<ul>";
 $line = $function['linenum'];
 $start = '';
 if ($line > 5) {
-	$start = '#src-lines-' . ($line - 5);
+    $start = '#src-lines-' . ($line - 5);
 }
 echo '<li>File: <a href="file?name=', urlencode($function['filename']), '">', htmlspecialchars($function['filename']), '</a>, line <a href="file_source?name=', urlencode($function['filename']), "&amp;highlight={$line}{$start}\">{$line}</a></li>";
 
 if ($function['namespace'] != null) {
-    echo '<li>', str(STR_NAMESPACE, 'name', $function['namespace']), '</li>';
+    echo '<li>', str(STR_NAMESPACE, 'name', get_namespace_link($function['namespace'])), '</li>';
 }
 
 if ($function['classid']) {

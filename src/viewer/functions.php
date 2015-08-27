@@ -493,6 +493,17 @@ function get_interface_link($interface)
 
 
 /**
+* Return a link to a given namespace
+*
+* @param string $namespace The name of the namespace to return a link for
+**/
+function get_namespace_link($namespace)
+{
+    return '<a href="namespace?name=' . urlencode($namespace) . '">' . htmlspecialchars($namespace) . '</a>';
+}
+
+
+/**
 * Return a link to a given function
 *
 * @param string $class The name of the class or interface a function is a member of. Use NULL for non-class functions

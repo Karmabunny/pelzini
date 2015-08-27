@@ -419,13 +419,22 @@ abstract class DatabaseOutputter extends Outputter {
         foreach ($files as $file) {
             if (empty($file->namespace)) continue;
 
-            $full_namespace = implode('\\', $file->namespace);
-            if (isset($namespaces[$full_namespace])) continue;
-
-            $insert_data = array();
-            $insert_data['name'] = $this->sql_safen($full_namespace);
-            $this->do_insert('namespaces', $insert_data);
-            $namespaces[$full_namespace] = $this->insert_id();
+            $parent_id = 0;
+            $components = array();
+            foreach ($file->namespace as $ns) {
+                $components[] = $ns;
+                $full_namespace = implode('\\', $components);
+                
+                if (!isset($namespaces[$full_namespace])) {
+                    $insert_data = array();
+                    $insert_data['name'] = $this->sql_safen($full_namespace);
+                    $insert_data['parentid'] = $parent_id;
+                    $this->do_insert('namespaces', $insert_data);
+                    $namespaces[$full_namespace] = $this->insert_id();
+                }
+                
+                $parent_id = $namespaces[$full_namespace];
+            }
         }
 
         // Determine the versions that are available
@@ -451,9 +460,9 @@ abstract class DatabaseOutputter extends Outputter {
         foreach ($files as $item) {
             if ($item instanceof ParserFile) {
                 if ($item->namespace) {
-                    $file_namespace = implode('\\', $item->namespace);
+                    $file_namespace = $namespaces[implode('\\', $item->namespace)];
                 } else {
-                    $file_namespace = null;
+                    $file_namespace = 0;
                 }
 
                 $insert_data = array();
@@ -461,7 +470,7 @@ abstract class DatabaseOutputter extends Outputter {
                 $insert_data['description'] = $this->sql_safen($item->description);
                 $insert_data['source'] = $this->sql_safen($item->source);
                 $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($item->since));
-                $insert_data['namespace'] = $this->sql_safen($file_namespace);
+                $insert_data['namespaceid'] = $this->sql_safen($file_namespace);
 
                 $this->do_insert('files', $insert_data);
                 $file_id = $this->insert_id ();
@@ -536,7 +545,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['fileid'] = $file_id;
         $insert_data['linenum'] = $this->sql_safen($function->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($function->since));
-        $insert_data['namespace'] = $this->sql_safen($file_namespace);
+        $insert_data['namespaceid'] = $this->sql_safen($file_namespace);
 
         // Class-specific details
         if ($class_id != null) {
@@ -635,7 +644,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['fileid'] = $file_id;
         $insert_data['linenum'] = $this->sql_safen($class->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($class->since));
-        $insert_data['namespace'] = $this->sql_safen($file_namespace);
+        $insert_data['namespaceid'] = $this->sql_safen($file_namespace);
 
         if ($class->abstract) $insert_data['abstract'] = 1;
         if ($class->final) $insert_data['final'] = 1;
@@ -688,7 +697,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['fileid'] = $file_id;
         $insert_data['linenum'] = $this->sql_safen($interface->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($interface->since));
-        $insert_data['namespace'] = $this->sql_safen($file_namespace);
+        $insert_data['namespaceid'] = $this->sql_safen($file_namespace);
 
         // Build and process query from prepared data
         $this->do_insert('interfaces', $insert_data);

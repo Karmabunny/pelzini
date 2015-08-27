@@ -21,6 +21,7 @@ STR_POWERED_BY                         Powered by <a href="https://github.com/Ka
 STR_DATE_GENERATED                     Generated: {DATE}
 
 ; Sidebar
+STR_NAMESPACES                         Namespaces
 STR_CLASSES                            Classes
 STR_INTERFACES                         Interfaces
 STR_FUNCTIONS                          Functions
@@ -119,9 +120,9 @@ STR_FILE_SOURCE_PAGE_TITLE             <span class="unimportant">source of</span
 STR_FILE_PAGE_TITLE                    <span class="unimportant">file</span> <i>{NAME}</i>
 STR_FILE_VIEW_SOURCE                   View source
 
-; Packages
-STR_PKG_PAGE_TITLE                     <span class="unimportant">package</span> <i>{NAME}</i>
-STR_PKG_INVALID                        Invalid package specified.
+; Namespaces
+STR_NAMESPACE_PAGE_TITLE               <span class="unimportant">namespace</span> <i>{NAME}</i>
+STR_NAMESPACE_INVALID                  Invalid namespace specified.
 
 ; Functions
 STR_FUNC_INVALID                       Invalid function specified.

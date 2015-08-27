@@ -34,9 +34,10 @@ require_once 'functions.php';
 // Determine what to show
 $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
-$q->addFields('files.id, files.name, files.description, files.namespace, files.sinceid');
+$q->addFields('files.id, files.name, files.description, namespaces.name AS namespace, files.sinceid');
 $q->setFrom('files');
 $q->addWhere("files.name = {$sql_name}");
+$q->addLeftJoin('namespaces ON files.namespaceid = namespaces.id');
 $q->addProjectWhere();
 
 $q = $q->buildQuery();
@@ -59,7 +60,7 @@ require_once 'head.php';
 echo '<h2>', str(STR_FILE_PAGE_TITLE, 'name', $file['name']), '</h2>';
 
 if ($file['namespace'] != null) {
-    echo '<p>', str(STR_NAMESPACE, 'name', $file['namespace']), '</p>';
+    echo '<p>', str(STR_NAMESPACE, 'name', get_namespace_link($file['namespace'])), '</p>';
 }
 
 if ($file['sinceid'] != null) {

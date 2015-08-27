@@ -37,7 +37,7 @@ $res = db_query($q);
 if (! $namespace = db_fetch_assoc ($res)) {
     require_once 'head.php';
     echo '<h2>', str(STR_ERROR_TITLE), '</h2>';
-    echo str(STR_PKG_INVALID);
+    echo str(STR_NAMESPACE_INVALID);
     require_once 'foot.php';
 }
 
@@ -46,15 +46,42 @@ $namespace['name'] = htmlspecialchars($namespace['name']);
 $skin['page_name'] = $namespace['name'];
 require_once 'head.php';
 
-echo '<h2>', str(STR_PKG_PAGE_TITLE, 'name', $namespace['name']), '</h2>';
+echo '<h2>', str(STR_NAMESPACE_PAGE_TITLE, 'name', $namespace['name']), '</h2>';
 
 
-$sql_namespace = db_quote($namespace['name']);
+// Show sub-namespaces
+$q = "SELECT id, name
+  FROM namespaces
+  WHERE parentid = {$namespace['id']}
+  ORDER BY name";
+$res = db_query($q);
+if (db_num_rows($res) > 0) {
+    echo '<div>';
+    echo '<a name="classes"></a>';
+    echo '<h3>', str(STR_NAMESPACES), '</h3>';
+    echo '<img src="assets/icon_remove.png" alt="" title="Hide this result" onclick="hide_content(event)" class="showhide" style="margin-top: -40px;">';
+
+    $alt = false;
+    echo '<div class="list content">';
+    while ($row = db_fetch_assoc ($res)) {
+        $class = 'item';
+        if ($alt) $class .= '-alt';
+
+        echo "<div class=\"{$class}\">";
+        echo "<p><strong><a href=\"namespace?name=", htmlspecialchars($row['name']), "\">", htmlspecialchars($row['name']), "</a></strong></p>";
+        echo '</div>';
+
+        $alt = ! $alt;
+    }
+    echo '</div>';
+    echo '</div>';
+}
+
 
 // Show classes
 $q = "SELECT id, name, description
   FROM classes
-  WHERE namespace = {$sql_namespace}
+  WHERE namespaceid = {$namespace['id']}
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
@@ -84,7 +111,7 @@ if (db_num_rows($res) > 0) {
 // Show interfaces
 $q = "SELECT id, name, description
   FROM interfaces
-  WHERE namespace = {$sql_namespace}
+  WHERE namespaceid = {$namespace['id']}
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
@@ -114,7 +141,7 @@ if (db_num_rows($res) > 0) {
 // Show functions
 $q = "SELECT id, name, description, arguments
   FROM functions
-  WHERE namespace = {$sql_namespace} AND classid IS NULL AND interfaceid IS NULL
+  WHERE namespaceid = {$namespace['id']} AND classid IS NULL AND interfaceid IS NULL
   ORDER BY name";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {

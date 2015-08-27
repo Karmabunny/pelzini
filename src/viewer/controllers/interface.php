@@ -33,10 +33,11 @@ require_once 'functions.php';
 
 // Get the details of this interface
 $sql_name = db_quote($_GET['name']);
-$q = "SELECT interfaces.id, interfaces.name, interfaces.namespace, interfaces.description, files.name AS filename,
+$q = "SELECT interfaces.id, interfaces.name, namespaces.name AS namespace, interfaces.description, files.name AS filename,
   interfaces.sinceid
   FROM interfaces
   INNER JOIN files ON interfaces.fileid = files.id
+  LEFT JOIN namespaces ON interfaces.namespaceid = namespaces.id
   WHERE interfaces.name = {$sql_name}
     AND interfaces.projectid = {$project['id']}
   LIMIT 1";
@@ -63,7 +64,7 @@ echo '<ul>';
 echo '<li>', str(STR_FILE, 'filename', $interface['filename']), '</li>';
 
 if ($interface['namespace'] != null) {
-    echo '<li>', str(STR_NAMESPACE, 'name', $interface['namespace']), '</li>';
+    echo '<li>', str(STR_NAMESPACE, 'name', get_namespace_link($interface['namespace'])), '</li>';
 }
 
 if ($interface['sinceid']) {

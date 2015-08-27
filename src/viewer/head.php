@@ -29,7 +29,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 $browser_title = 'Documentation for ' . $project['name'];
 if (!empty($skin['page_name'])) {
-	$browser_title = $skin['page_name'] . ' - ' . $browser_title;
+    $browser_title = $skin['page_name'] . ' - ' . $browser_title;
 }
 
 header('Content-type: text/html; charset=UTF-8');
@@ -84,6 +84,7 @@ header('Content-type: text/html; charset=UTF-8');
 $q = new SelectQuery();
 $q->addFields('id, name');
 $q->setFrom('namespaces');
+$q->addWhere('parentid = 0');
 $q->setOrderBy('name');
 $q->addProjectWhere();
 

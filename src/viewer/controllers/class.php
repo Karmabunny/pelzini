@@ -42,10 +42,11 @@ $_GET['page'] = (int) @$_GET['page'];
 
 $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
-$q->addFields('classes.id, classes.name, classes.namespace, classes.description, classes.extends, files.name as filename,
+$q->addFields('classes.id, classes.name, namespaces.name AS namespace, classes.description, classes.extends, files.name as filename,
   classes.final, classes.abstract, classes.sinceid, classes.projectid');
 $q->setFrom('classes');
 $q->addInnerJoin('files ON classes.fileid = files.id');
+$q->addLeftJoin('namespaces ON classes.namespaceid = namespaces.id');
 $q->addWhere("classes.name = {$sql_name}");
 $q->addProjectWhere();
 
@@ -64,27 +65,27 @@ if (db_num_rows($res) == 0) {
     require_once 'foot.php';
 
 } else if (db_num_rows($res) > 1) {
-	require_once 'head.php';
+    require_once 'head.php';
     echo '<h2>', str(STR_MULTIPLE_TITLE, 'NUM', db_num_rows($res), 'TYPE', strtolower(str(STR_CLASSES))), '</h2>';
     
     echo '<div class="list">';
     while ($row = db_fetch_assoc($res)) {
-    	$name_parts = array();
-    	$name_parts[] = str(STR_IN_FILE, 'VAL', $row['filename']);
-    	
-    	$url = 'class?name=' . htmlspecialchars($_GET['name']) . '&file=' . urlencode($row['filename']);
-    	
-    	echo '<div class="item">';
-		echo '<p><strong><a href="', htmlspecialchars($url), '">', htmlspecialchars($row['name']), '</a></strong></p>';
-		echo '<pre>', ucfirst(implode(', ', $name_parts)), '</pre>';
-		echo '</div>';
+        $name_parts = array();
+        $name_parts[] = str(STR_IN_FILE, 'VAL', $row['filename']);
+        
+        $url = 'class?name=' . htmlspecialchars($_GET['name']) . '&file=' . urlencode($row['filename']);
+        
+        echo '<div class="item">';
+        echo '<p><strong><a href="', htmlspecialchars($url), '">', htmlspecialchars($row['name']), '</a></strong></p>';
+        echo '<pre>', ucfirst(implode(', ', $name_parts)), '</pre>';
+        echo '</div>';
     }
     echo '</div>';
     
     require_once 'foot.php';
     
 } else {
-	$class = db_fetch_assoc($res);
+    $class = db_fetch_assoc($res);
 }
 
 
@@ -137,7 +138,7 @@ echo "<ul>";
 echo '<li>', str(STR_FILE, 'filename', $class['filename']), '</li>';
 
 if ($class['namespace'] != null) {
-    echo '<li>', str(STR_NAMESPACE, 'name', $class['namespace']), '</li>';
+    echo '<li>', str(STR_NAMESPACE, 'name', get_namespace_link($class['namespace'])), '</li>';
 }
 
 if ($class['extends'] != null) {
@@ -176,9 +177,9 @@ case PAGE_CLASS_GENERAL:
     $variables = array();
 
     if (@$_GET['complete'] == 1) {
-    	$name = $class['name'];
-    	$filename = $class['filename'];
-    	
+        $name = $class['name'];
+        $filename = $class['filename'];
+        
         do {
             $result = load_class($project['id'], $name, $filename);
             if ($result == null) break;
@@ -210,8 +211,8 @@ case PAGE_CLASS_GENERAL:
         echo "<table class=\"function-list\">\n";
         echo '<tr><th>', str(STR_NAME), '</th><th>', str(STR_VISIBILITY), '</th><th>', str(STR_DESCRIPTION), "</th></tr>\n";
         foreach ($variables as $row) {
-        	if (!isset($row['visibility'])) $row['visibility'] = '';
-        	
+            if (!isset($row['visibility'])) $row['visibility'] = '';
+            
             // encode for output
             $row['name'] = htmlspecialchars($row['name']);
             if ($row['description'] == null) $row['description'] = '&nbsp;';
@@ -405,14 +406,14 @@ function load_class($project_id, $name, $filename = null)
     // determine parent class
     $name_sql = db_escape($name);
     $q = "SELECT classes.id, classes.extends
-    	FROM classes
-    	INNER JOIN files ON classes.fileid = files.id
+        FROM classes
+        INNER JOIN files ON classes.fileid = files.id
         WHERE classes.projectid = {$project_id}
           AND classes.name LIKE '{$name_sql}'";
     
     if ($filename) {
-    	$name_sql = db_escape($filename);
-    	$q .= " AND files.name = '{$name_sql}'";
+        $name_sql = db_escape($filename);
+        $q .= " AND files.name = '{$name_sql}'";
     }
     
     $res = db_query($q);
