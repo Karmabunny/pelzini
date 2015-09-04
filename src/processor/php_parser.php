@@ -188,6 +188,9 @@ class PhpParser
 
 
                 case T_FUNCTION:
+                    if ($inside_function != null) {
+                        break;
+                    }
                     $current_function = new ParserFunction();
                     $current_function->linenum = $linenum;
                     if ($abstract) {
