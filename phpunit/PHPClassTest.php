@@ -353,6 +353,77 @@ class PHPClassTest extends PHPUnit_ParserTestCase {
     }
 
 
+    public function testNestedFunction1() {
+        $file = $this->parse('
+            <?php
+            class aaa {
+                function aaa() {
+                    $func = function() {};
+                }
+                function bbb() {}
+            }
+        ');
+        $this->assertCount(1, $file->classes);
+        $this->assertEquals('aaa', $file->classes[0]->name);
+        $this->assertCount(2, $file->classes[0]->functions);
+        $this->assertEquals('aaa', $file->classes[0]->functions[0]->name);
+        $this->assertEquals('bbb', $file->classes[0]->functions[1]->name);
+    }
+
+    public function testNestedFunction2() {
+        $file = $this->parse('
+            <?php
+            class aaa {
+                function aaa() {
+                    $func = function($c) {};
+                }
+                function bbb() {}
+            }
+        ');
+        $this->assertCount(1, $file->classes);
+        $this->assertEquals('aaa', $file->classes[0]->name);
+        $this->assertCount(2, $file->classes[0]->functions);
+        $this->assertEquals('aaa', $file->classes[0]->functions[0]->name);
+        $this->assertEquals('bbb', $file->classes[0]->functions[1]->name);
+    }
+
+    public function testNestedFunction3() {
+        $file = $this->parse('
+            <?php
+            class aaa {
+                function aaa() {
+                    $func = function($c){ return function(){} };
+                }
+                function bbb() {}
+            }
+        ');
+        $this->assertCount(1, $file->classes);
+        $this->assertEquals('aaa', $file->classes[0]->name);
+        $this->assertCount(2, $file->classes[0]->functions);
+        $this->assertEquals('aaa', $file->classes[0]->functions[0]->name);
+        $this->assertEquals('bbb', $file->classes[0]->functions[1]->name);
+    }
+
+    public function testNestedFunction4() {
+        $file = $this->parse('
+            <?php
+            class aaa {
+                function aaa() {
+                    if ($aa) {
+                        bbb(function($c){ return function(){} });
+                    }
+                }
+                function bbb() {}
+            }
+        ');
+        $this->assertCount(1, $file->classes);
+        $this->assertEquals('aaa', $file->classes[0]->name);
+        $this->assertCount(2, $file->classes[0]->functions);
+        $this->assertEquals('aaa', $file->classes[0]->functions[0]->name);
+        $this->assertEquals('bbb', $file->classes[0]->functions[1]->name);
+    }
+
+
     /**
     * Classes with a variable
     **/

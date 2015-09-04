@@ -469,4 +469,58 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('aaa', $file->functions[0]->name);
     }
 
+
+    public function testNested1() {
+        $file = $this->parse('
+            <?php
+            function aaa() {
+                $func = function() {};
+            }
+            function bbb() {}
+        ');
+        $this->assertCount(2, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertEquals('bbb', $file->functions[1]->name);
+    }
+
+    public function testNested2() {
+        $file = $this->parse('
+            <?php
+            function aaa() {
+                $func = function($c) {};
+            }
+            function bbb() {}
+        ');
+        $this->assertCount(2, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertEquals('bbb', $file->functions[1]->name);
+    }
+
+    public function testNested3() {
+        $file = $this->parse('
+            <?php
+            function aaa() {
+                $func = function($c){ return function(){} };
+            }
+            function bbb() {}
+        ');
+        $this->assertCount(2, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertEquals('bbb', $file->functions[1]->name);
+    }
+
+    public function testNested4() {
+        $file = $this->parse('
+            <?php
+            function aaa() {
+                if ($aa) {
+                    bbb(function($c){ return function(){} });
+                }
+            }
+            function bbb() {}
+        ');
+        $this->assertCount(2, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertEquals('bbb', $file->functions[1]->name);
+    }
 }
