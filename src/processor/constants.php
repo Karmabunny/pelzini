@@ -30,7 +30,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * The current version of Pelzini.
  **/
-define('PELZINI_VERSION', '0.9.0-pre');
+define('PELZINI_VERSION', '0.9.0');
 
 // The output engines
 define('OUTPUTTER_MYSQL',      1);

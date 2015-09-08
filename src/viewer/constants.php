@@ -30,7 +30,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * The current version of pelzini
  **/
-define('PELZINI_VERSION', '0.9.0-dev');
+define('PELZINI_VERSION', '0.9.0');
 
 
 // The link types
