@@ -32,9 +32,9 @@ ini_set('memory_limit', '-1');
 require_once 'functions.php';
 require_once 'constants.php';
 
-output_status ('This is the Pelzini processor, Pelzini version ' . DOCU_VERSION);
+output_status ('This is the Pelzini processor, Pelzini version ' . PELZINI_VERSION);
 output_status ('Pelzini is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
-output_status ('For more information, see <a href="http://docu.sourceforge.net/">http://docu.sourceforge.net/</a>');
+output_status ('For more information, see <a href="https://github.com/Karmabunny/pelzini">https://github.com/Karmabunny/pelzini</a>');
 
 // Initalise each parser
 output_status ('');

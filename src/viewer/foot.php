@@ -43,7 +43,7 @@ $generated = date('l, jS F, Y', $generated) . ' at ' . date('h:i a', $generated)
 <table class="footer">
   <tr>
     <td align="left" style="width: 20em;">
-      <?php echo str (STR_POWERED_BY, 'version', DOCU_VERSION); ?>
+      <?php echo str (STR_POWERED_BY, 'version', PELZINI_VERSION); ?>
     </td>
 
     <td align="center">

@@ -20,7 +20,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
- * All of the constats used in docu
+ * All of the constats used in Pelzini
  *
  * @since 0.1
  * @author Josh
@@ -30,7 +30,7 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * The current version of Pelzini.
  **/
-define('DOCU_VERSION', '0.3.1-pre');
+define('PELZINI_VERSION', '0.9.0-pre');
 
 // The output engines
 define('OUTPUTTER_MYSQL',      1);

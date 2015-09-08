@@ -2,7 +2,7 @@
 /*
  * This is the example Pelzini viewer configuration file
  * For more information about configuration, see
- * http://docu.sourceforge.net
+ * https://github.com/Karmabunny/pelzini
  */
 
 /* The database engine to use in the viewer. Supported values are 'mysql', 'postgresql' and 'sqlite' */

@@ -28,9 +28,9 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /**
- * The current version of docu
+ * The current version of pelzini
  **/
-define('DOCU_VERSION', '0.9.0-dev');
+define('PELZINI_VERSION', '0.9.0-dev');
 
 
 // The link types

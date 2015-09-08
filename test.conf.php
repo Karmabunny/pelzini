@@ -2,7 +2,7 @@
 /*
  * This is the example Pelzini processor configuration file
  * For more information about configuration, see
- * http://docu.sourceforge.net
+ * https://github.com/Karmabunny/pelzini
  */
 
 /* This should be the name of your project */

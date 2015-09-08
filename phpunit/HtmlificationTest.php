@@ -8,7 +8,7 @@ For full authorship information, refer to the Git log at https://github.com/Karm
 
 
 /**
-* Tests that check that the {@link htmlify_text()} function, which turns docu-text into HTML makes sence
+* Tests that check that the {@link htmlify_text()} function, which turns pelzini-text into HTML makes sence
 **/
 class HtmlificationTest extends PHPUnit_Framework_TestCase {
 
