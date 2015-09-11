@@ -1,206 +1,206 @@
 TABLE projects
 PK id
-  id serial notnull
-  code string notnull
-  name string notnull
-  license text
-  dategenerated string
+    id serial notnull
+    code string notnull
+    name string notnull
+    license text
+    dategenerated string
 
 
 TABLE namespaces
 PK id
-  id serial notnull
-  projectid largenum notnull
-  name string notnull
-  parentid largenum notnull
+    id serial notnull
+    projectid largenum notnull
+    name string notnull
+    parentid largenum notnull
 
 
 TABLE files
 PK id
-  id serial notnull
-  projectid largenum notnull
-  name string notnull
-  description text
-  source text
-  namespaceid largenum notnull
-  sinceid largenum
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    name string notnull
+    description text
+    source text
+    namespaceid largenum notnull
+    sinceid largenum
+    
+    
 TABLE classes
 PK id
-  id serial notnull
-  projectid largenum notnull
-  fileid largenum notnull
-  linenum largenum notnull
-  name string notnull
-  namespaceid largenum notnull
-  description text
-  abstract smallnum notnull
-  extends string
-  visibility string notnull
-  final smallnum notnull
-  sinceid largenum
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    fileid largenum notnull
+    linenum largenum notnull
+    name string notnull
+    namespaceid largenum notnull
+    description text
+    abstract smallnum notnull
+    extends string
+    visibility string notnull
+    final smallnum notnull
+    sinceid largenum
+    
+    
 TABLE interfaces
 PK id
-  id serial notnull
-  projectid largenum notnull
-  fileid largenum notnull
-  linenum largenum notnull
-  name string notnull
-  namespaceid largenum notnull
-  description text
-  extends string
-  visibility string notnull
-  sinceid largenum
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    fileid largenum notnull
+    linenum largenum notnull
+    name string notnull
+    namespaceid largenum notnull
+    description text
+    extends string
+    visibility string notnull
+    sinceid largenum
+    
+    
 TABLE class_implements
 PK id
-  id serial notnull
-  projectid largenum notnull
-  classid largenum notnull
-  name string notnull
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    classid largenum notnull
+    name string notnull
+    
+    
 TABLE functions
 PK id
-  id serial notnull
-  projectid largenum notnull
-  fileid largenum notnull
-  linenum largenum notnull
-  classid largenum
-  interfaceid largenum
-  name string notnull
-  namespaceid largenum notnull
-  description text
-  arguments string notnull
-  visibility string
-  static smallnum notnull
-  final smallnum notnull
-  abstract smallnum notnull
-  sinceid largenum
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    fileid largenum notnull
+    linenum largenum notnull
+    classid largenum
+    interfaceid largenum
+    name string notnull
+    namespaceid largenum notnull
+    description text
+    arguments string notnull
+    visibility string
+    static smallnum notnull
+    final smallnum notnull
+    abstract smallnum notnull
+    sinceid largenum
+    
+    
 TABLE arguments
 PK id
-  id serial notnull
-  projectid largenum notnull
-  functionid largenum notnull
-  name string notnull
-  type string
-  defaultvalue string
-  description text
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    functionid largenum notnull
+    name string notnull
+    type string
+    defaultvalue string
+    description text
+    
+    
 TABLE throws
 PK id
-  id serial notnull
-  projectid largenum notnull
-  functionid largenum notnull
-  exception string notnull
-  description text
+    id serial notnull
+    projectid largenum notnull
+    functionid largenum notnull
+    exception string notnull
+    description text
 
 
 TABLE returns
 PK id
-  id serial notnull
-  projectid largenum notnull
-  functionid largenum notnull
-  type string notnull
-  description text
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    functionid largenum notnull
+    type string notnull
+    description text
+    
+    
 TABLE variables
 PK id
-  id serial notnull
-  projectid largenum notnull
-  classid largenum
-  interfaceid largenum
-  name string notnull
-  type string
-  description text
-  static smallnum notnull
-  sinceid largenum
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    classid largenum
+    interfaceid largenum
+    name string notnull
+    type string
+    description text
+    static smallnum notnull
+    sinceid largenum
+    
+    
 TABLE constants
 PK id
-  id serial notnull
-  projectid largenum notnull
-  fileid largenum notnull
-  linenum largenum notnull
-  enumerationid largenum
-  name string notnull
-  value string notnull
-  description text
-  sinceid largenum
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    fileid largenum notnull
+    linenum largenum notnull
+    enumerationid largenum
+    name string notnull
+    value string notnull
+    description text
+    sinceid largenum
+    
+    
 TABLE documents
 PK id
-  id serial notnull
-  projectid largenum notnull
-  name string notnull
-  description text
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    name string notnull
+    description text
+    
+    
 TABLE enumerations
 PK id
-  id serial notnull
-  projectid largenum notnull
-  fileid largenum notnull
-  linenum largenum notnull
-  name string notnull
-  description text
-  virtual smallnum notnull
-  sinceid largenum
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    fileid largenum notnull
+    linenum largenum notnull
+    name string notnull
+    description text
+    virtual smallnum notnull
+    sinceid largenum
+    
+    
 TABLE versions
 PK id
-  id serial notnull
-  projectid largenum notnull
-  name string notnull
-  
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    name string notnull
+    
+    
+    
 TABLE item_authors
 PK id
-  id serial notnull
-  projectid largenum notnull
-  linkid largenum notnull
-  linktype smallnum notnull
-  name string notnull
-  email string notnull
-  description text
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    linkid largenum notnull
+    linktype smallnum notnull
+    name string notnull
+    email string notnull
+    description text
+    
+    
 TABLE item_tables
 PK id
-  id serial notnull
-  projectid largenum notnull
-  linkid largenum notnull
-  linktype smallnum notnull
-  name string notnull
-  action string null
-  description text
-  
+    id serial notnull
+    projectid largenum notnull
+    linkid largenum notnull
+    linktype smallnum notnull
+    name string notnull
+    action string null
+    description text
+    
 TABLE item_see
 PK id
-  id serial notnull
-  projectid largenum notnull
-  linkid largenum notnull
-  linktype smallnum notnull
-  name string notnull
+    id serial notnull
+    projectid largenum notnull
+    linkid largenum notnull
+    linktype smallnum notnull
+    name string notnull
 
 TABLE item_info_tags
 PK id
-  id serial notnull
-  projectid largenum notnull
-  linkid largenum notnull
-  linktype smallnum notnull
-  name string notnull
-  
-  
+    id serial notnull
+    projectid largenum notnull
+    linkid largenum notnull
+    linktype smallnum notnull
+    name string notnull
+    
+    
