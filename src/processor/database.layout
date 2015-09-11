@@ -9,6 +9,8 @@ PK id
 
 TABLE namespaces
 PK id
+INDEX projectid
+INDEX parentid
     id serial notnull
     projectid largenum notnull
     name string notnull
@@ -17,6 +19,8 @@ PK id
 
 TABLE files
 PK id
+INDEX projectid
+INDEX namespaceid
     id serial notnull
     projectid largenum notnull
     name string notnull
@@ -28,6 +32,10 @@ PK id
     
 TABLE classes
 PK id
+INDEX projectid
+INDEX fileid
+INDEX namespaceid
+INDEX name
     id serial notnull
     projectid largenum notnull
     fileid largenum notnull
@@ -44,6 +52,9 @@ PK id
     
 TABLE interfaces
 PK id
+INDEX projectid
+INDEX fileid
+INDEX namespaceid
     id serial notnull
     projectid largenum notnull
     fileid largenum notnull
@@ -58,6 +69,8 @@ PK id
     
 TABLE class_implements
 PK id
+INDEX projectid
+INDEX classid
     id serial notnull
     projectid largenum notnull
     classid largenum notnull
@@ -66,6 +79,12 @@ PK id
     
 TABLE functions
 PK id
+INDEX projectid
+INDEX classid
+INDEX interfaceid
+INDEX fileid
+INDEX namespaceid
+INDEX name
     id serial notnull
     projectid largenum notnull
     fileid largenum notnull
@@ -85,6 +104,8 @@ PK id
     
 TABLE arguments
 PK id
+INDEX projectid
+INDEX functionid
     id serial notnull
     projectid largenum notnull
     functionid largenum notnull
@@ -96,6 +117,8 @@ PK id
     
 TABLE throws
 PK id
+INDEX projectid
+INDEX functionid
     id serial notnull
     projectid largenum notnull
     functionid largenum notnull
@@ -105,6 +128,8 @@ PK id
 
 TABLE returns
 PK id
+INDEX projectid
+INDEX functionid
     id serial notnull
     projectid largenum notnull
     functionid largenum notnull
@@ -114,6 +139,9 @@ PK id
     
 TABLE variables
 PK id
+INDEX projectid
+INDEX classid
+INDEX interfaceid
     id serial notnull
     projectid largenum notnull
     classid largenum
@@ -127,6 +155,8 @@ PK id
     
 TABLE constants
 PK id
+INDEX projectid
+INDEX fileid
     id serial notnull
     projectid largenum notnull
     fileid largenum notnull
@@ -140,6 +170,7 @@ PK id
     
 TABLE documents
 PK id
+INDEX projectid
     id serial notnull
     projectid largenum notnull
     name string notnull
@@ -148,6 +179,8 @@ PK id
     
 TABLE enumerations
 PK id
+INDEX projectid
+INDEX fileid
     id serial notnull
     projectid largenum notnull
     fileid largenum notnull
@@ -160,6 +193,7 @@ PK id
     
 TABLE versions
 PK id
+INDEX projectid
     id serial notnull
     projectid largenum notnull
     name string notnull
@@ -168,6 +202,7 @@ PK id
     
 TABLE item_authors
 PK id
+INDEX projectid
     id serial notnull
     projectid largenum notnull
     linkid largenum notnull
@@ -179,6 +214,7 @@ PK id
     
 TABLE item_tables
 PK id
+INDEX projectid
     id serial notnull
     projectid largenum notnull
     linkid largenum notnull
@@ -189,6 +225,7 @@ PK id
     
 TABLE item_see
 PK id
+INDEX projectid
     id serial notnull
     projectid largenum notnull
     linkid largenum notnull
@@ -197,6 +234,7 @@ PK id
 
 TABLE item_info_tags
 PK id
+INDEX projectid
     id serial notnull
     projectid largenum notnull
     linkid largenum notnull
