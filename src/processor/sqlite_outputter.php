@@ -275,6 +275,23 @@ class SqliteOutputter extends DatabaseOutputter {
     }
 
 
+
+    /**
+     * Should return a multi-dimentional array of the index details
+     * Format:
+     * Array [
+     *   [0] => Array [
+     *      'Fields' => array of field names
+     *      ]
+     *   [1] => ...
+     *   [n] => ...
+     **/
+    protected function get_index_details($table_name)
+    {
+        return array();
+    }
+    
+
     /**
      * Gets the query that alters a column to match the new SQL definition
      **/
