@@ -92,6 +92,18 @@ abstract class DatabaseOutputter extends Outputter {
      **/
     abstract protected function get_column_details($table_name);
 
+	/**
+     * Should return a multi-dimentional array of the index details
+     * Format:
+     * Array [
+     *   [0] => Array [
+     *      'Fields' => array of field names
+     *      ]
+     *   [1] => ...
+     *   [n] => ...
+     **/
+    abstract protected function get_index_details($table_name);
+
     /**
      * Gets the query that alters a column to match the new SQL definition
      **/
@@ -223,6 +235,10 @@ abstract class DatabaseOutputter extends Outputter {
                 $dest_tables[$table]['PK'] = $words[1];
                 break;
 
+            case 'INDEX':
+                $dest_tables[$table]['Indexes'][] = $words[1];
+                break;
+
             default:
                 $col = array();
                 $col['Type'] = $words[1];
@@ -246,7 +262,6 @@ abstract class DatabaseOutputter extends Outputter {
             $curr_tables[$table_name] = array();
 
             $colres = $this->get_column_details($table_name);
-
             foreach ($colres as $colrow) {
                 $colrow['Type'] = strtolower($colrow['Type']);
 
@@ -256,6 +271,11 @@ abstract class DatabaseOutputter extends Outputter {
                 unset ($colrow['Key']);
 
                 $curr_tables[$table_name]['Columns'][$colrow['Field']] = $colrow;
+            }
+
+            $indexres = $this->get_index_details($table_name);
+            foreach ($indexres as $indexrow) {
+                $curr_tables[$table_name]['Indexes'][] = $indexrow['Fields'][0];
             }
         }
 
@@ -314,7 +334,19 @@ abstract class DatabaseOutputter extends Outputter {
                             echo "  Column {$column_name} does not need to be changed\n";
                         }
                     }
+                }
 
+                // Update indexes
+                foreach ($dest_table['Indexes'] as $column_name) {
+                    if (!in_array($column_name, $curr_table['Indexes'])) {
+                        echo "  Create index {$column_name}\n";
+
+                        $q = "ALTER TABLE {$table_name} ADD INDEX ({$column_name})";
+                        echo "    <b>Query: {$q}</b>\n";
+
+                        $res = $this->query ($q);
+                        if ($res) echo '    Affected rows: ', $this->affected_rows($res), "\n";
+                    }
                 }
             }
 

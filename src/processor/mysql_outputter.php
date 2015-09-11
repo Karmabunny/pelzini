@@ -234,6 +234,34 @@ class MysqlOutputter extends DatabaseOutputter {
 
 
     /**
+     * Should return a multi-dimentional array of the index details
+     * Format:
+     * Array [
+     *   [0] => Array [
+     *      'Fields' => array of field names
+     *      ]
+     *   [1] => ...
+     *   [n] => ...
+     **/
+    protected function get_index_details($table_name)
+    {
+        $q = 'SHOW INDEXES IN ' . $table_name;
+        $res = $this->query ($q);
+
+        $indexes = array();
+        while ($row = $this->fetch_assoc($res)) {
+            if (!isset($indexes[$row['Key_name']])) {
+                $indexes[$row['Key_name']] = array('Fields' => array());
+            }
+
+            $indexes[$row['Key_name']]['Fields'][] = $row['Column_name'];
+        }
+
+        return $indexes;
+    }
+
+
+    /**
      * Gets the query that alters a column to match the new SQL definition
      **/
     protected function get_alter_column_query($table, $column_name, $new_type, $not_null)
@@ -256,6 +284,9 @@ class MysqlOutputter extends DatabaseOutputter {
             if ($col_def['NotNull']) $dest_sql .= ' not null';
 
             $q .= "  {$col_name} {$dest_sql},\n";
+        }
+        foreach ($dest_table['Indexes'] as $col_name) {
+            $q .= "  INDEX ({$col_name}),\n";
         }
         $q .= "  PRIMARY KEY ({$dest_table['PK']})\n";
         $q .= ") ENGINE=MyISAM";
