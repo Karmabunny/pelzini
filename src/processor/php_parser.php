@@ -419,6 +419,10 @@ class PhpParser
                     $final = true;
                     break;
 
+                case T_RETURN:
+                    if ($inside_function) $inside_function->has_return_stmt = true;
+                    break;
+
                 }
             }
         }

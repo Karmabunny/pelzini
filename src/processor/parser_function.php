@@ -39,6 +39,7 @@ class ParserFunction extends CodeParserItem {
     public $returns;
     public $static;
     public $final;
+    public $has_return_stmt;
 
 
     public function __construct()
@@ -51,6 +52,7 @@ class ParserFunction extends CodeParserItem {
         $this->visibility = 'public';
         $this->static = false;
         $this->final = false;
+        $this->has_return_stmt = false;
     }
 
 
@@ -60,6 +62,12 @@ class ParserFunction extends CodeParserItem {
     protected function processSpecificDocblockTags($docblock_tags)
     {
         $this->description = htmlify_text(@$docblock_tags['@summary']);
+
+        if (count($this->returns) == 0 and !$this->has_return_stmt) {
+            $void_return = new ParserReturn();
+            $void_return->type = 'void';
+            $this->returns[] = $void_return;
+        }
     }
 
 
