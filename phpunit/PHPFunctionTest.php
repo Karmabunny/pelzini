@@ -569,4 +569,15 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertCount(1, $file->functions[0]->returns);
         $this->assertEquals('string', $file->functions[0]->returns[0]->type);
     }
+    
+    public function testImpliedVoid5() {
+        $file = $this->parse('
+            <?php
+            function aaa() { return; }
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->returns);
+        $this->assertEquals('void', $file->functions[0]->returns[0]->type);
+    }
 }
