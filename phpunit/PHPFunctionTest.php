@@ -523,4 +523,50 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertEquals('bbb', $file->functions[1]->name);
     }
+
+
+    public function testImpliedVoid1() {
+        $file = $this->parse('
+            <?php
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->returns);
+        $this->assertEquals('void', $file->functions[0]->returns[0]->type);
+    }
+    
+    public function testImpliedVoid2() {
+        $file = $this->parse('
+            <?php
+            function aaa() { return 1; }
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(0, $file->functions[0]->returns);
+    }
+    
+    public function testImpliedVoid3() {
+        $file = $this->parse('
+            <?php
+            /** @return string */
+            function aaa() { return "hey"; }
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->returns);
+        $this->assertEquals('string', $file->functions[0]->returns[0]->type);
+    }
+    
+    public function testImpliedVoid4() {
+        $file = $this->parse('
+            <?php
+            /** @return string */
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->returns);
+        $this->assertEquals('string', $file->functions[0]->returns[0]->type);
+    }
 }
