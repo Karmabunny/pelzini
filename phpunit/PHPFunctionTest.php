@@ -453,6 +453,43 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
     }
 
 
+    public function testDeprecated1() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @deprecated It\'s deprecated
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('It\'s deprecated', $file->functions[0]->deprecated);
+    }
+    
+    public function testDeprecated2() {
+        $file = $this->parse('
+            <?php
+            /**
+            * 
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals(null, $file->functions[0]->deprecated);
+    }
+    
+    public function testDeprecated3() {
+        $file = $this->parse('
+            <?php
+            /**
+            * @deprecated
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('', $file->functions[0]->deprecated);
+    }
+    
+    
     /**
     * Code which contains braces
     **/

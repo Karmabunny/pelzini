@@ -40,6 +40,7 @@ abstract class CodeParserItem extends ParserItem {
     public $tables;
     public $see;
     public $info_tags;
+    public $deprecated;
     public $linenum = 0;
 
     protected $docblock_tags;
@@ -220,6 +221,11 @@ abstract class CodeParserItem extends ParserItem {
             foreach ($docblock_tags['@tag'] as $info_tag) {
                 $this->info_tags[] = $info_tag;
             }
+        }
+
+        // @deprecated
+        if (@count($docblock_tags['@deprecated']) > 0) {
+            $this->deprecated = $docblock_tags['@deprecated'][0];
         }
     }
 
