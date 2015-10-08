@@ -34,7 +34,7 @@ require_once 'functions.php';
 // Get the details of this interface
 $sql_name = db_quote($_GET['name']);
 $q = "SELECT interfaces.id, interfaces.name, namespaces.name AS namespace, interfaces.description, files.name AS filename,
-  interfaces.sinceid
+  interfaces.sinceid, interfaces.deprecated
   FROM interfaces
   INNER JOIN files ON interfaces.fileid = files.id
   LEFT JOIN namespaces ON interfaces.namespaceid = namespaces.id
@@ -56,6 +56,12 @@ require_once 'head.php';
 
 // Show basic details
 echo '<h2>', str(STR_INTERFACE_PAGE_TITLE, 'name', $interface['name']), '</h2>';
+
+if ($interface['deprecated'] !== null) {
+	echo '<p><span class="deprecated">', str(STR_INTERFACE_DEPRECATED), '</span></p>';
+	if ($interface['deprecated']) echo '<br>', process_inline($interface['deprecated']);
+	echo '</p>';
+}
 
 echo process_inline($interface['description']);
 

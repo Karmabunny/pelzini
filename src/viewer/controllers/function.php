@@ -34,7 +34,7 @@ require_once 'functions.php';
 $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
 $q->addFields('functions.id, functions.name, namespaces.name AS namespace, functions.description,
-  files.name AS filename, functions.linenum, functions.classid,
+  files.name AS filename, functions.deprecated, functions.linenum, functions.classid,
   classes.name AS class, interfaces.name AS interface, functions.static, functions.final, functions.sinceid');
 $q->setFrom('functions');
 $q->addInnerJoin('files ON functions.fileid = files.id');
@@ -135,7 +135,18 @@ echo "</ul>";
 
 // Usage
 echo '<h3>', str(STR_FUNC_USAGE), '</h3>';
-show_function_usage ($function['id']);
+
+if ($function['deprecated'] === null) {
+	show_function_usage ($function['id']);
+	
+} else if ($function['deprecated'] === '') {
+	echo '<p><span class="deprecated">', str(STR_FUNC_DEPRECATED), '</span></p>';
+	show_function_usage ($function['id']);
+	
+} else {
+    echo '<p><span class="deprecated">', str(STR_FUNC_DEPRECATED), '</span>';
+    echo '<br>', process_inline($function['deprecated']), '</p>';
+}
 
 
 show_authors ($function['id'], LINK_TYPE_FUNCTION);

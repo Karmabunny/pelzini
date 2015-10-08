@@ -43,7 +43,7 @@ $_GET['page'] = (int) @$_GET['page'];
 $sql_name = db_quote($_GET['name']);
 $q = new SelectQuery();
 $q->addFields('classes.id, classes.name, namespaces.name AS namespace, classes.description, classes.extends, files.name as filename,
-  classes.final, classes.abstract, classes.sinceid, classes.projectid');
+  classes.final, classes.abstract, classes.sinceid, classes.projectid, classes.deprecated');
 $q->setFrom('classes');
 $q->addInnerJoin('files ON classes.fileid = files.id');
 $q->addLeftJoin('namespaces ON classes.namespaceid = namespaces.id');
@@ -129,6 +129,12 @@ if ($_GET['page'] == 0) {
 
 
 echo '<h2>', str(STR_CLASS_PAGE_TITLE, 'name', $class['name']), '</h2>';
+
+if ($class['deprecated'] !== null) {
+	echo '<p><span class="deprecated">', str(STR_CLASS_DEPRECATED), '</span></p>';
+	if ($class['deprecated']) echo '<br>', process_inline($class['deprecated']);
+	echo '</p>';
+}
 
 echo process_inline($class['description']);
 

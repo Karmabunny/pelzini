@@ -337,3 +337,9 @@ p.tags {
 p.tags a {
   color: #6E7AFF;
 }
+
+.deprecated {
+	color: #900;
+	font-weight: bold;
+}
+

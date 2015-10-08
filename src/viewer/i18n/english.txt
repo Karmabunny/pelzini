@@ -134,6 +134,7 @@ STR_FUNC_ARGUMENTS                     Arguments
 STR_FUNC_THROWS                        Exceptions thrown
 STR_FUNC_RETURN_VALUE                  Return value
 STR_FUNC_STATIC                        Static function
+STR_FUNC_DEPRECATED                    This function is deprecated
 STR_METHOD_STATIC                      Static method
 STR_METHOD_FINAL                       Final method
 
@@ -158,12 +159,14 @@ STR_CLASS_FUNC_RETURN                  As a function return value
 STR_CLASS_FUNC_ARG                     As a function argument
 STR_CLASS_EXTENDING                    Extending this class
 STR_CLASS_INVALID_INFO                 <i>Invalid info page specified.</i>
+STR_CLASS_DEPRECATED                   This class is deprecated
 
 ; Interfaces
 STR_INTERFACE_INVALID                  Invalid interface specified.
 STR_INTERFACE_BROWSER_TITLE            {NAME} interface
 STR_INTERFACE_PAGE_TITLE               <span class="unimportant">interface</span> <i>{NAME}</i>
 STR_INTERFACE_IMPLEMENTORS             Implemented by
+STR_INTERFACE_DEPRECATED               This interface is deprecated
 
 ; Code renderers
 STR_RENDER_NEW_CLASS_DESC              New class description goes here
