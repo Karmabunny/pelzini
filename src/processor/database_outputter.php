@@ -575,6 +575,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['name'] = $this->sql_safen($function->name);
         $insert_data['description'] = $this->sql_safen($function->description);
         $insert_data['fileid'] = $file_id;
+        $insert_data['deprecated'] = $this->sql_safen($function->deprecated);
         $insert_data['linenum'] = $this->sql_safen($function->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($function->since));
         $insert_data['namespaceid'] = $this->sql_safen($file_namespace);
@@ -674,6 +675,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['extends'] = $this->sql_safen($class->extends);
         $insert_data['visibility'] = $this->sql_safen($class->visibility);
         $insert_data['fileid'] = $file_id;
+        $insert_data['deprecated'] = $this->sql_safen($class->deprecated);
         $insert_data['linenum'] = $this->sql_safen($class->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($class->since));
         $insert_data['namespaceid'] = $this->sql_safen($file_namespace);
@@ -727,6 +729,7 @@ abstract class DatabaseOutputter extends Outputter {
         $insert_data['extends'] = $this->sql_safen($interface->extends);
         $insert_data['visibility'] = $this->sql_safen($interface->visibility);
         $insert_data['fileid'] = $file_id;
+        $insert_data['deprecated'] = $this->sql_safen($interface->deprecated);
         $insert_data['linenum'] = $this->sql_safen($interface->linenum);
         $insert_data['sinceid'] = $this->sql_safen($this->getSinceVersionId($interface->since));
         $insert_data['namespaceid'] = $this->sql_safen($file_namespace);

@@ -48,6 +48,7 @@ INDEX name
     visibility string notnull
     final smallnum notnull
     sinceid largenum
+    deprecated string
     
     
 TABLE interfaces
@@ -65,6 +66,7 @@ INDEX namespaceid
     extends string
     visibility string notnull
     sinceid largenum
+    deprecated string
     
     
 TABLE class_implements
@@ -100,6 +102,7 @@ INDEX name
     final smallnum notnull
     abstract smallnum notnull
     sinceid largenum
+    deprecated string
     
     
 TABLE arguments
