@@ -113,6 +113,7 @@ while ($row = db_fetch_assoc($_res)) {
       <p>
         <b><?php echo str(STR_WHAT_SEARCH); ?></b>
         <br><label><input type="checkbox" name="classes" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['classes'] == 'y') echo 'checked'; ?>> <?php echo str(STR_CLASSES); ?></label>
+        <br><label><input type="checkbox" name="interfaces" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['interfaces'] == 'y') echo 'checked'; ?>> <?php echo str(STR_INTERFACES); ?></label>
         <br><label><input type="checkbox" name="functions" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['functions'] == 'y') echo 'checked'; ?>> <?php echo str(STR_FUNCTIONS); ?></label>
         <br><label><input type="checkbox" name="constants" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['constants'] == 'y') echo 'checked'; ?>> <?php echo str(STR_CONSTANTS); ?></label>
         <br><label><input type="checkbox" name="source" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['source'] == 'y') echo 'checked'; ?>> <?php echo str(STR_SOURCE_CODE); ?></label>

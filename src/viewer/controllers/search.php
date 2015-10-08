@@ -133,6 +133,51 @@ if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
     }
 }
 
+// interfaces
+if (@$_GET['advanced'] == 0 or @$_GET['interfaces'] == 'y') {
+    $q = "SELECT interfaces.id, interfaces.name, interfaces.description, interfaces.extends,
+        files.name as filename, interfaces.fileid,
+            IF(BINARY interfaces.name = '{$query}', 1, 0) +
+            IF(interfaces.name LIKE '{$query}', 1, 0) +
+            IF(interfaces.name LIKE '{$query}%', 1, 0) +
+        0 AS relevancy
+    FROM interfaces
+    INNER JOIN files ON interfaces.fileid = files.id
+    WHERE interfaces.name LIKE '%{$query}%'
+      AND interfaces.projectid = {$project['id']}
+      AND {$extra_where}
+    ORDER BY relevancy DESC, interfaces.name";
+
+    $res = db_query ($q);
+    $num = db_num_rows ($res);
+    if ($num != 0) {
+        $results = true;
+        echo '<h3>', str(STR_INTERFACES_RESULT, 'num', $num), '</h3>';
+
+        $alt = false;
+        echo '<div class="list">';
+        while ($row = db_fetch_assoc ($res)) {
+            $class = 'item';
+            if ($alt) $class .= '-alt';
+
+            echo "<div class=\"{$class}\">";
+            echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
+            echo "<p><strong>", get_interface_link($row['name'], $row['filename']), "</strong>";
+
+            if ($row['extends'] != null) {
+                echo " <small>extends ", get_interface_link($row['extends']), "</small>";
+            }
+
+            echo "<div class=\"content\">";
+            echo delink_inline($row['description']);
+            echo "<br><small>From ", get_file_link($row['filename']), "</small></div>";
+            echo "</div>";
+
+            $alt = ! $alt;
+        }
+        echo '</div>';
+    }
+}
 
 // functions
 if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {

@@ -63,6 +63,7 @@ STR_WHAT_SEARCH                        What to search:
 STR_YOU_SEARCHED_FOR                   You searched for "<b>{TERM}</b>" (not case sensitive).
 STR_YOU_SEARCHED_FOR_CASE              You searched for "<b>{TERM}</b>" (case sensitive).
 STR_CLASSES_RESULT                     Classes ({NUM} result{#PLURAL|NUM||s})
+STR_INTERFACES_RESULT                  Interfaces ({NUM} result{#PLURAL|NUM||s})
 STR_FUNCTIONS_RESULT                   Functions ({NUM} result{#PLURAL|NUM||s})
 STR_CONSTANTS_RESULT                   Constants ({NUM} result{#PLURAL|NUM||s})
 STR_SOURCE_CODE_RESULT                 Source code ({NUM} result{#PLURAL|NUM||s})
