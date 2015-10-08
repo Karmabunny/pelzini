@@ -102,7 +102,7 @@ if (db_num_rows($res) > 0) {
 
 
 // Show functions
-$q = "SELECT id, name, description, arguments FROM functions WHERE interfaceid = {$interface['id']}";
+$q = "SELECT id, name, description, arguments, visibility FROM functions WHERE interfaceid = {$interface['id']}";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
     while ($row = db_fetch_assoc ($res)) {
