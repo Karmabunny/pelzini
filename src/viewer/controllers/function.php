@@ -183,7 +183,7 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
     echo '<h3>', str(STR_FUNC_THROWS), '</h3>';
 
-    echo "<ol class=\"spaced-list\">";
+    echo "<ul class=\"spaced-list\">";
     while ($row = db_fetch_assoc ($res)) {
         $row['exception'] = htmlspecialchars($row['exception']);
 
@@ -191,7 +191,7 @@ if (db_num_rows($res) > 0) {
         echo '<br>', process_inline ($row['description']);
         echo "</li>";
     }
-    echo "</ol>\n";
+    echo "</ul>\n";
 }
 
 
@@ -201,7 +201,7 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
     echo '<h3>', str(STR_FUNC_RETURN_VALUE), '</h3>';
 
-    echo "<ol class=\"spaced-list\">";
+    echo "<ul class=\"spaced-list\">";
     while ($row = db_fetch_assoc ($res)) {
         $row['type'] = htmlspecialchars($row['type']);
 
@@ -209,7 +209,7 @@ if (db_num_rows($res) > 0) {
         echo '<br>', process_inline ($row['description']);
         echo "</li>";
     }
-    echo "</ol>\n";
+    echo "</ul>\n";
 }
 
 
