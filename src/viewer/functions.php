@@ -176,7 +176,7 @@ function show_see_also($link_id, $link_type)
 
         echo '<ul>';
         while ($row = db_fetch_assoc ($res)) {
-            echo '<li>', process_inline_link($row['name']), '</li>';
+            echo '<li>', process_inline_link(array(1 => $row['name'])), '</li>';
         }
         echo '</ul>';
     }
