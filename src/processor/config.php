@@ -50,6 +50,7 @@ class Config {
     public function load($filename) {
         $dpgOutputters = array();
         $dpgTransformers = array();
+        $dpgLanguages = array('php', 'js');
 
         require $filename;
 
@@ -88,6 +89,7 @@ class Config {
         $this->base_directory = $dpgBaseDirectory;
         $this->exclude_directories = $dpgExcludeDirectories;
         $this->docs_directory = $dpgDocsDirectory;
+        $this->languages = $dpgLanguages;
 
         return true;
     }

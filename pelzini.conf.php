@@ -28,6 +28,9 @@ $dpgOutputters[] = new MysqlOutputter('pelzini', 'password', 'localhost', 'pelzi
 /* Multiple output targets can be specified */
 //$dpgOutputters[] = new SqliteOutputter('../../pelzini.sqlite');
 
+/* Languages to parse */
+$dpgLanguages = array('php', 'js');
+
 /* Required - This is the base directory that the parsing of your application should take place */
 $dpgBaseDirectory = 'src';
 

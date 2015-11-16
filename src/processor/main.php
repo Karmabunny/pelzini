@@ -80,7 +80,7 @@ foreach ($_SERVER['argv'] as $idx => $argument) {
         $parts = explode('.', $file);
         $ext = array_pop($parts);
 
-        if (isset($parsers[$ext])) {
+        if (isset($parsers[$ext]) and in_array($ext, $config->languages)) {
             output_status ("Processing file {$file}");
             $result = $parsers[$ext]->parseFile($config->getBaseDirectory(), $file);
 
