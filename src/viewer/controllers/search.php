@@ -271,9 +271,49 @@ if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
 }
 
 
+// documents
+if (@$_GET['advanced'] == 0 or @$_GET['documents'] == 'y') {
+    $q = "SELECT documents.name,
+            IF(BINARY documents.name = '{$query}', 1, 0) +
+            IF(documents.name LIKE '{$query}', 1, 0) +
+            IF(documents.name LIKE '{$query}%', 1, 0) +
+        0 AS relevancy
+    FROM documents
+    WHERE documents.name LIKE '%{$query}%'
+      AND documents.projectid = {$project['id']}
+    ORDER BY relevancy DESC, documents.name";
+    $res = db_query ($q);
+    $num = db_num_rows ($res);
+    if ($num != 0) {
+        $results = true;
+        echo '<h3>', str(STR_DOCUMENTS_RESULT, 'num', $num), '</h3>';
+
+        $alt = false;
+        echo '<div class="list">';
+        while ($row = db_fetch_assoc ($res)) {
+            $row['name'] = htmlspecialchars($row['name']);
+            $url = htmlspecialchars(urlencode($row['name']));
+
+            $class = 'item';
+            if ($alt) $class .= '-alt';
+
+            echo "<div class=\"{$class}\">";
+            echo "<a href=\"document?name={$url}\">{$row['name']}</a>";
+            echo "</div>";
+
+            $alt = ! $alt;
+        }
+        echo '</div>';
+    }
+}
+
+
 // source
 if (@$_GET['advanced'] == 0 or @$_GET['source'] == 'y') {
-    $results = search_source(@$_GET['q'], false, @$_GET['path']);
+    $source_results = search_source(@$_GET['q'], false, @$_GET['path']);
+    if ($source_results) {
+        $results = true;
+    }
 }
 
 

@@ -116,6 +116,7 @@ while ($row = db_fetch_assoc($_res)) {
         <br><label><input type="checkbox" name="interfaces" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['interfaces'] == 'y') echo 'checked'; ?>> <?php echo str(STR_INTERFACES); ?></label>
         <br><label><input type="checkbox" name="functions" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['functions'] == 'y') echo 'checked'; ?>> <?php echo str(STR_FUNCTIONS); ?></label>
         <br><label><input type="checkbox" name="constants" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['constants'] == 'y') echo 'checked'; ?>> <?php echo str(STR_CONSTANTS); ?></label>
+        <br><label><input type="checkbox" name="documents" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['documents'] == 'y') echo 'checked'; ?>> <?php echo str(STR_DOCUMENTS); ?></label>
         <br><label><input type="checkbox" name="source" value="y" <?php if (!isset($_GET['advanced']) or @$_GET['source'] == 'y') echo 'checked'; ?>> <?php echo str(STR_SOURCE_CODE); ?></label>
       </p>
 

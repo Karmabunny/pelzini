@@ -27,6 +27,7 @@ STR_INTERFACES                         Interfaces
 STR_FUNCTIONS                          Functions
 STR_FILES                              Files
 STR_CONSTANTS                          Constants
+STR_DOCUMENTS                          Documents
 STR_SOURCE_CODE                        Source code
 STR_ENUMERATIONS                       Enumerations
 STR_VARIABLES                          Variables
@@ -66,6 +67,7 @@ STR_CLASSES_RESULT                     Classes ({NUM} result{#PLURAL|NUM||s})
 STR_INTERFACES_RESULT                  Interfaces ({NUM} result{#PLURAL|NUM||s})
 STR_FUNCTIONS_RESULT                   Functions ({NUM} result{#PLURAL|NUM||s})
 STR_CONSTANTS_RESULT                   Constants ({NUM} result{#PLURAL|NUM||s})
+STR_DOCUMENTS_RESULT                   Documents ({NUM} result{#PLURAL|NUM||s})
 STR_SOURCE_CODE_RESULT                 Source code ({NUM} result{#PLURAL|NUM||s})
 STR_SHOW_HIDE_ALL                      Show/hide all:
 STR_SEARCH_OPTIONS                     Search options:
