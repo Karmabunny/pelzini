@@ -41,6 +41,7 @@ abstract class CodeParserItem extends ParserItem {
     public $see;
     public $info_tags;
     public $deprecated;
+    public $example;
     public $linenum = 0;
 
     protected $docblock_tags;
@@ -76,6 +77,7 @@ abstract class CodeParserItem extends ParserItem {
         $this->since = null;
         $this->tables = array();
         $this->see = array();
+        $this->example = array();
         $this->info_tags = array();
     }
 
@@ -220,6 +222,28 @@ abstract class CodeParserItem extends ParserItem {
         if (@count($docblock_tags['@tag']) > 0) {
             foreach ($docblock_tags['@tag'] as $info_tag) {
                 $this->info_tags[] = $info_tag;
+            }
+        }
+
+        // @example
+        if (@count($docblock_tags['@example']) > 0) {
+            foreach ($docblock_tags['@example'] as $example) {
+            	$example = trim($example, "\r\n");
+            	$example = str_replace("\t", "    ", $example);
+            	
+            	$lines = preg_split('/\n/', $example);
+            	$lead = 1000;
+            	foreach ($lines as $ln) {
+            		preg_match('/^ +/', $ln, $matches);
+	            	$lead = min($lead, strlen(@$matches[0]));
+            	}
+            	
+            	foreach ($lines as &$ln) {
+            		$ln = substr($ln, $lead);
+            	}
+            	unset($ln);
+            	
+                $this->example[] = implode("\n", $lines);
             }
         }
 

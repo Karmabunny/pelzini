@@ -490,6 +490,74 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
     }
     
     
+    public function testExample1() {
+        $file = $this->parse('
+            <?php
+            /**
+            * Description
+            * @example
+            * Example
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('Description', trim(strip_tags($file->functions[0]->description)));
+        $this->assertEquals('Example', trim(strip_tags($file->functions[0]->example[0])));
+    }
+    
+    public function testExample2() {
+        $file = $this->parse('
+            <?php
+            /**
+            * Description
+            * @example Example
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('Description', trim(strip_tags($file->functions[0]->description)));
+        $this->assertEquals('Example', trim(strip_tags($file->functions[0]->example[0])));
+    }
+    
+    public function testExample3() {
+        $file = $this->parse('
+            <?php
+            /**
+            * Description
+            * @example
+            *   Line 1
+            *   Line 2
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('Description', trim(strip_tags($file->functions[0]->description)));
+        $this->assertEquals("Line 1\nLine 2", trim(strip_tags($file->functions[0]->example[0])));
+    }
+    
+    public function testExample4() {
+        $file = $this->parse('
+            <?php
+            /**
+            * Description
+            *
+            * @example
+            *   Line 1
+            *   Line 2
+            *
+            * @example
+            *     Line 3
+            *     Line 4
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('Description', trim(strip_tags($file->functions[0]->description)));
+        $this->assertEquals("Line 1\nLine 2", strip_tags($file->functions[0]->example[0]));
+        $this->assertEquals("Line 3\nLine 4", strip_tags($file->functions[0]->example[1]));
+    }
+    
+    
     /**
     * Code which contains braces
     **/
@@ -608,7 +676,7 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
     }
     
     public function testImpliedVoid5() {
-    	$this->markTestIncomplete('Not yet implemented in parser');
+    	$this->markTestIncomplete('Not yet implemented in parser'        );
         
         $file = $this->parse('
             <?php
