@@ -237,6 +237,32 @@ case PAGE_CLASS_GENERAL:
         echo "</table>\n";
     }
 
+    // Show functions
+    if (count($functions) > 0) {
+    	$base_url = $_SERVER['REQUEST_URI'];
+        echo '<h3>', str(STR_FUNCTIONS), '</h3>';
+        echo "<table class=\"function-list\">\n";
+        echo '<tr><th>', str(STR_NAME), '</th><th>', str(STR_VISIBILITY), "</th></tr>\n";
+        foreach ($functions as $row) {
+            if (!isset($row['visibility'])) $row['visibility'] = '';
+            
+            // encode for output
+            $row['name'] = htmlspecialchars($row['name']);
+            if ($row['description'] == null) $row['description'] = '&nbsp;';
+
+            if ($row['static']) $row['visibility'] .= ' ' . str(STR_CLASS_VAR_STATIC);
+
+			$url = get_function_link($row['classname'], $row['name']);
+
+            // display
+            echo "<tr>";
+            echo "<td>{$url}</td>";
+            echo "<td>{$row['visibility']}</td>";
+            echo "</tr>\n";
+        }
+        echo "</table>\n";
+    }
+    
 
     // Show functions
     if (count($functions) > 0) {
@@ -246,6 +272,7 @@ case PAGE_CLASS_GENERAL:
             }
 
             // display
+            echo "<a name=\"func-", $row['name'], "\"></a>";
             echo "<h3>{$row['visibility']} ", get_function_link($row['classname'], $row['name']);
             if ($row['classname'] != $class['name']) {
                 echo " <small>(from ", get_class_link($row['classname']), ")</small>";
