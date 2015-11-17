@@ -131,9 +131,9 @@ if ($_GET['page'] == 0) {
 echo '<h2>', str(STR_CLASS_PAGE_TITLE, 'name', $class['name']), '</h2>';
 
 if ($class['deprecated'] !== null) {
-	echo '<p><span class="deprecated">', str(STR_CLASS_DEPRECATED), '</span></p>';
-	if ($class['deprecated']) echo '<br>', process_inline($class['deprecated']);
-	echo '</p>';
+    echo '<p><span class="deprecated">', str(STR_CLASS_DEPRECATED), '</span></p>';
+    if ($class['deprecated']) echo '<br>', process_inline($class['deprecated']);
+    echo '</p>';
 }
 
 echo process_inline($class['description']);
@@ -174,6 +174,8 @@ if ($class['sinceid']) {
 }
 echo "</ul>";
 
+
+show_examples($class['id'], LINK_TYPE_CLASS);
 
 
 switch ($_GET['page']) {

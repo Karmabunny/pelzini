@@ -28,6 +28,8 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
 
+require_once 'geshi/geshi.php';
+
 /**
  * Fixes all magically quoted strings in the given array or string
  *
@@ -179,6 +181,29 @@ function show_see_also($link_id, $link_type)
             echo '<li>', process_inline_link(array(1 => $row['name'])), '</li>';
         }
         echo '</ul>';
+    }
+}
+
+
+/**
+ * Shows the examples a specific file, function or class
+ **/
+function show_examples($link_id, $link_type)
+{
+    global $project;
+
+    $q = "SELECT description FROM item_example WHERE linkid = {$link_id} AND linktype = {$link_type} AND projectid = {$project['id']}";
+    $res = db_query($q);
+
+    while ($row = db_fetch_assoc ($res)) {
+        echo '<h3>', str(STR_EXAMPLE), '</h3>';
+        
+		$geshi = new GeSHi($row['description'], 'php');
+		$geshi->enable_classes();
+		$geshi->set_line_style('background: #f8f8f8;');
+		
+		echo '<style type="text/css">', $geshi->get_stylesheet(), '</style>';
+		echo $geshi->parse_code();
     }
 }
 

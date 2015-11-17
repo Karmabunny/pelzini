@@ -35,6 +35,7 @@ STR_VARIABLES                          Variables
 STR_AUTHORS                            Authors
 STR_TABLES                             Tables used
 STR_SEE_ALSO                           See also
+STR_EXAMPLE                            Example
 STR_TAGS                               Tags:
 
 ; General use

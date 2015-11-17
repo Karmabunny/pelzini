@@ -137,18 +137,19 @@ echo "</ul>";
 echo '<h3>', str(STR_FUNC_USAGE), '</h3>';
 
 if ($function['deprecated'] === null) {
-	show_function_usage ($function['id']);
-	
+    show_function_usage ($function['id']);
+    
 } else if ($function['deprecated'] === '') {
-	echo '<p><span class="deprecated">', str(STR_FUNC_DEPRECATED), '</span></p>';
-	show_function_usage ($function['id']);
-	
+    echo '<p><span class="deprecated">', str(STR_FUNC_DEPRECATED), '</span></p>';
+    show_function_usage ($function['id']);
+    
 } else {
     echo '<p><span class="deprecated">', str(STR_FUNC_DEPRECATED), '</span>';
     echo '<br>', process_inline($function['deprecated']), '</p>';
 }
 
 
+show_examples($function['id'], LINK_TYPE_FUNCTION);
 show_authors ($function['id'], LINK_TYPE_FUNCTION);
 show_tables ($function['id'], LINK_TYPE_FUNCTION);
 
