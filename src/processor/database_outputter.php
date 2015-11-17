@@ -444,6 +444,7 @@ abstract class DatabaseOutputter extends Outputter {
         $this->query("DELETE FROM documents WHERE projectid = {$project_id}");
         $this->query("DELETE FROM versions WHERE projectid = {$project_id}");
         $this->query("DELETE FROM item_see WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM item_example WHERE projectid = {$project_id}");
         $this->query("DELETE FROM enumerations WHERE projectid = {$project_id}");
         $this->query("DELETE FROM item_info_tags WHERE projectid = {$project_id}");
 
@@ -535,6 +536,7 @@ abstract class DatabaseOutputter extends Outputter {
                 $this->save_author_items (LINK_TYPE_FILE, $file_id, $item->authors);
                 $this->save_table_items (LINK_TYPE_FILE, $file_id, $item->tables);
                 $this->save_see_items (LINK_TYPE_FILE, $file_id, $item->see);
+                $this->save_example_items (LINK_TYPE_FILE, $file_id, $item->example);
                 $this->save_info_tag_items (LINK_TYPE_FILE, $file_id, $item->info_tags);
 
 
@@ -619,6 +621,7 @@ abstract class DatabaseOutputter extends Outputter {
         $this->save_author_items (LINK_TYPE_FUNCTION, $function_id, $function->authors);
         $this->save_table_items (LINK_TYPE_FUNCTION, $function_id, $function->tables);
         $this->save_see_items (LINK_TYPE_FUNCTION, $function_id, $function->see);
+        $this->save_example_items (LINK_TYPE_FUNCTION, $function_id, $function->example);
         $this->save_info_tag_items (LINK_TYPE_FUNCTION, $function_id, $function->info_tags);
 
         // insert arguments
@@ -711,6 +714,7 @@ abstract class DatabaseOutputter extends Outputter {
         $this->save_author_items (LINK_TYPE_CLASS, $class_id, $class->authors);
         $this->save_table_items (LINK_TYPE_CLASS, $class_id, $class->tables);
         $this->save_see_items (LINK_TYPE_CLASS, $class_id, $class->see);
+        $this->save_example_items (LINK_TYPE_CLASS, $class_id, $class->example);
         $this->save_info_tag_items (LINK_TYPE_CLASS, $class_id, $class->info_tags);
     }
 
@@ -747,6 +751,7 @@ abstract class DatabaseOutputter extends Outputter {
         // insert common items
         $this->save_author_items (LINK_TYPE_INTERFACE, $interface_id, $interface->authors);
         $this->save_see_items (LINK_TYPE_INTERFACE, $interface_id, $interface->see);
+        $this->save_example_items (LINK_TYPE_INTERFACE, $interface_id, $interface->example);
         $this->save_info_tag_items (LINK_TYPE_INTERFACE, $interface_id, $interface->info_tags);
     }
 
@@ -786,6 +791,7 @@ abstract class DatabaseOutputter extends Outputter {
         // insert common items
         $this->save_author_items (LINK_TYPE_VARIABLE, $variable_id, $variable->authors);
         $this->save_see_items (LINK_TYPE_VARIABLE, $variable_id, $variable->see);
+        $this->save_example_items (LINK_TYPE_VARIABLE, $variable_id, $variable->example);
         $this->save_info_tag_items (LINK_TYPE_VARIABLE, $variable_id, $variable->info_tags);
     }
 
@@ -817,6 +823,7 @@ abstract class DatabaseOutputter extends Outputter {
         // insert common items
         $this->save_author_items (LINK_TYPE_CONSTANT, $constant_id, $constant->authors);
         $this->save_see_items (LINK_TYPE_CONSTANT, $constant_id, $constant->see);
+        $this->save_example_items (LINK_TYPE_CONSTANT, $constant_id, $constant->example);
         $this->save_info_tag_items (LINK_TYPE_CONSTANT, $constant_id, $constant->info_tags);
     }
 
@@ -844,6 +851,7 @@ abstract class DatabaseOutputter extends Outputter {
         // insert common items
         $this->save_author_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->authors);
         $this->save_see_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->see);
+        $this->save_example_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->example);
         $this->save_info_tag_items (LINK_TYPE_ENUMERATION, $enumeration_id, $enumeration->info_tags);
 
         // Save the constants for this enumeration
@@ -915,6 +923,25 @@ abstract class DatabaseOutputter extends Outputter {
         $this->do_multiple_insert('item_see', $rows);
     }
 
+
+    /**
+     * Saves 'example' information about an item
+     *
+     * @table insert item_example Adds examples for a function, class, file, etc.
+     **/
+    private function save_example_items($link_type, $link_id, $items)
+    {
+        $rows = array();
+        foreach ($items as $item) {
+            $insert_data = array();
+            $insert_data['linkid'] = $this->sql_safen($link_id);
+            $insert_data['linktype'] = $this->sql_safen($link_type);
+            $insert_data['description'] = $this->sql_safen($item);
+            $rows[] = $insert_data;
+        }
+        $this->do_multiple_insert('item_example', $rows);
+    }
+    
 
     /**
      * Saves info tags for an item

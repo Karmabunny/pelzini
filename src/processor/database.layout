@@ -235,6 +235,15 @@ INDEX projectid
     linktype smallnum notnull
     name string notnull
 
+TABLE item_example
+PK id
+INDEX projectid
+    id serial notnull
+    projectid largenum notnull
+    linkid largenum notnull
+    linktype smallnum notnull
+    description text
+
 TABLE item_info_tags
 PK id
 INDEX projectid
