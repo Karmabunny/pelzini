@@ -45,7 +45,7 @@ STR_ERROR_TITLE                        Error
 
 ; Various lines of information
 STR_AVAIL_SINCE                        Available since: {VERSION}
-STR_FILE                               File: <a href="file?name={#URLENC|FILENAME}">{#HTMLENC|FILENAME}</a>
+STR_FILE                               File: <a href="file_source?name={#URLENC|FILENAME}">{#HTMLENC|FILENAME}</a>
 STR_PACKAGE                            Package: <a href="package?id={ID}">{NAME}</a>
 STR_NAMESPACE                          Namespace: {NAME}
 
