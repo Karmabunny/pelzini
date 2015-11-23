@@ -72,6 +72,7 @@ class PhpParser
         $final = false;
         $next_comment = null;
         $file_has_comment = false;
+        $return = false;
 
         // debugger
         if ($debug) {
@@ -99,6 +100,13 @@ class PhpParser
                 } else {
                     echo htmlspecialchars(token_name($token[0])) . "\n<i>" . htmlspecialchars(str_replace("\n", '\n', $token[1])) . "</i>\n";
                 }
+            }
+
+            if ($return) {
+                if ($token !== ';') {
+                    $inside_function->has_return_stmt = true;
+                }
+                $return = false;
             }
 
             if (is_string($token)) {
@@ -420,7 +428,9 @@ class PhpParser
                     break;
 
                 case T_RETURN:
-                    if ($inside_function) $inside_function->has_return_stmt = true;
+                    if ($inside_function) {
+                        $return = true;
+                    }
                     break;
 
                 }
