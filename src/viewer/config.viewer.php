@@ -5,19 +5,13 @@
  * https://github.com/Karmabunny/pelzini
  */
 
-/* The database engine to use in the viewer. Supported values are 'mysql', 'postgresql' and 'sqlite' */
-$dvgDatabaseEngine = 'mysql';
 
-/* This should contain the database settings
-   The following are used for typical database engines (MySQL and PostgreSQL) */
-$dvgDatabaseSettings['server'] = 'localhost';
-$dvgDatabaseSettings['username'] = 'pelzini';
-$dvgDatabaseSettings['password'] = 'password';
-$dvgDatabaseSettings['name'] = 'pelzini';
+// Database configuration is provided in a config file shared between
+// viewer and processor. You can also provide the database configuration
+// directly in this file, if you so desire.
+require __DIR__ . '/../database.config.php';
 
-/* This setting is used by SQLite */
-$dvgDatabaseSettings['filename'] = '../output/pelzini.sqlite';
 
-/* The language to display the viewer in
-   Available languages are in the i18n directory */
+// The language to display the viewer in.
+// Available languages are in the i18n directory.
 $dvgLanguage = 'english';

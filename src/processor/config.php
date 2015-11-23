@@ -72,8 +72,18 @@ class Config {
         }
 
         if (@count($dpgOutputters) == 0) {
-            echo "ERROR:\nRequired config option '\$dpgOutputters' not set.\n";
-            return false;
+            if (file_exists(__DIR__ . '/../database.config.php')) {
+                $result = $this->loadSharedDatabaseConfig();
+                if ($result === null) {
+                    echo "ERROR:\nConfig file 'database.config.php' was found but could not be parsed.\n";
+                    return false;
+                } else {
+                    $dpgOutputters[] = $result;
+                }
+            } else {
+                echo "ERROR:\nRequired config option '\$dpgOutputters' not set and 'database.config.php' file not found.\n";
+                return false;
+            }
         }
 
         if (!$dpgBaseDirectory or !file_exists($dpgBaseDirectory)) {
@@ -92,6 +102,44 @@ class Config {
         $this->languages = $dpgLanguages;
 
         return true;
+    }
+
+
+    /**
+     * If no outputters have been specified, load the common "database.config.php" file
+     * and use the settings in there to create one
+     *
+     * @return Outputter If a outputter could be parsed from the configuration
+     * @return null On error
+     */
+    private function loadSharedDatabaseConfig() {
+        require __DIR__ . '/../database.config.php';
+
+        switch ($dvgDatabaseEngine) {
+            case 'mysql':
+                return new MysqlOutputter(
+                    $dvgDatabaseSettings['username'],
+                    $dvgDatabaseSettings['password'],
+                    $dvgDatabaseSettings['server'],
+                    $dvgDatabaseSettings['name']
+                );
+
+            case 'postgresql':
+                return new PostgresqlOutputter(
+                    $dvgDatabaseSettings['username'],
+                    $dvgDatabaseSettings['password'],
+                    $dvgDatabaseSettings['server'],
+                    $dvgDatabaseSettings['name']
+                );
+
+            case 'sqlite':
+                return new SqliteOutputter(
+                    $dvgDatabaseSettings['filename']
+                );
+
+            default:
+                return null;
+        }
     }
 
 

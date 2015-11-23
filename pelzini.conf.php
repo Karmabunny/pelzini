@@ -22,11 +22,12 @@ $dpgTransformers[] = new QualityCheckTransformer();
 /* If you're not using namespaces, you can fake them using directories */
 $dpgTransformers[] = new FakeNamespaceDirsTransformer();
 
-/* Required - List the outputters here. Outputters save the parsed files to a database or an output file */
-$dpgOutputters[] = new MysqlOutputter('pelzini', 'password', 'localhost', 'pelzini');
-
-/* Multiple output targets can be specified */
+/* Optional - List the outputters here. Outputters save the parsed files to a database or an
+              output file. If you don't specify any outputters, then the shared database
+              configuration (database.config.php) will be parsed */
+//$dpgOutputters[] = new MysqlOutputter('pelzini', 'password', 'localhost', 'pelzini');
 //$dpgOutputters[] = new SqliteOutputter('../../pelzini.sqlite');
+//$dpgOutputters[] = new XmlOutputter('../../pelzini.xml');
 
 /* Languages to parse */
 $dpgLanguages = array('php', 'js');
