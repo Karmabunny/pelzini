@@ -208,11 +208,13 @@ if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
 
             echo "<div class=\"{$class}\">";
             echo "<img src=\"assets/icon_remove.png\" alt=\"\" title=\"Hide this result\" onclick=\"hide_content(event)\" class=\"showhide\">";
-            echo "<p><strong>", get_function_link($row['class'], $row['name']), "</strong>";
 
             if ($row['class'] != null) {
-                echo " <small>from class ", get_class_link($row['class']), "</small>";
+                $link_text = $row['class'] . '::' . $row['name'];
+            } else {
+                $link_text = $row['name'];
             }
+            echo "<p><strong>", get_function_link($row['class'], $row['name'], $link_text), "</strong>";
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
