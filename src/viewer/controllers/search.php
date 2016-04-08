@@ -124,7 +124,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From ", get_file_link($row['filename']), "</small></div>";
+            echo "</div>";
             echo "</div>";
 
             $alt = ! $alt;
@@ -170,7 +170,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['interfaces'] == 'y') {
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From ", get_file_link($row['filename']), "</small></div>";
+            echo "</div>";
             echo "</div>";
 
             $alt = ! $alt;
@@ -216,7 +216,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From ", get_source_link($row['filename'], $row['linenum']), "</small></div>";
+            echo "</div>";
             echo "</div>";
 
             $alt = ! $alt;
@@ -261,7 +261,7 @@ if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
 
             echo "<div class=\"content\">";
             echo delink_inline($row['description']);
-            echo "<br><small>From ", get_file_link($row['filename']), "</small></div>";
+            echo "</div>";
             echo "</div>";
 
             $alt = ! $alt;
