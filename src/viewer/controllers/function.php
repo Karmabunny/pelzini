@@ -160,16 +160,16 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
     echo '<h3>', str(STR_FUNC_ARGUMENTS), '</h3>';
 
-    echo "<ol class=\"spaced-list\">";
+    echo "<ol class=\"spaced-list code-list\">";
     while ($row = db_fetch_assoc ($res)) {
         $row['name'] = htmlspecialchars($row['name']);
         $row['type'] = htmlspecialchars($row['type']);
 
-        echo '<li>', get_object_link ($row['type']), " <strong>{$row['name']}</strong>";
+        echo '<li><span class="type">', get_object_link ($row['type']), "</span> <strong>{$row['name']}</strong>";
         if ($row['defaultvalue'] !== null) {
             if ($row['defaultvalue'] == '') $row['defaultvalue'] = "''";
             $row['defaultvalue'] = htmlspecialchars($row['defaultvalue']);
-            echo " = {$row['defaultvalue']}";
+            echo "<span class=\"default\"> = {$row['defaultvalue']}</span>";
         }
         echo '<br>', process_inline ($row['description']);
         echo "</li>";
@@ -184,7 +184,7 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
     echo '<h3>', str(STR_FUNC_THROWS), '</h3>';
 
-    echo "<ul class=\"spaced-list\">";
+    echo "<ul class=\"spaced-list code-list\">";
     while ($row = db_fetch_assoc ($res)) {
         $row['exception'] = htmlspecialchars($row['exception']);
 
@@ -202,7 +202,7 @@ $res = db_query($q);
 if (db_num_rows($res) > 0) {
     echo '<h3>', str(STR_FUNC_RETURN_VALUE), '</h3>';
 
-    echo "<ul class=\"spaced-list\">";
+    echo "<ul class=\"spaced-list code-list\">";
     while ($row = db_fetch_assoc ($res)) {
         $row['type'] = htmlspecialchars($row['type']);
 

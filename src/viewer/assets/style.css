@@ -300,7 +300,20 @@ img.showhide {
 }
 
 .spaced-list li {
-  margin-bottom: 1em;
+  margin-bottom: 2em;
+}
+.spaced-list pre {
+  margin-top: 0.7em;
+}
+
+.code-list {
+  font-family: monospace;
+}
+.code-list .type {
+  color: #666;
+}
+.code-list .default {
+  color: #666;
 }
 
 span.unimportant {
