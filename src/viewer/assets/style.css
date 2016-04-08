@@ -203,15 +203,13 @@ p {
 }
 
 a {
-  color: #CE464C;
+  color: #0F65A3;
 }
-
 a:visited {
-  color: #CE464C;
+  color: #053659;
 }
-
 a:active {
-  color: #B21A21;
+  color: #053659;
 }
 
 ul {
