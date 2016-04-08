@@ -136,7 +136,9 @@ if ($class['deprecated'] !== null) {
     echo '</p>';
 }
 
+echo '<div class="main-description">';
 echo process_inline($class['description']);
+echo '</div>';
 
 
 // Basic class details

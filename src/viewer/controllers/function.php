@@ -100,7 +100,9 @@ require_once 'head.php';
 
 echo '<h2>', str(STR_FUNC_PAGE_TITLE, 'name', $function['name']), '</h2>';
 
+echo '<div class="main-description">';
 echo process_inline($function['description']);
+echo '</div>';
 
 
 echo "<ul>";

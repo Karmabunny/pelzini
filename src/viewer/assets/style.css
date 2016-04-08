@@ -229,19 +229,19 @@ div.function-usage {
 
 
 div.list div.item {
-  margin-bottom: 0.7em;
-  padding: 3px 6px;
-  background-color: #F8FFF2;
-  border-top: 1px #DDFFBF solid;
-  border-bottom: 1px #58BF00 solid;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background-color: #F8F8F8;
 }
 
 div.list div.item-alt {
-  margin-bottom: 0.7em;
-  padding: 3px 6px;
-  background-color: #F2FFFA;
-  border-top: 1px #BFFFE6 solid;
-  border-bottom: 1px #00BF70 solid;
+  margin: 10px 0;
+  padding: 10px 15px;
+  background-color: #F7F7F7;
+}
+
+div.list div.content {
+  margin-top: 10px;
 }
 
 div.list div.summary {
@@ -262,6 +262,16 @@ ul.tree li.on li {
 
 ul.tree li.on li.on {
   font-weight: bold;
+}
+
+
+.main-description {
+    margin: 10px 0 20px 0;
+    padding: 10px 15px;
+    background-color: #F7F7F7;
+}
+.main-description pre {
+    line-height: 1.5em;
 }
 
 span.highlight {
