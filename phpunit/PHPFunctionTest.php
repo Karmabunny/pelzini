@@ -43,6 +43,23 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals('aaa', $file->functions[0]->name);
         $this->assertCount(1, $file->functions[0]->args);
         $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals(false, $file->functions[0]->args[0]->byref);
+    }
+
+
+    /**
+    * Arguments
+    **/
+    public function testArgumentByRef() {
+        $file = $this->parse('
+            <?php
+            function aaa(&$aa) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(1, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals(true, $file->functions[0]->args[0]->byref);
     }
 
 

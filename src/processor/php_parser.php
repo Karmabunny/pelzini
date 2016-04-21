@@ -73,6 +73,7 @@ class PhpParser
         $next_comment = null;
         $file_has_comment = false;
         $return = false;
+        $byref = false;
 
         // debugger
         if ($debug) {
@@ -173,7 +174,12 @@ class PhpParser
                     } else {
                         $brace_count--;
                     }
+
+
+                } else if ($token == '&') {
+                    $byref = true;
                 }
+
 
             } else {
                 // token array
@@ -259,7 +265,9 @@ class PhpParser
                             $argument->type = $param_type;
                             $param_type = null;
                         }
+                        $argument->byref = $byref;
                         $current_function->args[] = $argument;
+                        $byref = false;
 
                     } else if (($inside_class != null) && ($inside_function == null)) {
                         $variable = new ParserVariable();
