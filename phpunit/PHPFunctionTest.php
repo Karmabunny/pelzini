@@ -574,6 +574,25 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertEquals("Line 3\nLine 4", strip_tags($file->functions[0]->example[1]));
     }
     
+    public function testExample5() {
+        $file = $this->parse('
+            <?php
+            /**
+            * Description
+            *
+            * @example
+            *   Line 1
+            *   Line 2
+            *
+            *   Line 4
+            **/
+            function aaa() {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('Description', trim(strip_tags($file->functions[0]->description)));
+        $this->assertEquals("Line 1\nLine 2\n\nLine 4", strip_tags($file->functions[0]->example[0]));
+    }
+    
     
     /**
     * Code which contains braces
