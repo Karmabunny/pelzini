@@ -32,12 +32,14 @@ along with Pelzini.  If not, see <http://www.gnu.org/licenses/>.
 class ParserArgument extends ParserItem {
     public $name;
     public $type;
+    public $byref;
     public $description;
     public $default;
 
     public function __construct()
     {
         parent::__construct();
+        $this->byref = false;
     }
 
     /**
@@ -48,6 +50,7 @@ class ParserArgument extends ParserItem {
         echo '<div style="border: 1px green solid;">';
         echo 'Name: ' . $this->name;
         echo '<br>Type: ' . $this->type;
+        echo '<br>ByRef: ' . $this->byref;
         echo '<br>Default: ' . $this->default;
         echo '<br>Description: ' . $this->description;
         echo '</div>';
