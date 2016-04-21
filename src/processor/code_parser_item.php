@@ -234,6 +234,7 @@ abstract class CodeParserItem extends ParserItem {
             	$lines = preg_split('/\n/', $example);
             	$lead = 1000;
             	foreach ($lines as $ln) {
+            		if (!$ln) continue;
             		preg_match('/^ +/', $ln, $matches);
 	            	$lead = min($lead, strlen(@$matches[0]));
             	}
