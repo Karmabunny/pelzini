@@ -157,7 +157,7 @@ show_tables ($function['id'], LINK_TYPE_FUNCTION);
 
 
 // Show Arguments
-$q = "SELECT id, name, type, defaultvalue, description FROM arguments WHERE functionid = {$function['id']} ORDER BY id";
+$q = "SELECT id, name, type, byref, defaultvalue, description FROM arguments WHERE functionid = {$function['id']} ORDER BY id";
 $res = db_query($q);
 if (db_num_rows($res) > 0) {
     echo '<h3>', str(STR_FUNC_ARGUMENTS), '</h3>';
@@ -173,6 +173,7 @@ if (db_num_rows($res) > 0) {
             $row['defaultvalue'] = htmlspecialchars($row['defaultvalue']);
             echo "<span class=\"default\"> = {$row['defaultvalue']}</span>";
         }
+        if ($row['byref']) echo ' <span class="by-ref">(by reference)</span>';
         echo '<br>', process_inline ($row['description']);
         echo "</li>";
     }

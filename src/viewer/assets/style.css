@@ -320,6 +320,9 @@ img.showhide {
 .code-list .type {
   color: #666;
 }
+.code-list .by-ref {
+  color: #33F;
+}
 .code-list .default {
   color: #666;
 }

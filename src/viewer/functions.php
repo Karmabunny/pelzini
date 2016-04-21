@@ -432,7 +432,7 @@ function show_function_usage($function_id)
 
     echo '<b>', $function['name'], '</b> ( ';
 
-    $q = "SELECT name, type, defaultvalue FROM arguments WHERE functionid = {$function_id} ORDER BY id";
+    $q = "SELECT name, type, byref, defaultvalue FROM arguments WHERE functionid = {$function_id} ORDER BY id";
     $res = db_query($q);
     $j = 0;
     $num_close = 0;
@@ -444,7 +444,9 @@ function show_function_usage($function_id)
         if ($row['defaultvalue'] !== null) echo '[';
         if ($j++ > 0) echo ', ';
 
-        echo " {$row['type']} {$row['name']} ";
+        echo " {$row['type']} ";
+        if ($row['byref']) echo '&';
+        echo "{$row['name']} ";
         if ($row['defaultvalue'] !== null) $num_close++;
     }
     echo str_repeat(']', $num_close);
