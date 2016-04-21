@@ -83,8 +83,6 @@ function parse_doc_comment($comment)
         $line = rtrim($line);
         $trimline = ltrim($line);
 
-        if ($current != null and $current != '@summary' and $trimline == '') continue;
-
         // process special words
         if ($trimline != '' and $trimline[0] == '@') {
             @list($word, $value) = preg_split('/\s+/', $trimline, 2);
@@ -124,13 +122,13 @@ function parse_doc_comment($comment)
 function parse_tag(&$output, $tag, $buffer)
 {
     if ($tag == '@summary') {
-        $output[$tag] = $buffer;
+        $output[$tag] = trim($buffer);
 
     } else {
         if (! isset($output[$tag])) {
             $output[$tag] = array();
         }
-        $output[$tag][] = $buffer;
+        $output[$tag][] = rtrim($buffer);
     }
 }
 
