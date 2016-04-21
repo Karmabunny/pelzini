@@ -114,6 +114,7 @@ INDEX functionid
     functionid largenum notnull
     name string notnull
     type string
+    byref smallnum notnull
     defaultvalue string
     description text
     

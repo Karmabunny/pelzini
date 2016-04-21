@@ -630,6 +630,7 @@ abstract class DatabaseOutputter extends Outputter {
             $insert_data = array();
             $insert_data['name'] = $this->sql_safen($arg->name);
             $insert_data['type'] = $this->sql_safen($arg->type);
+            $insert_data['byref'] = ($arg->byref ? '1' : '0');
             $insert_data['defaultvalue'] = $this->sql_safen($arg->default);
             $insert_data['description'] = $this->sql_safen($arg->description);
             $insert_data['functionid'] = $this->sql_safen($function_id);
