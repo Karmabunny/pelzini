@@ -295,16 +295,17 @@ img.showhide {
 .function-list {
   border-collapse: collapse;
 }
-
 .function-list th {
   background-color: #EEE;
   border-bottom: 1px #BFC5FF solid;
-  padding: 3px 10px;
+  padding: 6px 10px;
 }
-
 .function-list td {
   border: 1px #EFEFEF solid;
-  padding: 2px 5px;
+  padding: 6px 15px;
+}
+.function-list tr:hover td {
+  background: #F6F6D9;
 }
 
 .spaced-list li {
