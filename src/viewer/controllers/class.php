@@ -244,13 +244,19 @@ case PAGE_CLASS_GENERAL:
     	$base_url = $_SERVER['REQUEST_URI'];
         echo '<h3>', str(STR_FUNCTIONS), '</h3>';
         echo "<table class=\"function-list\">\n";
-        echo '<tr><th>', str(STR_NAME), '</th><th>', str(STR_VISIBILITY), "</th></tr>\n";
+        echo '<tr><th>', str(STR_NAME), '</th><th>', str(STR_VISIBILITY), "</th><th>", str(STR_DESCRIPTION), "</th></tr>\n";
         foreach ($functions as $row) {
             if (!isset($row['visibility'])) $row['visibility'] = '';
             
             // encode for output
             $row['name'] = htmlspecialchars($row['name']);
-            if ($row['description'] == null) $row['description'] = '&nbsp;';
+            
+            if ($row['description'] == null) {
+                $summary = '&nbsp;';
+            } else {
+                $lines = explode("\n", trim(strip_tags($row['description'])));
+                $summary = delink_inline($lines[0]);
+            }
 
             if ($row['static']) $row['visibility'] .= ' ' . str(STR_CLASS_VAR_STATIC);
 
@@ -260,6 +266,7 @@ case PAGE_CLASS_GENERAL:
             echo "<tr>";
             echo "<td>{$url}</td>";
             echo "<td>{$row['visibility']}</td>";
+            echo "<td>{$summary}</td>";
             echo "</tr>\n";
         }
         echo "</table>\n";
