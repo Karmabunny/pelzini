@@ -36,17 +36,17 @@ output_status ('This is the Pelzini processor, Pelzini version ' . PELZINI_VERSI
 output_status ('Pelzini is Copyright 2008 Josh Heidenreich, licenced under GPL 3');
 output_status ('For more information, see <a href="https://github.com/Karmabunny/pelzini">https://github.com/Karmabunny/pelzini</a>');
 
-// Initalise each parser
+// Initialise each parser
 output_status ('');
 $parsers = array();
 $parsers['php'] = new PhpParser();
-output_status("Initalised the PHP parser.");
+output_status("Initialised the PHP parser.");
 
 $parsers['js'] = new JavascriptParser();
-output_status("Initalised the Javascript parser.");
+output_status("Initialised the Javascript parser.");
 
 //$parsers['c'] = new CParser();
-//output_status("Initalised the (expermiental) C parser.");
+//output_status("Initialised the (expermiental) C parser.");
 
 foreach ($_SERVER['argv'] as $idx => $argument) {
     if ($idx == 0) continue;
