@@ -126,7 +126,7 @@ abstract class DatabaseOutputter extends Outputter {
     /**
      * Creates a table
      **/
-    abstract protected function create_table($table_name, $columns);
+    abstract protected function create_table($table_name, array $dest_table);
 
     /**
      * The database engine should start a transaction. If transactions are not supported, it should do nothing.
