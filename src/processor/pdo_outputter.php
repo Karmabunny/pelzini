@@ -876,6 +876,7 @@ class PdoOutputter extends DatabaseOutputter
      */
     function sql_safen($input)
     {
+        if ($input === null) return 'NULL';
         return $this->pdo->quote($input);
     }
 
