@@ -9,8 +9,8 @@
  * https://github.com/Karmabunny/pelzini
  */
 
-/* The database engine to use. Supported values are 'mysql', 'postgresql' and 'sqlite' */
-$dvgDatabaseEngine = 'mysql';
+/* The database engine to use. Supported values are 'pdo', 'mysql', 'postgresql' and 'sqlite' */
+$dvgDatabaseEngine = 'pdo';
 
 /* This should contain the database settings
    The following are used for typical database engines (MySQL and PostgreSQL) */
