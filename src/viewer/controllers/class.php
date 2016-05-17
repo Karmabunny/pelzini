@@ -448,16 +448,16 @@ function load_class($project_id, $name, $filename = null)
     $project_id = (int) $project_id;
 
     // determine parent class
-    $name_sql = db_escape($name);
+    $name_sql = db_quote($name);
     $q = "SELECT classes.id, classes.extends
         FROM classes
         INNER JOIN files ON classes.fileid = files.id
         WHERE classes.projectid = {$project_id}
-          AND classes.name LIKE '{$name_sql}'";
+          AND classes.name LIKE {$name_sql}";
     
     if ($filename) {
-        $name_sql = db_escape($filename);
-        $q .= " AND files.name = '{$name_sql}'";
+        $name_sql = db_quote($filename);
+        $q .= " AND files.name = {$name_sql}";
     }
     
     $res = db_query($q);

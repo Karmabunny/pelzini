@@ -35,13 +35,13 @@ $_GET['path'] = @trim($_GET['path']);
 
 // class::method -> redirect to function page
 if (preg_match('/^([a-zA-Z0-9_]+)::([a-zA-Z0-9_]+)$/', $_GET['q'], $matches)) {
-    $class = db_escape($matches[1]);
-    $method = db_escape($matches[2]);
+    $class = db_quote($matches[1]);
+    $method = db_quote($matches[2]);
     $q = "SELECT functions.id
           FROM functions
           INNER JOIN classes ON functions.classid = classes.id
-          WHERE classes.name = '{$class}'
-            AND functions.name = '{$method}'
+          WHERE classes.name = {$class}
+            AND functions.name = {$method}
             AND functions.projectid = {$project['id']}
           LIMIT 2";
     $res = db_query($q);
@@ -61,7 +61,7 @@ if ($_GET['q'] == '' and $_GET['path'] == '') {
 	exit;
 }
 
-$query = db_escape($_GET['q']);
+$query = db_quote($_GET['q']);
 $_GET['advanced'] = (int) $_GET['advanced'];
 $results = false;
 
@@ -72,8 +72,8 @@ $match_string = "#ITEM# '";
 
 $extra_where = '1';
 if (!empty($_GET['path'])) {
-    $path = db_escape($_GET['path']);
-    $extra_where = "files.name LIKE '%{$path}%'";
+    $path = db_quote($_GET['path']);
+    $extra_where = "files.name LIKE CONCAT('%', {$path}, '%')";
 }
 
 
@@ -87,13 +87,13 @@ echo '<p>', str(STR_YOU_SEARCHED_FOR, 'term', htmlspecialchars($_GET['q'])), '</
 if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
     $q = "SELECT classes.id, classes.name, classes.description, classes.extends, classes.abstract,
         files.name as filename, classes.fileid,
-            IF(BINARY classes.name = '{$query}', 1, 0) +
-            IF(classes.name LIKE '{$query}', 1, 0) +
-            IF(classes.name LIKE '{$query}%', 1, 0) +
+            IF(BINARY classes.name = {$query}, 1, 0) +
+            IF(classes.name LIKE {$query}, 1, 0) +
+            IF(classes.name LIKE CONCAT({$query}, '%'), 1, 0) +
         0 AS relevancy
     FROM classes
     INNER JOIN files ON classes.fileid = files.id
-    WHERE classes.name LIKE '%{$query}%'
+    WHERE classes.name LIKE CONCAT('%', {$query}, '%')
       AND classes.projectid = {$project['id']}
       AND {$extra_where}
     ORDER BY relevancy DESC, classes.name";
@@ -137,13 +137,13 @@ if (@$_GET['advanced'] == 0 or @$_GET['classes'] == 'y') {
 if (@$_GET['advanced'] == 0 or @$_GET['interfaces'] == 'y') {
     $q = "SELECT interfaces.id, interfaces.name, interfaces.description, interfaces.extends,
         files.name as filename, interfaces.fileid,
-            IF(BINARY interfaces.name = '{$query}', 1, 0) +
-            IF(interfaces.name LIKE '{$query}', 1, 0) +
-            IF(interfaces.name LIKE '{$query}%', 1, 0) +
+            IF(BINARY interfaces.name = {$query}, 1, 0) +
+            IF(interfaces.name LIKE {$query}, 1, 0) +
+            IF(interfaces.name LIKE CONCAT({$query}, '%'), 1, 0) +
         0 AS relevancy
     FROM interfaces
     INNER JOIN files ON interfaces.fileid = files.id
-    WHERE interfaces.name LIKE '%{$query}%'
+    WHERE interfaces.name LIKE CONCAT('%', {$query}, '%')
       AND interfaces.projectid = {$project['id']}
       AND {$extra_where}
     ORDER BY relevancy DESC, interfaces.name";
@@ -183,14 +183,14 @@ if (@$_GET['advanced'] == 0 or @$_GET['interfaces'] == 'y') {
 if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
     $q = "SELECT functions.id, functions.name, functions.description, functions.classid, functions.linenum,
         files.name as filename, functions.fileid, classes.name as class,
-            IF(BINARY functions.name = '{$query}', 1, 0) +
-            IF(functions.name LIKE '{$query}', 1, 0) +
-            IF(functions.name LIKE '{$query}%', 1, 0) +
+            IF(BINARY functions.name = {$query}, 1, 0) +
+            IF(functions.name LIKE {$query}, 1, 0) +
+            IF(functions.name LIKE CONCAT({$query}, '%'), 1, 0) +
         0 AS relevancy
     FROM functions
     INNER JOIN files ON functions.fileid = files.id
     LEFT JOIN classes ON functions.classid = classes.id
-    WHERE functions.name LIKE '%{$query}%'
+    WHERE functions.name LIKE CONCAT('%', {$query}, '%')
       AND functions.projectid = {$project['id']}
       AND {$extra_where}
     ORDER BY relevancy DESC, functions.name";
@@ -231,13 +231,13 @@ if (@$_GET['advanced'] == 0 or @$_GET['functions'] == 'y') {
 // constants
 if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
     $q = "SELECT constants.name, constants.description, files.name as filename, constants.fileid, constants.value,
-            IF(BINARY constants.name = '{$query}', 1, 0) +
-            IF(constants.name LIKE '{$query}', 1, 0) +
-            IF(constants.name LIKE '{$query}%', 1, 0) +
+            IF(BINARY constants.name = {$query}, 1, 0) +
+            IF(constants.name LIKE {$query}, 1, 0) +
+            IF(constants.name LIKE CONCAT({$query}, '%'), 1, 0) +
         0 AS relevancy
     FROM constants
     INNER JOIN files ON constants.fileid = files.id
-    WHERE constants.name LIKE '%{$query}%'
+    WHERE constants.name LIKE CONCAT('%', {$query}, '%')
       AND constants.projectid = {$project['id']}
       AND {$extra_where}
     ORDER BY relevancy DESC, constants.name";
@@ -276,12 +276,12 @@ if (@$_GET['advanced'] == 0 or @$_GET['constants'] == 'y') {
 // documents
 if (@$_GET['advanced'] == 0 or @$_GET['documents'] == 'y') {
     $q = "SELECT documents.name,
-            IF(BINARY documents.name = '{$query}', 1, 0) +
-            IF(documents.name LIKE '{$query}', 1, 0) +
-            IF(documents.name LIKE '{$query}%', 1, 0) +
+            IF(BINARY documents.name = {$query}, 1, 0) +
+            IF(documents.name LIKE {$query}, 1, 0) +
+            IF(documents.name LIKE CONCAT({$query}, '%'), 1, 0) +
         0 AS relevancy
     FROM documents
-    WHERE documents.name LIKE '%{$query}%'
+    WHERE documents.name LIKE CONCAT('%', {$query}, '%')
       AND documents.projectid = {$project['id']}
     ORDER BY relevancy DESC, documents.name";
     $res = db_query ($q);

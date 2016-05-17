@@ -42,11 +42,11 @@ function search_source($query, $case_sensitive = false, $path_contains = null)
     // Determine the match string
     // #ITEM# will be replaced in the specific search query
     // for for classes, #ITEM# will become classes.name
-    $this_match_string = "files.source LIKE '%" . db_escape($query) . "%'";
-    if ($case_sensitive) $this_match_string = "BINARY files.source LIKE '%" . db_escape($query) . "%'";
+    $this_match_string = "files.source LIKE CONCAT('%', " . db_quote($query) . ", '%')";
+    if ($case_sensitive) $this_match_string = "BINARY files.source LIKE CONCAT('%', " . db_quote($query) . ", '%')";
 
     $extra_where = '1';
-    if (!empty($path_contains)) $extra_where = "files.name LIKE '%" . db_escape($path_contains) . "%'";
+    if (!empty($path_contains)) $extra_where = "files.name LIKE CONCAT('%', " . db_quote($path_contains) . ", '%')";
 
     $q = "SELECT files.id, files.name AS filename, files.source
     FROM files

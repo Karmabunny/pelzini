@@ -70,24 +70,24 @@ function fix_magic_quotes(&$item)
 function get_object_link($name)
 {
     global $project;
-    $sql_name = db_escape($name);
+    $sql_name = db_quote($name);
 
     // check classes
-    $q = "SELECT id FROM classes WHERE name = '{$sql_name}' AND projectid = {$project['id']}";
+    $q = "SELECT id FROM classes WHERE name = {$sql_name} AND projectid = {$project['id']}";
     $res = db_query($q);
     if (db_num_rows($res) != 0) {
         return get_class_link($name);
     }
 
     // check interfaces
-    $q = "SELECT id FROM interfaces WHERE name = '{$sql_name}' AND projectid = {$project['id']}";
+    $q = "SELECT id FROM interfaces WHERE name = {$sql_name} AND projectid = {$project['id']}";
     $res = db_query($q);
     if (db_num_rows($res) != 0) {
         return get_interface_link($name);
     }
 
     // check functions
-    $q = "SELECT id FROM functions WHERE name = '{$sql_name}' AND classid IS NULL AND interfaceid IS NULL AND projectid = {$project['id']}";
+    $q = "SELECT id FROM functions WHERE name = {$sql_name} AND classid IS NULL AND interfaceid IS NULL AND projectid = {$project['id']}";
     $res = db_query($q);
     if (db_num_rows($res) != 0) {
         return '<a href="function?name=' . urlencode($name) . '">' . htmlspecialchars($name) . '</a>';
