@@ -434,6 +434,8 @@ abstract class DatabaseOutputter extends Outputter {
         $this->query("DELETE FROM files WHERE projectid = {$project_id}");
         $this->query("DELETE FROM functions WHERE projectid = {$project_id}");
         $this->query("DELETE FROM arguments WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM throws WHERE projectid = {$project_id}");
+        $this->query("DELETE FROM returns WHERE projectid = {$project_id}");
         $this->query("DELETE FROM classes WHERE projectid = {$project_id}");
         $this->query("DELETE FROM class_implements WHERE projectid = {$project_id}");
         $this->query("DELETE FROM interfaces WHERE projectid = {$project_id}");
