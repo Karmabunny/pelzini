@@ -177,7 +177,9 @@ class PhpParser
 
 
                 } else if ($token == '&') {
-                    $byref = true;
+                    if ($current_function != null) {
+                        $byref = true;
+                    }
                 }
 
 
