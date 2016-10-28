@@ -48,9 +48,9 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
 
 
     /**
-    * Arguments
+    * Arguments - by reference
     **/
-    public function testArgumentByRef() {
+    public function testArgumentByRef1() {
         $file = $this->parse('
             <?php
             function aaa(&$aa) {}
@@ -60,6 +60,22 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
         $this->assertCount(1, $file->functions[0]->args);
         $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
         $this->assertEquals(true, $file->functions[0]->args[0]->byref);
+    }
+
+    /**
+    * & in a foreach causing the next argument to be considered 'by reference'
+    **/
+    public function testArgumentByRef2() {
+        $file = $this->parse('
+            <?php
+            function aa() {  foreach ($x as &$y) {}  }
+            function aaa($aa) {}
+        ');
+        $this->assertCount(2, $file->functions);
+        $this->assertEquals('aaa', $file->functions[1]->name);
+        $this->assertCount(1, $file->functions[1]->args);
+        $this->assertEquals('$aa', $file->functions[1]->args[0]->name);
+        $this->assertEquals(false, $file->functions[1]->args[0]->byref);
     }
 
 
