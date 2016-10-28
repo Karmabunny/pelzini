@@ -63,9 +63,43 @@ class PHPFunctionTest extends PHPUnit_ParserTestCase {
     }
 
     /**
-    * & in a foreach causing the next argument to be considered 'by reference'
+    * Arguments - by reference
     **/
     public function testArgumentByRef2() {
+        $file = $this->parse('
+            <?php
+            function aaa(&$aa, $bb) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(2, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals(true, $file->functions[0]->args[0]->byref);
+        $this->assertEquals('$bb', $file->functions[0]->args[1]->name);
+        $this->assertEquals(false, $file->functions[0]->args[1]->byref);
+    }
+
+    /**
+    * Arguments - by reference
+    **/
+    public function testArgumentByRef3() {
+        $file = $this->parse('
+            <?php
+            function aaa($aa, &$bb) {}
+        ');
+        $this->assertCount(1, $file->functions);
+        $this->assertEquals('aaa', $file->functions[0]->name);
+        $this->assertCount(2, $file->functions[0]->args);
+        $this->assertEquals('$aa', $file->functions[0]->args[0]->name);
+        $this->assertEquals(false, $file->functions[0]->args[0]->byref);
+        $this->assertEquals('$bb', $file->functions[0]->args[1]->name);
+        $this->assertEquals(true, $file->functions[0]->args[1]->byref);
+    }
+
+    /**
+    * & in a foreach causing the next argument to be considered 'by reference'
+    **/
+    public function testArgumentByRefForeachLeak() {
         $file = $this->parse('
             <?php
             function aa() {  foreach ($x as &$y) {}  }
