@@ -102,7 +102,7 @@ if (!isset($project)) {
     }
     
     // Determine base path
-    $base_path = dirname($_SERVER['SCRIPT_NAME']) . '/' . $project['code'] . '/';
+    $base_path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/' . $project['code'] . '/';
 }
 
 include_once 'controllers/' . $controller . '.php';

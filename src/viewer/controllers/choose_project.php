@@ -27,7 +27,7 @@ if (db_num_rows($res) == 0) {
 } else if (db_num_rows($res) == 1) {
     // Only one? Redirect
     $row = db_fetch_assoc($res);
-    header('Location: ' . dirname($_SERVER['SCRIPT_NAME']) . '/' . $row['code'] . '/');
+    header('Location: ' . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/' . $row['code'] . '/');
     exit;
 }
 
