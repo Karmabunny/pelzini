@@ -33,6 +33,10 @@ function db_connect($settings)
 {
     global $db_connection;
 
+    if (!function_exists('mysql_connect')) {
+        die('Unable to connect to database because "mysql" extension is not available');
+    }
+
     $db_connection = @mysql_connect(
         $settings['server'],
         $settings['username'],
